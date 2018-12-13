@@ -1,13 +1,17 @@
-REMOTEUSER ?= mc301
-HOST ?= gort.stat.duke.edu
-DIR ?= /web/isds/docs/courses/Spring18/Sta199
+REMOTEUSER ?= mt324
+HOST ?= shark.stat.duke.edu
+DIR ?= /web/isds/docs/courses/Spring19/sta199.001
 REMOTE ?= $(REMOTEUSER)@$(HOST):$(DIR)
+
+all:
+	hugo
+
 
 .PHONY: clean
 clean:
 	rm -rf docs/*
 
-push:
+push: all
 	cp favicon.ico docs/
 	rsync -azv --delete  --exclude='.DS_Store'  docs/ $(REMOTE)
 
