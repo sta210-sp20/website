@@ -3,6 +3,7 @@ title: "Policies"
 markup: "mmark"
 ---
 
+<!--
 ### Class:
 
 Class time is designed to be as interactive as possible. My role as instructor is to introduce you new tools and techniques, but it is up to you to take them and make use of them. Programming is a skill that is best learned by doing, so as much as possible you will be working on a variety of tasks and activities throughout each class.
@@ -151,3 +152,5 @@ Regrade requests must be made within three days of when the assignment is return
 ### Professionalism
 
 - Please refrain from texting or using your computer for anything other than coursework during class.
+
+-->
