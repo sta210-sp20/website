@@ -38,10 +38,10 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   url = "/"
 [[menu.main]]
   weight = 2
-  identifier = "syllabus"
-  name = "Syllabus"
+  identifier = "schedule"
+  name = "schedule"
   pre = "<i class=\"material-icons\">date_range</i>"
-  url = "/syllabus"
+  url = "/schedule"
 [[menu.main]]
   weight = 3
   identifier = "policies"
