@@ -20,14 +20,14 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   archive = "archives"
 
 [author]
-  name = "Mine Cetinkaya-Rundel"
+  name = "Dr. Maria Tackett"
   bio = ""
-  job = "Associate Professor of the Practice"
+  job = "Assistant Professor of the Practice"
   location = "Duke University"
-  gravatarEmail = "mine@stat.duke.edu"
+  gravatarEmail = "maria.tackett@duke.edu"
   # Your profile picture
 #  picture = ""
-  twitter = "minebocek"
+  twitter = "MT_statistics"
  
 # Menu Configuration
 [[menu.main]]
