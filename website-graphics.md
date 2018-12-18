@@ -7,46 +7,13 @@ This document contains the code required to make the background images for the S
 
 ``` r
 library(tidyverse)
-```
-
-    ## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
-
-    ## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
-    ## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
-    ## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
-    ## ✔ readr   1.1.1     ✔ forcats 0.3.0
-
-    ## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-
-``` r
 library(readr)
+library(cowplot)
 ```
 
 ``` r
 bikeshare <- read_csv("https://raw.githubusercontent.com/matackett/data/master/capital-bikeshare.csv")                          
 ```
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   instant = col_integer(),
-    ##   dteday = col_date(format = ""),
-    ##   season = col_integer(),
-    ##   yr = col_integer(),
-    ##   mnth = col_integer(),
-    ##   holiday = col_integer(),
-    ##   weekday = col_integer(),
-    ##   workingday = col_integer(),
-    ##   weathersit = col_integer(),
-    ##   temp = col_double(),
-    ##   atemp = col_double(),
-    ##   hum = col_double(),
-    ##   windspeed = col_double(),
-    ##   casual = col_integer(),
-    ##   registered = col_integer(),
-    ##   cnt = col_integer()
-    ## )
 
 ``` r
 bikeshare <- bikeshare %>%
@@ -67,16 +34,6 @@ cl <- kmeans(x,4)
 
 ``` r
 library(cowplot)
-```
-
-    ## 
-    ## Attaching package: 'cowplot'
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     ggsave
-
-``` r
 a.level = 0.5
 x.plot <- bind_cols(x,data.frame(cl$cluster))
 
@@ -137,14 +94,8 @@ p4 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=season)) +
 plot_grid(p1,p2,p3,p4,p5,p6,ncol=3)
 ```
 
-    ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
-
-    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
 ![](website-graphics_files/figure-markdown_github/cluster-plot-1.png)
 
 ``` r
 ggsave("./static/img/bikeshare-density.png",scale=2)
 ```
-
-    ## Saving 16 x 10 in image

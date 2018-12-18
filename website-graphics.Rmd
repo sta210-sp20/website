@@ -6,7 +6,9 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE,
+                      message=FALSE)
 ```
 
 This document contains the code required to make the background images for the STA 199 course webiste. The data used for this background is the [Capital Bikeshare dataset](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset), obtained from the UCI Machine Learning Repository.
@@ -14,6 +16,7 @@ This document contains the code required to make the background images for the S
 ```{r packages}
 library(tidyverse)
 library(readr)
+library(cowplot)
 ```
 
 ```{r read-in data}
@@ -39,7 +42,6 @@ cl <- kmeans(x,4)
 ```
 
 ```{r cluster-plot,fig.height=5,fig.width=8}
-library(cowplot)
 a.level = 0.5
 x.plot <- bind_cols(x,data.frame(cl$cluster))
 
