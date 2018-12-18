@@ -100,7 +100,7 @@ p4 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=season)) +
       )
 #plot_grid(p1,p2,p2,p1,ncol=2)
 plot_grid(p1,p2,p3,p4,p5,p6,ncol=3)
-ggsave("bikeshare-density.png",scale=2)
+ggsave("img/bikeshare-density.png",scale=2)
 ```
 
 
