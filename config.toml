@@ -7,7 +7,7 @@ theme = "material"
 # googleAnalytics = ""
 paginate = 7
 relativeURLs = true
-uglyURL = true
+uglyURLs = true
 publishDir = "docs"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
@@ -91,5 +91,5 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
   dateFormat = "January 2, 2006"
-  background = "img/bikeshare-density.png"
+  background = "http://www2.stat.duke.edu/courses/Spring19/sta199.001/bikeshare-density.png"
   favicon = "img/favicon.ico"

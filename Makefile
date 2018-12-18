@@ -11,8 +11,12 @@ all:
 clean:
 	rm -rf docs/*
 
-push: all
+push-img: 
 	cp favicon.ico docs/
+	
+	
+
+push: all
 	rsync -azv --delete  --exclude='.DS_Store'  docs/ $(REMOTE)
 
 unbind:

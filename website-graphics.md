@@ -33,7 +33,6 @@ cl <- kmeans(x,4)
 ```
 
 ``` r
-library(cowplot)
 a.level = 0.5
 x.plot <- bind_cols(x,data.frame(cl$cluster))
 
@@ -97,5 +96,5 @@ plot_grid(p1,p2,p3,p4,p5,p6,ncol=3)
 ![](website-graphics_files/figure-markdown_github/cluster-plot-1.png)
 
 ``` r
-ggsave("./static/img/bikeshare-density.png",scale=2)
+ggsave("bikeshare-density.png",scale=2)
 ```
