@@ -6,7 +6,8 @@ theme = "material"
 #disqusShortname = ""
 # googleAnalytics = ""
 paginate = 7
-relativeurls = true
+relativeURLs = true
+uglyURL = true
 publishDir = "docs"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
@@ -90,5 +91,5 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
   dateFormat = "January 2, 2006"
-  background = "http://www2.stat.duke.edu/courses/Spring18/Sta199/img/mugesketch.png"
+  background = "img/bikeshare-density.png"
   favicon = "img/favicon.ico"

@@ -21,10 +21,10 @@ body {
   background-color: #CCCCCC;
 }
 body.inverse {
-  background: #333333;
+  background: #999999;
 }
 body.inverse, body.inverse .form-control {
-  color: #ffffff;
+  color: #FFFFFF;
 }
 body.inverse .modal,
 body.inverse .modal .form-control,
