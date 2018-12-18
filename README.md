@@ -7,7 +7,7 @@ Course website is at https://www2.stat.duke.edu/courses/Spring19/sta199.001/.
 
 - This website design is based on [STA 199 by Mine Centikaya-Rundel](https://www2.stat.duke.edu/courses/Spring18/Sta199/) and [ESPM-157 by Carl Boettinger](https://espm-157.carlboettiger.info/).
 
-- Background image is designed by [Muge Cetinkaya Caculi](https://www.instagram.com/dotslinesandcolors/).
+- Code used to create background image may be found in the [website-graphics.md](website-graphics.md)
 
 # Notes for building the website:
 
