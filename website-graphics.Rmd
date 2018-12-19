@@ -61,9 +61,8 @@ A few notes about the plots:
 
 ```{r make-plots}
 alpha.level = 0.5 
-#x.plot <- bind_cols(x,data.frame(cl$cluster))
 
-p1 <- ggplot(data=bikeshare,aes(x=cnt,y=atemp,color=season)) +
+p1 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=season)) +
   geom_point(alpha=alpha.level) +
   theme_void() +
   theme(legend.position="none",
