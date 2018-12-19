@@ -2,7 +2,7 @@
 title: "website-graphics"
 author: "Dr. Maria Tackett"
 date: "12.17.2018"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
