@@ -30,7 +30,7 @@ Lab 03 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i
 Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"> | TBD | Old Chem 118B
 TAs               | Max Bartlett | <a href="mailto:maxwell.bartlett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
                   |Alexandra DiGiacomo| <a href="mailto:alexandra.digiacomo@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
-                  | [Walker Harrison](https://www.linkedin.com/in/walker-harrison-11a36b6b/) | <a href="mailto:walker.harrison@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | TBD | Old Chem 203B
+                  | Walker Harrison | <a href="mailto:walker.harrison@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | TBD | Old Chem 203B
                   | Steven Herrera | <a href="mailto:rosvid.herrera.tenorio@duke.edu" title="email"><i class="fa fa-envelope"> | TBD | Old Chem 203B
                   | Abhi Jadhav | <a href="mailto:abhishek.jadhav@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
                   | Jose San Martin | <a href="mailto:jose.san.martin@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
