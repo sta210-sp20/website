@@ -55,7 +55,7 @@ bikeshare <- bikeshare %>%
 
 A few notes about the plots: 
 
-- The plots used in this background are scatterplot, density plot, countour plot, linear smoothing, side-by-side boxplots, and area plots. See the [ggplot2 cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for details and more plot options.
+- The plots used in this background are scatterplot, density plot, contour plot, linear smoothing, side-by-side boxplots, and area plots. See the [ggplot2 cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for details and more plot options.
 
 -  The titles, axes, and legend have been removed for each plot. These elements can be easily added by removing the `theme()` modifier. 
 
