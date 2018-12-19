@@ -27,13 +27,13 @@ Lab 03 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i
 {.table .table-condensed .table-striped .text-left}
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
-Instructor        | [Mine Çetinkaya-Rundel](http://stat.duke.edu/~mc301/) | <a href="mailto:mine@stat.duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/mine-cetinkaya-rundel" title="GitHub"><i class="fa fa-github"></i></a> &nbsp; <a href="https://twitter.com/minebocek" title="Twitter"><i class="fa fa-twitter"></i></a> | Tue 11:00 - 12:30 and Thur 10:00 - 11:30 | Old Chem 213
-TAs               | [Peter Hase](https://www.linkedin.com/in/peter-hase-8092a6b9/) | <a href="mailto:peter.hase@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/peterbhase" title="GitHub"><i class="fa fa-github"></i></a> | Sun 1:00 - 3:00 | Old Chem 211A
-                  | [Walker Harrison](https://www.linkedin.com/in/walker-harrison-11a36b6b/) | <a href="mailto:walker.harrison@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/WalkerHarrison" title="GitHub"><i class="fa fa-github"></i></a> &nbsp; <a href="https://twitter.com/WalkWearsCrocs" title="Twitter"><i class="fa fa-twitter"></i></a> | Tue 10:00 - 11:00 and 1:30-2:30 | Old Chem 211A
-                  | [Gary Larson](http://garylarson.weebly.com/) | <a href="mailto:gary.larson@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/garylarson" title="GitHub"><i class="fa fa-github"></i></a> | Mon 12:00 - 2:00 | Old Chem 211A
-                  | [Sarah Sibley](https://www.linkedin.com/in/sarah-sibley-3bb171ba/) | <a href="mailto:sarah.sibley@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/scsibs" title="GitHub"><i class="fa fa-github"></i></a> | Sat 12:00 - 2:00 | Old Chem 211A
-<br>
-<br>
+Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"> | TBD | Old Chem 118B
+TAs               | Max Bartlett | <a href="mailto:maxwell.bartlett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
+                  |Alexandra DiGiacomo| <a href="mailto:alexandra.digiacomo@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
+                  | [Walker Harrison](https://www.linkedin.com/in/walker-harrison-11a36b6b/) | <a href="mailto:walker.harrison@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/WalkerHarrison" title="GitHub"><i class="fa fa-github"></i></a> &nbsp; <a href="https://twitter.com/WalkWearsCrocs" title="Twitter"><i class="fa fa-twitter"></i></a> | TBD | Old Chem 203B
+                  | Steven Herrera | <a href="mailto:rosvid.herrera.tenorio@duke.edu" title="email"> | TBD | Old Chem 203B
+                  | Abhi Jadhav | <a href="mailto:abhishek.jadhav@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
+                  | Jose San Martin | <a href="mailto:jose.san.martin@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
 
 ### Texts
 
@@ -45,8 +45,6 @@ All texts are freely available online:
 [R for Data Science](http://r4ds.had.co.nz/) | Grolemund, Wickham | O'Reilly, 1st edition, 2016
 [OpenIntro Statistics](https://www.openintro.org/stat/textbook.php?stat_book=os) | Diez, Barr, Çetinkaya-Rundel | CreateSpace, 3rd Edition, 2015
 OpenIntro Data Science (link TBA) | Çetinkaya-Rundel | In progress
-<br>
-<br>
 
 ### Materials
 

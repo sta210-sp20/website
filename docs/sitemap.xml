@@ -25,10 +25,6 @@
   </url>
   
   <url>
-    <loc>/_index.utf8.html</loc>
-  </url>
-  
-  <url>
     <loc>/tags.html</loc>
     <priority>0</priority>
   </url>
