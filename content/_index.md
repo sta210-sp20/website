@@ -44,7 +44,6 @@ All texts are freely available online:
 -----------|---------------------------------|----------------------------------
 [R for Data Science](http://r4ds.had.co.nz/) | Grolemund, Wickham | O'Reilly, 1st edition, 2016
 [OpenIntro Statistics](https://www.openintro.org/stat/textbook.php?stat_book=os) | Diez, Barr, Çetinkaya-Rundel | CreateSpace, 3rd Edition, 2015
-OpenIntro Data Science (link TBA) | Çetinkaya-Rundel | In progress
 
 ### Materials
 
