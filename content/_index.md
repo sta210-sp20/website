@@ -8,19 +8,19 @@ markup: "mmark"
 
 #### Lectures
 
-<font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; French 2231 
-
-<font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Mon and Wed 3:05 - 4:20
+<font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Soc Sci 136 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Mon and Wed 3:05p - 4:20p
+<br>
+<br>
 
 #### Labs
 
-<font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Soc Sci 311
+Lab 01 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Link Classroom 2 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 1:25p - 2:40p
 
-<font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 1:25 - 2:40
-&nbsp;&nbsp; <i>or</i> &nbsp;&nbsp;
-<font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 3:05 - 4:20
-&nbsp;&nbsp; <i>or</i> &nbsp;&nbsp;
-<font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 4:40 - 5:55
+Lab 02  &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Link Classroom 5 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 3:05p - 4:20p
+
+Lab 03 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Link Classroom 5 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 4:40p - 5:55p
+<br>
+<br>
 
 ### Teaching team and office hours 
 
@@ -32,7 +32,8 @@ TAs               | [Peter Hase](https://www.linkedin.com/in/peter-hase-8092a6b9
                   | [Walker Harrison](https://www.linkedin.com/in/walker-harrison-11a36b6b/) | <a href="mailto:walker.harrison@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/WalkerHarrison" title="GitHub"><i class="fa fa-github"></i></a> &nbsp; <a href="https://twitter.com/WalkWearsCrocs" title="Twitter"><i class="fa fa-twitter"></i></a> | Tue 10:00 - 11:00 and 1:30-2:30 | Old Chem 211A
                   | [Gary Larson](http://garylarson.weebly.com/) | <a href="mailto:gary.larson@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/garylarson" title="GitHub"><i class="fa fa-github"></i></a> | Mon 12:00 - 2:00 | Old Chem 211A
                   | [Sarah Sibley](https://www.linkedin.com/in/sarah-sibley-3bb171ba/) | <a href="mailto:sarah.sibley@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/scsibs" title="GitHub"><i class="fa fa-github"></i></a> | Sat 12:00 - 2:00 | Old Chem 211A
-                  
+<br>
+<br>
 
 ### Texts
 
@@ -44,6 +45,8 @@ All texts are freely available online:
 [R for Data Science](http://r4ds.had.co.nz/) | Grolemund, Wickham | O'Reilly, 1st edition, 2016
 [OpenIntro Statistics](https://www.openintro.org/stat/textbook.php?stat_book=os) | Diez, Barr, Çetinkaya-Rundel | CreateSpace, 3rd Edition, 2015
 OpenIntro Data Science (link TBA) | Çetinkaya-Rundel | In progress
+<br>
+<br>
 
 ### Materials
 
