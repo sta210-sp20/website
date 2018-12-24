@@ -1,6 +1,6 @@
 ---
-title: "STA 199: Intro to Data Science"
-description: "Intro to data science and statistical thinking. Learn to explore, visualize, and analyze data to understand natural phenomena, investigate patterns, model outcomes, and make predictions, and do so in a reproducible and shareable manner. Gain experience in data wrangling and munging, exploratory data analysis, predictive modeling, and data visualization, and effective communication of results. Work on problems and case studies inspired by and based on real-world questions and data. The course will focus on the R statistical computing language."
+title: "STA 210: Regression Analysis"
+description: "Input description of the course."
 markup: "mmark"
 ---
 
@@ -8,17 +8,15 @@ markup: "mmark"
 
 #### Lectures
 
-<font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Soc Sci 136 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Mon and Wed 3:05p - 4:20p
+<font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Old Chem 116 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Mon and Wed 10:05a - 11:20a
 <br>
 <br>
 
 #### Labs
 
-Lab 01 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Link Classroom 2 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 1:25p - 2:40p
+Lab 01 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Social Sciences 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Fri 11:45a - 1p
 
-Lab 02  &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Link Classroom 5 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 3:05p - 4:20p
-
-Lab 03 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i></font> &nbsp; Link Classroom 5 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Thur 4:40p - 5:55p
+Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Social Sciences 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Fri 1:25p - 2:40p
 <br>
 <br>
 
@@ -28,12 +26,10 @@ Lab 03 &nbsp;&nbsp; <font color="#7A4183"><i class="fas fa-university fa-lg"></i
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
 Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"> | TBD | Old Chem 118B
-TAs               | Max Bartlett | <a href="mailto:maxwell.bartlett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
-                  |Alexandra DiGiacomo| <a href="mailto:alexandra.digiacomo@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
-                  | Walker Harrison | <a href="mailto:walker.harrison@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | TBD | Old Chem 203B
-                  | Steven Herrera | <a href="mailto:rosvid.herrera.tenorio@duke.edu" title="email"><i class="fa fa-envelope"> | TBD | Old Chem 203B
-                  | Abhi Jadhav | <a href="mailto:abhishek.jadhav@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
-                  | Jose San Martin | <a href="mailto:jose.san.martin@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
+TAs               | Anna Darwish | <a href="mailto:anna.darwish@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
+                  | Matty Pahren| <a href="mailto:martha.pahren@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
+                  | Ethan Shen | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | TBD | Old Chem 203B
+                  | Abbas Zaidi | <a href="mailto:abbas.zaidi@duke.edu" title="email"><i class="fa fa-envelope"> | TBD | Old Chem 203B
 
 ### Texts
 
@@ -42,8 +38,8 @@ All texts are freely available online:
 {.table .table-condensed .table-striped .text-left}
  <span></span>     | <span></span> | <span></span> 
 -----------|---------------------------------|----------------------------------
+[An Introduction to Statistical Learning](http://r4ds.had.co.nz/) | James, Witten, Hastie, Tibshirani | Springer, 1st edition, 2013
 [R for Data Science](http://r4ds.had.co.nz/) | Grolemund, Wickham | O'Reilly, 1st edition, 2016
-[OpenIntro Statistics](https://www.openintro.org/stat/textbook.php?stat_book=os) | Diez, Barr, Çetinkaya-Rundel | CreateSpace, 3rd Edition, 2015
 
 ### Materials
 
