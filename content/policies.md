@@ -1,5 +1,5 @@
 ---
-title: "Policies"
+title: "Course Policies"
 markup: "mmark"
 ---
 
