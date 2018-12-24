@@ -14,9 +14,9 @@ markup: "mmark"
 
 #### Labs
 
-Lab 01 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Social Sciences 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Fri 11:45a - 1p
+Lab 01 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Soc Sci 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Fri 11:45a - 1p
 
-Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Social Sciences 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Fri 1:25p - 2:40p
+Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Soc Sci 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Fri 1:25p - 2:40p
 <br>
 <br>
 
