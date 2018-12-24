@@ -1,7 +1,7 @@
 # Website
-Course website for Sta 199 - Intro to Data Science, Spring 2019 at Duke University
+Course website for Sta 210 - Regression Analysis, Spring 2019 at Duke University
 
-Course website is at https://www2.stat.duke.edu/courses/Spring19/sta199.001/.
+Course website is at https://www2.stat.duke.edu/courses/Spring19/sta210.001/.
 
 # Attribution
 
@@ -11,5 +11,5 @@ Course website is at https://www2.stat.duke.edu/courses/Spring19/sta199.001/.
 
 # Notes for building the website:
 
-- Colors: Pantone #7A4183
+- Colors: Pantone #009F92
   - To change, search & replace in `themes/material/static/css/material-kit.css`
