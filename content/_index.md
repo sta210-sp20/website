@@ -38,7 +38,7 @@ All texts are freely available online. Hardcopies are also available for purchas
 {.table .table-condensed .table-striped .text-left}
  <span></span>     | <span></span> | <span></span> 
 -----------|---------------------------------|----------------------------------
-[An Introduction to Statistical Learning](http://r4ds.had.co.nz/) | James, Witten, Hastie, Tibshirani | Springer, 1st edition, 2013
+[An Introduction to Statistical Learning](https://www-bcf.usc.edu/~gareth/ISL/) | James, Witten, Hastie, Tibshirani | Springer, 1st edition, 2013
 [R for Data Science](http://r4ds.had.co.nz/) | Grolemund, Wickham | O'Reilly, 1st edition, 2016
 
 ### Materials
