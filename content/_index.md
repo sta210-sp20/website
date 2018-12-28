@@ -8,15 +8,15 @@ markup: "mmark"
 
 #### Lectures
 
-<font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Old Chem 116 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Mon and Wed 10:05a - 11:20a
+<font color="#009F92"><i class="fas fa-university"></i></font> &nbsp; Old Chem 116 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar"></i></font> &nbsp; Mon and Wed 10:05a - 11:20a
 <br>
 <br>
 
 #### Labs
 
-Lab 01 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Soc Sci 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Fri 11:45a - 1p
+Lab 01 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar"></i></font> &nbsp; Fri 11:45a - 1p
 
-Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></i></font> &nbsp; Soc Sci 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Fri 1:25p - 2:40p
+Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 331 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar"></i></font> &nbsp; Fri 1:25p - 2:40p
 <br>
 <br>
 
@@ -25,7 +25,7 @@ Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university fa-lg"></
 {.table .table-condensed .table-striped .text-left}
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
-Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"> | TBD | Old Chem 118B
+Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"><i class="fa fa-github"></i></a> | TBD | Old Chem 118B
 TAs               | [Anna Darwish](https://www.linkedin.com/in/anna-darwish) | <a href="mailto:anna.darwish@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
                   | Matty Pahren| <a href="mailto:martha.pahren@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
                   | Ethan Shen | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | TBD | Old Chem 203B
@@ -33,12 +33,12 @@ TAs               | [Anna Darwish](https://www.linkedin.com/in/anna-darwish) | <
 
 ### Texts
 
-All texts are freely available online:
+All texts are freely available online. Hardcopies are also available for purchase.
 
 {.table .table-condensed .table-striped .text-left}
  <span></span>     | <span></span> | <span></span> 
 -----------|---------------------------------|----------------------------------
-[An Introduction to Statistical Learning - FIX LINK!!!](http://r4ds.had.co.nz/) | James, Witten, Hastie, Tibshirani | Springer, 1st edition, 2013
+[An Introduction to Statistical Learning](http://r4ds.had.co.nz/) | James, Witten, Hastie, Tibshirani | Springer, 1st edition, 2013
 [R for Data Science](http://r4ds.had.co.nz/) | Grolemund, Wickham | O'Reilly, 1st edition, 2016
 
 ### Materials
