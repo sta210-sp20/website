@@ -1,7 +1,7 @@
 baseurl = "/"
 languageCode = "en-us"
 defaultContentLanguage = "en-us"
-title = "STA 199"
+title = "STA 210"
 theme = "material"
 #disqusShortname = ""
 # googleAnalytics = ""
