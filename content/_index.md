@@ -28,7 +28,7 @@ Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university"></i></fo
 Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"><i class="fa fa-github"></i></a> | TBD | Old Chem 118B
 TAs               | [Anna Darwish](https://www.linkedin.com/in/anna-darwish) | <a href="mailto:anna.darwish@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
                   | Matty Pahren| <a href="mailto:martha.pahren@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | Old Chem 203B
-                  | Ethan Shen | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | TBD | Old Chem 203B
+                  | [Ethan Shen](https://www.linkedin.com/in/ethan-shen-931010134/) | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp;<a href="https://github.com/ethann-shen" title="GitHub"><i class="fa fa-github"></i></a> | TBD | Old Chem 203B
                   | Abbas Zaidi | <a href="mailto:abbas.zaidi@duke.edu" title="email"><i class="fa fa-envelope"> | TBD | Old Chem 203B
 
 ### Texts
