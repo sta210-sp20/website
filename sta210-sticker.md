@@ -12,6 +12,7 @@ library(tidyverse)
 library(tibble)
 library(showtext)
 library(nnet)
+library(knitr)
 ```
 
 The Data
@@ -61,6 +62,7 @@ Make Sticker
 ------------
 
 ``` r
+# plot predicted probabilites versus atemp
 p <- ggplot(data=bikeshare,aes(x=atemp)) + 
   geom_line(aes(y=Winter),color="#00BFC4") +
   geom_line(aes(y=Spring),color="#F8766D") +
@@ -73,11 +75,20 @@ p <- ggplot(data=bikeshare,aes(x=atemp)) +
 ```
 
 ``` r
+# add font to be used in sticker function
 font_add_google("Open Sans", "open")
 ```
 
 ``` r
+# create and save sticker
 sticker(p, package="STA 210",p_color="#00797C", p_family="open", p_size=7.5, s_x=1, s_y=0.75, s_width=1.2, s_height=1, h_fill = "#FFFFFF", 
         h_color="#00797C", h_size =0.8,
         filename="sta210_sticker.png")
 ```
+
+``` r
+#display final sticker
+include_graphics("sta210_sticker.png")
+```
+
+![](sta210_sticker.png)
