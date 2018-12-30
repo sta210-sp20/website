@@ -29,11 +29,11 @@ The [Capital Bikeshare data](https://archive.ics.uci.edu/ml/datasets/bike+sharin
 ```{r load-packages}
 library(tidyverse)
 library(readr)
-library(cowplot)
+# library(cowplot)
 ```
 
 ```{r data}
-bikeshare <- read_csv("https://raw.githubusercontent.com/matackett/data/master/capital-bikeshare.csv")                          
+bikeshare <- read_csv("https://raw.githubusercontent.com/matackett/data/master/capital-bikeshare.csv")          
 ```
 
 ```{r change-season}
@@ -47,7 +47,45 @@ bikeshare <- bikeshare %>%
   select(season,atemp,cnt)
 ```
 
-## The Regression Models
+## The Models
+
+```{r k-means}
+bike.cl <- kmeans(bikeshare[,2:3], 4, nstart = 20)
+bikeshare <- 
+  bikeshare %>% 
+  mutate(cluster=as.factor(bike.cl$cluster))
+ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=cluster)) +
+  geom_point(alpha=0.5) +
+  theme_minimal()
+```
+
+```{r linear-regression}
+bikeshare %>%
+  ggplot(aes(x=atemp,y=cnt)) + 
+  geom_point(aes(color=season)) + 
+  geom_smooth(method=lm,color="#606060",se=FALSE)+
+  theme_minimal()
+```
+```{r logistic-data}
+bikeshare <- 
+  bikeshare %>%
+  mutate(is.winter = ifelse(season=="Winter",1,0),
+         is.spring = ifelse(season=="Spring",1,0),
+         is.summer = ifelse(season=="Summer",1,0),
+         is.fall = ifelse(season=="Fall",1,0))
+```
+
+```{r logistic}
+# glm_model <- glm(is.summer ~ atemp + cnt, data=bikeshare, family=binomial)
+# bikeshare <- augment(glm_model,type.predict="response")
+ggplot(data=bikeshare,aes(x=atemp,y=is.winter)) +
+  geom_point(alpha=0.3) +
+  geom_smooth(method="glm",method.args=list(family="binomial"),se=FALSE,color="#00BFC4")+
+  geom_smooth(aes(x=atemp,y=is.spring),method="glm",method.args=list(family="binomial"),se=FALSE,color="#F8766D")+
+  geom_smooth(aes(x=atemp,y=is.summer),method="glm",method.args=list(family="binomial"),se=FALSE,color="#C77CFF")+
+  geom_smooth(aes(x=atemp,y=is.fall),method="glm",method.args=list(family="binomial"),se=FALSE,color="#7CAE00") +
+  theme_minimal()
+```
 
 ## The Plots
 
