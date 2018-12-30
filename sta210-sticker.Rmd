@@ -84,5 +84,5 @@ sticker(p, package="STA 210",p_color="#00797C", p_family="open", p_size=7.5, s_x
 
 ```{r display-sticker}
 #display final sticker
-include_graphics("sta210_sticker.png",f)
+include_graphics("sta210_sticker.png")
 ```
