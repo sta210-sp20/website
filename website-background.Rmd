@@ -12,10 +12,15 @@ knitr::opts_chunk$set(echo = TRUE,
                       message=FALSE)
 ```
 
+```{r load-packages}
+library(tidyverse)
+library(readr)
+# library(cowplot)
+```
+
 ## Introduction 
 
 This document contains the code used to make the background image for the [STA 210 Spring 2019](https://www2.stat.duke.edu/courses/Spring19/sta210.001/) course website. This background can be used to start a discussion with students about various types of regression models. 
-
 
 ## The Data
 
@@ -25,12 +30,6 @@ The [Capital Bikeshare data](https://archive.ics.uci.edu/ml/datasets/bike+sharin
 - `season`: 1 - Winter, 2 - Spring, 3 - Summer 4 - Fall 
 - `atemp`: feeling temperature &#247; 50 (in degrees Celsius)
 <br> 
-
-```{r load-packages}
-library(tidyverse)
-library(readr)
-# library(cowplot)
-```
 
 ```{r data}
 bikeshare <- read_csv("https://raw.githubusercontent.com/matackett/data/master/capital-bikeshare.csv")          
@@ -63,8 +62,9 @@ ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=cluster)) +
 bikeshare %>%
   ggplot(aes(x=atemp,y=cnt)) + 
   geom_point(aes(color=season)) + 
-  geom_smooth(method=lm,color="#606060",se=FALSE)+
-  theme_minimal()
+  geom_smooth(color="#606060",se=FALSE) +
+  theme_void() +
+  theme(legend.position="none")
 ```
 ```{r logistic-data}
 bikeshare <- 
@@ -110,11 +110,7 @@ p1 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=season)) +
 p2 <- ggplot(data=bikeshare,aes(x=cnt,fill=season)) +
   geom_density(alpha=alpha.level) +
   theme_void() +
-  theme(legend.position="none",
-        axis.title=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank()
-      )
+  theme(legend.position="none")
 
 p3 <- ggplot(data=bikeshare,aes(x=cnt,y=atemp,color=season)) +
   geom_density2d() +
