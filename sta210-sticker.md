@@ -83,12 +83,12 @@ font_add_google("Open Sans", "open")
 # create and save sticker
 sticker(p, package="STA 210",p_color="#00797C", p_family="open", p_size=7.5, s_x=1, s_y=0.75, s_width=1.2, s_height=1, h_fill = "#FFFFFF", 
         h_color="#00797C", h_size =0.8,
-        filename="sta210_sticker.png")
+        filename="static/img/sta210_sticker.png")
 ```
 
 ``` r
 #display final sticker
-include_graphics("sta210_sticker.png")
+include_graphics("static/img/sta210_sticker.png")
 ```
 
-![](sta210_sticker.png)
+![](static/img/sta210_sticker.png)
