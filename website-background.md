@@ -1,4 +1,4 @@
-Simple Website Background Using ggplot2
+Simple Website Background for a Regression Analysis Course
 ================
 Dr. Maria Tackett
 12.20.2018
@@ -7,13 +7,12 @@ Dr. Maria Tackett
 library(tidyverse)
 library(readr)
 library(cowplot)
-library(nnet)
 ```
 
 Introduction
 ------------
 
-This document contains the code used to make the background image for the [STA 210 Spring 2019](https://www2.stat.duke.edu/courses/Spring19/sta210.001/) course website. This background can be used to start a discussion with students about various types of regression models.
+This document contains the code used to make the background image for the [STA 210 Spring 2019](https://www2.stat.duke.edu/courses/Spring19/sta210.001/) course website. This background can be used to start a discussion with students about using data visualization to understand the relationship between multiple variables.
 
 The Data
 --------
@@ -39,81 +38,13 @@ bikeshare <- bikeshare %>%
   select(season,atemp,cnt)
 ```
 
-The Models
-----------
-
 ``` r
+# k means clustering for plot p1
+
 bike.cl <- kmeans(bikeshare[,2:3], 4, nstart = 20)
 bikeshare <- 
   bikeshare %>% 
   mutate(cluster=as.factor(bike.cl$cluster))
-```
-
-``` r
-p1 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=cluster)) +
-  geom_point(alpha=0.5) +
-  theme_void() +
-  theme(legend.position="none")
-```
-
-``` r
-p6 <- bikeshare %>%
-  ggplot(aes(x=atemp,y=cnt)) + 
-  geom_point(aes(color=season)) + 
-  geom_smooth(color="#606060",se=FALSE) +
-  theme_void() +
-  theme(legend.position="none")
-```
-
-``` r
-bikeshare <- 
-  bikeshare %>%
-  mutate(is.winter = ifelse(season=="Winter",1,0),
-         is.spring = ifelse(season=="Spring",1,0),
-         is.summer = ifelse(season=="Summer",1,0),
-         is.fall = ifelse(season=="Fall",1,0))
-```
-
-``` r
-# glm_model <- glm(is.summer ~ atemp + cnt, data=bikeshare, family=binomial)
-# bikeshare <- augment(glm_model,type.predict="response")
-p3 <- ggplot(data=bikeshare,aes(x=atemp,y=is.winter)) +
-  geom_point(alpha=0.3) +
-  geom_smooth(method="glm",method.args=list(family="binomial"),se=FALSE,color="#00BFC4")+
-  geom_smooth(aes(x=atemp,y=is.spring),method="glm",method.args=list(family="binomial"),se=FALSE,color="#F8766D")+
-  geom_smooth(aes(x=atemp,y=is.summer),method="glm",method.args=list(family="binomial"),se=FALSE,color="#C77CFF")+
-  geom_smooth(aes(x=atemp,y=is.fall),method="glm",method.args=list(family="binomial"),se=FALSE,color="#7CAE00") +
-  theme_void() + 
-  theme(legend.position="none")
-```
-
-``` r
-# fit multinomial logistic model 
-# add predicted probabilities to bikeshare data
-m <- multinom(season ~  atemp,data=bikeshare)
-```
-
-    ## # weights:  12 (6 variable)
-    ## initial  value 1013.381178 
-    ## iter  10 value 631.237836
-    ## iter  20 value 629.144982
-    ## final  value 629.144454 
-    ## converged
-
-``` r
-pred <- as.data.frame(predict.glm(m,type="response"))
-bikeshare <- bind_cols(bikeshare,pred)
-```
-
-``` r
-# plot predicted probabilites versus atemp
-p3 <- ggplot(data=bikeshare,aes(x=atemp)) + 
-  geom_line(aes(y=Winter),color="#00BFC4") +
-  geom_line(aes(y=Spring),color="#F8766D") +
-  geom_line(aes(y=Summer),color="#C77CFF") +
-  geom_line(aes(y=Fall),color="#7CAE00") +
-  theme_void() +
-  theme(legend.position="none")
 ```
 
 The Plots
@@ -123,13 +54,23 @@ A few notes about the plots:
 
 -   The plots used in this background are scatterplot, density plot, contour plot, linear smoothing, side-by-side boxplots, and area plots. See the [ggplot2 cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for details and more plot options.
 
--   The titles, axes, and legend have been removed for each plot. These elements can be easily added by removing the `theme()` modifier.
+-   The titles, axes, and legend have been removed for each plot. These elements can be easily added by removing the `theme()` modifiers.
 
 ``` r
 alpha.level = 0.5 
 
+p1 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=cluster)) +
+  geom_point(alpha=alpha.level) +
+  theme_void() +
+  theme(legend.position="none")
+
 p2 <- ggplot(data=bikeshare,aes(x=cnt,fill=season)) +
   geom_density(alpha=alpha.level) +
+  theme_void() +
+  theme(legend.position="none")
+
+p3 <- ggplot(data=bikeshare,aes(x=cnt,y=atemp,color=season)) +
+  geom_density2d() +
   theme_void() +
   theme(legend.position="none")
 
@@ -143,6 +84,13 @@ p5 <- ggplot(data=bikeshare,aes(x=season,y=cnt,fill=season)) +
   theme_void() +
   theme(legend.position="none")
 
+p6 <- bikeshare %>%
+  ggplot(aes(x=atemp,y=cnt)) + 
+  geom_point(aes(color=season)) + 
+  geom_smooth(color="#606060",se=FALSE) +
+  theme_void() +
+  theme(legend.position="none")
+
 plot_grid(p1,p2,p3,p4,p5,p6,ncol=3)
 ```
 
@@ -150,5 +98,5 @@ plot_grid(p1,p2,p3,p4,p5,p6,ncol=3)
 
 ``` r
 # modify file location
-# ggsave("static/img/bikeshare-plots.png",scale=2)
+ggsave("static/img/bikeshare-reg-plots.png",scale=2)
 ```
