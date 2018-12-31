@@ -15,7 +15,8 @@ knitr::opts_chunk$set(echo = TRUE,
 ```{r load-packages}
 library(tidyverse)
 library(readr)
-# library(cowplot)
+library(cowplot)
+library(nnet)
 ```
 
 ## Introduction 
@@ -53,13 +54,17 @@ bike.cl <- kmeans(bikeshare[,2:3], 4, nstart = 20)
 bikeshare <- 
   bikeshare %>% 
   mutate(cluster=as.factor(bike.cl$cluster))
-ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=cluster)) +
+```
+
+```{r}
+p1 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=cluster)) +
   geom_point(alpha=0.5) +
-  theme_minimal()
+  theme_void() +
+  theme(legend.position="none")
 ```
 
 ```{r linear-regression}
-bikeshare %>%
+p6 <- bikeshare %>%
   ggplot(aes(x=atemp,y=cnt)) + 
   geom_point(aes(color=season)) + 
   geom_smooth(color="#606060",se=FALSE) +
@@ -75,17 +80,39 @@ bikeshare <-
          is.fall = ifelse(season=="Fall",1,0))
 ```
 
-```{r logistic}
+```{r logistic, eval=FALSE}
 # glm_model <- glm(is.summer ~ atemp + cnt, data=bikeshare, family=binomial)
 # bikeshare <- augment(glm_model,type.predict="response")
-ggplot(data=bikeshare,aes(x=atemp,y=is.winter)) +
+p3 <- ggplot(data=bikeshare,aes(x=atemp,y=is.winter)) +
   geom_point(alpha=0.3) +
   geom_smooth(method="glm",method.args=list(family="binomial"),se=FALSE,color="#00BFC4")+
   geom_smooth(aes(x=atemp,y=is.spring),method="glm",method.args=list(family="binomial"),se=FALSE,color="#F8766D")+
   geom_smooth(aes(x=atemp,y=is.summer),method="glm",method.args=list(family="binomial"),se=FALSE,color="#C77CFF")+
   geom_smooth(aes(x=atemp,y=is.fall),method="glm",method.args=list(family="binomial"),se=FALSE,color="#7CAE00") +
-  theme_minimal()
+  theme_void() + 
+  theme(legend.position="none")
 ```
+
+
+```{r multinom-logistic}
+# fit multinomial logistic model 
+# add predicted probabilities to bikeshare data
+m <- multinom(season ~  atemp,data=bikeshare)
+pred <- as.data.frame(predict.glm(m,type="response"))
+bikeshare <- bind_cols(bikeshare,pred)
+```
+
+```{r plot}
+# plot predicted probabilites versus atemp
+p3 <- ggplot(data=bikeshare,aes(x=atemp)) + 
+  geom_line(aes(y=Winter),color="#00BFC4") +
+  geom_line(aes(y=Spring),color="#F8766D") +
+  geom_line(aes(y=Summer),color="#C77CFF") +
+  geom_line(aes(y=Fall),color="#7CAE00") +
+  theme_void() +
+  theme(legend.position="none")
+```
+
 
 ## The Plots
 
@@ -98,61 +125,27 @@ A few notes about the plots:
 ```{r make-plots}
 alpha.level = 0.5 
 
-p1 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=season)) +
-  geom_point(alpha=alpha.level) +
-  theme_void() +
-  theme(legend.position="none",
-        axis.title=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank()
-      )
-
 p2 <- ggplot(data=bikeshare,aes(x=cnt,fill=season)) +
   geom_density(alpha=alpha.level) +
   theme_void() +
   theme(legend.position="none")
 
-p3 <- ggplot(data=bikeshare,aes(x=cnt,y=atemp,color=season)) +
-  geom_density2d() +
-  theme_void() +
-  theme(legend.position="none",
-        axis.title=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank()
-      )
-
 p4 <- ggplot(data=bikeshare,aes(x=atemp,y=cnt,color=season)) +
   geom_smooth(se=FALSE) +
   theme_void() +
-  theme(legend.position="none",
-        axis.title=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank()
-      )
+  theme(legend.position="none")
 
 p5 <- ggplot(data=bikeshare,aes(x=season,y=cnt,fill=season)) +
   geom_boxplot(alpha=alpha.level) +
   theme_void() +
-  theme(legend.position="none",
-        axis.title=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank()
-      )
+  theme(legend.position="none")
 
-p6 <- ggplot(data=bikeshare,aes(x=cnt,fill=season)) +
-  geom_area(stat="bin",alpha=alpha.level,color="black") +
-  theme_void() +
-  theme(legend.position="none",
-        axis.title=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank()
-      )
 plot_grid(p1,p2,p3,p4,p5,p6,ncol=3)
 ```
 
 ```{r save-plot}
 # modify file location
-ggsave("static/img/bikeshare-plots.png",scale=2)
+ggsave("static/img/bikeshare-reg-plots.png",scale=2)
 ```
 
 
