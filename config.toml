@@ -91,5 +91,5 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
   dateFormat = "January 2, 2006"
-  background = "http://www2.stat.duke.edu/courses/Spring19/sta199.001/img/bikeshare-plots.png"
-  favicon = "img/favicon.ico"
+  background = "http://www2.stat.duke.edu/courses/Spring19/sta199.001/img/bikeshare-reg-plots.png"
+  favicon = "img/sta210-sticker.png"
