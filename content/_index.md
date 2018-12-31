@@ -22,7 +22,7 @@ Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university"></i></fo
 
 ### Teaching team and office hours 
 
-{.table .table-condensed .table-striped .text-left}
+{.table .table1 .table-condensed .table-striped .text-left}
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
 Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"><i class="fa fa-github"></i></a> | TBD | Old Chem 118B
@@ -35,7 +35,7 @@ TAs               | [Anna Darwish](https://www.linkedin.com/in/anna-darwish) | <
 
 All texts are freely available online. Hardcopies are also available for purchase.
 
-{.table .table-condensed .table-striped .text-left}
+{.table .table1 .table-condensed .table-striped .text-left}
  <span></span>     | <span></span> | <span></span> 
 -----------|---------------------------------|----------------------------------
 [An Introduction to Statistical Learning](https://www-bcf.usc.edu/~gareth/ISL/) | James, Witten, Hastie, Tibshirani | Springer, 1st edition, 2013
