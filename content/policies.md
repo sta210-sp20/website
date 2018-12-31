@@ -4,11 +4,11 @@ markup: "mmark"
 ---
 
 ### Activities & Assessments
-The following activities and assessments will help you successfully achieve the course learning objectives. By experiencing the course content in different ways, you will not only gain a better understanding of data science, but you will also get experiences that can guide you as you apply what you've learned in future academic and professional projects.
+The following activities and assessments will help you successfully achieve the course learning objectives. By experiencing the course content in different ways, you will not only gain a better understanding of regression analysis, but you will also get experiences that can guide you as you apply what you've learned in future academic and professional projects.
 <br> 
 <br>
 
-#### Homework (20%)
+#### Homework (25%)
 
 In homework, you will apply what you've learned during lecture and lab to complete data analysis tasks. You may discuss homework assignments with other students; however, homework should be completed and submitted individually. Homework must be typed up using R Markdown and submitted in the appropriate GitHub repository. 
 
@@ -24,27 +24,31 @@ In labs, you will apply the concepts discussed in lecture to various data analys
 <br> 
 <br>
 
-#### Exams (Exam I: 17.5%, Exam II: 17.5%)
+#### Exams (Exam I: 20%, Exam II: 20%)
 
-The exams are an opportunity to assess the knowledge and skills you’ve learned. Both exams will be take-home assignments that you are expected to complete individually.  Each exam will include small analysis and computational tasks related to the content discussed in lectures, application exercises, homework assignments, and labs. More details about the content and structure of the exams will be discussed during the semester.
+The exams are an opportunity to assess the knowledge and skills you’ve learned. They will include both the mathematical and conceptual aspects of regression. Both exams will be given during a lecture class period, and you will be permitted to bring one page of hand-written notes to each exam.
+
+
 <br> 
 <br>
 
 #### Final Project (15%)
 
-The purpose of the project is to apply what you’ve learned throughout the semester to analyze an interesting data-based research question. The project will be completed in teams, and each team will present their results during the final exam period, Monday, April 29, 2p - 5p. *You must complete the final project and present your work in class to pass the course.*
+The purpose of the project is to apply what you’ve learned throughout the semester to analyze an interesting data-based research question using regression. The project will be completed in teams, and each team will present their results during the final exam period, Wednesday, May 1, 2p - 5p. *You must complete the final project and present your work in class to pass the course.*
 <br> 
 <br>
 
+<!--
 #### Application Exercises (10%)
 
 Application exercises give you an opportunity to practice using the statistical concepts and/or code discussed in lecture on short data analyses. They will typically be started during class and may be assigned to be completed by the next class meeting. In general, these assignments are shorter than homework assignments and will be completed in teams. 
 <br> 
 <br>
+-->
 
 #### Teamwork (5%)
 
-To construct functional and diverse teams, you will be asked to complete a short survey to gauge your previous exposure to programming topics. After completing the survey, you will be assigned to teams of 3-4 students; these teams will stay consistent throughout the semester (barring extraordinary circumstances). You will work in these teams during class, on application exercises, on labs, and on the final project.
+To construct functional and diverse teams, you will be asked to complete a short survey to gauge your previous exposure to programming topics. After completing the survey, you will be assigned to teams of 3-4 students; these teams will stay consistent throughout the semester (barring extraordinary circumstances). You will work in these teams during class, on lab assignments, and on the final project.
 <br> 
 <br>
 
@@ -55,12 +59,11 @@ The final grade will be calculated as follows:
 {.table .table2 .table-condensed .table-striped .text-left}
  <span></span>     | <span></span>  
 -----------|---------------------------------
-Homework | 20%
+Homework | 25%
 Labs | 15%
-Exam 1 | 17.5%
-Exam 2 | 17.5%
+Exam I | 20%
+Exam II | 20%
 Final Project | 15%
-Participation & Application Exercises | 10% 
 Teamwork | 5%
 
 If you have a cumulative numerical average of 90 - 100, you are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-. The exact ranges for letter grades will be determined after Exam 2.
@@ -98,7 +101,7 @@ If you have a personal or family emergency or health condition that affects your
 
 **Exam dates cannot be changed and no make-up exams will be given.** If you must miss an exam, your absence must be officially excused before the exam due date. If your absence is excused, the missing exam grade will be imputed at the end of the semester based on your performance on other relevant course assignments.
 
-The final project presentations will  be during the university scheduled exam period, Monday, April 29, 2p - 5p. **You must complete the final project and present your work during the exam period in order to pass the course.**
+The final project presentations will  be during the university scheduled exam period, Wednesday, May 1, 2p - 5p. **You must complete the final project and present your work during the exam period in order to pass the course.**
 <br> 
 <br>
 
