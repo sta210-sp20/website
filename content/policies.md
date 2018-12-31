@@ -27,8 +27,6 @@ In labs, you will apply the concepts discussed in lecture to various data analys
 #### Exams (Exam I: 20%, Exam II: 20%)
 
 The exams are an opportunity to assess the knowledge and skills you’ve learned. They will include both the mathematical and conceptual aspects of regression. Both exams will be given during a lecture class period, and you will be permitted to bring one page of hand-written notes to each exam.
-
-
 <br> 
 <br>
 
@@ -37,14 +35,6 @@ The exams are an opportunity to assess the knowledge and skills you’ve learned
 The purpose of the project is to apply what you’ve learned throughout the semester to analyze an interesting data-based research question using regression. The project will be completed in teams, and each team will present their results during the final exam period, Wednesday, May 1, 2p - 5p. *You must complete the final project and present your work in class to pass the course.*
 <br> 
 <br>
-
-<!--
-#### Application Exercises (10%)
-
-Application exercises give you an opportunity to practice using the statistical concepts and/or code discussed in lecture on short data analyses. They will typically be started during class and may be assigned to be completed by the next class meeting. In general, these assignments are shorter than homework assignments and will be completed in teams. 
-<br> 
-<br>
--->
 
 #### Teamwork (5%)
 
@@ -67,8 +57,8 @@ Final Project | 15%
 Teamwork | 5%
 
 If you have a cumulative numerical average of 90 - 100, you are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-. The exact ranges for letter grades will be determined after Exam 2.
-
-<!-- ## Policies & Additional Information -->
+<br>
+<br>
 
 ### Inclusion & Accessibility
 
@@ -112,8 +102,6 @@ Homework or lab assignments submitted late but within 24 hours of the deadline m
 **Late work will not be accepted for the exams or the final project.**
 <br> 
 <br>
-
-
 
 ### Academic Honesty
 
