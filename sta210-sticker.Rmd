@@ -47,7 +47,7 @@ bikeshare <- bikeshare %>%
 
 A multinomial logistic regression model is used to create the main plot. The response variable is `season` and the predictor variable is `atemp`. 
 
-```{r multi-logistic}
+```{r multinom-logistic}
 # fit multinomial logistic model 
 # add predicted probabilities to bikeshare data
 m <- multinom(season ~  atemp,data=bikeshare)
