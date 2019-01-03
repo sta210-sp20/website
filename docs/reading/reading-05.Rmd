@@ -1,5 +1,5 @@
 ---
-title: "Reading 05: Model Assessment"
+title: "Reading 05"
 output: 
   html_document: 
     theme: yeti
@@ -9,14 +9,15 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Due Mon, Feb 11
+## Due
 
-### Required:
+Monday, Mar 19
 
-- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
-    - 3.3.3 Potential problems
-<br>
-<br>
+## Required:
 
-[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
-
+- [OpenIntro - Intro Stat with Randomization and Simulation](https://drive.google.com/file/d/0B-DHaDEbiOGkRHNndUlBaHVmaGM/view):
+    - 2.1 Randomization case study: gender discrimination
+    - 2.2 Randomization case study: opportunity cost
+    - 2.3 Hypothesis testing 
+    - 2.4 Simulation case studies
+    - 4.5 Bootstrapping to study the standard deviation (except for 4.5.3)

@@ -1,5 +1,5 @@
 ---
-title: "Reading 03: Multiple Linear Regression"
+title: "Reading 03"
 output: 
   html_document: 
     theme: yeti
@@ -9,14 +9,13 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Due Wed, Jan 30
+## Due
 
-### Required:
+Monday, Feb 21
 
-- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
-    - 3.2 Multiple Linear Regression (MLR)
-<br>
-<br>
+## Required:
 
-[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
-
+- [OpenIntro Statistics](https://drive.google.com/file/d/0B-DHaDEbiOGkc1RycUtIcUtIelE/view):
+    + 7.1 Line fitting, residuals, and correlation
+    + 7.2 Fitting a line by least squares regression
+    + 7.3 Types of outliers in linear regression
