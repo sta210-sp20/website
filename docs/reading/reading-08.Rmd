@@ -1,5 +1,5 @@
 ---
-title: "Reading 07: Model Validation"
+title: "Reading 08: Logistic Regression"
 output: 
   html_document: 
     theme: yeti
@@ -9,14 +9,16 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Due Wed, Feb 27
+### Due Mon, Mar 4
 
 ### Required:
 
 - [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
-    - 5.1.1 The Validation Set Approach
-    - 5.1.2 Leave-One-Out Cross-Validation
-    - 5.1.3 *k*-Fold Cross-Validation
+    - 4.1 An overview of classification
+    - 4.2 Why not linear regression 
+    - 4.3.1 The logistic model
+    - 4.3.2 Estimating the regression coefficients
+    - 4.3.3 Making predictions
 <br>
 <br>
 

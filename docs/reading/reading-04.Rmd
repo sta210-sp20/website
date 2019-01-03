@@ -1,5 +1,5 @@
 ---
-title: "Reading 04"
+title: "Reading 04: Special Predictors"
 output: 
   html_document: 
     theme: yeti
@@ -9,12 +9,15 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Due
+### Due Wed, Feb 6
 
-Monday, Feb 26
+### Required:
 
-## Required:
+- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
+    - 3.3.1 Qualitative predictors
+    - 3.3.2 Extensions of the linear model
+<br>
+<br>
 
-- [OpenIntro Statistics](https://drive.google.com/file/d/0B-DHaDEbiOGkc1RycUtIcUtIelE/view):
-    + 8.1 Introduction to multiple regression
-    + 8.2 Model selection
+[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
+
