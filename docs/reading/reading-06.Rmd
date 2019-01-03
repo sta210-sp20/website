@@ -1,5 +1,5 @@
 ---
-title: "Reading 06"
+title: "Reading 06: Model Selection"
 output: 
   html_document: 
     theme: yeti
@@ -9,15 +9,15 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Due
+### Due Wed, Feb 13
 
-Wednesday, Mar 28
+### Required:
 
-## Required:
+- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
+    - 6.1.2 Stepwise selection
+    - 6.1.3 Choosing the optimal model
+<br>
+<br>
 
-- [OpenIntro - Intro Stat with Randomization and Simulation](https://drive.google.com/file/d/0B-DHaDEbiOGkRHNndUlBaHVmaGM/view):
-    - 2.5 Central Limit Theorem
-    - 2.6 Normal distribution
-    - 2.7 Applying the normal model
-    - 2.8 Confidence intervals
+[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
     

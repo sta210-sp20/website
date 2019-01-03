@@ -1,5 +1,5 @@
 ---
-title: "Reading 02"
+title: "Reading 02: Simple Linear Regression"
 output: 
   html_document: 
     theme: yeti
@@ -9,15 +9,22 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Due
+### Due Wed, Jan 23
 
-Monday, Feb 12
+### Required:
 
-## Required:
-
+- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
+    - 3.1 Simple Linear Regression 
+    
 - [OpenIntro Statistics](https://drive.google.com/file/d/0B-DHaDEbiOGkc1RycUtIcUtIelE/view):
-    + Section 1.1 - Casestudy:using stents to prevent strokes
-    + Section 1.2 - Data basics
-    + Section 1.3 - Overview of data collection principles
-    + Section 1.4 - Observational studies and sampling strategies
-    + Section 1.5 - Experiments
+    - 7.4 Inference for Regression 
+  
+### Optional (Inference Review): 
+- [OpenIntro Statistics](https://drive.google.com/file/d/0B-DHaDEbiOGkc1RycUtIcUtIelE/view):
+    - 4.1 Variability in estimates
+    - 4.2 Confidence intervals
+    - 4.3 Hypothesis testing
+<br>
+<br>
+
+[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
