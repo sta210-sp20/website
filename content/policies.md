@@ -116,7 +116,7 @@ On individual assignments, you may not directly share code or write up with othe
 
 ### Regrade Requests
 
-Requests for a regrade must be made within three days of when the assignment is returned. The request should be submitted through the [online form](https://forms.office.com/Pages/ResponsePage.aspx?id=TsVyyzFKnk2xSh6jbfrJTBw0r2_bKCVMs9lST1_-2sxUMlcwUDJTOUlNOUdWUkJBQk5ZNk80SEVMWC4u). Regrade requests will be honored if there is an error in the grade calculation or a correct answer was mistakenly marked as incorrect. No grades will be changed after the final project presentations.
+Requests for a regrade must be made within three days of when the assignment is returned. The request should be submitted through the [online form](https://forms.office.com/Pages/ResponsePage.aspx?id=TsVyyzFKnk2xSh6jbfrJTBw0r2_bKCVMs9lST1_-2sxUMjFPWEpGTzlaMTcwRlhGSU02RUJSSlY0RC4u). Regrade requests will be honored if there is an error in the grade calculation or a correct answer was mistakenly marked as incorrect. No grades will be changed after the final project presentations.
 
 *Note: Grades can only be changed by the Professor Tackett. Teaching Assistants cannot change grades on returned assignments.*
 <br> 
