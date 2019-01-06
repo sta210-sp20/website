@@ -8,15 +8,15 @@ markup: "mmark"
 
 #### Lectures
 
-<font color="#009F92"><i class="fas fa-university"></i></font> &nbsp; Old Chem 116 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar"></i></font> &nbsp; Mon and Wed 10:05a - 11:20a
+<font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Old Chem 116 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Mon and Wed 10:05a - 11:20a
 <br>
 <br>
 
 #### Labs
 
-Lab 01 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 311 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar"></i></font> &nbsp; Fri 11:45a - 1p
+Lab 01 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 311 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Fri 11:45a - 1p
 
-Lab 02  &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 311 &nbsp;&nbsp; <font color="#009F92"><i class="fas fa-calendar"></i></font> &nbsp; Fri 1:25p - 2:40p
+Lab 02  &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 311 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Fri 1:25p - 2:40p
 <br>
 <br>
 
