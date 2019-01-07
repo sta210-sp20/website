@@ -1,0 +1,427 @@
+---
+title: "Welcome to Regression Analysis"
+author: "Dr. Maria Tackett"
+date: "01.09.19"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+library(knitr)
+opts_chunk$set(fig.height = 2.65, dpi = 300) 
+# ggplot2 color palette with gray
+color_palette <- list(gray = "#999999", 
+                      salmon = "#E69F00", 
+                      lightblue = "#56B4E9", 
+                      green = "#009E73", 
+                      yellow = "#F0E442", 
+                      darkblue = "#0072B2", 
+                      red = "#D55E00", 
+                      purple = "#CC79A7")
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 3.75,
+	fig.width = 6.25,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(rvest)
+```
+
+class: center, middle
+
+# Welcome!
+
+---
+
+## What is Regression Analysis?
+
+"In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships among variables. It includes many techniques for modeling and analyzing several variables, when <font class="vocab">**the focus is on the relationship between a dependent variable and one or more independent variables (or 'predictors')**</font>. More specifically, regression analysis helps one understand how the typical value of the dependent variable (or 'criterion variable') changes when any one of the independent variables is varied, while the other independent variables are held fixed."
+
+.pull-right[
+- [Wikipedia](https://en.wikipedia.org/wiki/Regression_analysis)
+]
+
+---
+
+class: regular
+
+## Instructor
+
+Prof. Maria Tackett
+
+<i class="fa fa-envelope"></i> &nbsp; [maria.tackett@duke.edu](mailto:maria.tackett@duke.edu) <br>
+<i class="fa fa-home"></i> &nbsp; [stat.duke.edu/~mt324](http://www2.stat.duke.edu/~mt324) <br>
+<i class="fa fa-university"></i> &nbsp; Old Chem 118B <br>
+<i class="fa fa-calendar"></i> &nbsp; TBD
+
+---
+
+## Teaching Assistants
+
+.pull-left[
+[Anna Darwish](https://www.linkedin.com/in/anna-darwish)
+
+<i class="fa fa-envelope"></i> &nbsp; [anna.darwish@duke.edu](mailto:anna.darwish@duke.edu)<br>
+<i class="material-icons">calendar_today</i> &nbsp; TBD
+
+<br><br>
+
+[Matty Pahren](https://www.linkedin.com/in/matty-pahren-53345316a)
+
+<i class="fa fa-envelope"></i>[martha.pahren@duke.edu](mailto:martha.pahren@duke.edu)<br>
+<i class=\"material-icons\">calendar_today</i>&nbsp; TBD
+]
+
+.pull-right[
+[Ethan Shen](https://www.linkedin.com/in/ethan-shen-931010134/)
+
+<i class="fa fa-envelope"></i>[ethan.shenn@duke.edu](mailto:ethan.shen@duke.edu)<br>
+<i class=\"material-icons\">calendar_today</i>&nbsp; TBD
+
+<br><br>
+
+[Abbas Zaidi](https://sites.google.com/site/amzaidistatistics/)
+
+<i class="fa fa-envelope"></i> &nbsp; [abbas.zaidi@duke.edu](mailto:abbas.zaidi@duke.edu) <br>
+<i class=\"material-icons\">calendar_today</i>&nbsp; TBD
+]
+
+---
+
+## Where to find information
+
+- [STA210 Course Website](https://www2.stat.duke.edu/courses/Spring19/sta210.001/)
+    - course policies, up-to-date schedule, lecture notes, assignmetns
+
+- [STA 210 GitHub Organization](https://github.com/STA210-Sp19)
+    - assignment starter code and submission
+
+- [Sakai](https://sakai.duke.edu)
+    - grades
+
+---
+
+## Course Objectives
+
+- Learn and apply methods for analyzing multivariate datasets 
+
+- Learn to check whether a proposed statistical model is appropriate for the given data 
+
+- Develop a proficiency in addressing complex research questions using regression analysis
+
+- Learn the process of data-based research by working on a research project.
+
+---
+
+class: middle, center
+
+## Examples of Regression Analysis
+
+---
+
+## Fingerprint Analysis
+
+.pull-left[
+```{r, echo=FALSE,out.width = '100%'} 
+knitr::include_graphics("fingerprints.png")
+```
+]
+
+.pull-right[
+*We use <font class="vocab">**Analysis of Variance (ANOVA) decomposition**</font> to help determine whether the differences in fingerprints are circumstantial or because the prints were produced by different sources.* 
+]
+<br>
+<br>
+
+<small>Tackett, M., 2018. *Creating Fingerprint Databases and a Bayesian Approach to Quantify Dependencies in Evidence*. PhD dissertation, University of Virginia.</small>
+
+---
+
+### Impact on Educational Achievement
+
+*"Our objectives were to ... determine whether there are differences in the impact of lead across the  EOG [End of Grade] distribution, and elucidate the impact of cumulative childhood social and environmental stress on educational outcomes. <font color=#9B02BD>**Multivariate and quantile regression techniques were employed**.</font>...The effects of environmental and social stressors (especially as they stretch out the lower tail of the EOG distribution) demonstrate the particular vulnerabilities of socioeconomically and environmentally disadvantaged children."*
+<br>
+<br>
+
+<small>Miranda, M., Dohyeong,K., Reiter, J., Galeano, M., & Maxson, P. (2009). Environmental contributors to the achievement gap. *NeuroToxicology*, 30, 1019-1024.</small>
+
+---
+
+### FiveThirtyEight March Madness Predictions
+<center>
+<a href=https://projects.fivethirtyeight.com/2018-march-madness-predictions/ target="_blank" class="link">2018 March Madness Predictions</a>
+</center>
+<br>
+
+*Live Win Probabilities are "derived using <font color=#9B02BD>**logistic regression analysis**</font>, which lets us plug the current state of a game into a model to produce the probability that either team will win the game."*
+<br>
+<div align="right">
+<a href=https://fivethirtyeight.com/features/how-our-march-madness-predictions-work/ target="_blank">-"How Our March Madness Predictions Work"<a/>
+</div>
+
+---
+
+## MORE!
+
+- Find other examples of regression analysis!
+
+---
+
+class: middle, center
+
+## Let's Practice!
+
+---
+
+## Create a GitHub account
+
+- Go to https://github.com/, and create an account (unless you already have one). 
+
+- See the next slide for tips on creating a GitHub username. 
+<br><br>
+
+.instructions[
+Once done, place a green sticky on your laptop. If you have questions, place a pink sticky.
+]
+
+---
+
+### Tips for creating GitHub username
+
+Below are tips for creating a username from [Happy git with R](http://happygitwithr.com/github-acct.html#username-advice).
+
+- Incorporate your actual name!
+- Reuse your username from other contexts if you can, e.g., Twitter or Slack.
+- Pick a username you will be comfortable revealing to your future boss.
+- Shorter is better than longer.
+- Be as unique as possible in as few characters as possible.
+- Make it timeless. Don’t highlight your current university, employer, or place of residence.
+- Avoid words laden with special meaning in programming, like `NA`.
+
+---
+
+## Join RStudio.cloud
+
+- Go to [bit.ly/sta199-f18-rstudio-join](http://bit.ly/sta199-f18-rstudio-join), and log in with your GitHub credentials.
+
+- You should see a project called UN Votes, fork it by clicking on the <i class="fa fa-fork"></i> icon. This will create your copy of the project and launch it.
+<br><br>
+
+.instructions[
+Once done, place a green sticky on your laptop. If you have questions, place a pink sticky.
+]
+
+---
+
+## Analysis!
+
+
+- In the Files pane in the bottom right corner, spot the file called `unvotes.Rmd`. Open it, and then click on the "Knit" button.
+- Go back to the file and change your name on top (in the `yaml` -- we'll talk about what this means later) and knit again.
+- Then change the country names to those you're interested in. Your spelling and capitalization should match the data so take a peek at the Appendix to see how the country names are spelled. Knit again. And voila, your first data visualization!
+
+.instructions[
+Once done, place a green sticky on your laptop. If you have questions, place a pink sticky.
+]
+
+---
+
+## Discussion
+
+Find a partner and discuss the following: 
+
+- Name
+- Major / academic interest
+
+- Question 1 from analysis
+- Question 2 from analysis 
+
+---
+
+class: middle, center
+
+## Course Policies
+
+---
+
+## Class Meetings 
+
+--
+
+<font class="vocab">Lecture</font> 
+- Focus on concepts of regression analysis
+- Interactive lecture that includes examples and hands-on exercises
+- Bring fully-charged laptop to every lecture
+
+--
+
+<font class="vocab">Lab</font>
+- Focus on computing using R `tidyverse` syntax
+- Apply concepts from lecture to case study scenarios
+- Work on labs in teams of 3 - 4
+
+---
+
+## Textbooks
+
+- [An Introduction to Statistical Learning](https://www-bcf.usc.edu/~gareth/ISL/)
+    - Free PDF on author's website. Hardcopy available for purchase
+    - Assigned readings about statistical content
+    - **NOT** used for coding 
+  
+- [R for Data Science](http://r4ds.had.co.nz/)
+    - Free online version. Hardcopy available for purchase.
+    - Assigned readings and resource for R coding using `tidyverse` syntax.
+
+---
+
+## Activities & Assessments
+
+- <font class="vocab">Homework</font>: Individual assignments combining conceptual and computational skills. *Lowest score dropped.*
+
+--
+
+- <font class="vocab">Labs</font>: Team assignments focusing on computational skills. *Lowest score will be dropped.*
+
+--
+
+- <font class="vocab">Exams</font>: Two in-class exams.
+
+--
+
+- <font class="vocab">Final Project</font>: Team project presented during the final exam period, **May 1, 2p - 5p**. You must complete the project and present in class to pass the course.
+
+--
+
+- <font class="vocab">Teamwork</font>: Teams of 3-4 based on survey and pretest results. Consistent throughout the semester. Periodic peer evaluations.
+
+---
+
+## Grade Calculation
+
+| Component | Weight |
+|---------------|--------|
+| Homework | 25% |
+| Labs | 15% |
+| Exam I | 20% |
+| Exam II | 20% |
+| Final Project | 15% |
+| Teamwork | 5% |
+
+--
+
+- You are expected to attend lectures and labs. Excessive absences or tardiness can impact your final course grade.
+- Exact grade cut-offs will be determined at the end of the semester.
+
+---
+
+## Excused Absences
+
+- Students who miss a class due to a scheduled varsity trip, religious holiday, or short-term illness should fill out the respective form.
+    - These excused absences do not excuse you from assigned work. 
+  
+--
+
+- If you have a personal or family emergency or chronic health condition that affects your ability to participate in class, please contact your academic dean’s office.
+--
+
+- Exam dates cannot be changed and no make-up exams will be given. 
+
+---
+
+## Late Work &amp; Regrade Requests
+
+- Homework assignments: 
+    - Late but within 24 hours of deadline: 20% penalty
+    - Not accepted if submitted any later 
+
+- Regrade requests must be submitted within a week of when the assignment is returned using the link posted in the course syllabus
+
+---
+
+## Academic Honesty
+
+All work for this class should be done in accordance with the Duke Community Standard. 
+
+> To uphold the Duke Community Standard:
+> - I will not lie, cheat, or steal in my academic endeavors;
+> - I will conduct myself honorably in all my endeavors; and
+> - I will act if the Standard is compromised.
+
+Any violations will automatically result in a grade of 0 on the assignment and will be reported to [Office of Student Conduct](https://studentaffairs.duke.edu/conduct) for further action.
+
+---
+
+## Reusing Code
+
+- Unless explicitly stated otherwise, you may make use of online resources (e.g. StackOverflow) for coding examples on assignments. If you directly use code from an outside source (or use it as inspiration), you must or explicitly cite where you obtained the code. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism.
+
+- On individual assignments, you may discuss the assignment with one another; however, you may not directly share code or write up with other students. 
+
+- On team assignments, you may not directly share code or write up with another team. Unauthorized sharing of the code or write up will be considered a violation for all students involved. 
+
+---
+
+## Where to find help
+
+- I encourage you to attend office hours! It is often easier to discuss the course content in-person than online.
+
+- Use Piazza for general questions about course content and/or assignments, since other students may benefit from the response.
+
+- Use email for questions regarding personal matters and/or grades.
+
+---
+
+## Technology 
+
+- Cell phones and other electronic devices should be turned off or put on silent during class. 
+
+- If you choose to use a laptop or tablet for notetaking, please ensure that the volume is set to mute and the device is only used for class purposes. 
+
+- In general, you should focus on the class discussion/activity at hand and refrain from engaging in other work or outside activities. 
+
+---
+
+## Inclusion
+
+This course is designed to be welcoming and accessible to all students. If there is some aspect of class that is not welcoming or accessible to you, please let me know immediately. Additionally, if you are experiencing something outside of class that is affecting your performance in the course, please feel free to talk with me or your academic dean.
+
+---
+
+class: center, middle
+
+## Questions? 
+
+---
+
+## Announcements
+
+- This week's office hours: 
+  + TBD  Old Chem 118B (Prof. Tackett)
+
+- TA office hours start next week
+  
+- Labs start on Friday. Please bring fully-charged laptop.
+
