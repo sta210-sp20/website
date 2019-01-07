@@ -2,7 +2,7 @@ lessons:
   - title: "Week 00"
   - date: "Wed, Jan 9"
     title: "Welcome to Regression Analysis"
-    # slides: "lec-slides/00-welcome.html"
+    slides: "lec-slides/00-intro.html"
    # appex: "00-unvotes.html"
   - date: "Fri, Jan 11"
     title: "Lab 00: Logistics"
