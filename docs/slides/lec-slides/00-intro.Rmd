@@ -208,22 +208,15 @@ class: middle, center
 
 ---
 
-## Create a GitHub account
+## Create a GitHub Account
 
-- Go to https://github.com/, and create an account (unless you already have one). 
-
-- See the next slide for tips on creating a GitHub username. 
-<br><br>
+<small>
 
 .instructions[
-Once done, place a green sticky on your laptop. If you have questions, place a pink sticky.
+Go to https://github.com/, and create an account (unless you already have one)
 ]
 
----
-
-### Tips for creating GitHub username
-
-Below are tips for creating a username from [Happy git with R](http://happygitwithr.com/github-acct.html#username-advice).
+Tips for creating a username from [Happy git with R](http://happygitwithr.com/github-acct.html#username-advice).
 
 - Incorporate your actual name!
 - Reuse your username from other contexts if you can, e.g., Twitter or Slack.
@@ -233,13 +226,19 @@ Below are tips for creating a username from [Happy git with R](http://happygitwi
 - Make it timeless. Don’t highlight your current university, employer, or place of residence.
 - Avoid words laden with special meaning in programming, like `NA`.
 
+.instructions[
+Once done, place a green sticky on your laptop. If you have questions, place a pink sticky.
+]
+
+</small>
+
 ---
 
-## Join RStudio.cloud
+## Join RStudio.cloud 
 
-- Go to [bit.ly/sta199-f18-rstudio-join](http://bit.ly/sta199-f18-rstudio-join), and log in with your GitHub credentials.
+- Go to [http://bit.ly/sta210-sp19-join](http://bit.ly/sta210-sp19-join), and log in with your GitHub credentials.
 
-- You should see a project called UN Votes, fork it by clicking on the <i class="fa fa-fork"></i> icon. This will create your copy of the project and launch it.
+- You should see a project called *Movie Budgets and Revenues*. Click "Copy"; this will create your copy of the project and launch it.
 <br><br>
 
 .instructions[
@@ -248,28 +247,32 @@ Once done, place a green sticky on your laptop. If you have questions, place a p
 
 ---
 
-## Analysis!
+## Movie Data Analysis
 
 
-- In the Files pane in the bottom right corner, spot the file called `unvotes.Rmd`. Open it, and then click on the "Knit" button.
-- Go back to the file and change your name on top (in the `yaml` -- we'll talk about what this means later) and knit again.
-- Then change the country names to those you're interested in. Your spelling and capitalization should match the data so take a peek at the Appendix to see how the country names are spelled. Knit again. And voila, your first data visualization!
+1. Put your name in the author field at the top of the file (in the  `yaml` -- we will discuss what this is at a later date). Knit again.
+
+2. Change the genre names in parts 1 and 2 to genres that interest you. The spelling and capitalization must match what's in the data, so you can use the Appendix to see the correct spelling and capitalization. Knit again.
+
+You have made your first data visualization!
+<br><br>
 
 .instructions[
 Once done, place a green sticky on your laptop. If you have questions, place a pink sticky.
 ]
-
 ---
 
 ## Discussion
 
-Find a partner and discuss the following: 
+Discuss the following with a partner.
 
-- Name
-- Major / academic interest
+1. Consider the plot in Part 1. 
+    - Describe how movie revenue has changed over time. 
+    - Suppose we use revenue as a measure of popularity. How has the popularity of each genre changed over time? In other words, are the genres that were most popular in 1986 still the most popular today?
 
-- Question 1 from analysis
-- Question 2 from analysis 
+2. Consider the plot in Part 2. 
+    - Which genre(s) tend to have the highest budgets?
+    - In general, what is the relationship between a movie's budget and it's total revenue? Are there any genres where this relationship doesn't hold?
 
 ---
 
@@ -346,7 +349,7 @@ class: middle, center
 --
 
 - You are expected to attend lectures and labs. Excessive absences or tardiness can impact your final course grade.
-- Exact grade cut-offs will be determined at the end of the semester.
+- Exact grade cut-offs will be determined after Exam II.
 
 ---
 
@@ -367,6 +370,8 @@ class: middle, center
 - Homework assignments: 
     - Late but within 24 hours of deadline: 20% penalty
     - Not accepted if submitted any later 
+    
+- Late work will not be accepted for the final project
 
 - Regrade requests must be submitted within a week of when the assignment is returned using the link posted in the course syllabus
 
@@ -407,11 +412,11 @@ Any violations will automatically result in a grade of 0 on the assignment and w
 
 ## Technology 
 
-- Cell phones and other electronic devices should be turned off or put on silent during class. 
+- You should bring a laptop to every lecture and lab session.  Outlets are limited, so make sure it is fully-charged.
 
-- If you choose to use a laptop or tablet for note taking, please ensure that the volume is set to mute and the device is only used for class purposes. 
+- Ensure the volume on all devices is set to mute/vibrate.
 
-- In general, you should focus on the class discussion/activity at hand and refrain from engaging in other work or outside activities. 
+- Refrain from engaging in activities not related to the class dicussion / activity. Browsing the web/social media, excessive messaging, playing games, etc. is not a distraction for you but is also a distraction for everyone around you.
 
 ---
 
