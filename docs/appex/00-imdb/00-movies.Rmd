@@ -1,5 +1,5 @@
 ---
-title: "IMDB"
+title: "Movie Budgets and Revenues"
 author: "Maria Tackett"
 date: "01.09.19"
 output: html_document
