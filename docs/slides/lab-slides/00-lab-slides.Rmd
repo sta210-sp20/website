@@ -78,6 +78,8 @@ library(rvest)
 
 5. GitHub / RStudio Cloud
 
+6. Practice with R (optional)
+
 ---
 
 ## What to expect in lab
@@ -140,4 +142,10 @@ Do your best! Don't worry if you don't know the answers to the questions or are 
     - Join RStudio Cloud: [http://bit.ly/sta210-sp19-rstudio](http://bit.ly/sta210-sp19-rstudio)
 
 - If you were able to join RStudio Cloud and run the analysis, be sure to update your profile, so your name properly displays. Then you are free to leave.
+
+---
+
+## Practice with R (Optional)
+
+- Tutorials to practice with R
 
