@@ -76,7 +76,7 @@ library(rvest)
 
 5. GitHub / RStudio Cloud
 
-6. R Tutorials
+6. R tutorials (optional)
 
 ---
 
@@ -140,7 +140,7 @@ Do your best! Don't worry if you don't know the answers to the questions or are 
 
 ---
 
-## R Tutorials (Optional)
+## R tutorials (optional)
 
 In this course, we will do all computing using R `tidyverse` syntax. If you are new to R and/or the `tidyverse` syntax, you should complete the interactive tutorial to get exposed to R before Lab 01. *Note: The tutorial is optional and will not be graded.* 
 
