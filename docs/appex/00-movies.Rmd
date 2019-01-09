@@ -89,7 +89,7 @@ You have made your first data visualization!
 ## References
 
 1. [https://github.com/danielgrijalva/movie-stats](https://github.com/danielgrijalva/movie-stats)
-2. [Internet Movie Database](imdb.com)
+2. [Internet Movie Database](https://www.imdb.com/)
 
 ## Appendix
 
