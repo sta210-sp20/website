@@ -85,7 +85,7 @@ Announcements may also be sent to the class by email, so please check your email
 
 ### Make-up Policy
 
-Students who miss a class due to a scheduled varsity trip, religious holiday, or short-term illness should fill out an online [NOVAP](https://trinity.duke.edu/undergraduate/academic-policies/athletic-varsity-participation), [Religious Observance Notification](https://trinity.duke.edu/undergraduate/academic-policies/religious-holidays), or [STINF](http://trinity.duke.edu/undergraduate/academic-policies/illness), respectively. These excused absences do not excuse you from assigned homework. It will still be your responsibility to submit relevant assignments in accordance with the deadline.
+Students who miss a class due to a scheduled varsity trip, religious holiday, or short-term illness should fill out an online [NOVAP](https://trinity.duke.edu/undergraduate/academic-policies/athletic-varsity-participation), [Religious Observance Notification](https://trinity.duke.edu/undergraduate/academic-policies/religious-holidays), or [Incapacitation Form](https://trinity.duke.edu/undergraduate/academic-policies/illness), respectively. These excused absences do not excuse you from assigned homework. It will still be your responsibility to submit relevant assignments in accordance with the deadline.
 
 If you have a personal or family emergency or health condition that affects your ability to participate in class, you should contact your academic dean's office. More information about this procedure may be found on the [Personal Emergencies page](https://trinity.duke.edu/undergraduate/academic-policies/personal-emergencies) or provided by your academic dean.
 
