@@ -123,7 +123,7 @@ knitr::include_graphics("img/00/fbi-fingerprint.jpg")
 
 <i class="material-icons">mail_outline</i> &nbsp;[abbas.zaidi@duke.edu](mailto:abbas.zaidi@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
-<i class="material-icons">calendar_today</i>&nbsp; TBD
+<i class="material-icons">calendar_today</i>&nbsp; Mon 5p - 7p
 ]
 
 ---
