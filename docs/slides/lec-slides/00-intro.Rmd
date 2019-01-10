@@ -73,7 +73,7 @@ class: regular
 
 <i class="material-icons">mail_outline</i> &nbsp;[maria.tackett@duke.edu](mailto:maria.tackett@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 118B<br>
-<i class="material-icons">calendar_today</i>&nbsp; TBD
+<i class="material-icons">calendar_today</i>&nbsp; Tues 10:30a - 12p
 
 --
 
@@ -107,7 +107,7 @@ knitr::include_graphics("img/00/fbi-fingerprint.jpg")
 
 <i class="material-icons">mail_outline</i> &nbsp;[martha.pahren@duke.edu](mailto:martha.pahren@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
-<i class="material-icons">calendar_today</i>&nbsp; TBD
+<i class="material-icons">calendar_today</i>&nbsp; Wed 12:30p - 2:30p
 ]
 
 .pull-right[
