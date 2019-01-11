@@ -6,7 +6,7 @@ lessons:
     appex: "00-movies.html"
   - date: "Fri, Jan 11"
     title: "Lab 00: Logistics"
-  # slides: "lab-slides/00-lab-deck.html"
+    slides: "lab-slides/00-lab-slides.html"
   - date: "UNIT 1"
     title: "CONTINUOUS RESPONSE VARIABLES"
   - title: "Week 01"

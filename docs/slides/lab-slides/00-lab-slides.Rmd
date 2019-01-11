@@ -138,7 +138,7 @@ Do your best! Don't worry if you don't know the answers to the questions or are 
 
 ---
 
-## R tutorials (optional)
+## R tutorial (optional)
 
 In this course, we will do all computing using R `tidyverse` syntax. If you are new to R and/or the `tidyverse` syntax, you should complete the interactive tutorial to get some practice with R before next week's lab. *This tutorial will not be graded.*
 
