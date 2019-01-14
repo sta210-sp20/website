@@ -55,6 +55,14 @@ library(rvest)
 
 ---
 
+## Agenda
+
+- Motivate regression analysis 
+
+- RStudio & R Markdown
+
+---
+
 ## Packages and Data
 
 ```{r packages}
