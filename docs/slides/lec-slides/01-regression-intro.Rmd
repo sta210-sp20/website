@@ -51,9 +51,7 @@ library(rvest)
 
 ## Announcements 
 
-- Announcement 1
-
-- Announcement 2
+- Office hours start today. See course website for office hour times and locations.
 
 ---
 
