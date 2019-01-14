@@ -8,7 +8,7 @@ output:
     fig_width: 6
 ---
 
-In this mini analysis, we will work with the `Advertising` data used in Chapters 2 and 3 of [Introduction to Statistical Learning](https://www-bcf.usc.edu/~gareth/ISL/).
+In this mini analysis, we will work with the `Advertising` data used in Chapters 2 and 3 of *Introduction to Statistical Learning*.
 
 ## Data and packages
 
@@ -69,7 +69,7 @@ advertising %>%
   geom_smooth(method="lm",se=FALSE,color="blue") + 
   labs(title = "Sales vs. TV Advertising", 
        x= "TV Advertising (in $thousands)", 
-       y="_____")
+       y="_____") #fill in the Y axis label
 ```
 
 ```{r}
