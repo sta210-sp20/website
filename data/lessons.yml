@@ -13,6 +13,7 @@ lessons:
   - date: "Mon, Jan 14"
     title: "Motivating regression analysis"
     slides: "lec-slides/01-regression-intro.html"
+    appex: "01-advertising.html"
   - date: "Wed, Jan 16"
     title: "Simple Linear Regression (SLR)"
     reading: "reading-01.html"
