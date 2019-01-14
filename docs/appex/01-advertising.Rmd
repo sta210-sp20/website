@@ -1,6 +1,6 @@
 ---
-title: "Advertising"
-author: "Dr. Maria Tackett"
+title: "Sales vs. Advertising"
+author: "Maria Tackett"
 date: "01.14.19"
 output: 
   html_document: 
