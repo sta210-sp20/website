@@ -258,7 +258,7 @@ In general, we will use the following steps to estimate $f$
 
 1. Choose the functional form of $f$, i.e. <font class="vocab">choose the appropriate model given the data</font>
     - Ex: $f$ is a linear model
-    $$f(\mathbf{X}) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$$
+    $$f(\mathbf{X}) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p + \epsilon$$
 
 --
 
