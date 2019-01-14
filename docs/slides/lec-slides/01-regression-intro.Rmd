@@ -313,7 +313,7 @@ $$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$
     - <font class="vocab">Reducible error:</font> error that can potentially be reduced by using a model , $\hat{f}$, that is a more appropriate fit for the data
 
 --
-    - <font class="vocab">Irreducible error: </font> Error that cannot be reduces even if the model, $\hat{f}$, is a perfect fit. In other words, this is variability associated with $\epsilon$
+    - <font class="vocab">Irreducible error: </font> Error that cannot be reduced even if the model, $\hat{f}$, is a perfect fit. In other words, this is variability associated with $\epsilon$
 
 ---
 
@@ -339,7 +339,7 @@ $$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$
 --
     - What is the relationship between sales and each predictor? 
 --
-    - Does the linear model adequately describe the relationship between `sales` and `tv`, `newspaper`, and `radio`? Or is a more complex model required?
+    - Does the linear model adequately describe the relationship between `sales` and `tv`, `newspaper`, and `radio`, or is a more complex model required?
 
 ---
 
