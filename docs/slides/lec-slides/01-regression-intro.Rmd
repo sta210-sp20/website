@@ -53,6 +53,9 @@ library(rvest)
 
 - Office hours start today. See course website for office hour times and locations.
 
+- DVS Intro to R Workshop - Jan 22 at 2p
+     - [https://duke.libcal.com/event/4799048](https://duke.libcal.com/event/4799048)
+
 ---
 
 ## Agenda
