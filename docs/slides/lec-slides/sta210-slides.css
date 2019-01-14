@@ -187,3 +187,8 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
   display: inline-block; 
   margin-left: -1.5em
 }
+
+.remark-slide-number {
+  font-size: 12pt;
+}
+
