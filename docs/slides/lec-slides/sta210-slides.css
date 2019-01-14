@@ -126,6 +126,10 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
     background-image: url("img/sta210-sticker-icon.png");
 }
 
+.remark-slide-number {
+  font-size: 12pt;
+}
+
 .element.style {
     position: absolute;
     left: 0px;
@@ -153,16 +157,16 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 }
 
 .question {
-  border-left: solid 5px #1E5C65;
-  background-color: #1E5C6530;
+  border-left: solid 5px #f6e1fa;
+  background-color: #f6e1fa;
   padding: 10px 16px;
   margin-top: 12px;
   margin-bottom: 12px;
   font-size: 90%;
-  color: #1E5C65;
+  /*color: #1E5C65;*/
 }
 .alert {
-  border-right: solid 5px #A7D5E8;
+  border-right: solid 5px #A7D5E830;
   background-color: #A7D5E830;
   padding: 1px 16px;
   margin-top: 12px;

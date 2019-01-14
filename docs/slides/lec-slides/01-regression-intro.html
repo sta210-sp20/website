@@ -1,53 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Motivating Regression Analysis</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Dr. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Motivating Regression Analysis
+### Dr. Maria Tackett
+### 01.14.19
+
 ---
-title: "Motivating Regression Analysis"
-author: "Dr. Maria Tackett"
-date: "01.14.19"
-output:
-  xaringan::moon_reader:
-    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
-    css: "sta210-slides.css"
-    logo: img/sta210-sticker-icon.png
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
----
 
-```{r setup, include=FALSE}
-# R options
-options(
-  htmltools.dir.version = FALSE, # for blogdown
-  show.signif.stars = FALSE,     # for regression output
-  warm = 1
-  )
-# Set dpi and height for images
-library(knitr)
-opts_chunk$set(fig.height = 2.65, dpi = 300) 
-# ggplot2 color palette with gray
-color_palette <- list(gray = "#999999", 
-                      salmon = "#E69F00", 
-                      lightblue = "#56B4E9", 
-                      green = "#009E73", 
-                      yellow = "#F0E442", 
-                      darkblue = "#0072B2", 
-                      red = "#D55E00", 
-                      purple = "#CC79A7")
 
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(
-	fig.align = "center",
-	fig.height = 3.5,
-	fig.width = 5.8333,
-	message = FALSE,
-	warning = FALSE
-)
-```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(tidyverse)
-library(rvest)
-```
+
+
 
 ## Announcements 
 
@@ -59,14 +31,16 @@ library(rvest)
 
 ## Packages and Data
 
-```{r packages}
+
+```r
 library(tidyverse)
 library(readr) #read_csv() function
 library(cowplot) #plot_grid() function
 ```
 
-```{r data}
-advertising <- read_csv("data/advertising.csv")
+
+```r
+advertising &lt;- read_csv("data/advertising.csv")
 ```
 
 ---
@@ -83,17 +57,27 @@ advertising <- read_csv("data/advertising.csv")
 
 ## Advertising vs. Sales
 
-```{r glimpse}
+
+```r
 glimpse(advertising)
+```
+
+```
+## Observations: 200
+## Variables: 4
+## $ tv        &lt;dbl&gt; 230.1, 44.5, 17.2, 151.5, 180.8, 8.7, 57.5, 120.2, 8.6…
+## $ radio     &lt;dbl&gt; 37.8, 39.3, 45.9, 41.3, 10.8, 48.9, 32.8, 19.6, 2.1, 2…
+## $ newspaper &lt;dbl&gt; 69.2, 45.1, 69.3, 58.5, 58.4, 75.0, 23.5, 11.6, 1.0, 2…
+## $ sales     &lt;dbl&gt; 22.1, 10.4, 9.3, 18.5, 12.9, 7.2, 11.8, 13.2, 4.8, 10.…
 ```
 
 --
 
-- <font class="vocab">Observations:</font> 200 markets
+- &lt;font class="vocab"&gt;Observations:&lt;/font&gt; 200 markets
 
 --
 
-- <font class="vocab">Variables:</font> 
+- &lt;font class="vocab"&gt;Variables:&lt;/font&gt; 
     - `tv`: Spending on TV ads (in $thousands)
     - `radio`: Spending on radio ads (in $thousands)
     - `newspaper`: Spending on newspaper ads (in $thousands)
@@ -103,13 +87,13 @@ glimpse(advertising)
 
 ## Terminology
 
-- `sales` is the <font class="vocab">response variable</font>
+- `sales` is the &lt;font class="vocab"&gt;response variable&lt;/font&gt;
     - variable whose variation we want to understand / variable we wish to predict
     - also known as *outcome* or *dependent* variable
 
 --
 
-- `tv`, `radio`, `newspaper` are the <font class="vocab">predictor variables</font>
+- `tv`, `radio`, `newspaper` are the &lt;font class="vocab"&gt;predictor variables&lt;/font&gt;
     - variables used to account for variation in the outcome
     - also known as *explanatory*, *independent*, or *input* variables
 
@@ -117,18 +101,19 @@ glimpse(advertising)
 
 ## Advertising vs. Sales
 
-```{r plot-data, eval=F}
-p1 <- advertising %>% 
+
+```r
+p1 &lt;- advertising %&gt;% 
   ggplot(mapping=aes(x=tv,y=sales)) + 
   geom_point(alpha=0.5) + 
   geom_smooth(method="lm", color="blue",se=FALSE) 
 
-p2 <- advertising %>% 
+p2 &lt;- advertising %&gt;% 
   ggplot(mapping=aes(x=radio,y=sales)) + 
   geom_point(alpha=0.5) + 
   geom_smooth(method="lm", color="red", se=FALSE) 
 
-p3 <- advertising %>% 
+p3 &lt;- advertising %&gt;% 
   ggplot(mapping=aes(x=newspaper,y=sales)) + 
   geom_point(alpha=0.5) + 
   geom_smooth(method="lm", color="purple", se=FALSE) 
@@ -140,24 +125,7 @@ plot_grid(p1,p2,p3,ncol=3)
 
 ## Plot Data
 
-```{r show-plot-1,echo=F}
-p1 <- advertising %>% 
-  ggplot(mapping=aes(x=tv,y=sales)) + 
-  geom_point(alpha=0.5) + 
-  geom_smooth(method="lm", color="blue",se=FALSE) 
-
-p2 <- advertising %>% 
-  ggplot(mapping=aes(x=radio,y=sales)) + 
-  geom_point(alpha=0.5) + 
-  geom_smooth(method="lm", color="red", se=FALSE) 
-
-p3 <- advertising %>% 
-  ggplot(mapping=aes(x=newspaper,y=sales)) + 
-  geom_point(alpha=0.5) + 
-  geom_smooth(method="lm", color="purple", se=FALSE) 
-
-plot_grid(p1,p2,p3,ncol=3)
-```
+&lt;img src="01-regression-intro_files/figure-html/show-plot-1-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -167,27 +135,10 @@ Each line represents model we could use to predict `sales` using `tv`, `radio`, 
 
 ## Plot Data
 
-```{r show-plot-2,echo=F}
-p1 <- advertising %>% 
-  ggplot(mapping=aes(x=tv,y=sales)) + 
-  geom_point(alpha=0.5) + 
-  geom_smooth(method="lm", color="blue",se=FALSE) 
-
-p2 <- advertising %>% 
-  ggplot(mapping=aes(x=radio,y=sales)) + 
-  geom_point(alpha=0.5) + 
-  geom_smooth(method="lm", color="red", se=FALSE) 
-
-p3 <- advertising %>% 
-  ggplot(mapping=aes(x=newspaper,y=sales)) + 
-  geom_point(alpha=0.5) + 
-  geom_smooth(method="lm", color="purple", se=FALSE) 
-
-plot_grid(p1,p2,p3,ncol=3)
-```
+&lt;img src="01-regression-intro_files/figure-html/show-plot-2-1.png" style="display: block; margin: auto;" /&gt;
 
 .alert[
-$$\text{sales} = f(\text{tv}, \text{radio}, \text{newspaper}) + \epsilon$$
+`$$\text{sales} = f(\text{tv}, \text{radio}, \text{newspaper}) + \epsilon$$`
 ]
 
 ---
@@ -195,75 +146,75 @@ $$\text{sales} = f(\text{tv}, \text{radio}, \text{newspaper}) + \epsilon$$
 ## Model 
 
 .alert[
-$$\text{sales} = f(\text{tv}, \text{radio}, \text{newspaper}) + \epsilon$$
+`$$\text{sales} = f(\text{tv}, \text{radio}, \text{newspaper}) + \epsilon$$`
 ]
 
-- **Goal**: Estimate $f$
+- **Goal**: Estimate `\(f\)`
 
 --
 
-- How do we estimate $f$?
+- How do we estimate `\(f\)`?
 
 --
 
-    - <font class="vocab">Non-parametric methods:</font> estimate $f$ by getting as close to the data points as possible without making explicit assumptions about the functional form of $f$
+    - &lt;font class="vocab"&gt;Non-parametric methods:&lt;/font&gt; estimate `\(f\)` by getting as close to the data points as possible without making explicit assumptions about the functional form of `\(f\)`
     
 --
 
-    - <font class="vocab">Parametric methods:</font> estimate $f$ by making an assumption about the functional form of $f$ then using the data to fit a model based on that form 
+    - &lt;font class="vocab"&gt;Parametric methods:&lt;/font&gt; estimate `\(f\)` by making an assumption about the functional form of `\(f\)` then using the data to fit a model based on that form 
     
 ---
 
 class: middle, center
 
 .alert[
-In this class, we will focus on <font class="vocab">parametric methods</font>
+In this class, we will focus on &lt;font class="vocab"&gt;parametric methods&lt;/font&gt;
 ]
 
-<small>
-*Non-parametric methods covered in STA 325: Machine Learning & Data Mining*
-</small>
+&lt;small&gt;
+*Non-parametric methods covered in STA 325: Machine Learning &amp; Data Mining*
+&lt;/small&gt;
 
 ---
 
 ## General form of model
 
 .alert[
-$$Y = f(\mathbf{X}) + \epsilon$$
+`$$Y = f(\mathbf{X}) + \epsilon$$`
 ]
 
-- $Y$: quantitative response variable
+- `\(Y\)`: quantitative response variable
 
-- $\mathbf{X} = (X_1, X_2, \ldots, X_p)$: predictor variables
+- `\(\mathbf{X} = (X_1, X_2, \ldots, X_p)\)`: predictor variables
 
-- $f$: fixed but unknown function
-    - systematic information $\mathbf{X}$ provides about $Y$
+- `\(f\)`: fixed but unknown function
+    - systematic information `\(\mathbf{X}\)` provides about `\(Y\)`
 
-- $\epsilon$: random error term with mean 0 that is independent of $\mathbf{X}$ 
+- `\(\epsilon\)`: random error term with mean 0 that is independent of `\(\mathbf{X}\)` 
    
 ---
 
-## How to estimate $f$?
+## How to estimate `\(f\)`?
 
-In general, we will use the following steps to estimate $f$
+In general, we will use the following steps to estimate `\(f\)`
 
-1. Choose the functional form of $f$, i.e. <font class="vocab">choose the appropriate model given the data</font>
-    - Ex: $f$ is a linear model
-    $$f(\mathbf{X}) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$$
+1. Choose the functional form of `\(f\)`, i.e. &lt;font class="vocab"&gt;choose the appropriate model given the data&lt;/font&gt;
+    - Ex: `\(f\)` is a linear model
+    `$$f(\mathbf{X}) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$$`
 
 --
 
-2. Use the data to fit (or train) the model, i.e. <font class="vocab">estimate the model parameters</font>
-    - Ex: Use a method to estimate the model parameters $\beta_0, \beta_1, \ldots, \beta_p$
+2. Use the data to fit (or train) the model, i.e. &lt;font class="vocab"&gt;estimate the model parameters&lt;/font&gt;
+    - Ex: Use a method to estimate the model parameters `\(\beta_0, \beta_1, \ldots, \beta_p\)`
 
 ---
 
-## Why estimate $f$?
+## Why estimate `\(f\)`?
 
 Suppose we have the model
 
-$$\text{sales} = \beta_0 + \beta_1 \times \text{tv} + \beta_2 \times \text{radio} + \beta_3 \times \text{newspaper} + \epsilon$$
-<br><br><br>
+`$$\text{sales} = \beta_0 + \beta_1 \times \text{tv} + \beta_2 \times \text{radio} + \beta_3 \times \text{newspaper} + \epsilon$$`
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
 
 --
 
@@ -273,18 +224,18 @@ What are 1-2 questions you could answer using this model?
 
 ---
 
-## Why estimate $f$?
+## Why estimate `\(f\)`?
 
 There are two types of questions we may be interesting in answering with our model: 
 
-- <font class="vocab">Prediction: </font> What is the expected $Y$  given particular values of  $X_1, X_2, \ldots, X_p$? 
+- &lt;font class="vocab"&gt;Prediction: &lt;/font&gt; What is the expected `\(Y\)`  given particular values of  `\(X_1, X_2, \ldots, X_p\)`? 
 --
 
     - Ex: What is the expected `sales` in a market if the company spends $100,000 TV ads, $30,000 on radio ads, and $10,000 on newspaper ads?
 
 --
 
-- <font class="vocab">Inference: </font> What is the relationship between $\mathbf{X}$ and $Y$. How does $Y$ change as a function of $\mathbf{X}$?
+- &lt;font class="vocab"&gt;Inference: &lt;/font&gt; What is the relationship between `\(\mathbf{X}\)` and `\(Y\)`. How does `\(Y\)` change as a function of `\(\mathbf{X}\)`?
 --
 
     - Ex: Which type of media advertising generates the boost in sales?
@@ -294,17 +245,17 @@ There are two types of questions we may be interesting in answering with our mod
 
 ## Prediction 
 
-$$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$
+`$$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$`
 
-- **Question**: How accurate is $\hat{\text{sales}}$ as a prediction of $\text{sales}$?
+- **Question**: How accurate is `\(\hat{\text{sales}}\)` as a prediction of `\(\text{sales}\)`?
 
 - This depends on two quantities: reducible and irreducible error
 
 --
-    - <font class="vocab">Reducible error:</font> error that can potentially be reduced by using a model , $\hat{f}$, that is a more appropriate fit for the data
+    - &lt;font class="vocab"&gt;Reducible error:&lt;/font&gt; error that can potentially be reduced by using a model , `\(\hat{f}\)`, that is a more appropriate fit for the data
 
 --
-    - <font class="vocab">Irreducible error: </font> Error that cannot be reduces even if the model, $\hat{f}$, is a perfect fit. In other words, this is variability associated with $\epsilon$
+    - &lt;font class="vocab"&gt;Irreducible error: &lt;/font&gt; Error that cannot be reduces even if the model, `\(\hat{f}\)`, is a perfect fit. In other words, this is variability associated with `\(\epsilon\)`
 
 ---
 
@@ -318,7 +269,7 @@ In the case of the `advertising` data, what types of factors are included in the
 
 ## Inference
 
-$$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$
+`$$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$`
 
 - **Question**: How is `sales` affected as `tv`, `radio`, and `newspaper` change?
 --
@@ -339,7 +290,7 @@ $$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$
 - **Unit 1: Quantitative Response Variables**
     - Simple Linear Regression 
     - Multiple Linear Regression
-<br><br>
+&lt;br&gt;&lt;br&gt;
 --
 
 - **Unit 2: Categorical Response Variable**
@@ -353,7 +304,7 @@ $$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$
 - **Unit 3: Modeling in Practice**
     - Model Validation
     - Dealing with messy data
-<br><br>
+&lt;br&gt;&lt;br&gt;
 --
 
 - **Unit 4: Looking Ahead**
@@ -364,7 +315,7 @@ $$\hat{\text{sales}} = \hat{f}(\text{tv},\text{radio}, \text{newspaper})$$
 
 ## Recap 
 
-- We want to find the function that best fits the relationship between a response variable $Y$ and some predictor variables $X_1, \ldots, X_p$
+- We want to find the function that best fits the relationship between a response variable `\(Y\)` and some predictor variables `\(X_1, \ldots, X_p\)`
 
 - We will use **parametric** methods to find the function 
     - Choose the appropriate model
@@ -407,14 +358,12 @@ What does it mean for a data analysis to be "reproducible"?
 
 ## Toolkit
 
-```{r fig.align="center",out.width="70%",echo=FALSE}
-knitr::include_graphics("img/01/toolkit.png")
-```
+&lt;img src="img/01/toolkit.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 
-- Scriptability $\rightarrow$ R
-- Literate programming (code, narrative, output in one place) $\rightarrow$ R Markdown
-- Version control $\rightarrow$ Git / GitHub
+- Scriptability `\(\rightarrow\)` R
+- Literate programming (code, narrative, output in one place) `\(\rightarrow\)` R Markdown
+- Version control `\(\rightarrow\)` Git / GitHub
 
 ---
 
@@ -428,13 +377,11 @@ class: center, middle
 
 - R is a statistical programming language
 - RStudio is a convenient interface for R (an integrated development environment, IDE)
-- At its simplest:<sup>*</sup>
+- At its simplest:&lt;sup&gt;*&lt;/sup&gt;
     - R is like a car’s engine
     - RStudio is like a car’s dashboard
 
-```{r fig.align="center",out.width="70%",echo=FALSE}
-knitr::include_graphics("img/01/engine-dashboard.png")
-```
+&lt;img src="img/01/engine-dashboard.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 .footnote[
 *Source: [Modern Dive](https://moderndive.com/)
@@ -463,7 +410,8 @@ Concepts introduced:
 
 - **Functions** are (most often) verbs, followed by what they will be applied to in parentheses:
 
-```{r eval=FALSE}
+
+```r
 do_this(to_this)
 do_that(to_this, to_that, with_those)
 ```
@@ -472,7 +420,8 @@ do_that(to_this, to_that, with_those)
 
 - **Columns** (variables) in data frames are accessed with `$`:
 
-```{r eval=FALSE}
+
+```r
 dataframe$var_name
 ```
 
@@ -480,7 +429,8 @@ dataframe$var_name
 
 - **Packages** are installed with the `install.packages` function and loaded with the `library` function, once per session:
 
-```{r eval=FALSE}
+
+```r
 install.packages("package_name")
 library(package_name)
 ```
@@ -542,12 +492,12 @@ Concepts introduced:
 **Resources**
 - [R Markdown cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
 - Markdown Quick Reference: 
-    - `Help -> Markdown Quick Reference`
-<br><br>
+    - `Help -&gt; Markdown Quick Reference`
+&lt;br&gt;&lt;br&gt;
 --
 
 
-**Remember**: The workspace of the R Markdown document is <u>separate</u> from the console
+**Remember**: The workspace of the R Markdown document is &lt;u&gt;separate&lt;/u&gt; from the console
 
 ---
 
@@ -555,8 +505,9 @@ Concepts introduced:
 
 - Run the following in the console
 
-```{r eval = FALSE}
-x <- 2
+
+```r
+x &lt;- 2
 x * 3
 ```
 
@@ -564,7 +515,8 @@ x * 3
 
 - Then, add the following chunk in your R Markdown document and knit
 
-```{r eval = FALSE}
+
+```r
 x * 3
 ```
 
@@ -591,9 +543,9 @@ What happens? Why the error?
 Can you answer these questions? 
 
 **Motivating Regression Analysis**
-- Given $Y = f(\mathbf{X}) + \epsilon$
-    - What are the two basic steps for estimating $f$? 
-    - What are two possible reasons for estimating $f$?
+- Given `\(Y = f(\mathbf{X}) + \epsilon\)`
+    - What are the two basic steps for estimating `\(f\)`? 
+    - What are two possible reasons for estimating `\(f\)`?
 
 **Computing**    
 - What is a reproducible data analysis, and why is it important?
@@ -611,4 +563,51 @@ Can you answer these questions?
 - If you have not already done so, 
     - complete "Getting to know you" survey on Sakai 
     - complete Pretest
-    
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
