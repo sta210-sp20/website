@@ -17,7 +17,7 @@ lessons:
   - date: "Wed, Jan 16"
     title: "Simple Linear Regression (SLR)"
     reading: "reading-01.html"
-   # slides: "lec-slides/01-meet-toolkit.html"
+    slides: "lec-slides/02-slr.html"
   - date: "Fri, Jan 18"
     title: "Lab 01: Intro to R"
    # slides: "lab-slides/01-lab-deck.html"
