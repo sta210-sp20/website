@@ -81,16 +81,32 @@ movie_scores <- fandango %>%
 
 ---
 
-## Rottentomates.com
+## rottentomatoes.com
 
-- Can ratings from movie critics be used to predict the ratings from movie goers?
+Can ratings from movie critics be used to predict the ratings from movie goers?
+
+--
+
+```{r, echo=FALSE,out.width = '70%',fig.align='center'}
+knitr::include_graphics("img/02/movie-rating-2.png")
+```
+
+--
+
+```{r, echo=FALSE,out.width = '70%',fig.align='center'}
+knitr::include_graphics("img/02/movie-rating-1.png")
+```
+
+---
+
+## Critic vs. Audience Ratings
 
 - To answer this question, we will analyze the critic and audience scores from rottentomatoes.com.  
     - The data was first used in the article [Be Suspicious of Online Movie Ratings, Especially Fandango's](https://fivethirtyeight.com/features/fandango-movies-ratings/).
 
 - Variables: 
-    - `tomatometer`: The Rotten Tomatoes Tomatometer score for the film (0 - 100)
-    - `audience`: The Rotten Tomatoes user score for the film (0 - 100)
+    - `tomatometer`: Rotten Tomatoes Tomatometer score for the film (0 - 100)
+    - `audience`: Rotten Tomatoes user score for the film (0 - 100)
 
 ---
 
@@ -530,7 +546,7 @@ $$\text{RSS} = \sum\limits_{i=1}^{n}[y_i - (\hat{\beta}_0 + \hat{\beta}_1x_i)]^2
 
 ---
 
-## Rotten Tomates Data
+## Rotten Tomatoes Data
 
 ```{r}
 rsquare(model,movie_scores)

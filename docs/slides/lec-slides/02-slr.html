@@ -58,16 +58,28 @@ movie_scores &lt;- fandango %&gt;%
 
 ---
 
-## Rottentomates.com
+## rottentomatoes.com
 
-- Can ratings from movie critics be used to predict the ratings from movie goers?
+Can ratings from movie critics be used to predict the ratings from movie goers?
+
+--
+
+&lt;img src="img/02/movie-rating-2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+--
+
+&lt;img src="img/02/movie-rating-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Critic vs. Audience Ratings
 
 - To answer this question, we will analyze the critic and audience scores from rottentomatoes.com.  
     - The data was first used in the article [Be Suspicious of Online Movie Ratings, Especially Fandango's](https://fivethirtyeight.com/features/fandango-movies-ratings/).
 
 - Variables: 
-    - `tomatometer`: The Rotten Tomatoes Tomatometer score for the film (0 - 100)
-    - `audience`: The Rotten Tomatoes user score for the film (0 - 100)
+    - `tomatometer`: Rotten Tomatoes Tomatometer score for the film (0 - 100)
+    - `audience`: Rotten Tomatoes user score for the film (0 - 100)
 
 ---
 
@@ -117,7 +129,7 @@ ggplot(data=movie_scores,mapping=aes(x=tomatometer,y=audience)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 .small[
@@ -130,7 +142,7 @@ ggplot(data=movie_scores,mapping=aes(x=tomatometer,y=audience)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -200,7 +212,7 @@ ggplot(data=movie_scores,mapping=aes(x=tomatometer,y=audience)) +
 
 ## Residuals
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
 The .vocab[residual] is the difference between the observed and predicted response.
 
@@ -367,7 +379,7 @@ ggplot(data=movie_scores,mapping=aes(x=tomatometer, y=residuals)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -396,7 +408,7 @@ ggplot(data=movie_scores,mapping=aes(x=residuals)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -409,7 +421,7 @@ ggplot(data=movie_scores,mapping=aes(sample=residuals)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -454,7 +466,7 @@ ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=birthrate)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 &lt;/small&gt;
 ---
 
@@ -488,21 +500,21 @@ pew_data &lt;- pew_data %&gt;%
   mutate(residuals = resid(pew_model))
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
 &lt;/small&gt;
 
 ---
 
 ### Residuals: Cluster Effect 
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 class: regular 
 
 ### Residuals: Serial Effect
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -537,7 +549,7 @@ We can use the coefficient of determination, `\(R^2\)`, to measure how well the 
 
 ---
 
-## Rotten Tomates Data
+## Rotten Tomatoes Data
 
 
 ```r
