@@ -110,7 +110,7 @@ knitr::include_graphics("img/02/movie-rating-1.png")
 
 ---
 
-## Glimpse Data 
+## `glimpse` of the data
 
 ```{r}
 glimpse(movie_scores)
@@ -164,11 +164,11 @@ $$Y = \beta_0 + \beta_1 X + \epsilon$$
 
 --
 
-- We'll estimate estimate the slope and intercept of this linear function using *least-squares regrssion*
+- We'll estimate the slope and intercept of this linear function using *least-squares regrssion*
 
 --
 
-- We'll use statistics inference to determine if the relationship we observe in the data is significant or if it's due to random chance (we'll discuss this next class)
+- We'll use statistical inference to determine if the relationship we observe in the data is significant or if it's due to random chance (we'll discuss this next class)
 
 ---
 
@@ -303,7 +303,6 @@ class: regular
     - **Response**: attendance at the next baseball game
 <br><br>
 
--- 
 
 - Example 2:
     - **Explanatory**: height of a person
@@ -457,7 +456,7 @@ ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=birthrate)) +
 </small>
 ---
 
-## Birthraate vs. Per Capita Income
+## Birthrate vs. Per Capita Income
 
 ```{r}
 pew_model <- lm(birthrate ~ percapitaincome,data=pew_data)
