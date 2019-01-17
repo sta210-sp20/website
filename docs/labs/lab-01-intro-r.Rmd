@@ -1,0 +1,280 @@
+---
+title: "Lab 01: Introduction to R"
+date: "due Wed, Jan 23 at 11:59p"
+output: 
+  tufte::tufte_html:
+    css: "./lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE)
+```
+
+# Introduction
+
+```{marginfigure}
+R is the name of the programming language itself and RStudio is a convenient interface.
+```
+
+The main goal of this lab is to introduce you to R and RStudio, which we will be using throughout the course both to learn the statistical concepts discussed in the course and to analyze real data and come to informed conclusions.
+
+```{marginfigure}
+git is a version control system (like "Track Changes" features from Microsoft Word but more powerful) and GitHub is the home for your Git-based projects on the internet (like DropBox but much better).
+```
+
+An additional goal is to introduce you to git and GitHub, which is the collaboration and version control system that we will be using throughout the course.
+
+As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer and statistician. If you're new to R, you should begin by building some basic fluency in R. Today's lab will focus on fundamental building blocks of R and RStudio: the interface, reading in data, and basic commands. Starting next week, the labs will focus on concepts specific to regression analysis. 
+
+To make versioning simpler, today's lab is individual. This will give you a chance to become more familiar with git and GitHub. Next week you’ll learn about collaborating on GitHub and will produce a single lab report for your team.
+
+## Topics covered in this lab:
+
+- Exploratory Data Analysis (data visualizations and numerical summaries)
+- Simple linear regression
+- Writing a lab report using R Markdown
+- Tracking changes and submitting work using git and GitHub
+
+# Getting Started
+
+Each of your assignments will begin with the following steps. You saw these once in class, and they're outlined in detail here again. Going forward each lab will start with a "Getting started" section but details will be a bit more sparse than this. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
+
+## Clone Assignment Repo
+
+- Go to the STA210-Sp19 organization on GitHub ([https://github.com/STA210-Sp19](https://github.com/STA210-Sp19)). Click on the repo with the prefix **lab-01-intro-r**. It contains the starter documents you need to complete the lab.
+
+```{r clone-repo-link, fig.margin = TRUE, echo = FALSE, fig.width=3}
+knitr::include_graphics("img/01-hello-r/clone-repo-link.png")
+```
+
+- Click on the green **Clone or download** button, select **Use HTTPS** (this might already be selected by default, and if it is, you'll see the text **Clone with HTTPS** as in the image below). Click on the clipboard icon to copy the repo URL.
+
+```{r new-project-from-gh, fig.margin = TRUE, echo = FALSE, fig.width=3}
+knitr::include_graphics("img/01-hello-r/new-project-from-gh.png")
+```
+
+- Go to RStudio Cloud and into the STA 210 course workspace. Create a **New Project from Git Repo**. You will need to click on the down arrow next to the **New Project** button to see this option.
+
+```{r paste-gh-repo-url, fig.margin = TRUE, echo = FALSE, fig.width=5}
+knitr::include_graphics("img/01-hello-r/paste-gh-repo-url.png")
+```
+
+- Copy and paste the URL of your assignment repo into the dialog box.  Be sure "Add packages from the base project" is checked. 
+
+- Click OK, and you should see the contents from your GitHub repo in the Files pane in RStudio. 
+
+## Configure git
+
+```{marginfigure}
+Your email address is the address tied to your GitHub account and your name should be first and last name.
+```
+
+There is one more piece of housekeeping we need to take care of before we get started. Specifically,  we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your email address and your name.
+
+To do so, you will use the `use_git_config()` function from the `usethis` package. 
+
+Type the following lines of code in the **Console** in RStudio filling in your name and email address.
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="your name", user.email="your email")
+```
+
+For example, mine would be 
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="Maria Tackett", user.email="maria.tackett@duke.edu")
+```
+
+If you get the error message
+
+```{r eval=FALSE}
+Error in library(usethis) : there is no package called ‘usethis’
+```
+
+then you need to install the `usethis` package. Run the following code in the console to install the package.
+
+```{r eval=FALSE}
+install.package("usethis")
+```
+
+Once you run the code, your values for `user.name` and `user.email` will show in the console. If your `user.name` and `user.email` are correct, you're good to go! Otherwise, run the code again with the necessary changes.
+
+## Packages
+
+We will use the following packages in today's lab. 
+
+```{r load-packages}
+library(tidyverse)
+library(readr)
+library(skimr)
+```
+
+If you need to install any of the packages, you can run the code below in the **console**.
+```{r,eval=F}
+install.packages("tidyverse") 
+install.packages("readr")
+install.packages("skimr")
+```
+
+## Data 
+
+We will be analyzing data from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. Check out the Capital Bikeshare website for more details. This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012.
+
+```{r read-data, eval=FALSE}
+bikeshare <- read_csv("data/bikeshare.csv")
+```
+
+
+## Questions
+
+Before doing any analysis, we want to understand the basic structure of the data. One way to do this, is to look at the actual dataset. You can type the code shown below in the console to view the entire data set. 
+```{r eval=FALSE}
+View(bikeshare)
+```
+
+1. Often we want a summary of the data's structure rather than a view of the entire dataset. This is especially true for datasets with a large number of observations and/or variables. In these instances, it would be preferable to get a summary of the basic structure of the data set.
+
+We can use the `glimpse` function to get a general idea about the structure of our data set. This function is especially useful to ensure that the data set contains the number of observations and variables we expect. We can also use this function to make sure each variable is stored as the correct data type. 
+
+Use the `glimpse()` function to get an overview of the `bikeshare` dataset.(*Note: You can  type `??glimpse` in the console to learn more about the function and its syntax.*)
+
+How many observations are in the `bikeshare` dataset? How many variables (columns)?
+
+2. In this lab, we will focus the analysis on the following variables: 
+    - `season`: 1: Winter, 2: Spring, 3: Summer, 4: Fall
+    - `temp`: Temperature / 41 (in degrees Celsius)
+    - `cnt`: number of total bike rentals by causal and registered users
+
+We can use the `skim()` function to calculate summary statistics for each of the variables of interest. 
+
+```{r eval=FALSE}
+bikeshare %>%
+  select(season,temp,cnt) %>%
+  skim()
+```
+
+What is the mean number of bike rentals? What is the median? 
+
+3. Does it make sense to calculate the summary statistics from Question 2 for the variable `season`? If so, explain why it makes sense. If not, explain why R calculated these summary statistics for this variable anyway. 
+
+## Visualizing Your Data
+
+4. We can visualize the data to understand the univariate distributions (one variable at a time) and bivariate distributions. To make plots of the data, we will use the `ggplot2` package. 
+
+The code below is used to create a histogram of `cnt` for all observations in the data set. Modify the code by including a title and label for the *x* axis.
+
+```{r eval=FALSE}
+ggplot(data=bikeshare, mapping=aes(x=cnt)) + 
+  geom_histogram() +
+  labs(title="______", x="______")
+```
+
+Use the summary statistics and histogram to describe the distribution of `cnt`. Your description, include comments about the center and the spread. 
+
+5. We want to customize the plot by changing the color to the bars. First, using a color of your choice, include the option `color="_____"` inside of `geom_histogram()` function. Your code will look similar this. Be sure that you include axis labels and a title for your graph. 
+
+```{r eval=FALSE}
+ggplot(data=bikeshare, mapping=aes(x=cnt)) + 
+  geom_histogram(color="_____") 
+```
+
+Next, instead of `color="_____"`, include the option `fill="______"` inside of the `geom_histogram()` function. You will fill in the blank with a color of your choice.
+
+Describe the differences in the way color was implemented in each the plots of histograms.
+
+You can add both options in the geom_histogram()` to further customize the plot.
+
+
+6. We are interested in visualizing the relationship between the season and the number of daily bike rentals. One way to do this is to add colors to indicate the season to our histogram. Recall from previous exercise that `season` is currently stored in the dataset as an integer. We want R to treat season as a categorical variable, so we will convert it to a factor variable type. 
+
+```{r eval=FALSE}
+bikeshare <- bikeshare %>%
+  mutate(season = as.factor(season))
+```
+
+Now, we look at the histogram to change the color of the bars by season. Similar to before, add an informative title and x-axis label to the plot. 
+
+```{r eval=FALSE}
+ggplot(data=bikeshare, mapping=aes(x=cnt,fill=season)) + 
+  geom_histogram() +
+  labs(title="______", x="_______")
+```
+
+
+7. The site [https://ggplot2.tidyverse.org/](https://ggplot2.tidyverse.org/) is a great resource as you learn `ggplot()`. Click **Reference** in the top right corner. Layer:geoms lists a lot of different plot options available in `ggplot2`. Use one of the plots in the list (and maybe some aesthetic options like color(!)) to display the relationship between number of daily bike rentals and the season .
+
+**ADD A MUTATE FUNCTION TO TRANSFORM TEMP!**
+
+8. Sometimes we wish to create separate plots for each group. When we create separate plots for each group, the plots should have the same scales for the x and y axes, so that we can make easy side-by-side comparisons. One way to do this is by adding the `facet_wrap()` option to our plot. 
+
+Use the code below to view the distribution of daily bike rentals vs. temperature faceted by season. 
+
+```{r eval=FALSE}
+ggplot(data=bikeshare, mapping=aes(x=temp,y=cnt)) + 
+  geom_point() +
+  facet_wrap(~season)
+```
+
+In which season does there appear to be the strongest linear relationship between the temperature and the number of daily bike rentals? Briefly explain your choice. 
+
+## Simple Linear Regression 
+
+We want to fit a least-squares regression using the temperature to explain variation in the number of bike rentals in the winter season. Before doing the regression, we will create a new data frame that is a subset of the original data that only contains days in the winter. 
+
+```{r eval=FALSE}
+winter <- bikeshare %>%
+  filter(season=="1")
+```
+
+We will use the `winter` data frame for the remainder of the lab. 
+
+9. We will fit a least-squares model using the `lm()` function and assign it to `model`. Replace *X*,  *Y*, and *my.data* in the code below with the appropriate values. 
+
+```{r eval=FALSE}
+winter_model <- lm(Y ~ X, data=my.data)
+```
+
+We can print the output from our model using the `tidy()` function. 
+
+```{r eval=FALSE}
+tidy(winter_model)
+```
+
+Interpret the slope and intercept in the context of the problem. 
+
+10. Next week, we will talk about statistical inference methods for regression. To ensure the validity of those methods, we need to check the assumptions for regression. To create the necessary residual plots, we will add the residuals to the `winter` data frame, and use `ggplot()` to make the plots. 
+
+```{r eval=FALSE}
+winter <- winter %>%
+  mutate(resid = residuals(winter_model))
+```
+
+The code for the residuals vs. the predictor variable and the Normal QQ plot are below. In addition to these plots, write the code to make a histogram of the residuals.
+
+```{r eval=FALSE}
+ggplot(data=winter, mapping=aes(x=temp,y=resid)) +
+  geom_point() + 
+  geom_hline(yintercept=0,color="red")+
+  labs(title="Residuals vs. Temperature")
+```
+
+
+```{r eval = FALSE}
+ggplot(data=winter, mapping=aes(sample=resid)) +
+  stat_qq() + 
+  stat_qq_line()+
+  labs(title="Normal QQ Plot of Residuals")
+```
+
+Are the assumptions for regression (linearity, constant variance, normality, independence) met? If so, briefly describe how you made the assessment. If not, explain the violation(s) of the assumption(s).
+
+
+**STATEMENT ABOUT BEING DONE**
+
