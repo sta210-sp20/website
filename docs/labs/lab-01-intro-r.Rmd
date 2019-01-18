@@ -6,6 +6,7 @@ output:
     css: "./sta210-labs.css"
     tufte_variant: "envisioned"
     highlight: pygments
+    fig_height: 10
 link-citations: yes
 ---
 
@@ -114,6 +115,7 @@ We will use the following packages in today's lab.
 library(tidyverse)
 library(readr)
 library(skimr)
+library(broom)
 ```
 
 If you need to install any of the packages, you can run the code below in the **console**.
@@ -121,6 +123,7 @@ If you need to install any of the packages, you can run the code below in the **
 install.packages("tidyverse") 
 install.packages("readr")
 install.packages("skimr")
+install.packages("broom")
 ```
 
 # Warm up
@@ -133,7 +136,7 @@ Before we introduce the data, let's warm up with some simple exercises. The foll
 
 Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 01 - Intro R".
 
-```{r untitled-project, fig.fullwidth=TRUE, echo = FALSE}
+```{r untitled-project, echo = FALSE}
 knitr::include_graphics("img/01-hello-r/untitled-project.png")
 ```
 
@@ -145,7 +148,7 @@ The top portion of your R Markdown file (between the three dashed lines) is call
 
 Open the R Markdown (Rmd) file in your project, change the author name to your name, and knit the document.
 
-```{r yaml-raw-to-rendered, fig.fullwidth=TRUE, echo = FALSE}
+```{r yaml-raw-to-rendered, echo = FALSE}
 knitr::include_graphics("img/01-hello-r/yaml-raw-to-rendered.png")
 ```
 
@@ -155,7 +158,7 @@ Then go to the Git pane in your RStudio.
 
 If you have made changes to your Rmd file, you should see it listed here. Click on it to select it in this list and then click on **Diff**. This shows you the *diff*erence between the last committed state of the document and its current state that includes your changes. If you're happy with these changes, write "Update author name" in the **Commit message** box and click **Commit**.
 
-```{r update-author-name-commit, fig.fullwidth=TRUE, echo = FALSE}
+```{r update-author-name-commit, echo = FALSE}
 knitr::include_graphics("img/01-hello-r/update-author-name-commit.png")
 ```
 
@@ -191,7 +194,7 @@ It is sometimes more useful to view a summary of the data structure rather than 
 You can  type `??glimpse` in the console to learn more about the function and its syntax.
 ```
 
-1. Use the `glimpse()` function to see an overview of the `bikeshare` dataset.
+1. Type `glimpse(bikeshare)` in the **console** an overview of the `bikeshare` dataset.
 
 How many observations are in the `bikeshare` dataset? How many variables?
 
@@ -213,11 +216,11 @@ bikeshare %>%
   skim()
 ```
 
-What is the mean number of bike rentals? The middle 50% of bike rentals are between what two values? 
+What is the mean number of bike rentals? About 25% of the days in the data have a `count` above what value? 
 
 3. Does it make sense to calculate measures of center and spread for the variable `season`? If so, explain why it makes sense. Otherwise, explain why the `skim()` function calculated these summary statistics for the variable `season` even if they don't make sense.
 
-*This is a good place to pause and commit changes with the commit message "Added summary statistics  (Ex 1 and 2)", and push.*
+*This is a good place to pause and commit changes with the commit message "Added summary statistics  (Ex 1 - 3)", and push.*
 
 ## Visualizing Your Data
 
@@ -248,16 +251,23 @@ This [ggplot2 quick reference](http://sape.inf.usi.ch/quick-reference/ggplot2/co
 
 Next, instead of `color="_____"`, use `fill="______"` inside of the `geom_histogram()` function and put the color of your choice inside the blank. You can use the same color as before or use a new one. 
 
-What is the difference in the two plots? In other words, what is the difference in the way color is implemented in the two plots?
+What is the difference in the two plots? In other words, what is the difference in the way color is implemented when using `color="` versus `fill=`?
 
-6. Describe the distribution of `count`. Your description, include comments about the shape, center, spread, and any potential outliers. You should use the histogram and the summary statistics from Exercise 2 in your description. 
+6. Describe the distribution of `count`. Your description should include comments about the shape, center, spread, and any potential outliers. You should use the histogram and the summary statistics from Exercise 2 in your description. 
 
 *This is a another good place to pause and commit changes with the commit message "Added univariate data visualization (Ex 3 - 6)", and push.*
 
-7. Now that we've examined the variables individually, we want to look at the relationship between the variables. Complete the code below to make a scatterplot of the number of bike rentals versus the temperature.
+7. Now that we've examined the variables individually, we want to look at the relationship between the variables. To make interpretation easier, we will use the `mutate()` function to create a new varaible called `temp_c` that is calculated as `temp * 41`. We will use `temp_c` for the remainder of the analysis, so the temperature can be discussed in terms of degrees Celsius. 
 
 ```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=temp,fill=count)) +
+bikeshare <- bikeshare %>%
+  mutate(temp_c = temp * 41)
+```
+
+Complete the code below to make a scatterplot of the number of bike rentals versus the temperature.
+
+```{r eval=FALSE}
+ggplot(data=bikeshare, mapping=aes(x=temp_c,y=count)) +
   ___________________
 ```
 
@@ -277,18 +287,22 @@ bikeshare <- bikeshare %>%
 ```
 
 ```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=temp,y=count)) + 
+ggplot(data=bikeshare, mapping=aes(x=temp_c,y=count)) + 
   geom_point() +
+  labs(title = "Number of Bike Rentals vs. Temperature", 
+       subtitle="Faceted by Season", 
+       x = "Temperature (Celsius)", 
+       y = "Number of Bike Rentals") +
   facet_wrap(~season)
 ```
 
-For which season is the linear relationship between the temperature and the number of bike rentals the strongest? Briefly explain your choice. 
+For which season is the linear relationship between the temperature and the number of bike rentals the strongest? 
 
 *This is a another good place to pause and commit changes with the commit message "Added bivariate data visualization (Ex 7 - 8)", and push.*
 
 ## Simple Linear Regression 
 
-We want to fit a least-squares regression using the temperature to explain variation in the number of bike rentals in the **winter** season. We can use the `filter()` function to create a subset from the data that only includes days during the winter. The `<-` assigns the name `winter_data` to our subset. 
+We want to fit a least-squares regression using the temperature (`temp_c`) to explain variation in the number of bike rentals (`count`) in the **winter** season. We can use the `filter()` function to create a subset from the data that only includes days during the winter. The `<-` assigns the name `winter_data` to our subset. 
 
 ```{r eval=FALSE}
 winter_data <- bikeshare %>%
@@ -297,43 +311,48 @@ winter_data <- bikeshare %>%
 
 We will use `winter_data` for the remainder of the lab. 
 
-9. Fit a simple linear regression model using the `lm()` function; assign it the name `winter_model`. Replace *X*,  *Y*, and *my.data* in the code below with the appropriate values. 
+9. Fit a simple linear regression model with  using the `lm()` function; assign it the name `winter_model`. Replace *X*,  *Y*, and *my.data* in the code below with the appropriate values. 
 
 ```{r eval=FALSE}
 winter_model <- lm(Y ~ X, data=my.data)
+tidy(model) #output model
 ```
 
-Use the `tidy()` function to out the model in a "tidy" way. 
+Interpret the slope. 
 
-```{r eval=FALSE}
-tidy(winter_model)
-```
-
-Interpret the slope and intercept in the context of the problem. 
+Does it make sense to interpret the intercept? If so, write the interpretation of the intercept. Otherwise, explain why not. 
 
 10. We conclude by checking the assumptions for regression. We use the `mutate()` function to add a new variable called `resid` that is the residual for each observation in `winter_data` data.
 ```{r eval=FALSE}
-winter_data <- winter %>%
+winter_data <- winter_data %>%
   mutate(resid = residuals(winter_model))
 ```
 
 The code for the residuals vs. the predictor variable and the Normal QQ plot are below. In addition to these plots, write the code to make a histogram of the residuals. You can reuse code from a previous exercise to plot the histogram.
 
 ```{r eval=FALSE}
-ggplot(data=winter, mapping=aes(x=temp,y=resid)) +
+ggplot(data=winter_data, mapping=aes(x=temp,y=resid)) +
   geom_point() + 
   geom_hline(yintercept=0,color="red")+
-  labs(title="Residuals vs. Temperature")
+  labs(title="Residuals vs. Temperature",
+       x="Temperature", 
+       y="Residuals")
 ```
 
 
 ```{r eval = FALSE}
-ggplot(data=winter, mapping=aes(sample=resid)) +
+ggplot(data=winter_data, mapping=aes(sample=resid)) +
   stat_qq() + 
   stat_qq_line()+
   labs(title="Normal QQ Plot of Residuals")
 ```
 
-Are the assumptions for regression (linearity, constant variance, normality, independence) met? If so, briefly describe how you made the assessment. If not, explain the violation(s) of the assumption(s).
+Based on the plots of the residuals and the scatterplot, are linearity, normality, and non-constant variance assumptions met? Briefly explain. 
+
+Is the independence assumption met based on the description of the data? Briefly explain. 
+
+**Optional:** Create a plot that could be used to help you assess the independence assumption.
+
+Throughout the semester, we will learn various methods to deal with any violations in regression assumptions. For now, we will just note them.
 
 *You're done! Commit all remaining changes, use the commit message "Done with Lab 1!", and push. Before you wrap up the assignment, make sure all documents are updated on your GitHub repo.*
