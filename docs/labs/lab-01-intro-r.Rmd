@@ -75,7 +75,7 @@ There is one more piece of housekeeping we need to take care of before we get st
 
 To do so, you will use the `use_git_config()` function from the `usethis` package. 
 
-Type the following lines of code in the **Console** in RStudio filling in your name and email address.
+Type the following lines of code in the **console** in RStudio filling in your name and email address.
 
 ```{marginfigure}
 Your email address is the address tied to your GitHub account and your name should be first and last name.
@@ -128,9 +128,7 @@ install.packages("broom")
 
 # Warm up
 
-Before we introduce the data, let's warm up with some simple exercises. The following video is an overview of some of these warm-up exercises.
-
-<div style="position:relative;height:0;padding-bottom:40%"><iframe width="600" height="320" src="https://www.youtube.com/embed/XE8h8jIyu04" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+Before we introduce the data, let's warm up with some simple exercises. 
 
 ## Project name: 
 
@@ -173,7 +171,8 @@ In order to push your changes to GitHub, click on **Push**. This will prompt a d
 
 ## Data 
 
-Today's data comes from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. You can get more information about the bikeshare on their website, [https://www.capitalbikeshare.com/](https://www.capitalbikeshare.com/). 
+Today's data comes from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. You can get more information about the bikeshare on their website, [https://www.capitalbikeshare.com/](https://www.capitalbikeshare.com/). We will read in the data from the file *bikeshare.csv* located in the *data* folder.
+
 
 ```{r read-data, eval=FALSE}
 bikeshare <- read_csv("data/bikeshare.csv")
@@ -188,7 +187,7 @@ Before doing any analysis, we want to understand the basic structure of the data
 View(bikeshare)
 ```
 
-It is sometimes more useful to view a summary of the data structure rather than view the entire dataset. This is especially true for very large datasets, i.e. those with a very large number of observations and/or rows. We can use the `glimpse()` function to get a general idea about the structure of our dataset. This function can be very useful when importing data from a file such as a .csv file (like in this lab) to ensure that data imported correctly and we have the number of observations (rows) and variables (columns) that we expect. We can also use this function to see each variable's type (e.g. integer, character, etc.). 
+It is sometimes more useful to view a summary of the data structure rather than view the entire dataset. This is especially true for very large datasets, i.e. those with a very large number of observations and/or rows. We can use the `glimpse()` function to get a general idea about the structure of our dataset. This function can be very useful when importing data from a file such as a .csv file (like in this lab) to ensure that data imported correctly and that we have the number of observations (rows) and variables (columns) we expect. We can also use this function to see each variable's type (e.g. integer, character). 
 
 ```{marginfigure}
 You can  type `??glimpse` in the console to learn more about the function and its syntax.
@@ -251,13 +250,13 @@ This [ggplot2 quick reference](http://sape.inf.usi.ch/quick-reference/ggplot2/co
 
 Next, instead of `color="_____"`, use `fill="______"` inside of the `geom_histogram()` function and put the color of your choice inside the blank. You can use the same color as before or use a new one. 
 
-What is the difference in the two plots? In other words, what is the difference in the way color is implemented when using `color="` versus `fill=`?
+What is the difference in the two plots? In other words, what is the difference in the way color is implemented when using `color` versus `fill`?
 
 6. Describe the distribution of `count`. Your description should include comments about the shape, center, spread, and any potential outliers. You should use the histogram and the summary statistics from Exercise 2 in your description. 
 
-*This is a another good place to pause and commit changes with the commit message "Added univariate data visualization (Ex 3 - 6)", and push.*
+*This is a another good place to pause and commit changes with the commit message "Added data visualization of count (Ex 3 - 6)", and push.*
 
-7. Now that we've examined the variables individually, we want to look at the relationship between the variables. To make interpretation easier, we will use the `mutate()` function to create a new varaible called `temp_c` that is calculated as `temp * 41`. We will use `temp_c` for the remainder of the analysis, so the temperature can be discussed in terms of degrees Celsius. 
+7. Now that we've examined the variables individually, we want to look at the relationship between the variables. To make interpretation easier, we will use the `mutate()` function to create a new variable called `temp_c` that is calculated as `temp * 41`. We will use `temp_c` for the remainder of the analysis, so the temperature can be discussed in terms of degrees Celsius. 
 
 ```{r eval=FALSE}
 bikeshare <- bikeshare %>%
@@ -273,13 +272,13 @@ ggplot(data=bikeshare, mapping=aes(x=temp_c,y=count)) +
 
 
 ```{marginfigure}
-[https://ggplot2.tidyverse.org/](https://ggplot2.tidyverse.org/) is a great resource as you learn `ggplot()`. Click **Reference** in the top right corner to see a list of the various plot types available in the ggplot2 package.skeleton
+[https://ggplot2.tidyverse.org/](https://ggplot2.tidyverse.org/) is a great resource as you learn `ggplot()`. Click **Reference** in the top right corner to see a list of the various plot types available in the ggplot2 package.
 ```
 
 Describe the relationship between the temperature and the number of bike rentals. 
 
 
-8. The temperature and number of bike rentals varies greatly depending on the season. Therefore, we would like to create a separate scatterplot of `count` versus `temp` for each season. To do so, we will use the `facet_wrap()` function, faceting by `season`. Recall from Exercise 2 that `season` is currently stored as an integer. We will change it to a factor variable type, and use it in the `facet_wrap()` function.
+8. The temperature and number of bike rentals varies greatly depending on the season. Therefore, we would like to create a separate scatterplot of `count` versus `temp_c` for each season. To do so, we will use the `facet_wrap()` function, faceting by `season`. Recall from Exercise 2 that `season` is currently stored as an integer. We need to change it to a factor variable type before using it in the `facet_wrap()` function (you could also change it to a character variable).
 
 ```{r eval=FALSE}
 bikeshare <- bikeshare %>%
@@ -296,9 +295,9 @@ ggplot(data=bikeshare, mapping=aes(x=temp_c,y=count)) +
   facet_wrap(~season)
 ```
 
-For which season is the linear relationship between the temperature and the number of bike rentals the strongest? 
+For which season does the linear relationship between the temperature and the number of bike rentals appear to be the strongest? 
 
-*This is a another good place to pause and commit changes with the commit message "Added bivariate data visualization (Ex 7 - 8)", and push.*
+*This is a another good place to pause and commit changes with the commit message "Added visualization of count vs. temperature (Ex 7 - 8)", and push.*
 
 ## Simple Linear Regression 
 
