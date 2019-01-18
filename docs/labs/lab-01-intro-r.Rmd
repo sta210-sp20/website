@@ -330,7 +330,7 @@ winter_data <- winter_data %>%
 The code for the residuals vs. the predictor variable and the Normal QQ plot are below. In addition to these plots, write the code to make a histogram of the residuals. You can reuse code from a previous exercise to plot the histogram.
 
 ```{r eval=FALSE}
-ggplot(data=winter_data, mapping=aes(x=temp,y=resid)) +
+ggplot(data=winter_data, mapping=aes(x=temp_c,y=resid)) +
   geom_point() + 
   geom_hline(yintercept=0,color="red")+
   labs(title="Residuals vs. Temperature",
