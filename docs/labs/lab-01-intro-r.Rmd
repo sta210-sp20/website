@@ -3,7 +3,7 @@ title: "Lab 01: Introduction to R"
 date: "due Wed, Jan 23 at 11:59p"
 output: 
   tufte::tufte_html:
-    css: "./lab.css"
+    css: "./sta210-labs.css"
     tufte_variant: "envisioned"
     highlight: pygments
 link-citations: yes
@@ -29,9 +29,9 @@ git is a version control system (like "Track Changes" features from Microsoft Wo
 
 An additional goal is to introduce you to git and GitHub, which is the collaboration and version control system that we will be using throughout the course.
 
-As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer and statistician. If you're new to R, you should begin by building some basic fluency in R. Today's lab will focus on fundamental building blocks of R and RStudio: the interface, reading in data, and basic commands. Starting next week, the labs will focus on concepts specific to regression analysis. 
+As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer and statistician. If you're new to R, you should begin by building some basic fluency in R. Today's lab will focus on fundamental building blocks of R and RStudio: the interface, reading in data, and basic commands. Starting next week, the labs will focus on concepts more specific to regression analysis.
 
-To make versioning simpler, today's lab is individual. This will give you a chance to become more familiar with git and GitHub. Next week you’ll learn about collaborating on GitHub and will produce a single lab report for your team.
+To make versioning simpler, today's lab is individual. This will give you a chance to become more familiar with git and GitHub. Next week you’ll learn about collaborating on GitHub and will produce a single lab report as a team.
 
 ## Topics covered in this lab:
 
@@ -42,7 +42,7 @@ To make versioning simpler, today's lab is individual. This will give you a chan
 
 # Getting Started
 
-Each of your assignments will begin with the following steps. You saw these once in class, and they're outlined in detail here again. Going forward each lab will start with a "Getting started" section but details will be a bit more sparse than this. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
+Each of your assignments will begin with the following steps. You saw your TA demonstrate these steps, and they're outlined in detail here again. Going forward each lab will start with a "Getting started" section but details will be a bit more sparse than this. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
 
 ## Clone Assignment Repo
 
@@ -66,19 +66,19 @@ knitr::include_graphics("img/01-hello-r/paste-gh-repo-url.png")
 
 - Copy and paste the URL of your assignment repo into the dialog box.  Be sure "Add packages from the base project" is checked. 
 
-- Click OK, and you should see the contents from your GitHub repo in the Files pane in RStudio. 
+- Click OK, and you should see the contents from your GitHub repo in the **Files** pane in RStudio. 
 
 ## Configure git
-
-```{marginfigure}
-Your email address is the address tied to your GitHub account and your name should be first and last name.
-```
 
 There is one more piece of housekeeping we need to take care of before we get started. Specifically,  we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your email address and your name.
 
 To do so, you will use the `use_git_config()` function from the `usethis` package. 
 
 Type the following lines of code in the **Console** in RStudio filling in your name and email address.
+
+```{marginfigure}
+Your email address is the address tied to your GitHub account and your name should be first and last name.
+```
 
 ```{r eval=FALSE}
 library(usethis)
@@ -123,125 +123,187 @@ install.packages("readr")
 install.packages("skimr")
 ```
 
+# Warm up
+
+Before we introduce the data, let's warm up with some simple exercises. The following video is an overview of some of these warm-up exercises.
+
+<div style="position:relative;height:0;padding-bottom:40%"><iframe width="600" height="320" src="https://www.youtube.com/embed/XE8h8jIyu04" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+
+## Project name: 
+
+Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 01 - Intro R".
+
+```{r untitled-project, fig.fullwidth=TRUE, echo = FALSE}
+knitr::include_graphics("img/01-hello-r/untitled-project.png")
+```
+
+```{marginfigure}
+The top portion of your R Markdown file (between the three dashed lines) is called YAML. It stands for "YAML Ain't Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
+```
+
+## YAML: 
+
+Open the R Markdown (Rmd) file in your project, change the author name to your name, and knit the document.
+
+```{r yaml-raw-to-rendered, fig.fullwidth=TRUE, echo = FALSE}
+knitr::include_graphics("img/01-hello-r/yaml-raw-to-rendered.png")
+```
+
+## Commiting changes:
+
+Then go to the Git pane in your RStudio.
+
+If you have made changes to your Rmd file, you should see it listed here. Click on it to select it in this list and then click on **Diff**. This shows you the *diff*erence between the last committed state of the document and its current state that includes your changes. If you're happy with these changes, write "Update author name" in the **Commit message** box and click **Commit**.
+
+```{r update-author-name-commit, fig.fullwidth=TRUE, echo = FALSE}
+knitr::include_graphics("img/01-hello-r/update-author-name-commit.png")
+```
+
+You don't have to commit after every change, this would get quite cumbersome. You should consider committing states that are *meaningful to you* for inspection, comparison, or restoration. In the first few assignments we will tell you exactly when to commit and in some cases, what commit message to use. As the semester progresses we will let you make these decisions.
+
+## Pushing changes: 
+
+Now that you have made an update and committed this change, it's time to push these changes to the web! Or more specifically, to your repo on GitHub. Why? So that others can see your changes. And by others, we mean the course teaching team (your repos in this course are private to you and us, only). 
+
+In order to push your changes to GitHub, click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. This might feel cumbersome. Bear with me... We *will* teach you how to save your password so you don't have to enter it every time. But for this one assignment you'll have to manually enter each time you push in order to gain some experience with it.
+
+
 ## Data 
 
-We will be analyzing data from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. Check out the Capital Bikeshare website for more details. This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012.
+Today's data comes from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. You can get more information about the bikeshare on their website, [https://www.capitalbikeshare.com/](https://www.capitalbikeshare.com/). 
 
 ```{r read-data, eval=FALSE}
 bikeshare <- read_csv("data/bikeshare.csv")
 ```
 
+This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012. 
 
-## Questions
+# Exercises 
 
-Before doing any analysis, we want to understand the basic structure of the data. One way to do this, is to look at the actual dataset. You can type the code shown below in the console to view the entire data set. 
+Before doing any analysis, we want to understand the basic structure of the data. One way to do this, is to look at the actual dataset. Type the code below in the **console** to view the entire dataset.
 ```{r eval=FALSE}
 View(bikeshare)
 ```
 
-1. Often we want a summary of the data's structure rather than a view of the entire dataset. This is especially true for datasets with a large number of observations and/or variables. In these instances, it would be preferable to get a summary of the basic structure of the data set.
+It is sometimes more useful to view a summary of the data structure rather than view the entire dataset. This is especially true for very large datasets, i.e. those with a very large number of observations and/or rows. We can use the `glimpse()` function to get a general idea about the structure of our dataset. This function can be very useful when importing data from a file such as a .csv file (like in this lab) to ensure that data imported correctly and we have the number of observations (rows) and variables (columns) that we expect. We can also use this function to see each variable's type (e.g. integer, character, etc.). 
 
-We can use the `glimpse` function to get a general idea about the structure of our data set. This function is especially useful to ensure that the data set contains the number of observations and variables we expect. We can also use this function to make sure each variable is stored as the correct data type. 
+```{marginfigure}
+You can  type `??glimpse` in the console to learn more about the function and its syntax.
+```
 
-Use the `glimpse()` function to get an overview of the `bikeshare` dataset.(*Note: You can  type `??glimpse` in the console to learn more about the function and its syntax.*)
+1. Use the `glimpse()` function to see an overview of the `bikeshare` dataset.
 
-How many observations are in the `bikeshare` dataset? How many variables (columns)?
+How many observations are in the `bikeshare` dataset? How many variables?
 
 2. In this lab, we will focus the analysis on the following variables: 
-    - `season`: 1: Winter, 2: Spring, 3: Summer, 4: Fall
-    - `temp`: Temperature / 41 (in degrees Celsius)
-    - `cnt`: number of total bike rentals by causal and registered users
 
-We can use the `skim()` function to calculate summary statistics for each of the variables of interest. 
+|  |  |
+|----------|-------|
+| `season` |1: Winter, 2: Spring, 3: Summer, 4: Fall |
+| `temp` | Temperature (in $^{\circ}C$) &divide; 41 |
+| `count` | total number of bike rentals |
+
+Before fitting any regression models, we want to do an exploratory data analysis (EDA) to summarize the main characteristics of the data. Much of the EDA is visual, which we'll get to in the next exercise. The EDA also consists of calculating summary statistics for the variables in our dataset. It is good practice to examine any variable that may be relevant to the analysis in the EDA, since there may be variables that aren't directly included in the regression model but are still affecting the results. To keep today's lab manageable, we will only examine the three variables `season`, `temp`, and `count`.
+
+There are many ways to calculate summary statistics for each variable, and we will use a few of them throughout the semester. For now, let's use the `skim()` function to calculate basic measures of center and spread along with get a sketch of the distribution. 
 
 ```{r eval=FALSE}
 bikeshare %>%
-  select(season,temp,cnt) %>%
+  select(season,temp,count) %>%
   skim()
 ```
 
-What is the mean number of bike rentals? What is the median? 
+What is the mean number of bike rentals? The middle 50% of bike rentals are between what two values? 
 
-3. Does it make sense to calculate the summary statistics from Question 2 for the variable `season`? If so, explain why it makes sense. If not, explain why R calculated these summary statistics for this variable anyway. 
+3. Does it make sense to calculate measures of center and spread for the variable `season`? If so, explain why it makes sense. Otherwise, explain why the `skim()` function calculated these summary statistics for the variable `season` even if they don't make sense.
+
+*This is a good place to pause and commit changes with the commit message "Added summary statistics  (Ex 1 and 2)", and push.*
 
 ## Visualizing Your Data
 
-4. We can visualize the data to understand the univariate distributions (one variable at a time) and bivariate distributions. To make plots of the data, we will use the `ggplot2` package. 
+4. One important part of EDA is visualizing the data to get a better idea of the shape of the distribution of each variable along with the relationship between variables. There are a lot of ways to make plots in R; we will use the functions available in the `ggplot2` package.
 
-The code below is used to create a histogram of `cnt` for all observations in the data set. Modify the code by including a title and label for the *x* axis.
+The code below is used to create a histogram to visualize the distribution of `count`. Modify the code by writing an informative title and label for the x-axis.
 
 ```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=cnt)) + 
+ggplot(data=bikeshare, mapping=aes(x=count)) + 
   geom_histogram() +
   labs(title="______", x="______")
 ```
 
-Use the summary statistics and histogram to describe the distribution of `cnt`. Your description, include comments about the center and the spread. 
 
-5. We want to customize the plot by changing the color to the bars. First, using a color of your choice, include the option `color="_____"` inside of `geom_histogram()` function. Your code will look similar this. Be sure that you include axis labels and a title for your graph. 
+5. Sometimes you may want to customize a plot by changing different features such as the color, marker types, etc. When plotting a histogram, one easy way to customize it is by changing the color the bars. We'll look at two different ways to do this. 
+
+First, using a color of your choice, include the option `color="_____"` inside of `geom_histogram()` function. Your code will look similar this. Be sure to also include an informative title and label for the x-axis.
 
 ```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=cnt)) + 
-  geom_histogram(color="_____") 
+ggplot(data=bikeshare, mapping=aes(x=count)) + 
+  geom_histogram(color="_______") +
+  labs(title="______", x="______")
 ```
 
-Next, instead of `color="_____"`, include the option `fill="______"` inside of the `geom_histogram()` function. You will fill in the blank with a color of your choice.
+```{marginfigure}
+This [ggplot2 quick reference](http://sape.inf.usi.ch/quick-reference/ggplot2/colour) has a long list of color options. You can also use [HTML color codes](https://htmlcolorcodes.com/).
+```
 
-Describe the differences in the way color was implemented in each the plots of histograms.
+Next, instead of `color="_____"`, use `fill="______"` inside of the `geom_histogram()` function and put the color of your choice inside the blank. You can use the same color as before or use a new one. 
 
-You can add both options in the geom_histogram()` to further customize the plot.
+What is the difference in the two plots? In other words, what is the difference in the way color is implemented in the two plots?
+
+6. Describe the distribution of `count`. Your description, include comments about the shape, center, spread, and any potential outliers. You should use the histogram and the summary statistics from Exercise 2 in your description. 
+
+*This is a another good place to pause and commit changes with the commit message "Added univariate data visualization (Ex 3 - 6)", and push.*
+
+7. Now that we've examined the variables individually, we want to look at the relationship between the variables. Complete the code below to make a scatterplot of the number of bike rentals versus the temperature.
+
+```{r eval=FALSE}
+ggplot(data=bikeshare, mapping=aes(x=temp,fill=count)) +
+  ___________________
+```
 
 
-6. We are interested in visualizing the relationship between the season and the number of daily bike rentals. One way to do this is to add colors to indicate the season to our histogram. Recall from previous exercise that `season` is currently stored in the dataset as an integer. We want R to treat season as a categorical variable, so we will convert it to a factor variable type. 
+```{marginfigure}
+[https://ggplot2.tidyverse.org/](https://ggplot2.tidyverse.org/) is a great resource as you learn `ggplot()`. Click **Reference** in the top right corner to see a list of the various plot types available in the ggplot2 package.skeleton
+```
+
+Describe the relationship between the temperature and the number of bike rentals. 
+
+
+8. The temperature and number of bike rentals varies greatly depending on the season. Therefore, we would like to create a separate scatterplot of `count` versus `temp` for each season. To do so, we will use the `facet_wrap()` function, faceting by `season`. Recall from Exercise 2 that `season` is currently stored as an integer. We will change it to a factor variable type, and use it in the `facet_wrap()` function.
 
 ```{r eval=FALSE}
 bikeshare <- bikeshare %>%
   mutate(season = as.factor(season))
 ```
 
-Now, we look at the histogram to change the color of the bars by season. Similar to before, add an informative title and x-axis label to the plot. 
-
 ```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=cnt,fill=season)) + 
-  geom_histogram() +
-  labs(title="______", x="_______")
-```
-
-
-7. The site [https://ggplot2.tidyverse.org/](https://ggplot2.tidyverse.org/) is a great resource as you learn `ggplot()`. Click **Reference** in the top right corner. Layer:geoms lists a lot of different plot options available in `ggplot2`. Use one of the plots in the list (and maybe some aesthetic options like color(!)) to display the relationship between number of daily bike rentals and the season .
-
-**ADD A MUTATE FUNCTION TO TRANSFORM TEMP!**
-
-8. Sometimes we wish to create separate plots for each group. When we create separate plots for each group, the plots should have the same scales for the x and y axes, so that we can make easy side-by-side comparisons. One way to do this is by adding the `facet_wrap()` option to our plot. 
-
-Use the code below to view the distribution of daily bike rentals vs. temperature faceted by season. 
-
-```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=temp,y=cnt)) + 
+ggplot(data=bikeshare, mapping=aes(x=temp,y=count)) + 
   geom_point() +
   facet_wrap(~season)
 ```
 
-In which season does there appear to be the strongest linear relationship between the temperature and the number of daily bike rentals? Briefly explain your choice. 
+For which season is the linear relationship between the temperature and the number of bike rentals the strongest? Briefly explain your choice. 
+
+*This is a another good place to pause and commit changes with the commit message "Added bivariate data visualization (Ex 7 - 8)", and push.*
 
 ## Simple Linear Regression 
 
-We want to fit a least-squares regression using the temperature to explain variation in the number of bike rentals in the winter season. Before doing the regression, we will create a new data frame that is a subset of the original data that only contains days in the winter. 
+We want to fit a least-squares regression using the temperature to explain variation in the number of bike rentals in the **winter** season. We can use the `filter()` function to create a subset from the data that only includes days during the winter. The `<-` assigns the name `winter_data` to our subset. 
 
 ```{r eval=FALSE}
-winter <- bikeshare %>%
+winter_data <- bikeshare %>%
   filter(season=="1")
 ```
 
-We will use the `winter` data frame for the remainder of the lab. 
+We will use `winter_data` for the remainder of the lab. 
 
-9. We will fit a least-squares model using the `lm()` function and assign it to `model`. Replace *X*,  *Y*, and *my.data* in the code below with the appropriate values. 
+9. Fit a simple linear regression model using the `lm()` function; assign it the name `winter_model`. Replace *X*,  *Y*, and *my.data* in the code below with the appropriate values. 
 
 ```{r eval=FALSE}
 winter_model <- lm(Y ~ X, data=my.data)
 ```
 
-We can print the output from our model using the `tidy()` function. 
+Use the `tidy()` function to out the model in a "tidy" way. 
 
 ```{r eval=FALSE}
 tidy(winter_model)
@@ -249,14 +311,13 @@ tidy(winter_model)
 
 Interpret the slope and intercept in the context of the problem. 
 
-10. Next week, we will talk about statistical inference methods for regression. To ensure the validity of those methods, we need to check the assumptions for regression. To create the necessary residual plots, we will add the residuals to the `winter` data frame, and use `ggplot()` to make the plots. 
-
+10. We conclude by checking the assumptions for regression. We use the `mutate()` function to add a new variable called `resid` that is the residual for each observation in `winter_data` data.
 ```{r eval=FALSE}
-winter <- winter %>%
+winter_data <- winter %>%
   mutate(resid = residuals(winter_model))
 ```
 
-The code for the residuals vs. the predictor variable and the Normal QQ plot are below. In addition to these plots, write the code to make a histogram of the residuals.
+The code for the residuals vs. the predictor variable and the Normal QQ plot are below. In addition to these plots, write the code to make a histogram of the residuals. You can reuse code from a previous exercise to plot the histogram.
 
 ```{r eval=FALSE}
 ggplot(data=winter, mapping=aes(x=temp,y=resid)) +
@@ -275,6 +336,4 @@ ggplot(data=winter, mapping=aes(sample=resid)) +
 
 Are the assumptions for regression (linearity, constant variance, normality, independence) met? If so, briefly describe how you made the assessment. If not, explain the violation(s) of the assumption(s).
 
-
-**STATEMENT ABOUT BEING DONE**
-
+*You're done! Commit all remaining changes, use the commit message "Done with Lab 1!", and push. Before you wrap up the assignment, make sure all documents are updated on your GitHub repo.*
