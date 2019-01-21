@@ -1,0 +1,355 @@
+---
+title: "Simple Linear Regression"
+subtitle: "Inference"
+author: "Dr. Maria Tackett"
+date: "01.23.19"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+library(knitr)
+opts_chunk$set(fig.height = 2.65, dpi = 300) 
+# ggplot2 color palette with gray
+color_palette <- list(gray = "#999999", 
+                      salmon = "#E69F00", 
+                      lightblue = "#56B4E9", 
+                      green = "#009E73", 
+                      yellow = "#F0E442", 
+                      darkblue = "#0072B2", 
+                      red = "#D55E00", 
+                      purple = "#CC79A7")
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 3.5,
+	fig.width = 5.8333,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Announcements 
+
+- Lab 01 due **today at 11:59p**
+
+- HW 01 due Mon, Jan 28 at 11:59p
+
+
+---
+
+class: middle, center
+
+## Questions from Lab 01? 
+
+
+---
+
+## Agenda
+
+- Recap: Simple linear regression basics
+
+- $R^2$
+
+- Inference for regression
+
+---
+
+## Packages and Data
+
+
+```{r load-packages, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(broom)
+library(modelr)
+library(fivethirtyeight)
+```
+
+```{r data}
+movie_scores <- fandango %>%
+  rename(tomatometer = rottentomatoes, audience = rottentomatoes_user)
+```
+
+---
+
+## rottentomatoes.com
+
+Can ratings from movie critics be used to predict the ratings from movie goers?
+
+--
+
+```{r, echo=FALSE,out.width = '70%',fig.align='center'}
+knitr::include_graphics("img/03/movie-rating-2.png")
+```
+
+--
+
+```{r, echo=FALSE,out.width = '70%',fig.align='center'}
+knitr::include_graphics("img/03/movie-rating-1.png")
+```
+
+---
+
+## Critic vs. Audience Ratings
+
+- To answer this question, we will analyze the critic and audience scores from rottentomatoes.com.  
+    - The data was first used in the article [Be Suspicious of Online Movie Ratings, Especially Fandango's](https://fivethirtyeight.com/features/fandango-movies-ratings/).
+
+- Variables: 
+    - `tomatometer`: Rotten Tomatoes Tomatometer score for the film (0 - 100)
+    - `audience`: Rotten Tomatoes user score for the film (0 - 100)
+
+---
+
+## Regression Model 
+
+$$Y|X \sim N(\beta_0 + \beta_1 X,\sigma^2)$$
+
+```{r, echo=FALSE,out.width = '80%',fig.align='center'}
+knitr::include_graphics("img/03/regression.png")
+```
+
+- $\sigma$: the standard deviation of $Y$ as a function of $X$ 
+
+- **Assumption:** $\sigma$ is equal for all values of $X$
+
+---
+
+## Regression Model
+
+.alert[
+$$\color{blue}{Y|X \sim N(\beta_0 + \beta_1 X,\sigma^2)}$$
+]
+
+--
+
+- For a single observation $(x_i, y_i)$
+
+$$\color{blue}{y_i = \beta_0 + \beta_1 x_i + \epsilon_i \hspace{10mm} \epsilon_i \sim N(0,\sigma^2)}$$
+
+--
+
+- We want to use the $n$ observations $(x_1,y_1), \ldots, (x_n, y_n)$ to estimate $\beta_0$ and $\beta_1$. We will use *least-squares regression* estimates.
+
+---
+
+## Least-Squares Model
+
+```{r}
+model <- lm(audience ~ tomatometer, data=movie_scores)
+tidy(model)
+```
+
+- **Slope**: For every one percentage increase in the Tomatometer score, we expect the audience score to increase by `r round(model$coefficients[2],3)`%. 
+
+- **Intercept**: If the Tomatometer score is 0%, we expect the audience score to be about `r round(model$coefficients[1],3)`%.
+
+---
+
+## Model Assumptions 
+
+---
+
+## Assumptions for Regression 
+
+1. <font class="vocab">Linearity: </font>The plot of the mean value for $y$ against $x$ falls on a straight line
+
+2. <font class="vocab">Constant Variance: </font>The regression variance is the same for all values of $x$
+
+3. <font class="vocab">Normality: </font> For a given $x$, the distribution of $y$ around its mean is Normal
+
+4. <font class="vocab">Independence: </font>All observations are independent
+
+---
+
+```{r}
+movie_scores <- movie_scores %>% mutate(residuals=resid(model))
+```
+```{r}
+ggplot(data=movie_scores,mapping=aes(x=tomatometer, y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red")+
+  labs(title="Residuals vs. Tomatometer") +
+  theme_gray()
+```
+
+---
+
+## Normal QQ-Plot
+
+```{r, echo=FALSE,out.width = '100%',fig.align='center'}
+knitr::include_graphics("img/03/normal_qqplot.png")
+```
+
+---
+
+```{r}
+ggplot(data=movie_scores,mapping=aes(x=residuals)) + 
+  geom_histogram() + 
+  labs(title="Distribution of Residuals") +
+  theme_gray()
+```
+
+---
+
+```{r}
+ggplot(data=movie_scores,mapping=aes(sample=residuals)) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title="Normal QQ Plot of Residuals") +
+  theme_gray()
+```
+
+---
+
+class: middle, center
+
+## Assessing Model Fit
+
+---
+
+## $R^2$
+
+We can use the coefficient of determination, $R^2$, to measure how well the model fits the data 
+
+- $R^2$ is the proportion of variation in $Y$ that is explained by the regression line (reported as percentage)
+
+- It is difficult to determine what's a "good" value of $R^2$. It depends on the context of the data.
+
+---
+
+## Calculating $R^2$
+
+.instructions[
+$$R^2 = \frac{\text{TSS} - \text{RSS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}}$$
+]
+
+- <font class="vocab">Total Sum of Squares: </font>Total variation in the $Y$'s before fitting the regression 
+
+$$\text{TSS}= \sum\limits_{i=1}^{n}(y_i - \bar{y})^2 = (n-1)s^2_y$$
+
+- <font class="vocab">Residual Sum of Squares (RSS): </font>Total variation in the $Y$'s around the regression line (sum of squared residuals)
+$$\text{RSS} = \sum\limits_{i=1}^{n}[y_i - (\hat{\beta}_0 + \hat{\beta}_1x_i)]^2$$
+
+---
+
+## Rotten Tomatoes Data
+
+```{r}
+rsquare(model,movie_scores)
+```
+
+The Tomatometer score explains about `r round(rsquare(model,movie_scores) * 100,2)`% of the variation in audience scores on rottentomatoes.com.
+
+---
+
+## Recap 
+
+- Foundation of least-squares regression 
+
+- Estimating & interpreting coefficients
+
+- Checking model assumptions
+
+- $R^2$
+
+---
+
+class: middle, center
+
+## Git and GitHub
+
+---
+
+## Version control
+
+- We will use GitHub as a platform for assignments and collaboration 
+
+- But it's much more than that...
+
+- It's actually designed for version control
+
+---
+
+## Versioning
+
+```{r echo=FALSE, fig.align = "center", out.width = "80%"}
+knitr::include_graphics("img/01/lego-steps.png")
+```
+
+---
+
+## Versioning 
+
+with human readable messages
+
+```{r echo=FALSE, fig.align = "center", out.width = "80%"}
+knitr::include_graphics("img/01/lego-steps-commit-messages.png")
+```
+
+---
+
+### Why do we need version control?
+
+```{r echo=FALSE, fig.align = "center", out.width="50%"}
+knitr::include_graphics("img/01/phd_comics_vc.gif")
+```
+
+---
+
+## Git and GitHub tips
+
+- **Git** is a version control system -- like “Track Changes” features from Microsoft Word. 
+
+--
+
+- **GitHub** is the home for your Git-based projects on the internet (like DropBox but much better).
+
+--
+
+- There are a lot of Git commands and very few people know them all. 99% of the time you will use git to add, commit, push, and pull.
+
+---
+
+## Git and GitHub tips
+
+- We will be doing git things and interfacing with GitHub through RStudio
+    - If you Google for help you might come across methods for doing these things in the command line -- skip that and move on to the next resource unless you feel comfortable trying it out.
+
+--
+
+- There is a great resource for working with git and R: [happygitwithr.com](http://happygitwithr.com/).
+    - Some of the content in there is beyond the scope of this course, but it's a good place to look for help.
+
+--
+
+- You will start using git and GitHub in Lab 01 on Friday.
+
+---
+
+## Before next class 
+
+- Reading 02 posted online - due Wed Jan 23
+    - Review inference
+    
+- If you have not already done so, 
+    - Accept the invite to join `STA210-Sp19` organization on GitHub
+    - complete "Getting to know you" survey on Sakai 
+    - complete Pretest ([test info & access code](https://www2.stat.duke.edu/courses/Spring19/sta210.001/slides/lab-slides/00-lab-slides.html#8))
+    
