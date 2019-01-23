@@ -7,6 +7,7 @@ body {
   font-family: 'Open Sans'; sans-serif;
   font-weight: 400;
   color: #333333;
+  font-size: 17pt;
 }
 h2 {
   font-family: 'Open Sans', sans-serif;
@@ -79,6 +80,7 @@ ul {
 }
 li{
   margin: 10px 0;
+  font-size: 17pt;
 }
 .large { font-size: 130% }
 .midi { font-size: 90% }

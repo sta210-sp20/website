@@ -1,6 +1,5 @@
 ---
-title: "Simple Linear Regression"
-subtitle: "Inference"
+title: "Inference for SLR"
 author: "Dr. Maria Tackett"
 date: "01.23.19"
 output:
@@ -37,9 +36,10 @@ color_palette <- list(gray = "#999999",
 
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
+  dpi = 300,
 	fig.align = "center",
-	fig.height = 3.5,
-	fig.width = 5.8333,
+	fig.height = 3,
+	fig.width = 5,
 	message = FALSE,
 	warning = FALSE
 )
@@ -67,7 +67,9 @@ class: middle, center
 
 - $R^2$
 
-- Inference for regression
+- **Review:** Inference for the mean, $\mu$
+
+- Inference for the slope, $\beta_1$
 
 ---
 
@@ -117,6 +119,12 @@ knitr::include_graphics("img/03/movie-rating-1.png")
 
 ---
 
+class: middle, center
+
+## Recap: SLR Basics
+
+---
+
 ## Regression Model 
 
 $$Y|X \sim N(\beta_0 + \beta_1 X,\sigma^2)$$
@@ -149,9 +157,21 @@ $$\color{blue}{y_i = \beta_0 + \beta_1 x_i + \epsilon_i \hspace{10mm} \epsilon_i
 
 ---
 
-## Least-Squares Model
+## Scatterplot 
 
-```{r}
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(data=movie_scores,mapping=aes(x=tomatometer,y=audience)) + 
+  geom_point() + 
+  geom_smooth(method="lm",se=FALSE) +
+  labs(title="Audience Score vs. Tomatometer") + 
+  theme_gray()
+```
+
+---
+
+## Simple Linear Regression Model
+
+```{r slr-model}
 model <- lm(audience ~ tomatometer, data=movie_scores)
 tidy(model)
 ```
@@ -159,10 +179,6 @@ tidy(model)
 - **Slope**: For every one percentage increase in the Tomatometer score, we expect the audience score to increase by `r round(model$coefficients[2],3)`%. 
 
 - **Intercept**: If the Tomatometer score is 0%, we expect the audience score to be about `r round(model$coefficients[1],3)`%.
-
----
-
-## Model Assumptions 
 
 ---
 
@@ -178,10 +194,13 @@ tidy(model)
 
 ---
 
-```{r}
+## Linearity & Constant variance
+
+```{r calc-residuals, echo=FALSE}
 movie_scores <- movie_scores %>% mutate(residuals=resid(model))
 ```
-```{r}
+
+```{r echo=FALSE, fig.width=4, fig.height=2}
 ggplot(data=movie_scores,mapping=aes(x=tomatometer, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red")+
@@ -189,32 +208,43 @@ ggplot(data=movie_scores,mapping=aes(x=tomatometer, y=residuals)) +
   theme_gray()
 ```
 
----
+- From the scatterplot and plot of the residuas vs. predictor, we conclude the **linearity** assumption is sufficiently met.
 
-## Normal QQ-Plot
-
-```{r, echo=FALSE,out.width = '100%',fig.align='center'}
-knitr::include_graphics("img/03/normal_qqplot.png")
-```
+- From the plot of the residuals vs. predictor, we conclude the **constant variance** assumption is sufficiently met. 
 
 ---
 
-```{r}
-ggplot(data=movie_scores,mapping=aes(x=residuals)) + 
+## Normality of residuals 
+```{r echo=FALSE}
+library(cowplot)
+
+p1 <- ggplot(data=movie_scores,mapping=aes(x=residuals)) + 
   geom_histogram() + 
   labs(title="Distribution of Residuals") +
   theme_gray()
-```
 
----
-
-```{r}
-ggplot(data=movie_scores,mapping=aes(sample=residuals)) + 
+p2 <- ggplot(data=movie_scores,mapping=aes(sample=residuals)) + 
   stat_qq() + 
   stat_qq_line() +
   labs(title="Normal QQ Plot of Residuals") +
   theme_gray()
+
+plot_grid(p1,p2,ncol=2)
 ```
+
+- From the histogram and QQ-plot, we conclude that the **Normality** assumption is met.
+
+---
+
+## Independence
+
+- If we assume critics and audiences judge each movie independently, then we could conclude that the independence assumption is reasonably met. 
+
+- There potentially could be a cluster effect due to movie genre, so a good next step would be to analyze the residuals by genre. 
+
+--
+
+- Due to time constraints, let's assume the independence assumption is reasonably met for the class notes.
 
 ---
 
@@ -224,13 +254,19 @@ class: middle, center
 
 ---
 
+## Estimating $\sigma^2$
+
+- Residual Standard Error
+
+---
+
 ## $R^2$
 
 We can use the coefficient of determination, $R^2$, to measure how well the model fits the data 
 
 - $R^2$ is the proportion of variation in $Y$ that is explained by the regression line (reported as percentage)
 
-- It is difficult to determine what's a "good" value of $R^2$. It depends on the context of the data.
+- It is difficult to determinely what exactly is a "good" value of $R^2$. It depends on the context of the data.
 
 ---
 
@@ -251,7 +287,7 @@ $$\text{RSS} = \sum\limits_{i=1}^{n}[y_i - (\hat{\beta}_0 + \hat{\beta}_1x_i)]^2
 
 ## Rotten Tomatoes Data
 
-```{r}
+```{r calc-rsquare}
 rsquare(model,movie_scores)
 ```
 
@@ -259,97 +295,626 @@ The Tomatometer score explains about `r round(rsquare(model,movie_scores) * 100,
 
 ---
 
-## Recap 
+class: middle, center
 
-- Foundation of least-squares regression 
+## Inference for $\beta_1$
 
-- Estimating & interpreting coefficients
+---
 
-- Checking model assumptions
+## Questions of interest
 
-- $R^2$
+In our example, we will treat the data as a random sample of movies from rottentomatoes.com
+
+**Questions of interest**
+- What is a plausible range of values of the true population slope for `tomatometer`?
+- Is there truly a linear relationship between the tomatometer and audience scores? In other words, is there enough evidence to conclude that the true population slope is different from 0?
+
+---
+
+## Statistical Inference
+
+- <font class="vocab">Confidence Interval: </font> Estimate a range of plausible values for a parameter
+
+- <font class="vocab">Hypothesis Test: </font> Test a specified claim or hypothesis about the parameter
+
+- In this class, our focus will be on inference for regression coefficients, i.e. the $\beta_j$'s
+
+---
+
+
+## Questions of interest
+
+- What is a plausible range of values of the true population slope for `tomatometer`? (<font class="vocab">Confidence Interval</font>)
+
+- Is there truly a linear relationship between the tomatometer and audience scores? In other words, is there enough evidence to conclude that the true population slope is different from 0? (<font class="vocab">Hypothesis Test</font>)
+
+---
+
+## Distribution of $\beta_1$
+
 
 ---
 
 class: middle, center
 
-## Git and GitHub
+**What is a plausible range of values of the true population slope for `tomatometer`?**
 
 ---
 
-## Version control
+## Confidence Intervals
 
-- We will use GitHub as a platform for assignments and collaboration 
+- Developed by Jerzy Neyman (1930s)
 
-- But it's much more than that...
+- **What**: Estimates a population parameter using a sample statistic
+    - Assuming sample data is a simple random sample
+  
+- **Why**: Because the statistic is a random variable, its value is subject to chance error
+    - We want a range of plausible values for the population parameter that takes the chance error into account
 
-- It's actually designed for version control
+- We assume the data is from a random sample that is representative of the population. A confidence interval will not make up for systematic bias in the data
+
 
 ---
 
-## Versioning
+### Understanding 95% Confidence Interval
 
-```{r echo=FALSE, fig.align = "center", out.width = "80%"}
-knitr::include_graphics("img/01/lego-steps.png")
+.center[
+```{r, echo=FALSE,out.width = '40%'}
+knitr::include_graphics("img/03/confidence_intervals.png")
+```
+]
+- It's a procedure to produce an interval for the parameter of interest
+- If we take many samples of size $n$, the intervals caluclated from the sample will contain the parameter about 95% of the time
+- It is **not** interpreted as the probability the parameter of interest is in a given interval
+
+---
+
+## General form of the CI
+
+- Let <font class="vocab">SE</font> be the standard error of the statistic used to estimate the parameter of interest, then the general form of the confidence interval is
+
+.alert[
+$$\text{ Estimate} \pm \text{ (critical value) } \times \text{SE}$$
+]
+- *Note*: The critical value is determined by the distribution of the estimate (statistic) and the confidence level
+
+- For the regression slope: 
+    - $\hat{\beta}_1$ is the statistic used to estimate the parameter, $\beta_1$ 
+    - We will write the confidence interval as 
+    $$\mathbf{\hat{\beta}_1 \pm t^* SE(\hat{\beta}_1)}$$
+    
+---
+
+## Confidence interval for $\beta_1$
+
+- The confidence interval for the regression slope is 
+
+.alert[
+$$\mathbf{\hat{\beta}_1 \pm t^* SE(\hat{\beta}_1)}$$
+]
+
+- $t^*$ is the critical value associated with the confidence level.
+  + It is calculated from a $t$ distribution with $n-2$ degrees of freedom
+  
+- $SE(\hat{\beta}_1)$ is the standard error for the slope 
+
+$$SE(\hat{\beta}_1) = \sqrt{\frac{\hat{\sigma}^2}{\sum\limits_{i=1}^n (x_i - \bar{x})^2}} \hspace{2.5mm} = \hspace{2.5mm} \hat{\sigma}\sqrt{\frac{1}{(n-1)s_X^2}}$$
+
+---
+
+## t-distribution vs. Normal 
+
+- Since we calculate $SE(\hat{\beta}_1)$ using $\hat{\sigma}$, an estimate of $\sigma$, we will use the *t* distribution to find the critical value for the confidence interval.
+
+- The critical value $t^*$ is calculated from the *t(n-2)* distribution - the *t* distribution with *n-2* degrees of freedom.
+
+```{r, echo=FALSE,out.width = '50%'}
+knitr::include_graphics("img/03/tdistribution.png")
+```
+
+<font size="2">Picture from <i>The Basic Practice of Statistics (7th edition)</i></font>
+
+---
+
+### Interpreting the Confidence Interval
+
+The general 
+
+---
+
+### Application: Confidence Interval for $\mu$
+
+```{r}
+library(tidyverse)
+library(WRS2) #has the Pygmalion data
+iq_scores <- Pygmalion
+glimpse(iq_scores)
 ```
 
 ---
 
-## Versioning 
+### Application: Confidence Interval for $\mu$
 
-with human readable messages
 
-```{r echo=FALSE, fig.align = "center", out.width = "80%"}
-knitr::include_graphics("img/01/lego-steps-commit-messages.png")
+```{r}
+# update this 
+# ggplot(data = iq_scores, mapping = aes(x = Pretest)) +geom_histogram()
 ```
 
 ---
 
-### Why do we need version control?
+### Application: Confidence Interval for $\mu$
 
-```{r echo=FALSE, fig.align = "center", out.width="50%"}
-knitr::include_graphics("img/01/phd_comics_vc.gif")
+**UPDATE** 
+```{r}
+
+#iq_scores %>% summarise(n=n(), mean=mean(Pretest), 
+                       # median = median(Pretest), s=sd(Pretest))
+```
+
+```{r}
+#(t.crit <- qt(0.975,113))
+```
+
+1. Calculate a 95% confidence interval for the mean IQ score of elementary students at the beginning of the school year. 
+2. Interpret the interval in the context of the problem.
+
+```{r,echo=FALSE,results=FALSE}
+# t.test(iq_scores$Pretest, conf.level = 0.95)$conf.int
 ```
 
 ---
 
-## Git and GitHub tips
+### Application: Confidence Interval for $\mu$
 
-- **Git** is a version control system -- like “Track Changes” features from Microsoft Word. 
+- Similarly, we can calculate a 95% confidence interval for the mean IQ scores of elementary school students at the end of the school year.
 
---
+```{r}
+t.test(iq_scores$Posttest, conf.level = 0.95)$conf.int
+```
 
-- **GitHub** is the home for your Git-based projects on the internet (like DropBox but much better).
-
---
-
-- There are a lot of Git commands and very few people know them all. 99% of the time you will use git to add, commit, push, and pull.
+- Compare the intervals for the pretest and post-test. **Is there evidence that the students' IQ scores were higher, on average, at the end of the school year?**
 
 ---
 
-## Git and GitHub tips
+## Hypthesis Tests
 
-- We will be doing git things and interfacing with GitHub through RStudio
-    - If you Google for help you might come across methods for doing these things in the command line -- skip that and move on to the next resource unless you feel comfortable trying it out.
+Question being answered: 
+
+- Given the data in our sample, is there evidence <u>**against**</u> a specified hypothesis about the parameter of interest?
+
+- In other words:
+  + Are the data consistent with the specified hypothesis?
+  
+---
+
+## Outline of a Hypothesis Test
+
+- Assume some hypothesis about a parameter is true
+    - This hypothesis is the <font class="vocab3">null hypothesis</font>
+
+- Identify the appropriate statistic based on the distribution of the parameter of interest.
+    - This statistic is the <font class="vocab3">test statistic.</font>
+    - The statistic should take an extreme value when the hypothesis is false.
+
+- Use the data in your sample to calculate the value of the test statistic.
+
+---
+
+## Outline of a Hypothesis Test
+
+- Calculate the probability of observing a value of the statistic that is as extreme or more extreme than the observed value, under the assumed hypothesis.
+    - This calculated probability is the <font class="vocab3">p-value</font>.
+
+- Assess the p-value. A small p-value means...
+    a.The assumed hypothesis is incorrect
+    b. The assumed hypothesis is correct and a rare event has occurred
+
+---
+
+## Outline of a Hypothesis Test
+ 
+- State a conclusion about the hypothesis based on the assessment of the p-value.
+    - Since event (b) is by definition rare, we will conclude a <font color="green">small p-value</font> indicates that there <font color="green">is sufficient evidence</font> to claim <font color="green">that the assumed hypothesis is false</font>.
+    
+    - When the p-value is <font color="red">not small</font>, we will conclude that there <font color="red">is not sufficient evidence</font> to claim the assumed hypothesis is false.
+
+---
+
+## Conducting a Hypothesis Test 
+
+1. State the hypotheses
+
+2. Calculate the relevant test statistic
+
+3. Calculate the p-value
+
+4. State the conclusion in the context of the problem
+
+---
+
+## Formulating Hypotheses
+
+- <font class="vocab3">Null Hypothesis</font>, $\color{blue}{H_0}$: statement about the population parameter that is believed to be true or is used to put forth an argument unless it can be shown to be incorrect 
+
+- <font class="vocab3">Alternative Hypothesis</font>, $\color{blue}{H_a}$:  claim about the parameter that contradicts the null hypothesis 
+  + This is typically what we want to show
+
+- $H_a$ can be one-sided or two-sided
+  + This will determine how we calculate the p-value
+
+---
+
+## Test Statistic
+
+- Test statistics take the following general form: 
+
+$$ \frac{\text{estimate} - \text{hypothesized value}}{SE}$$
+
+
+- <font class="vocab">Interpretation: </font> How many standard errors the estimate is from the hypothesized value
+    - The sign of the test statistic indicates if the estimate is above or below the hypothesized value
+
+---
+
+### Can you define "p-value"?
+
+- [Scientists Define *p*-value](https://fivethirtyeight.abcnews.go.com/video/embed/56150342)
+
+- [Statisticians Found One Thing They Can Agree On: It's Time to Stop Misusing P-Values](https://fivethirtyeight.com/features/statisticians-found-one-thing-they-can-agree-on-its-time-to-stop-misusing-p-values/)
+
+---
+
+## Calculating the p-value
+
+- <font class="vocab3">p-value:</font> probability of getting a test statistic as extreme or more extreme than the calculated test statistic, assuming the null hypothesis is true
+
+- When the alternative has a $>$, the p-value is calculated using the area to the right of the test statistic
+
+- When the alternative has a $<$, the p-value is calculated using the area to the left of the test statistic
+
+- When the alternative has $\neq$, the p-value is calculated as the area to the left of $-|\text{test statistic}|$ and to the right of $|\text{test statistic}|$
+
+---
+
+
+### What the *p-value* is and is not
+
+**What the p-value is NOT**:
+- It is <u><b>not</b></u> the probability the null hypothesis is true
+  + The null hypothesis is either true or not true
+- (1 - *p-value*) is <u><b>not</b></u> the probability that the alternative hypothesis is true
+  + The alternative hypothesis is either true or not true
+  
+.alert[
+**What the p-value <u>IS</u>**
+
+The probability of getting a test statistic as extreme or more extreme than the calculated test statistic, *assuming the null hypothesis is true*
+]
+
+---
+
+## Interpreting the p-value
+
+|  Magnitude of p-value |             Interpretation            |
+|:---------------------:|:-------------------------------------:|
+| p-value < 0.01        | strong evidence against $H_0$         |
+| 0.01 < p-value < 0.05 | moderate evidence against $H_0$       |
+| 0.05 < p-value < 0.1  | weak evidence against $H_0$           |
+| p-value > 0.1         | effectively no evidence against $H_0$ |
+<br> 
+<br>
+
+**Note:** These are general guidelines. The strength of evidence depends on the context of the problem.
+
+---
+
+## Statistical Significance
+
+- A threshold can be used to decide whether or not to reject $H_0$. 
+
+- This threshold is called the <font class="vocab3">significance level</font> and is usually denoted by $\alpha$
+
+- When $H_0$ is rejected, we use the term <font class="vocab3"> statistically significant </font> to describe the outcome of the test.
+
+- *Example*: When $\alpha = 0.05$, results are statistically significance when the p-value is $< 0.05$
+
+---
+
+## Statistical Significance
+
+- Do not rely strictly on the significance level to make a conclusion!
+--
+
+- Suppose the significance level is 0.05
+--
+
+  + If the p-value is 0.05001, we do not reject $H_0$
+--
+
+  + If the p-value is 0.04999, we do reject $H_0$
+--
+
+- 0.05001 and 0.04999 are practically the same, yet they led to different conclusions. 
+--
+
+- Always state the p-value when reporting results and assess their magnitude in the context of your problem. 
+
+---
+
+### Not Statistically Significant
+
+- An outcome of failing to reject $H_0$ is <u>not</u> a failed study/experiment
+
+- Obtaining an outcome of "no significant effect" or "no significant difference" is still valid 
+
+- It is often just as important to learn that the $H_0$ can't be refuted
+
+---
+
+## Type I &  Type II Errors
+
+```{r, echo=FALSE, fig.align='center', out.width = '80%'}
+knitr::include_graphics("img/03/errors.png")
+```
+.small[
+Image: *The Basic Practice of Statistics (7th Ed.)*
+]
+
+- <font class="vocab3">Type I Error</font>: Reject $H_0$ when $H_0$ is true
+- <font class="vocab3">Type II Error</font>: Fail to reject $H_0$ when $H_1$ is true
+- Replicate study when possible to reduce these errors
+
+---
+
+## Sample Size
+
+- Probability of Type I error is not affected by the sample size
+  + What affects the probability of Type I error?
+--
+
+- Probability of Type II error decreases as the sample size increases
+--
+
+- If the hypothesized value is not very different from actual parameter value, you need a large sample size
+--
+
+- When designing a study, it is good practice to conduct a power analyses to determine the sample size required to minimize the chance of Type II error
+
+---
+
+class: regular 
+
+## Sample Size
+
+- It is always preferable to collect as much data as possible (as long as it is accurate and relevant)
+--
+
+- A test can reject almost any false $H_0$, i.e. detect even very small effects, when the sample size is large enough
+--
+
+- *Note*: Statistical significance is <u>not</u> the same as practical significance 
+  + Even if $H_0$ is rejected, the detected effect may be too small to be of any practical use
+
+---
+
+class: middle, center
+
+## Inference for for $\beta_1$
+
+---
+
+## Slope: Confidence Interval
+
+- The confidence interval for the regression slope is 
+
+$$\mathbf{\color{blue}{\hat{\beta}_1 \pm t^* SE(\hat{\beta}_1)}}$$
 
 --
 
-- There is a great resource for working with git and R: [happygitwithr.com](http://happygitwithr.com/).
-    - Some of the content in there is beyond the scope of this course, but it's a good place to look for help.
+- $t^*$ is the critical value associated with our confidence level. 
+  + It is calculated from a $t$ distribution with $n-2$ degrees of freedom
+
 
 --
 
-- You will start using git and GitHub in Lab 01 on Friday.
+- $SE(\hat{\beta}_1)$ is the standard error for the slope 
+
+$$SE(\hat{\beta}_1) = \hat{\sigma}\sqrt{\frac{1}{(n-1)s_X^2}}$$
+
+---
+
+## rottomatoes.com
+
+```{r,echo=F}
+tidy(model)
+```
+
+Calculate a 95% confidence interval to estimate the true slope of `tomatometer`
+
+---
+
+## rottentomatoes.com
+
+- **UPDATE THIS SLIDE*
+
+<!--
+$$0.0475366 \pm 1.652586 \times 0.0026906 = \mathbf{(0.04309, 0.05198)}$$
+<br>
+
+**Interpretation:** We are 90% confident that the population regression slope is between (0.04309, 0.05198). This means, for each additional $1000 spent on TV advertising, we expect the mean increase in sales to be between approximately $43090 and $51980.
+-->
+
+---
+
+### Confidence Interval in R
+
+```{r coef-ci}
+confint_tidy(model,conf.level=0.9)
+```
+
+---
+
+## Slope: Hypothesis Test 
+
+- We are often interested in testing whether there is a significant linear relationship between the explanatory and response variable 
+
+- If there is no linear relationship between the two variables, the population regression slope should equal 0 
+--
+
+- We can test the hypotheses: 
+
+$$\begin{aligned}&\mathbf{H_0: \boldsymbol{\beta_1} = 0}\\&\mathbf{H_a: \boldsymbol{\beta_1} \neq 0}\end{aligned}$$
+
+- This is the test conducted by the `lm()` function in R
+
+
+---
+
+## Slope: Hypothesis Test
+
+$$\begin{aligned}&\mathbf{H_0: \boldsymbol{\beta_1} = 0}\\&\mathbf{H_a: \boldsymbol{\beta_1} \neq 0}\end{aligned}$$
+
+- <font class="vocab">Test Statistic: </font> 
+$$\mathbf{\text{test statistic} = \frac{\text{Estimate} - \text{Hypothesized}}{SE} = \frac{\hat{\boldsymbol{\beta}}_1 - 0}{SE(\hat{\beta}_1)}}$$
+
+--
+
+
+- <font class="vocab">p-value:</font> Calculated from a $t$ distribution with $n-2$ degrees of freedom
+$$\mathbf{\text{p-value} = P(t \geq |\text{test statistic}|)}$$
+
+---
+
+## rottentomatoes.com
+
+```{r}
+tidy(model)
+```
+
+**UPDATE THE CALCULATIONS**
+
+- <font class="vocab">Hypotheses: </font> $H_0: \beta_1 = 0 \text{ vs. }H_a: \beta_1 \neq 0$
+--
+
+- <font class="vocab">Test Statistic: </font> $\frac{0.0475366 - 0}{0.0026906} = 17.668$
+--
+
+- <font class="vocab">p-value: </font> $2\times P(t > |17.668|)$ 
+```{r}
+2*(1-pt(17.668,198)) #df  200-2 = 198 
+```
+
+---
+
+## Slope: One-sided Hypothesis Test
+
+- You can use the test statistic from the `lm()` model output to calculate the p-value for a one-sided test 
+
+
+- Suppose you want to test the hypotheses: 
+$$\begin{aligned}&H_0: \beta_1 = 0\\
+&H_a: \beta_1 > 0\end{aligned}$$
+
+**UPDATE**
+- For the regression model of TV Advertising and Sales, we can calculate the p-value as 
+$$\text{p-value}= P(t > 17.668)$$
+```{r}
+1-pt(17.668,198) #df  200-2 = 198 
+```
+
+---
+
+class: middle, center
+
+## Predictions for New Observations
+
+---
+
+class: regular
+
+### Predictions
+
+- We can use the regression model to predict for a response at $X_0$
+
+$$\text{Pred}\{Y|X_0\} = \hat{\mu}\{Y|X_0\} = \hat{\beta}_0 + \hat{\beta}_1 X_0$$
+<br> 
+
+- In other words, we have the same estimate whether we want to predict the mean response at $X_0$ or an individual response at $X_0$.
+
+
+---
+
+## rottentomatoes.com
+
+**UPDATE THE CALCULATIONS**
+
+$$\mathbf{\hat{\mu}\{\text{sales}|\text{tv_spend}\} =  7.033 +	0.0475 \times \text{tv_spend}}$$
+- Calculate the predicted sales if the company spend $50,000 on TV advertising
+  + Remember the units! 
+
+
+--
+
+- $$\text{Pred}\{\text{sales}|\text{tv_spend}=50000\} = 7.033 + 0.0475 \times 50 = \mathbf{\color{blue}{9.408}}$$
+
+--
+
+- If the company spends $50,000 in TV advertising, based on our model, they are expected to earn $9.408 million in total sales.
+
+
+---
+
+## SE for Predictions
+
+- There is uncertainty in our predictions, so we need to calculate an SE to capture the uncertainty
+
+- The SE is different depending on whether you are predicting an average value or an individual value
+
+- SE is larger when predicting for an individual value than for an average value 
+    - **UPDATE WHERE TO FIND FORMULAS**
+    
+---
+
+## rottentomatoes.com
+
+**UPDATE**
+
+We wish to calculated predicted values for sales when TV spending is $50,000 , $100,000 and $150,000
+
+--
+
+First we will predict the <font class="vocab">average</font> sales
+```{r pred-ci}
+# x0 = data.frame(tv_spend=c(50,100,150))
+# predict.lm(model,x0,interval="confidence",conf.level=0.9)
+```
+<br> 
+
+--
+
+Based on our regression model, we are 90% confident that if $50,000 is spent on TV advertising, the average sales will be between $8.722 million and $10.1 million. 
+
+
+---
+
+## rottentomatoes.com
+
+Next, we will predict the <font class="vocab">individual</font> sales when TV spending is $50,000, $100,000 and $150,000
+```{r pred-pi}
+#x0 = data.frame(tv_spend=c(50,100,150))
+#predict.lm(model,x0,interval="prediction",conf.level=0.9)
+```
+
+--
+
+Based on our regression model, we are 90% confident that if $50,000 is spent on TV advertising, the sales in an indiviudal market will be between $2.947 million and $15.872 million.
 
 ---
 
 ## Before next class 
 
-- Reading 02 posted online - due Wed Jan 23
-    - Review inference
-    
-- If you have not already done so, 
-    - Accept the invite to join `STA210-Sp19` organization on GitHub
-    - complete "Getting to know you" survey on Sakai 
-    - complete Pretest ([test info & access code](https://www2.stat.duke.edu/courses/Spring19/sta210.001/slides/lab-slides/00-lab-slides.html#8))
-    
+- Lab 01 due **today at 11:59p**
+
+- Start Reading 03 - due Wed Jan 30
+   
