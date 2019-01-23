@@ -44,7 +44,7 @@ lessons:
     title: "Multiple Linear Regression (MLR) Basics"
     reading: "reading-03.html"
  #   slides: "lec-slides/03b-tips-for-effective-dataviz.pdf"
-   # hw: "hw-01.html"
+    hw: "hw-01-slr.html"
   - date: "Fri, Feb 1"
     title: "Lab 03"
   #  slides: "lab-slides/03-lab-deck.html"

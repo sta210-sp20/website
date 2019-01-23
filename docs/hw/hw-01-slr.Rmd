@@ -97,7 +97,7 @@ winter_model %>%
 
 6. What is the value of the test statistic associated with the null hypothesis $H_0: \beta_1 = 0$? Interpret this value in the context of the problem. 
 
-7. Suppose your roommate reads the regression output and says, "the probability that actors and actresses have the same average age is 7.28e-25.” Is your friend correct? Briefly explain.
+7. Suppose your roommate reads the regression output and says, "the probability that the slope is not 0  is 7.28e-25.” Is your friend correct? Briefly explain.
 
 8. Use the code below to calculate *R<sup>2</sup>*, and interpret this value in the context of the problem.
 ```{r eval=FALSE}
@@ -108,7 +108,7 @@ rsquare(winter_model,bikeshare)
 
 The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be data exploration and an analysis of the model assumptions. In short, these questions should be treated as "mini-projects".
 
-9. Use simple linear regression to describe the relationship between the temperature (`temp_c`) and the number of bike rentals (`count`). The description should include discussion about the significance of the relationship and interpretations of any relevant model coefficients. Your response should also include data exploration and a discussion of the assumptions. 
+9. Use simple linear regression to describe the relationship between the temperature (`temp_c`) and the number of bike rentals (`count`) for **spring season**. The description should include discussion about the significance of the relationship and interpretations of any relevant model coefficients. Your response should also include data exploration and a discussion of the assumptions. 
 
     - Include all relevant code and resulting output.
     - All plots should have proper labels for the axes and an informative title. 
