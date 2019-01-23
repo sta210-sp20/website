@@ -54,10 +54,13 @@ knitr::opts_chunk$set(
 
 ---
 
-class: middle, center
+## Check in
 
-## Questions from Lab 01? 
+- Any questions on material from last time?
 
+- Any questions on the lab?
+
+- Any questions on workflow / course structure?
 
 ---
 
@@ -65,9 +68,9 @@ class: middle, center
 
 - Recap: Simple linear regression basics
 
-- $R^2$
+- Estimating $\sigma^2$
 
-- **Review:** Inference for the mean, $\mu$
+- $R^2$
 
 - Inference for the slope, $\beta_1$
 
@@ -208,7 +211,7 @@ ggplot(data=movie_scores,mapping=aes(x=tomatometer, y=residuals)) +
   theme_gray()
 ```
 
-- From the scatterplot and plot of the residuas vs. predictor, we conclude the **linearity** assumption is sufficiently met.
+- From the scatterplot and plot of the residuals vs. predictor, we conclude the **linearity** assumption is sufficiently met.
 
 - From the plot of the residuals vs. predictor, we conclude the **constant variance** assumption is sufficiently met. 
 
@@ -254,9 +257,32 @@ class: middle, center
 
 ---
 
-## Estimating $\sigma^2$
+---
 
-- Residual Standard Error
+class: regular 
+
+## Estimating Regression Variance
+
+- <font class="vocab3">Residual: </font>Difference between the observed response and its estimated mean (the predicted response)
+  + The residual for the $i^{th}$ observation, $(X_i, Y_i)$, is $$e_i = Y_i - (\hat{\beta}_0+ \hat{\beta}_1 X_i)$$
+--
+
+- <font class="vocab3">Residual Standard Error (RSE)</font>: Approximately the average amount the response will deviate from the true regression line. 
+    - It is the estimate of $\sigma$
+
+$$\hat{\sigma} = \sqrt{\frac{1}{n-2}RSS} \hspace{2.5mm} = \hspace{2.5mm} \sqrt{\frac{1}{n-2}\sum\limits_{i=1}^n (y_i - \hat{y}_i)^2}$$
+
+---
+
+## Calculating RSE in R
+
+```{r}
+model %>% sigma()
+```
+<br>
+<br>
+
+One way we can use the RSE is to compare the fit of two models. **What is one disadvantage of using the RSE for this purpose?**
 
 ---
 
@@ -266,7 +292,7 @@ We can use the coefficient of determination, $R^2$, to measure how well the mode
 
 - $R^2$ is the proportion of variation in $Y$ that is explained by the regression line (reported as percentage)
 
-- It is difficult to determinely what exactly is a "good" value of $R^2$. It depends on the context of the data.
+- It is difficult to determine what exactly is a "good" value of $R^2$. It depends on the context of the data.
 
 ---
 
@@ -330,11 +356,6 @@ In our example, we will treat the data as a random sample of movies from rottent
 
 ---
 
-## Distribution of $\beta_1$
-
-
----
-
 class: middle, center
 
 **What is a plausible range of values of the true population slope for `tomatometer`?**
@@ -342,8 +363,6 @@ class: middle, center
 ---
 
 ## Confidence Intervals
-
-- Developed by Jerzy Neyman (1930s)
 
 - **What**: Estimates a population parameter using a sample statistic
     - Assuming sample data is a simple random sample
@@ -364,7 +383,7 @@ knitr::include_graphics("img/03/confidence_intervals.png")
 ```
 ]
 - It's a procedure to produce an interval for the parameter of interest
-- If we take many samples of size $n$, the intervals caluclated from the sample will contain the parameter about 95% of the time
+- If we take many samples of size $n$, the intervals calculated from the sample will contain the parameter about 95% of the time
 - It is **not** interpreted as the probability the parameter of interest is in a given interval
 
 ---
@@ -416,64 +435,51 @@ knitr::include_graphics("img/03/tdistribution.png")
 
 ---
 
-### Interpreting the Confidence Interval
+### rottentomatoes: 95% confidence interval for $\beta_1$
 
-The general 
+```{r}
+model %>%
+  tidy(conf.int=TRUE)
+```
+
+**Interpretation**: 
+  
+We are 95% confident that the interval (0.450, 0.587) contains $\beta_1$, the true population slope for `tomatometer`. This means we are 95% confident that for every 1% increase in the tomatometer score, the audience score will increase between 0.45% and 0.587%, on average.
 
 ---
 
-### Application: Confidence Interval for $\mu$
+## Calculating the 95% CI
 
 ```{r}
-library(tidyverse)
-library(WRS2) #has the Pygmalion data
-iq_scores <- Pygmalion
-glimpse(iq_scores)
+sigma <- sigma(model)
+beta1 <- nth(model$coefficients,2)
 ```
+
+
+```{r}
+crit.val <- qt(0.975,145)
+```
+
+```{r}
+movie_scores %>%
+  summarise(n = n(), 
+            var=var(tomatometer),
+            sigma = sigma,
+            beta1 = beta1,
+            crit.val = crit.val,
+            se = sqrt(sigma^2 /((n-1)*var)), 
+            lb = beta1 - crit.val * se,
+            ub = beta1 + crit.val * se)
+```
+
 
 ---
 
-### Application: Confidence Interval for $\mu$
+class: middle, center
 
+**Is there truly a linear relationship between the tomatometer and audience scores?** 
 
-```{r}
-# update this 
-# ggplot(data = iq_scores, mapping = aes(x = Pretest)) +geom_histogram()
-```
-
----
-
-### Application: Confidence Interval for $\mu$
-
-**UPDATE** 
-```{r}
-
-#iq_scores %>% summarise(n=n(), mean=mean(Pretest), 
-                       # median = median(Pretest), s=sd(Pretest))
-```
-
-```{r}
-#(t.crit <- qt(0.975,113))
-```
-
-1. Calculate a 95% confidence interval for the mean IQ score of elementary students at the beginning of the school year. 
-2. Interpret the interval in the context of the problem.
-
-```{r,echo=FALSE,results=FALSE}
-# t.test(iq_scores$Pretest, conf.level = 0.95)$conf.int
-```
-
----
-
-### Application: Confidence Interval for $\mu$
-
-- Similarly, we can calculate a 95% confidence interval for the mean IQ scores of elementary school students at the end of the school year.
-
-```{r}
-t.test(iq_scores$Posttest, conf.level = 0.95)$conf.int
-```
-
-- Compare the intervals for the pretest and post-test. **Is there evidence that the students' IQ scores were higher, on average, at the end of the school year?**
+**In other words, is there enough evidence to conclude that the true population slope is different from 0?**
 
 ---
 
@@ -484,13 +490,13 @@ Question being answered:
 - Given the data in our sample, is there evidence <u>**against**</u> a specified hypothesis about the parameter of interest?
 
 - In other words:
-  + Are the data consistent with the specified hypothesis?
+    - Are the data consistent with the specified hypothesis?
   
 ---
 
 ## Outline of a Hypothesis Test
 
-- Assume some hypothesis about a parameter is true
+- Assume some hypothesis about the parameter is true
     - This hypothesis is the <font class="vocab3">null hypothesis</font>
 
 - Identify the appropriate statistic based on the distribution of the parameter of interest.
@@ -506,18 +512,7 @@ Question being answered:
 - Calculate the probability of observing a value of the statistic that is as extreme or more extreme than the observed value, under the assumed hypothesis.
     - This calculated probability is the <font class="vocab3">p-value</font>.
 
-- Assess the p-value. A small p-value means...
-    a.The assumed hypothesis is incorrect
-    b. The assumed hypothesis is correct and a rare event has occurred
-
----
-
-## Outline of a Hypothesis Test
- 
-- State a conclusion about the hypothesis based on the assessment of the p-value.
-    - Since event (b) is by definition rare, we will conclude a <font color="green">small p-value</font> indicates that there <font color="green">is sufficient evidence</font> to claim <font color="green">that the assumed hypothesis is false</font>.
-    
-    - When the p-value is <font color="red">not small</font>, we will conclude that there <font color="red">is not sufficient evidence</font> to claim the assumed hypothesis is false.
+- Assess the p-value to make your conclusion. 
 
 ---
 
@@ -525,7 +520,7 @@ Question being answered:
 
 1. State the hypotheses
 
-2. Calculate the relevant test statistic
+2. Calculate the test statistic 
 
 3. Calculate the p-value
 
@@ -533,27 +528,65 @@ Question being answered:
 
 ---
 
-## Formulating Hypotheses
+### 1. State the hypotheses
 
-- <font class="vocab3">Null Hypothesis</font>, $\color{blue}{H_0}$: statement about the population parameter that is believed to be true or is used to put forth an argument unless it can be shown to be incorrect 
+- We are often interested in testing whether there is a significant linear relationship between the explanatory and response variable 
 
-- <font class="vocab3">Alternative Hypothesis</font>, $\color{blue}{H_a}$:  claim about the parameter that contradicts the null hypothesis 
-  + This is typically what we want to show
+- If there is no linear relationship between the two variables, the population regression slope should equal 0 
+--
 
-- $H_a$ can be one-sided or two-sided
-  + This will determine how we calculate the p-value
+- We can test the hypotheses: 
+
+$$\begin{aligned}&\mathbf{H_0: \boldsymbol{\beta_1} = 0}\\&\mathbf{H_a: \boldsymbol{\beta_1} \neq 0}\end{aligned}$$
+
+- This is the test conducted by the `lm()` function in R
+
 
 ---
 
-## Test Statistic
+### 2. Calculate the test statistic
 
-- Test statistics take the following general form: 
+$$\begin{aligned}&H_0: \boldsymbol{\beta_1} = 0\\&H_a: \boldsymbol{\beta_1} \neq 0\end{aligned}$$
 
-$$ \frac{\text{estimate} - \text{hypothesized value}}{SE}$$
+- <font class="vocab">Test Statistic: </font> 
+$$\begin{aligned}\text{test statistic} &= \frac{\text{Estimate} - \text{Hypothesized}}{SE} \\
+&= \frac{\hat{\boldsymbol{\beta}}_1 - 0}{SE(\hat{\beta}_1)}\end{aligned}$$
+
+---
+
+### 3. Calculate the p-value
+
+- <font class="vocab">p-value:</font> Calculated from a $t$ distribution with $n-2$ degrees of freedom
+
+$$\text{p-value} = P(t \geq |\text{test statistic}|)$$
+
+A small p-value means either....
+
+1. The assumed hypothesis is incorrect or 
+2. The assumed hypothesis is correct and a rare event has occurred
+
+---
+
+### 4. State the conclusion 
 
 
-- <font class="vocab">Interpretation: </font> How many standard errors the estimate is from the hypothesized value
-    - The sign of the test statistic indicates if the estimate is above or below the hypothesized value
+- State a conclusion about the hypothesis based on the assessment of the p-value.
+    - Since event (2) is by definition rare, we will conclude a <font color="green">small p-value</font> indicates that there <font color="green">is sufficient evidence</font> to claim <font color="green">that the assumed hypothesis is false</font>.
+    
+    - When the p-value is <font color="red">not small</font>, we will conclude that there <font color="red">is not sufficient evidence</font> to claim the assumed hypothesis is false.
+
+---
+
+### Hypothesis test for coefficient of `tomatometer`
+
+```{r}
+model %>%
+  tidy(conf.int=TRUE)
+```
+
+---
+
+### Understanding Hypothesis Tests
 
 ---
 
@@ -564,19 +597,6 @@ $$ \frac{\text{estimate} - \text{hypothesized value}}{SE}$$
 - [Statisticians Found One Thing They Can Agree On: It's Time to Stop Misusing P-Values](https://fivethirtyeight.com/features/statisticians-found-one-thing-they-can-agree-on-its-time-to-stop-misusing-p-values/)
 
 ---
-
-## Calculating the p-value
-
-- <font class="vocab3">p-value:</font> probability of getting a test statistic as extreme or more extreme than the calculated test statistic, assuming the null hypothesis is true
-
-- When the alternative has a $>$, the p-value is calculated using the area to the right of the test statistic
-
-- When the alternative has a $<$, the p-value is calculated using the area to the left of the test statistic
-
-- When the alternative has $\neq$, the p-value is calculated as the area to the left of $-|\text{test statistic}|$ and to the right of $|\text{test statistic}|$
-
----
-
 
 ### What the *p-value* is and is not
 
@@ -644,7 +664,7 @@ The probability of getting a test statistic as extreme or more extreme than the 
 
 ### Not Statistically Significant
 
-- An outcome of failing to reject $H_0$ is <u>not</u> a failed study/experiment
+- An outcome of failing to reject $H_0$ is <u>**not**</u> a failed study/experiment
 
 - Obtaining an outcome of "no significant effect" or "no significant difference" is still valid 
 
@@ -670,7 +690,7 @@ Image: *The Basic Practice of Statistics (7th Ed.)*
 ## Sample Size
 
 - Probability of Type I error is not affected by the sample size
-  + What affects the probability of Type I error?
+    - What affects the probability of Type I error?
 --
 
 - Probability of Type II error decreases as the sample size increases
@@ -698,223 +718,9 @@ class: regular
 
 ---
 
-class: middle, center
-
-## Inference for for $\beta_1$
-
----
-
-## Slope: Confidence Interval
-
-- The confidence interval for the regression slope is 
-
-$$\mathbf{\color{blue}{\hat{\beta}_1 \pm t^* SE(\hat{\beta}_1)}}$$
-
---
-
-- $t^*$ is the critical value associated with our confidence level. 
-  + It is calculated from a $t$ distribution with $n-2$ degrees of freedom
-
-
---
-
-- $SE(\hat{\beta}_1)$ is the standard error for the slope 
-
-$$SE(\hat{\beta}_1) = \hat{\sigma}\sqrt{\frac{1}{(n-1)s_X^2}}$$
-
----
-
-## rottomatoes.com
-
-```{r,echo=F}
-tidy(model)
-```
-
-Calculate a 95% confidence interval to estimate the true slope of `tomatometer`
-
----
-
-## rottentomatoes.com
-
-- **UPDATE THIS SLIDE*
-
-<!--
-$$0.0475366 \pm 1.652586 \times 0.0026906 = \mathbf{(0.04309, 0.05198)}$$
-<br>
-
-**Interpretation:** We are 90% confident that the population regression slope is between (0.04309, 0.05198). This means, for each additional $1000 spent on TV advertising, we expect the mean increase in sales to be between approximately $43090 and $51980.
--->
-
----
-
-### Confidence Interval in R
-
-```{r coef-ci}
-confint_tidy(model,conf.level=0.9)
-```
-
----
-
-## Slope: Hypothesis Test 
-
-- We are often interested in testing whether there is a significant linear relationship between the explanatory and response variable 
-
-- If there is no linear relationship between the two variables, the population regression slope should equal 0 
---
-
-- We can test the hypotheses: 
-
-$$\begin{aligned}&\mathbf{H_0: \boldsymbol{\beta_1} = 0}\\&\mathbf{H_a: \boldsymbol{\beta_1} \neq 0}\end{aligned}$$
-
-- This is the test conducted by the `lm()` function in R
-
-
----
-
-## Slope: Hypothesis Test
-
-$$\begin{aligned}&\mathbf{H_0: \boldsymbol{\beta_1} = 0}\\&\mathbf{H_a: \boldsymbol{\beta_1} \neq 0}\end{aligned}$$
-
-- <font class="vocab">Test Statistic: </font> 
-$$\mathbf{\text{test statistic} = \frac{\text{Estimate} - \text{Hypothesized}}{SE} = \frac{\hat{\boldsymbol{\beta}}_1 - 0}{SE(\hat{\beta}_1)}}$$
-
---
-
-
-- <font class="vocab">p-value:</font> Calculated from a $t$ distribution with $n-2$ degrees of freedom
-$$\mathbf{\text{p-value} = P(t \geq |\text{test statistic}|)}$$
-
----
-
-## rottentomatoes.com
-
-```{r}
-tidy(model)
-```
-
-**UPDATE THE CALCULATIONS**
-
-- <font class="vocab">Hypotheses: </font> $H_0: \beta_1 = 0 \text{ vs. }H_a: \beta_1 \neq 0$
---
-
-- <font class="vocab">Test Statistic: </font> $\frac{0.0475366 - 0}{0.0026906} = 17.668$
---
-
-- <font class="vocab">p-value: </font> $2\times P(t > |17.668|)$ 
-```{r}
-2*(1-pt(17.668,198)) #df  200-2 = 198 
-```
-
----
-
-## Slope: One-sided Hypothesis Test
-
-- You can use the test statistic from the `lm()` model output to calculate the p-value for a one-sided test 
-
-
-- Suppose you want to test the hypotheses: 
-$$\begin{aligned}&H_0: \beta_1 = 0\\
-&H_a: \beta_1 > 0\end{aligned}$$
-
-**UPDATE**
-- For the regression model of TV Advertising and Sales, we can calculate the p-value as 
-$$\text{p-value}= P(t > 17.668)$$
-```{r}
-1-pt(17.668,198) #df  200-2 = 198 
-```
-
----
-
-class: middle, center
-
-## Predictions for New Observations
-
----
-
-class: regular
-
-### Predictions
-
-- We can use the regression model to predict for a response at $X_0$
-
-$$\text{Pred}\{Y|X_0\} = \hat{\mu}\{Y|X_0\} = \hat{\beta}_0 + \hat{\beta}_1 X_0$$
-<br> 
-
-- In other words, we have the same estimate whether we want to predict the mean response at $X_0$ or an individual response at $X_0$.
-
-
----
-
-## rottentomatoes.com
-
-**UPDATE THE CALCULATIONS**
-
-$$\mathbf{\hat{\mu}\{\text{sales}|\text{tv_spend}\} =  7.033 +	0.0475 \times \text{tv_spend}}$$
-- Calculate the predicted sales if the company spend $50,000 on TV advertising
-  + Remember the units! 
-
-
---
-
-- $$\text{Pred}\{\text{sales}|\text{tv_spend}=50000\} = 7.033 + 0.0475 \times 50 = \mathbf{\color{blue}{9.408}}$$
-
---
-
-- If the company spends $50,000 in TV advertising, based on our model, they are expected to earn $9.408 million in total sales.
-
-
----
-
-## SE for Predictions
-
-- There is uncertainty in our predictions, so we need to calculate an SE to capture the uncertainty
-
-- The SE is different depending on whether you are predicting an average value or an individual value
-
-- SE is larger when predicting for an individual value than for an average value 
-    - **UPDATE WHERE TO FIND FORMULAS**
-    
----
-
-## rottentomatoes.com
-
-**UPDATE**
-
-We wish to calculated predicted values for sales when TV spending is $50,000 , $100,000 and $150,000
-
---
-
-First we will predict the <font class="vocab">average</font> sales
-```{r pred-ci}
-# x0 = data.frame(tv_spend=c(50,100,150))
-# predict.lm(model,x0,interval="confidence",conf.level=0.9)
-```
-<br> 
-
---
-
-Based on our regression model, we are 90% confident that if $50,000 is spent on TV advertising, the average sales will be between $8.722 million and $10.1 million. 
-
-
----
-
-## rottentomatoes.com
-
-Next, we will predict the <font class="vocab">individual</font> sales when TV spending is $50,000, $100,000 and $150,000
-```{r pred-pi}
-#x0 = data.frame(tv_spend=c(50,100,150))
-#predict.lm(model,x0,interval="prediction",conf.level=0.9)
-```
-
---
-
-Based on our regression model, we are 90% confident that if $50,000 is spent on TV advertising, the sales in an indiviudal market will be between $2.947 million and $15.872 million.
-
----
-
 ## Before next class 
 
 - Lab 01 due **today at 11:59p**
 
-- Start Reading 03 - due Wed Jan 30
+- HW 1 due **Mon, Jan 28 at 11:59p**
    
