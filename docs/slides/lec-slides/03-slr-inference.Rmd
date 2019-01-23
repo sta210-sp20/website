@@ -257,8 +257,6 @@ class: middle, center
 
 ---
 
----
-
 class: regular 
 
 ## Estimating Regression Variance

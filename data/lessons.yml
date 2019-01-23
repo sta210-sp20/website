@@ -30,7 +30,7 @@ lessons:
   - date: "Wed, Jan 23"
     title: "SLR: Inference"
     reading: "reading-02.html"
-  #  slides: "lec-slides/02b-tidy-data-wrangle.html"
+    slides: "lec-slides/03-slr-inference.html"
   - date: "Fri, Jan 25"
     title: "Lab 02"
   #  lab: "lab-02-data-wrangle-visualize.html"
