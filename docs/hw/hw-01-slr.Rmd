@@ -39,6 +39,7 @@ We will use the following packages in this assignment:
 
 ```{r}
 library(tidyverse)
+library(modelr)
 library(readr) 
 library(broom)
 ```
@@ -101,7 +102,7 @@ winter_model %>%
 
 8. Use the code below to calculate *R<sup>2</sup>*, and interpret this value in the context of the problem.
 ```{r eval=FALSE}
-rsquare(winter_model,bikeshare)
+rsquare(winter_model,winter_data)
 ```
 
 ## Part 2: Data Analysis

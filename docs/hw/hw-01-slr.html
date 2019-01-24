@@ -248,6 +248,7 @@ div.tocify {
 <h2>Packages</h2>
 <p>We will use the following packages in this assignment:</p>
 <pre class="r"><code>library(tidyverse)
+library(modelr)
 library(readr) 
 library(broom)</code></pre>
 <p>We use functions from the <a href="https://readr.tidyverse.org/articles/readr.html"><code>readr</code> package</a> to read in the <code>bikeshare</code> data from a .csv file. The <a href="https://cran.r-project.org/web/packages/broom/vignettes/broom.html"><code>broom</code> package</a> is used to display model output in a tidy format.</p>
@@ -304,7 +305,7 @@ library(broom)</code></pre>
 <li><p>Suppose your roommate reads the regression output and says, “the probability that the slope is not 0 is 7.28e-25.” Is your friend correct? Briefly explain.</p></li>
 <li><p>Use the code below to calculate <em>R<sup>2</sup></em>, and interpret this value in the context of the problem.</p></li>
 </ol>
-<pre class="r"><code>rsquare(winter_model,bikeshare)</code></pre>
+<pre class="r"><code>rsquare(winter_model,winter_data)</code></pre>
 </div>
 <div id="part-2-data-analysis" class="section level2">
 <h2>Part 2: Data Analysis</h2>
