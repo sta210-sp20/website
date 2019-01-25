@@ -16,30 +16,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       message=FALSE)
 ```
 
-# Introduction
-
-```{marginfigure}
-R is the name of the programming language itself and RStudio is a convenient interface.
-```
-
-The main goal of this lab is to introduce you to R and RStudio, which we will be using throughout the course both to learn the statistical concepts discussed in the course and to analyze real data and come to informed conclusions.
-
-```{marginfigure}
-git is a version control system (like "Track Changes" features from Microsoft Word but more powerful) and GitHub is the home for your Git-based projects on the internet (like DropBox but much better).
-```
-
-An additional goal is to introduce you to git and GitHub, which is the collaboration and version control system that we will be using throughout the course.
-
-As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer and statistician. If you're new to R, you should begin by building some basic fluency in R. Today's lab will focus on fundamental building blocks of R and RStudio: the interface, reading in data, and basic commands. Starting next week, the labs will focus on concepts more specific to regression analysis.
-
-To make versioning simpler, today's lab is individual. This will give you a chance to become more familiar with git and GitHub. Next week you’ll learn about collaborating on GitHub and will produce a single lab report as a team.
-
-## Topics covered in this lab:
-
-- Exploratory Data Analysis (data visualizations and numerical summaries)
-- Simple linear regression
-- Writing a lab report using R Markdown
-- Tracking changes and submitting work using git and GitHub
+The primary goal of today's lab is to give you practice with some of the tools you will need to conduct regression analysis using R. An additional goal for today is for you to be introduced to your teams and practice using GitHub and RStudio for collaboration. 
 
 # Getting Started
 
@@ -135,11 +112,11 @@ scorecard %>%
 ```
 3. Plot the distribution of `cost` using a different plot type (i.e. not a histogram) from the [ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf). In addition to the scatterplot, use the `skim` function to calculate summary statistics for `cost`. 
 
-Use the histogram and summary statistics to describe the distrbution of `cost`. 
+Use the histogram and summary statistics to describe the distribution of `cost`. 
 
 4. One nice feature of the `skim` function is that it provides information about the number of observations that are missing values of the variable. How many observations have missing values of `admrate`? How many observations have missing values of `cost`? 
 
-5. Later in the semester, we will techniques to deal with missing values in the data. For now, however, we will only include complete observatons in the remainder of the analysis. We can use the `filter` function to select only the rows that values for both `cost` and `admrate`. 
+5. Later in the semester, we will techniques to deal with missing values in the data. For now, however, we will only include complete observations in the remainder of the analysis. We can use the `filter` function to select only the rows that values for both `cost` and `admrate`. 
 
 Fill in the code below to create a new dataset called `scorecard_new` that only includes complete observations, i.e. those with values for both `admrate` and `cost`.
 
@@ -154,7 +131,7 @@ Learn more about the `filter` function in [Section 5.2 of R for Data Science] (h
 
 6. Create a scatterplot to display the relationship between `cost` (response variable) and `admrate` (explanatory variable). Use the scatterplot to describe the relationship between the two variables. The scatterplot should have labeled axes as well as an informative title. 
 
-7. The data contains information about the type of college, and we would like to see the relationship while also incorporprating information about the type of college. One way to do this is to use a different color for each type of college. Fill in the code below the scatterplot from Question 3 with the marker colors based on the variable `type`. Briefy describe how the relationship between `admrate` and `cost` compare across values of `type`. 
+7. The data contains information about the type of college, and we would like to see the relationship while also incorporating information about the type of college. One way to do this is to use a different color for each type of college. Fill in the code below the scatterplot from Question 3 with the marker colors based on the variable `type`. Briefly describe how the relationship between `admrate` and `cost` compare across values of `type`. 
 
 ```{r eval=FALSE}
 ggplot(data=scorecard, mapping=aes(x=admrate, y=cost, color=type)) + 

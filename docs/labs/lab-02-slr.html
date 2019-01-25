@@ -73,24 +73,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">R is the name of the programming language itself and RStudio is a convenient interface.</span></span></p>
-<p>The main goal of this lab is to introduce you to R and RStudio, which we will be using throughout the course both to learn the statistical concepts discussed in the course and to analyze real data and come to informed conclusions.</p>
-<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">git is a version control system (like “Track Changes” features from Microsoft Word but more powerful) and GitHub is the home for your Git-based projects on the internet (like DropBox but much better).</span></span></p>
-<p>An additional goal is to introduce you to git and GitHub, which is the collaboration and version control system that we will be using throughout the course.</p>
-<p>As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer and statistician. If you’re new to R, you should begin by building some basic fluency in R. Today’s lab will focus on fundamental building blocks of R and RStudio: the interface, reading in data, and basic commands. Starting next week, the labs will focus on concepts more specific to regression analysis.</p>
-<p>To make versioning simpler, today’s lab is individual. This will give you a chance to become more familiar with git and GitHub. Next week you’ll learn about collaborating on GitHub and will produce a single lab report as a team.</p>
-<div id="topics-covered-in-this-lab" class="section level2">
-<h2>Topics covered in this lab:</h2>
-<ul>
-<li>Exploratory Data Analysis (data visualizations and numerical summaries)</li>
-<li>Simple linear regression</li>
-<li>Writing a lab report using R Markdown</li>
-<li>Tracking changes and submitting work using git and GitHub</li>
-</ul>
-</div>
-</div>
+<p>The primary goal of today’s lab is to give you practice with some of the tools you will need to conduct regression analysis using R. An additional goal for today is for you to be introduced to your teams and practice using GitHub and RStudio for collaboration.</p>
 <div id="getting-started" class="section level1">
 <h1>Getting Started</h1>
 <p>Each of your assignments will begin with the following steps. You saw your TA demonstrate these steps, and they’re outlined in detail here again. Going forward each lab will start with a “Getting started” section but details will be a bit more sparse than this. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.</p>
@@ -109,7 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>There is one more piece of housekeeping we need to take care of before we get started. Specifically, we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your email address and your name.</p>
 <p>To do so, you will use the <code>use_git_config()</code> function from the <code>usethis</code> package.</p>
 <p>Type the following lines of code in the <strong>console</strong> in RStudio filling in your name and email address.</p>
-<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">Your email address is the address tied to your GitHub account and your name should be first and last name.</span></span></p>
+<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">Your email address is the address tied to your GitHub account and your name should be first and last name.</span></span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(usethis)
 <span class="kw">use_git_config</span>(<span class="dt">user.name=</span><span class="st">&quot;your name&quot;</span>, <span class="dt">user.email=</span><span class="st">&quot;your email&quot;</span>)</code></pre></div>
 </div>
@@ -186,18 +169,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ol start="3" style="list-style-type: decimal">
 <li>Plot the distribution of <code>cost</code> using a different plot type (i.e. not a histogram) from the <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">ggplot2 Cheat Sheet</a>. In addition to the scatterplot, use the <code>skim</code> function to calculate summary statistics for <code>cost</code>.</li>
 </ol>
-<p>Use the histogram and summary statistics to describe the distrbution of <code>cost</code>.</p>
+<p>Use the histogram and summary statistics to describe the distribution of <code>cost</code>.</p>
 <ol start="4" style="list-style-type: decimal">
 <li><p>One nice feature of the <code>skim</code> function is that it provides information about the number of observations that are missing values of the variable. How many observations have missing values of <code>admrate</code>? How many observations have missing values of <code>cost</code>?</p></li>
-<li><p>Later in the semester, we will techniques to deal with missing values in the data. For now, however, we will only include complete observatons in the remainder of the analysis. We can use the <code>filter</code> function to select only the rows that values for both <code>cost</code> and <code>admrate</code>.</p></li>
+<li><p>Later in the semester, we will techniques to deal with missing values in the data. For now, however, we will only include complete observations in the remainder of the analysis. We can use the <code>filter</code> function to select only the rows that values for both <code>cost</code> and <code>admrate</code>.</p></li>
 </ol>
 <p>Fill in the code below to create a new dataset called <code>scorecard_new</code> that only includes complete observations, i.e. those with values for both <code>admrate</code> and <code>cost</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">__________ &lt;-<span class="st"> </span>scorecard <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(admrate),________)</code></pre></div>
-<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span class="marginnote"><span style="display: block;">Learn more about the <code>filter</code> function in [Section 5.2 of R for Data Science] (<a href="https://r4ds.had.co.nz/transform.html#filter-rows-with-filter" class="uri">https://r4ds.had.co.nz/transform.html#filter-rows-with-filter</a>)</span></span></p>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">Learn more about the <code>filter</code> function in [Section 5.2 of R for Data Science] (<a href="https://r4ds.had.co.nz/transform.html#filter-rows-with-filter" class="uri">https://r4ds.had.co.nz/transform.html#filter-rows-with-filter</a>)</span></span></p>
 <ol start="6" style="list-style-type: decimal">
 <li><p>Create a scatterplot to display the relationship between <code>cost</code> (response variable) and <code>admrate</code> (explanatory variable). Use the scatterplot to describe the relationship between the two variables. The scatterplot should have labeled axes as well as an informative title.</p></li>
-<li><p>The data contains information about the type of college, and we would like to see the relationship while also incorporprating information about the type of college. One way to do this is to use a different color for each type of college. Fill in the code below the scatterplot from Question 3 with the marker colors based on the variable <code>type</code>. Briefy describe how the relationship between <code>admrate</code> and <code>cost</code> compare across values of <code>type</code>.</p></li>
+<li><p>The data contains information about the type of college, and we would like to see the relationship while also incorporating information about the type of college. One way to do this is to use a different color for each type of college. Fill in the code below the scatterplot from Question 3 with the marker colors based on the variable <code>type</code>. Briefly describe how the relationship between <code>admrate</code> and <code>cost</code> compare across values of <code>type</code>.</p></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>scorecard, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>admrate, <span class="dt">y=</span>cost, <span class="dt">color=</span>type)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span>_____________________</code></pre></div>
@@ -206,7 +189,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><p>Interpret the slope in the context of the problem. Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful.</p></li>
 <li><p>While the <code>tidy</code> function is used to create a data frame of the coefficients and their associated inferential statistics, we can get a one-row summary of the model using the <code>glance</code> function. Use the <code>glance</code> function to get a summary of the model fit in Exercise 8.</p></li>
 </ol>
-<p><label for="tufte-mn-5" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-5" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://rdrr.io/cran/broom/man/glance.lm.html">documentation for <code>glance</code></a> to see the model summary values produced by <code>glance</code>.</span></span></p>
+<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://rdrr.io/cran/broom/man/glance.lm.html">documentation for <code>glance</code></a> to see the model summary values produced by <code>glance</code>.</span></span></p>
 <ol start="11" style="list-style-type: decimal">
 <li><p>What is the value of <span class="math inline">\(R^2\)</span>? Interpret this value in the context of the problem.</p></li>
 <li><p>What is the value of <span class="math inline">\(\hat{\sigma}^2\)</span>, the estimated regression variance?</p></li>
@@ -216,41 +199,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><span class="math display">\[H_0: \beta_1 = 0 \hspace{5mm} \text{versus} \hspace{5mm} \beta_1 \neq 0\]</span></p>
 <p>State what the null and alternative hypotheses mean in terms of the relationship between <code>admrate</code> and <code>cost</code>.</p>
 <ol start="15" style="list-style-type: decimal">
-<li><p>Consider the confidence interval from Question 13 and the hypotheses in Question 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.</p></li>
-<li></li>
+<li>Consider the confidence interval from Question 13 and the hypotheses in Question 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scorecard_new &lt;-<span class="st"> </span>scorecard <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(admrate),<span class="op">!</span><span class="kw">is.na</span>(cost))
-
-pri.np &lt;-<span class="st"> </span>scorecard_new <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(type<span class="op">==</span><span class="st">&quot;Private, nonprofit&quot;</span>)
-
-pri.fp &lt;-<span class="st"> </span>scorecard_new <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(type<span class="op">==</span><span class="st">&quot;Private, for-profit&quot;</span>)
-
-public &lt;-<span class="st"> </span>scorecard_new <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(type<span class="op">==</span><span class="st">&quot;Public&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(cost <span class="op">~</span><span class="st"> </span>admrate, <span class="dt">data=</span>pri.np)
-m1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tidy</span>(<span class="dt">conf.int=</span><span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## # A tibble: 2 x 7
-##   term        estimate std.error statistic   p.value conf.low conf.high
-##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1 (Intercept)   50797.    1112.       45.7 2.92e-254   48615.    52980.
-## 2 admrate        -198.      16.5     -12.0 2.55e- 31    -231.     -166.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(cost <span class="op">~</span><span class="st"> </span>admrate, <span class="dt">data=</span>pri.fp)
-m2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tidy</span>(<span class="dt">conf.int=</span><span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## # A tibble: 2 x 7
-##   term        estimate std.error statistic  p.value conf.low conf.high
-##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1 (Intercept)  33149.     1679.      19.7  2.20e-49   29838.   36460. 
-## 2 admrate        -69.0      21.2     -3.25 1.33e- 3    -111.     -27.2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m3 &lt;-<span class="st"> </span><span class="kw">lm</span>(cost <span class="op">~</span><span class="st"> </span>admrate, <span class="dt">data=</span>public)
-m3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tidy</span>(<span class="dt">conf.int=</span><span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## # A tibble: 2 x 7
-##   term         estimate std.error statistic   p.value conf.low conf.high
-##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1 (Intercept)  20193.       719.     28.1   1.47e-107  18780.    21605. 
-## 2 admrate         -7.20      10.3    -0.701 4.84e-  1    -27.4      13.0</code></pre>
 <p><em>You’re done! Commit all remaining changes, use the commit message “Done with Lab 2!”, and push. Before you wrap up the assignment, make sure the .Rmd, .html, and .md documents are all updated on your GitHub repo.</em></p>
 </div>
 
