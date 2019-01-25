@@ -57,10 +57,8 @@ We will use the following packages in today's lab.
 
 ```{r load-packages}
 library(tidyverse)
-library(readr)
 library(skimr)
 library(broom)
-library(knitr)
 library(rcfss)
 ```
 
