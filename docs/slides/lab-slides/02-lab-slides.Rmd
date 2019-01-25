@@ -66,7 +66,7 @@ class: center, middle
     
 ## Teams
 
-- Find your teammates: **UPDATE THIS**
+- Find your teammates: [STA210 Teams](https://prodduke-my.sharepoint.com/:x:/g/personal/mt324_duke_edu/EbV11QsftSdPvMeb05D9oIUBScKanaCBzZhqA81uCAgX2A?e=HFsQ3d)
 
 - By the end of today's lab: 
     - Come up with a **team name** and let me know the name.
