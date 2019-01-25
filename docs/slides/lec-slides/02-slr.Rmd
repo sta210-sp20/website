@@ -33,7 +33,6 @@ color_palette <- list(gray = "#999999",
                       darkblue = "#0072B2", 
                       red = "#D55E00", 
                       purple = "#CC79A7")
-
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
 	fig.align = "center",
@@ -431,19 +430,13 @@ class: regular
 ### Example: Birth rate vs. Per Capita Income
 
 - Pew Research did a <a href="http://www.pewsocialtrends.org/2011/10/12/in-a-down-economy-fewer-births/" target="_blank">study in 2011</a> looking at how the economy's effect on birthrate in the United States. 
-
 - We will look at data for Virginia and Washington D.C. years 2000 - 2009
-
 - Birth rate: Births per 100,000 women ages 15-44
-
 - Per Capita Income: average income per person
-
 ---
-
 ```{r, echo=F}
 pew_data <- read_csv("data/birthrate.csv")
 ```
-
 <small>
 ```{r}
 ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=birthrate)) + 
@@ -455,27 +448,20 @@ ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=birthrate)) +
 ```
 </small>
 ---
-
 ## Birthrate vs. Per Capita Income
-
 ```{r}
 pew_model <- lm(birthrate ~ percapitaincome,data=pew_data)
 tidy(pew_model)
 ```
 <br><br>
-
 $$\hat{\text{Birth Rate}} = -18.2 + 0.0019 \times \text{ Per Capita Income}$$
-
 ---
-
 ### Residuals vs. Explanatory Variable
-
 <small>
 ```{r}
 pew_data <- pew_data %>% 
   mutate(residuals = resid(pew_model))
 ```
-
 ```{r echo=F}
 ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=residuals)) + 
   geom_point() + 
@@ -485,11 +471,8 @@ ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=residuals)) +
   theme_gray()
 ```
 </small>
-
 ---
-
 ### Residuals: Cluster Effect 
-
 ```{r,echo=F}
 ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=residuals,color=State)) + 
   geom_point() + 
@@ -498,11 +481,8 @@ ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=residuals,color=State)) 
        x="Per Capita Income ($)") + 
   theme_gray()
 ```
-
 ---
-
 class: regular 
-
 ### Residuals: Serial Effect
 ```{r,echo=F}
 ggplot(data=pew_data, aes(x=Year,y=residuals,color=State)) + geom_point() +
@@ -511,33 +491,20 @@ ggplot(data=pew_data, aes(x=Year,y=residuals,color=State)) + geom_point() +
   scale_x_continuous(breaks=seq(2000,2009,1))+
   theme_gray()
 ```
-
 ---
-
 class: middle, center
-
 ## Assessing Model Fit
-
 ---
-
 ## $R^2$
-
 We can use the coefficient of determination, $R^2$, to measure how well the model fits the data 
-
 - $R^2$ is the proportion of variation in $Y$ that is explained by the regression line (reported as percentage)
-
 - It is difficult to determine what's a "good" value of $R^2$. It depends on the context of the data.
-
 ---
-
 ## Calculating $R^2$
-
 .instructions[
 $$R^2 = \frac{\text{TSS} - \text{RSS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}}$$
 ]
-
 - <font class="vocab">Total Sum of Squares: </font>Total variation in the $Y$'s before fitting the regression 
-
 $$\text{TSS}= \sum\limits_{i=1}^{n}(y_i - \bar{y})^2 = (n-1)s^2_y$$
 
 - <font class="vocab">Residual Sum of Squares (RSS): </font>Total variation in the $Y$'s around the regression line (sum of squared residuals)

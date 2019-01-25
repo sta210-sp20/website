@@ -11,9 +11,8 @@
 class: center, middle, inverse, title-slide
 
 # Simple Linear Regression
-## Inference
 ### Dr. Maria Tackett
-### 01.23.19
+### 01.16.19
 
 ---
 
@@ -22,27 +21,21 @@ class: center, middle, inverse, title-slide
 
 ## Announcements 
 
-- Lab 01 due **today at 11:59p**
+- DVS Intro to R Workshop - Jan 22 at 2p
+     - [https://duke.libcal.com/event/4799048](https://duke.libcal.com/event/4799048)
 
-- HW 01 due Mon, Jan 28 at 11:59p
-
-
----
-
-class: middle, center
-
-## Questions from Lab 01? 
-
+- No lecture Monday - Martin Luther King, Jr. Holiday
 
 ---
 
 ## Agenda
 
-- Recap: Simple linear regression basics
+- Simple Linear Regression 
+    - Estimating &amp; interpreting coefficients
+    - Residuals and model assumptions
+    - `\(R^2\)`
 
-- `\(R^2\)`
-
-- Inference for regression
+- Git &amp; GitHub (time permitting)
 
 ---
 
@@ -71,11 +64,11 @@ Can ratings from movie critics be used to predict the ratings from movie goers?
 
 --
 
-&lt;img src="img/03/movie-rating-2.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/02/movie-rating-2.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 --
 
-&lt;img src="img/03/movie-rating-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/02/movie-rating-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -90,11 +83,108 @@ Can ratings from movie critics be used to predict the ratings from movie goers?
 
 ---
 
+## `glimpse` of the data
+
+
+```r
+glimpse(movie_scores)
+```
+
+```
+## Observations: 146
+## Variables: 23
+## $ film                       &lt;chr&gt; "Avengers: Age of Ultron", "Cinderell…
+## $ year                       &lt;dbl&gt; 2015, 2015, 2015, 2015, 2015, 2015, 2…
+## $ tomatometer                &lt;int&gt; 74, 85, 80, 18, 14, 63, 42, 86, 99, 8…
+## $ audience                   &lt;int&gt; 86, 80, 90, 84, 28, 62, 53, 64, 82, 8…
+## $ metacritic                 &lt;int&gt; 66, 67, 64, 22, 29, 50, 53, 81, 81, 8…
+## $ metacritic_user            &lt;dbl&gt; 7.1, 7.5, 8.1, 4.7, 3.4, 6.8, 7.6, 6.…
+## $ imdb                       &lt;dbl&gt; 7.8, 7.1, 7.8, 5.4, 5.1, 7.2, 6.9, 6.…
+## $ fandango_stars             &lt;dbl&gt; 5.0, 5.0, 5.0, 5.0, 3.5, 4.5, 4.0, 4.…
+## $ fandango_ratingvalue       &lt;dbl&gt; 4.5, 4.5, 4.5, 4.5, 3.0, 4.0, 3.5, 3.…
+## $ rt_norm                    &lt;dbl&gt; 3.70, 4.25, 4.00, 0.90, 0.70, 3.15, 2…
+## $ rt_user_norm               &lt;dbl&gt; 4.30, 4.00, 4.50, 4.20, 1.40, 3.10, 2…
+## $ metacritic_norm            &lt;dbl&gt; 3.30, 3.35, 3.20, 1.10, 1.45, 2.50, 2…
+## $ metacritic_user_nom        &lt;dbl&gt; 3.55, 3.75, 4.05, 2.35, 1.70, 3.40, 3…
+## $ imdb_norm                  &lt;dbl&gt; 3.90, 3.55, 3.90, 2.70, 2.55, 3.60, 3…
+## $ rt_norm_round              &lt;dbl&gt; 3.5, 4.5, 4.0, 1.0, 0.5, 3.0, 2.0, 4.…
+## $ rt_user_norm_round         &lt;dbl&gt; 4.5, 4.0, 4.5, 4.0, 1.5, 3.0, 2.5, 3.…
+## $ metacritic_norm_round      &lt;dbl&gt; 3.5, 3.5, 3.0, 1.0, 1.5, 2.5, 2.5, 4.…
+## $ metacritic_user_norm_round &lt;dbl&gt; 3.5, 4.0, 4.0, 2.5, 1.5, 3.5, 4.0, 3.…
+## $ imdb_norm_round            &lt;dbl&gt; 4.0, 3.5, 4.0, 2.5, 2.5, 3.5, 3.5, 3.…
+## $ metacritic_user_vote_count &lt;int&gt; 1330, 249, 627, 31, 88, 34, 17, 124, …
+## $ imdb_user_vote_count       &lt;int&gt; 271107, 65709, 103660, 3136, 19560, 3…
+## $ fandango_votes             &lt;int&gt; 14846, 12640, 12055, 1793, 1021, 397,…
+## $ fandango_difference        &lt;dbl&gt; 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.…
+```
+
+
+---
+
+
+```r
+ggplot(data=movie_scores,mapping=aes(x=tomatometer,y=audience)) + 
+  geom_point() + 
+  labs(title="Audience Score vs. Tomatometer") + 
+  theme_gray()
+```
+
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+.small[
+
+```r
+ggplot(data=movie_scores,mapping=aes(x=tomatometer,y=audience)) + 
+  geom_point() + 
+  geom_smooth(method="lm",se=FALSE) +
+  labs(title="Audience Score vs. Tomatometer") + 
+  theme_gray()
+```
+
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Terminology
+
+- `audience` is the &lt;font class="vocab"&gt;response variable `\((Y)\)`&lt;/font&gt;
+    - variable whose variation we want to understand / variable we wish to predict
+
+
+- `tomatometer` is the &lt;font class="vocab"&gt;predictor variable `\((X)\)`&lt;/font&gt;
+    - variable used to account for variation in the outcome
+    
+---
+
+## Least-Squares Regression
+
+- There is some true relationship between `\(X\)` and `\(Y\)` that exists in the population
+
+`$$Y = f(X) + \epsilon$$`
+
+--
+
+- If `\(f\)` is approximated by a linear function, then we can write the relationship as 
+
+`$$Y = \beta_0 + \beta_1 X + \epsilon$$` 
+
+--
+
+- We'll estimate the slope and intercept of this linear function using *least-squares regrssion*
+
+--
+
+- We'll use statistical inference to determine if the relationship we observe in the data is significant or if it's due to random chance (we'll discuss this next class)
+
+---
+
 ## Regression Model 
 
 `$$Y|X \sim N(\beta_0 + \beta_1 X,\sigma^2)$$`
 
-&lt;img src="img/03/regression.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/02/regression.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 - `\(\sigma\)`: the standard deviation of `\(Y\)` as a function of `\(X\)` 
 
@@ -120,6 +210,45 @@ Can ratings from movie critics be used to predict the ratings from movie goers?
 
 ---
 
+## Residuals
+
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+The .vocab[residual] is the difference between the observed and predicted response.
+
+---
+
+## Residual Sum of Squares
+
+- The residual for the `\(i^{th}\)` observation is 
+
+`$$e_i = y_i - \hat{y}_i =  y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)$$`
+
+--
+
+- The *residual sum of squares* is 
+
+`$$RSS = e^2_1 + e^2_2 + \dots + e^2_n$$`
+
+--
+
+
+- The .vocab[least-squares regression] approach chooses coefficients `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)` to minimize RSS.
+
+---
+
+## Estimating Coefficients
+
+- .vocab3[Slope:]
+
+`$$\hat\beta_1 = \frac{\sum\limits_{i=1}^n(x_i-\bar{x})(y_i - \bar{y})}{\sum\limits_{i=1}^n(x_i-\bar{x})^2} = r\frac{s_y}{s_x}$$`
+such that `\(r\)` is the correlation between `\(x\)` And `\(y\)`.
+&lt;br&gt;
+
+- .vocab3[Intercept:] `\(\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}\)`
+
+---
+
 ## Least-Squares Model
 
 
@@ -135,12 +264,59 @@ tidy(model)
 ## 1 (Intercept)   32.3      2.34        13.8 4.03e-28
 ## 2 tomatometer    0.519    0.0345      15.0 2.70e-31
 ```
+&lt;br&gt;&lt;br&gt;
 
-- **Slope**: For every one percentage increase in the Tomatometer score, we expect the audience score to increase by 0.519%. 
-
-- **Intercept**: If the Tomatometer score is 0%, we expect the audience score to be about 32.316%.
+`$$\hat{\text{audience}} =  32.316 + 0.519 \times \text{tomatometer}$$`
 
 ---
+
+class: regular
+
+## Interpreting Slope &amp; Intercept 
+
+- &lt;font class="vocab"&gt;Slope: &lt;/font&gt; Increase in the mean response for every one unit increase in the explanatory variable
+
+- &lt;font class="vocab"&gt;Intercept: &lt;/font&gt; Mean response when the explanatory variable equals 0
+&lt;br&gt;&lt;br&gt;
+
+--
+
+- The regression equation for the Rotten Tomatoes data is
+`$$\hat{\text{audience}} =  32.316 + 0.519 \times \text{tomatometer}$$`
+
+.instructions[Write the interpretation of the slope and intercept]
+
+---
+
+## Nonsensical Intercept 
+
+- Sometimes it doesn't make sense to interpret the intercept
+  + Ex. The explanatory variable is not close to 0
+  + The intercept is negative even though the response variable should always be positive
+  
+- The intercept helps the line fit the data as closely as possible
+
+- It is fine to have a nonsensical intercept if it helps the model give better overall predictions 
+
+---
+
+class: regular 
+
+### Should You Interpret the Intercept?
+
+- Example 1: 
+    - **Explanatory**: number of home runs in a baseball game
+    - **Response**: attendance at the next baseball game
+&lt;br&gt;&lt;br&gt;
+
+
+- Example 2:
+    - **Explanatory**: height of a person
+    - **Response**: weight of a person 
+    
+---
+
+class: middle, center
 
 ## Model Assumptions 
 
@@ -158,6 +334,37 @@ tidy(model)
 
 ---
 
+## Checking Assumptions 
+
+We can use plots of the residuals to check the assumptions for regression.
+
+1. Scatterplot of `\(Y\)` vs. `\(X\)` (linearity). 
+    - Check this before fitting the regression model.
+
+2. Plot of residuals vs. predictor variable (constant variance, linearity)
+
+3. Histogram and Normal QQ-Plot of residuals (Normality)
+
+---
+
+## Residuals vs. Predictor
+
+- When all the assumptions are true, the values of the residuals reflect random (chance) error
+
+- We can look at a plot of the residuals vs. the predictor variable
+
+- There should be no distinguishable pattern in the residuals plot, i.e. the residuals should be randomly scattered 
+
+- A non-random pattern suggests assumptions might be violated 
+
+---
+
+## Plots of Residuals
+
+&lt;img src="img/02/resid_plots.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
 
 ```r
 movie_scores &lt;- movie_scores %&gt;% mutate(residuals=resid(model))
@@ -171,13 +378,24 @@ ggplot(data=movie_scores,mapping=aes(x=tomatometer, y=residuals)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Checking Normality
+
+- Examine the distribution of the residuals to determine if the Normality assumption is satisfied 
+
+
+- Plot the residuals in a histogram and a Normal QQ plot to visualize their distribution and assess Normality
+
+- Most inference methods for regression are robust to some departures from Normality
 
 ---
 
 ## Normal QQ-Plot
 
-&lt;img src="img/03/normal_qqplot.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/02/normal_qqplot.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -189,7 +407,7 @@ ggplot(data=movie_scores,mapping=aes(x=residuals)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -202,34 +420,95 @@ ggplot(data=movie_scores,mapping=aes(sample=residuals)) +
   theme_gray()
 ```
 
-&lt;img src="02-slr_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
+class: regular 
+
+## Checking Independence
+
+- Often, we can conclude that the independence assumption is sufficiently met based on a description of the data and how it was collected. 
+
+- Two common violations of the independence assumption: 
+    - &lt;font class="vocab"&gt;Serial Effect&lt;/font&gt;: If the data were collected over time, the residuals should be plotted in time order to determine if there is serial correlation 
+
+    - &lt;font class="vocab"&gt;Cluster Effect&lt;/font&gt;: You can plot the residuals vs. a group identifier or use different markers (colors/shapes) in the residual plot to determine if there is a cluster effect. 
+
+---
+
+class: regular 
+
+### Example: Birth rate vs. Per Capita Income
+
+- Pew Research did a &lt;a href="http://www.pewsocialtrends.org/2011/10/12/in-a-down-economy-fewer-births/" target="_blank"&gt;study in 2011&lt;/a&gt; looking at how the economy's effect on birthrate in the United States. 
+- We will look at data for Virginia and Washington D.C. years 2000 - 2009
+- Birth rate: Births per 100,000 women ages 15-44
+- Per Capita Income: average income per person
+---
+
+&lt;small&gt;
+
+```r
+ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=birthrate)) + 
+  geom_point() + 
+  geom_smooth(method="lm",se=FALSE) + 
+  labs(title="Birth rate vs. Per Capita Income", 
+       x="Per Capita Income ($)", y="Birth Rate") + 
+  theme_gray()
+```
+
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;/small&gt;
+---
+## Birthrate vs. Per Capita Income
+
+```r
+pew_model &lt;- lm(birthrate ~ percapitaincome,data=pew_data)
+tidy(pew_model)
+```
+
+```
+## # A tibble: 2 x 5
+##   term             estimate std.error statistic   p.value
+##   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)     -18.2     15.3          -1.19 0.250    
+## 2 percapitaincome   0.00190  0.000372      5.12 0.0000709
+```
+&lt;br&gt;&lt;br&gt;
+`$$\hat{\text{Birth Rate}} = -18.2 + 0.0019 \times \text{ Per Capita Income}$$`
+---
+### Residuals vs. Explanatory Variable
+&lt;small&gt;
+
+```r
+pew_data &lt;- pew_data %&gt;% 
+  mutate(residuals = resid(pew_model))
+```
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+&lt;/small&gt;
+---
+### Residuals: Cluster Effect 
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+---
+class: regular 
+### Residuals: Serial Effect
+&lt;img src="02-slr_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+---
 class: middle, center
-
 ## Assessing Model Fit
-
 ---
-
 ## `\(R^2\)`
-
 We can use the coefficient of determination, `\(R^2\)`, to measure how well the model fits the data 
-
 - `\(R^2\)` is the proportion of variation in `\(Y\)` that is explained by the regression line (reported as percentage)
-
 - It is difficult to determine what's a "good" value of `\(R^2\)`. It depends on the context of the data.
-
 ---
-
 ## Calculating `\(R^2\)`
-
 .instructions[
 `$$R^2 = \frac{\text{TSS} - \text{RSS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}}$$`
 ]
-
 - &lt;font class="vocab"&gt;Total Sum of Squares: &lt;/font&gt;Total variation in the `\(Y\)`'s before fitting the regression 
-
 `$$\text{TSS}= \sum\limits_{i=1}^{n}(y_i - \bar{y})^2 = (n-1)s^2_y$$`
 
 - &lt;font class="vocab"&gt;Residual Sum of Squares (RSS): &lt;/font&gt;Total variation in the `\(Y\)`'s around the regression line (sum of squared residuals)
