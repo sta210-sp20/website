@@ -32,7 +32,7 @@ lessons:
     reading: "reading-02.html"
     slides: "lec-slides/03-slr-inference.html"
   - date: "Fri, Jan 25"
-    title: "Lab 02"
+    title: "Lab 02: Simple Linear Regression"
     lab: "lab-02-slr.html"
     slides: "lab-slides/02-lab-slides.html"
   - title: "Week 03"
