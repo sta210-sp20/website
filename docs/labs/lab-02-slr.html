@@ -73,10 +73,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<p>The primary goal of today’s lab is to give you practice with some of the tools you will need to conduct regression analysis using R. An additional goal for today is for you to be introduced to your teams and practice using GitHub and RStudio for collaboration.</p>
+<p>The primary goal of today’s lab is to give you practice with some of the tools you will need to conduct regression analysis using R. An additional goal for today is for you to be introduced to your teams and practice collaborating using GitHub and RStudio.</p>
 <div id="getting-started" class="section level1">
 <h1>Getting Started</h1>
-<p>Each of your assignments will begin with the following steps. You saw your TA demonstrate these steps, and they’re outlined in detail here again. Going forward each lab will start with a “Getting started” section but details will be a bit more sparse than this. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.</p>
+<p>Each of your assignments will begin with the following steps.</p>
 <div id="clone-assignment-repo" class="section level2">
 <h2>Clone Assignment Repo</h2>
 <ul>
@@ -112,7 +112,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="warm-up" class="section level1">
 <h1>Warm up</h1>
 <p><strong>Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.</strong></p>
-<p>Before we introduce the data, let’s warm up with some simple exercises.</p>
+<p>Before we introduce the data, let’s warm up with a simple exercise.</p>
 <div id="yaml" class="section level2">
 <h2>YAML:</h2>
 <p>Open the R Markdown (Rmd) file in your project, change the author name to your <strong>team</strong> name, and knit the document.</p>
@@ -132,7 +132,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>In today’s lab, we will analyze the <code>scorecard</code> dataset from the rcfss package. This dataset contains information about a sample of colleges from the Department of Education’s College Scorecard. Type <code>?scorecard</code> in the <strong>console</strong> to learn more about the dataset and the definition of each variable. Today’s analysis will focus on the following variables:</p>
+<p>In today’s lab, we will analyze the <code>scorecard</code> dataset from the rcfss package. This dataset contains information about 1849 colleges obtained from the Department of Education’s College Scorecard. Load the rcfss library into the global R environment and type <code>?scorecard</code> in the <strong>console</strong> to learn more about the dataset and variable definitions. Today’s analysis will focus on the following variables:</p>
 <table style="width:76%;">
 <colgroup>
 <col width="16%"></col>
@@ -157,49 +157,50 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
 <ol style="list-style-type: decimal">
 <li><p>Plot a histogram to examine the distribution of <code>admrate</code>. What is the shape of the distribution?</p></li>
-<li><p>To better understand the distribution of <code>admrate</code>, we would like calculate measures of center and spread of the distribution. Fill in the code below to use the <code>skim</code> function to calculate summary statistics for the variable. Report the appropriate measures of center (mean or median) and spread (standard deviation or IQR) based on the shape of the distribution from Question 1.</p></li>
+<li><p>To better understand the distribution of <code>admrate</code>, we would like calculate measures of center and spread of the distribution. Fill in the code below to use the <code>skim</code> function to calculate summary statistics for <code>admrate</code>. Report the appropriate measures of center (mean or median) and spread (standard deviation or IQR) based on the shape of the distribution from Exercise 1.</p></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scorecard <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(admrate) <span class="op">%&gt;%</span>
-<span class="st">  </span>skim</code></pre></div>
+<span class="st">  </span><span class="kw">skim</span>()</code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li>Plot the distribution of <code>cost</code> using a different plot type (i.e. not a histogram) from the <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">ggplot2 Cheat Sheet</a>. In addition to the scatterplot, use the <code>skim</code> function to calculate summary statistics for <code>cost</code>.</li>
-</ol>
-<p>Use the histogram and summary statistics to describe the distribution of <code>cost</code>.</p>
-<ol start="4" style="list-style-type: decimal">
+<li><p>Plot the distribution of <code>cost</code> and calculate the appropriate summary statistics. Describe the distribution of <code>cost</code> (shape, center, and spread) using the plot and appropriate summary statistics.</p></li>
 <li><p>One nice feature of the <code>skim</code> function is that it provides information about the number of observations that are missing values of the variable. How many observations have missing values of <code>admrate</code>? How many observations have missing values of <code>cost</code>?</p></li>
-<li><p>Later in the semester, we will techniques to deal with missing values in the data. For now, however, we will only include complete observations in the remainder of the analysis. We can use the <code>filter</code> function to select only the rows that values for both <code>cost</code> and <code>admrate</code>.</p></li>
+<li><p>Later in the semester, we will techniques to deal with missing values in the data. For now, however, we will only include complete observations for the remainder of this analysis. We can use the <code>filter</code> function to select only the rows that values for both <code>cost</code> and <code>admrate</code>.</p></li>
 </ol>
-<p>Fill in the code below to create a new dataset called <code>scorecard_new</code> that only includes complete observations, i.e. those with values for both <code>admrate</code> and <code>cost</code>.</p>
+<p>Fill in the code below to create a new dataset called <code>scorecard_new</code> that only includes observations with values for both <code>admrate</code> and <code>cost</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">__________ &lt;-<span class="st"> </span>scorecard <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(admrate),________)</code></pre></div>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">Learn more about the <code>filter</code> function in [Section 5.2 of R for Data Science] (<a href="https://r4ds.had.co.nz/transform.html#filter-rows-with-filter" class="uri">https://r4ds.had.co.nz/transform.html#filter-rows-with-filter</a>)</span></span></p>
+<p>You will use <code>scorecard_new</code> for the rest of the lab.</p>
 <ol start="6" style="list-style-type: decimal">
-<li><p>Create a scatterplot to display the relationship between <code>cost</code> (response variable) and <code>admrate</code> (explanatory variable). Use the scatterplot to describe the relationship between the two variables. The scatterplot should have labeled axes as well as an informative title.</p></li>
-<li><p>The data contains information about the type of college, and we would like to see the relationship while also incorporating information about the type of college. One way to do this is to use a different color for each type of college. Fill in the code below the scatterplot from Question 3 with the marker colors based on the variable <code>type</code>. Briefly describe how the relationship between <code>admrate</code> and <code>cost</code> compare across values of <code>type</code>.</p></li>
+<li><p>Create a scatterplot to display the relationship between <code>cost</code> (response variable) and <code>admrate</code> (explanatory variable). Use the scatterplot to describe the relationship between the two variables.</p></li>
+<li><p>The data contains information about the type of college, and we would like to incorporate this information into the scatterplot. One way to do this is to use a different color marker for each type of college. Fill in the code below the scatterplot from the previous exercise with the marker colors based on the variable <code>type</code>. Describe two new observations from this scatterplot that you didn’t see in the previous plot.</p></li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>scorecard, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>admrate, <span class="dt">y=</span>cost, <span class="dt">color=</span>type)) <span class="op">+</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>scorecard_new, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>admrate, <span class="dt">y=</span>cost, <span class="dt">color=</span>type)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span>_____________________</code></pre></div>
+</div>
+<div id="simple-linear-regression" class="section level2">
+<h2>Simple Linear Regression</h2>
 <ol start="8" style="list-style-type: decimal">
-<li><p>Fit a regression model to describe the relationship between a college’s admission rate and cost. Use the <code>tidy</code> function to display the estimated coefficients and associated test statistic, p-value and 95% confidence interval.</p></li>
+<li><p>Fit a regression model to describe the relationship between a college’s admission rate and cost. Use the <code>tidy</code> function to display the model.</p></li>
 <li><p>Interpret the slope in the context of the problem. Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful.</p></li>
-<li><p>While the <code>tidy</code> function is used to create a data frame of the coefficients and their associated inferential statistics, we can get a one-row summary of the model using the <code>glance</code> function. Use the <code>glance</code> function to get a summary of the model fit in Exercise 8.</p></li>
-</ol>
-<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://rdrr.io/cran/broom/man/glance.lm.html">documentation for <code>glance</code></a> to see the model summary values produced by <code>glance</code>.</span></span></p>
-<ol start="11" style="list-style-type: decimal">
-<li><p>What is the value of <span class="math inline">\(R^2\)</span>? Interpret this value in the context of the problem.</p></li>
-<li><p>What is the value of <span class="math inline">\(\hat{\sigma}^2\)</span>, the estimated regression variance?</p></li>
+<li><p>While the <code>tidy</code> function is used to display the model, we can obtain a one-row summary of the model using the <code>glance</code> function. Use the <code>glance</code> function to get a summary of the model fit in the previous exercise. See the <a href="https://rdrr.io/cran/broom/man/glance.lm.html">documentation for <code>glance</code></a> for the syntax and a list of values output from the function.</p></li>
+<li><p>What is the value of <span class="math inline">\(R^2\)</span>? Interpret this value in the context of the problem. Do you think this is a “good” value of <span class="math inline">\(R^2\)</span>? Explain.</p></li>
+<li><p>What is the value of <span class="math inline">\(\hat{\sigma}\)</span>, the residual standard error.</p></li>
 <li><p>What is the 95% confidence interval for the coefficient of <code>admrate</code>, i.e. the slope? Interpret the interval in the context of the data.</p></li>
-<li><p>To conduct inference for a population slope, we will test the following hypotheses:</p></li>
+<li><p>We want to test the following hypotheses about the population slope <span class="math inline">\(\beta_1\)</span>:</p></li>
 </ol>
-<p><span class="math display">\[H_0: \beta_1 = 0 \hspace{5mm} \text{versus} \hspace{5mm} \beta_1 \neq 0\]</span></p>
-<p>State what the null and alternative hypotheses mean in terms of the relationship between <code>admrate</code> and <code>cost</code>.</p>
+<p><span class="math display">\[H_0: \beta_1 = 0 \hspace{5mm} \text{versus} \hspace{5mm} H_a: \beta_1 \neq 0\]</span></p>
+<p>State what the null and alternative hypotheses mean in terms of the linear relationship between <code>admrate</code> and <code>cost</code>.</p>
 <ol start="15" style="list-style-type: decimal">
-<li>Consider the confidence interval from Question 13 and the hypotheses in Question 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.</li>
+<li>Consider the confidence interval from Exercise 13 and the hypotheses in Exercise 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.</li>
 </ol>
 <p><em>You’re done! Commit all remaining changes, use the commit message “Done with Lab 2!”, and push. Before you wrap up the assignment, make sure the .Rmd, .html, and .md documents are all updated on your GitHub repo.</em></p>
+</div>
 </div>
 
 
