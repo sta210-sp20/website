@@ -354,18 +354,28 @@ The probability of getting a test statistic as extreme or more extreme than the 
 ## Statistical Significance
 
 - Do not rely strictly on the significance level to make a conclusion!
+<br>
+
 --
 
 - Suppose the significance level is 0.05
+<br>
+
 --
 
   + If the p-value is 0.05001, we do not reject $H_0$
+<br>
+
 --
 
   + If the p-value is 0.04999, we do reject $H_0$
+<br>
+
 --
 
 - 0.05001 and 0.04999 are practically the same, yet they led to different conclusions. 
+<br>
+
 --
 
 - Always state the p-value when reporting results and assess their magnitude in the context of your problem. 
@@ -451,11 +461,12 @@ class: regular
 ## Beer data
 
 .instructions[
-What is the predicted amount of carbohydrates (in grams) for a beer with 5% alcohol?
+What is the predicted amount of carbohydrates (in grams) for **a beer** with 5% alcohol?
 ]
+<br><br>
 
 .instructions[
-What is the average predicted amount of carbohydrates (in grams) for the subset of beers with 5% alcohol?
+What is the average predicted amount of carbohydrates (in grams) for **the subset of beers** with 5% alcohol?
 ]
 
 ---
