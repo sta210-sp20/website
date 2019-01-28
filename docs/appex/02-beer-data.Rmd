@@ -1,6 +1,6 @@
 ---
 title: "Calories vs. Alcohol Content in Domestic Beer"
-author:  ""
+author:  "STA 210: Inference & Prediction for Simple Linear Regression"
 date: "`r Sys.Date()`"
 output: html_document
 ---
