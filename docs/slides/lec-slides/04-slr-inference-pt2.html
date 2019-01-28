@@ -46,6 +46,7 @@ class: center, middle, inverse, title-slide
 library(tidyverse)
 library(broom)
 library(readr)
+library(modelr)
 ```
 
 
@@ -486,6 +487,16 @@ class: regular
 
 ---
 
+### SE
+
+When predicting for a new observation `\(x\)`, 
+
+`$$SE(\hat{\mu}) = \hat{\sigma}\sqrt{\frac{1}{n} + \frac{(x-\bar{x})^2}{\sum\limits_{i=1}^n(x_i - \bar{x})^2}}$$`
+&lt;br&gt;&lt;br&gt;
+
+`$$SE(\hat{y}) = \hat{\sigma}\sqrt{1 + \frac{1}{n} + \frac{(x-\bar{x})^2}{\sum\limits_{i=1}^n(x_i - \bar{x})^2}}$$`
+---
+
 ### Beer data: predicting mean
 
 - We wish to predict the &lt;font class="vocab"&gt;mean&lt;/font&gt; carbohydrates for the subset of beers with 5% alcohol. 
@@ -493,7 +504,7 @@ class: regular
 
 
 ```r
-x0 &lt;- data.frame(PercentAlcohol=5)
+x0 &lt;- data.frame(PercentAlcohol=c(5))
 *predict.lm(model,x0,interval="confidence",conf.level=0.95)
 ```
 
