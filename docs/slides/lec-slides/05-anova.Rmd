@@ -102,9 +102,9 @@ The	<font class="vocab">Analysis of Variance (ANOVA)</font> approach	to	regressi
 
 ## Total variation 
 
-The total amount of variation in the $n$ observed values of $y$ is the <font class="vocab">Total Sum of Squares (TSS)</font>. You can think of this as the variation about the sample mean, $\bar{y}$.
+The total amount of variation in the $n$ observed values of $y$ is the <font class="vocab">Total Sum of Squares</font>. You can think of this as the variation about the sample mean, $\bar{y}$.
 
-$$\sum\limits_{i=1}^n (y_i - \bar{y})^2 = (n-1)s_y^2$$
+$$TSS = \sum\limits_{i=1}^n (y_i - \bar{y})^2 = (n-1)s_y^2$$
 
 ```{r echo=FALSE, out.width="65%"}
 mean.y <- mean(beer$Carbohydrates)
@@ -122,9 +122,9 @@ ggplot(data=beer,mapping=aes(x=PercentAlcohol,y=Carbohydrates)) +
 
 ## Regression variation 
 
-The variation of the predicted values about the overall mean is the  <font class="vocab">Regression Sum of Squares</font>. You can think of this as how much information about $y$ is explained by its relationship with $x$.
+The variation of the predicted values about the overall mean is the  <font class="vocab">Regression (Model) Sum of Squares</font>. You can think of this as how much information about $y$ is explained by its relationship with $x$.
 
-$$\sum\limits_{i=1}^n (\hat{y}_i - \bar{y})^2$$
+$$MSS = \sum\limits_{i=1}^n (\hat{y}_i - \bar{y})^2$$
 
 ```{r echo=FALSE, out.width="65%"}
 ggplot(data=beer,mapping=aes(x=PercentAlcohol,y=Carbohydrates)) + 
@@ -142,9 +142,9 @@ ggplot(data=beer,mapping=aes(x=PercentAlcohol,y=Carbohydrates)) +
 
 ## Residual variation
 
-The amount of variation in the responses for a given value of $x$ is the <font class="vocab">Residual Sum of Squares (RSS)</font>. You can think of this as the variation in the response values about the line if you know the value of $x$.
+The amount of variation in the responses for a given value of $x$ is the <font class="vocab">Residual Sum of Squares</font>. You can think of this as the variation in the response values about the line if you know the value of $x$.
 
-$$\sum\limits_{i=1}^n (y_i- \hat{y}_i)^2$$
+$$RSS = \sum\limits_{i=1}^n (y_i- \hat{y}_i)^2$$
 
 ```{r echo=FALSE,out.width="65%"}
 ggplot(data=beer,mapping=aes(x=PercentAlcohol,y=Carbohydrates)) + 
@@ -286,7 +286,6 @@ Now, we will use a **categorical (qualtitatve) explanatory variable** to underst
 
 - Is there a relationship between the brewery and the total carbohydrates in beers from the top 5 domestic breweries? 
 
-- There are 27 breweries in the original dataset, but we will only use the observations from the top 5 breweries in this analysis 
 
 ```{r}
 top5_brewery <- c("MillerCoors","Flying Dog Brewery", 
@@ -323,7 +322,7 @@ ggplot(data=beer,mapping=aes(x=Brewery,y=Carbohydrates)) +
 
 --
   
-- $Y_{kj}$ is the $j^{th}$ observation in group $k$, for all $k,j$
+- $y_{kj}$ is the $j^{th}$ observation in group $k$, for all $k,j$
 <br>
 
 --
@@ -340,12 +339,12 @@ ggplot(data=beer,mapping=aes(x=Brewery,y=Carbohydrates)) +
 --
 
 - ANOVA model assumes
-$$Y_{kj} = \mu_{k} + \epsilon_{kj}$$
-such that $\epsilon_{kj}$ is the amount $Y_{kj}$ deviates from $\mu_k$
+$$y_{kj} = \mu_{k} + \epsilon_{kj}$$
+such that $\epsilon_{kj}$ is the amount $y_{kj}$ deviates from $\mu_k$
 --
 
 - <font class="vocab">Assumption: </font> $\epsilon_{kj}$ follows a Normal distribution with mean 0 and constant variance $\sigma^2$, i.e. $\epsilon_{kj} \sim N(0,\sigma^2)$
-  + Another viewpoint: $Y_{kj} \sim N(\mu_k, \sigma^2)$
+  + Another viewpoint: $y_{kj} \sim N(\mu_k, \sigma^2)$
 
 
 ---
@@ -378,7 +377,7 @@ $$
 
 - **Main Idea: ** Decompose the <font color="green">total variation</font> in the data into the variation <font color="blue">between groups</font> and the variation <font color="red">within each group</font>
 
-$$\color{green}{\sum_{k=1}^{K}\sum_{j=1}^{n_k}(Y_{kj}- \bar{Y})^2}=\color{blue}{\sum_{k=1}^{K}n_k(\bar{Y}_k-\bar{Y})^2} + \color{red}{\sum_{k=1}^{K}\sum_{j=1}^{n_k}(Y_{kj}-\bar{Y}_k)^2}$$
+$$\color{green}{\sum_{k=1}^{K}\sum_{j=1}^{n_k}(y_{kj}- \bar{y})^2}=\color{blue}{\sum_{k=1}^{K}n_k(\bar{y}_k-\bar{y})^2} + \color{red}{\sum_{k=1}^{K}\sum_{j=1}^{n_k}(y_{kj}-\bar{y}_k)^2}$$
 <br>
 
 --
@@ -392,9 +391,9 @@ $$\color{green}{\sum_{k=1}^{K}\sum_{j=1}^{n_k}(Y_{kj}- \bar{Y})^2}=\color{blue}{
 .small[
 |  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
 |------------------|----------------|--------------------|-------------|-------------|--------------------|
-| Between (Model) | $\sum\limits_{k=1}^{K}n_k(\bar{Y}_k-\bar{Y})^2$ | $K-1$ | $SSB/(K-1)$ | $MSB/MSW$ | $P(F > \text{F-Stat})$ |
-| Within (Residual) | $\sum\limits_{k=1}^{K}\sum\limits_{j=1}^{n_k}(Y_{kj}-\bar{Y}_k)^2$ | $n-K$ | $SSW/(n-K)$ |  |  |
-| Total | $\sum\limits_{k=1}^{K}\sum\limits_{j=1}^{n_k}(Y_{kj}-\bar{Y})^2$ | $n-1$ | $SST/(n-1)$ |  |  |
+| Between (Model) | $\sum\limits_{k=1}^{K}n_k(\bar{y}_k-\bar{y})^2$ | $K-1$ | $SSB/(K-1)$ | $MSB/MSW$ | $P(F > \text{F-Stat})$ |
+| Within (Residual) | $\sum\limits_{k=1}^{K}\sum\limits_{j=1}^{n_k}(y_{kj}-\bar{y}_k)^2$ | $n-K$ | $SSW/(n-K)$ |  |  |
+| Total | $\sum\limits_{k=1}^{K}\sum\limits_{j=1}^{n_k}(y_{kj}-\bar{y})^2$ | $n-1$ | $SST/(n-1)$ |  |  |
 ]
 
 ---
@@ -472,6 +471,17 @@ kable(tidy(aov(model_brewery)),format="html",digits=3)
 ]
 
 
+---
+
+## Assumptions for ANOVA
+
+- <font class="vocab">Normality: </font> $y_{kj} \sim N(\mu_k, \sigma^2)$
+
+- <font class="vocab">Independence: </font> There is independence within and across groups
+
+- <font class="vocab">Constant Variance: </font> The population distribution for each group has a common variance, $\sigma^2$
+
+- We can typically check these assumptions in the exploratory data analysis
 ---
 
 ## Before next class
