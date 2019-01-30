@@ -43,7 +43,7 @@ lessons:
    # slides: "lec-slides/03a2-tips-for-effective-dataviz.pdf"
   - date: "Wed, Jan 30"
     title: "Analysis of Variance"
- #   slides: "lec-slides/03b-tips-for-effective-dataviz.pdf"
+    slides: "lec-slides/05-anova.html"
     hw: "hw-01-slr.html"
   - date: "Fri, Feb 1"
     title: "Lab 03"
