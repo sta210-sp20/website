@@ -33,6 +33,7 @@ a, a > code {
   font-family: 'Open Sans', sans-serif;
   color: #006975;
   text-decoration: none;
+  font-size: 16pt;
 }
 
 .footnote {
@@ -106,7 +107,7 @@ table {
   border-bottom: 1px solid #666;
 }
 table thead th { border-bottom: 1px solid #ddd; }
-th, td { padding: 5px; }
+th, td { padding: 5px; font-size: 12pt;}
 thead, tfoot, tr:nth-child(even) { background: #eee }
 
 @page { margin: 0; }
