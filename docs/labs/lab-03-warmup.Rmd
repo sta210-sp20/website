@@ -19,8 +19,7 @@ library(rcfss)
 1. Clone your assignment repo in RStudio Cloud (`lab-03-warmup-TEAMNAME`), 
 and open the R Markdown file.
 
-2. Assign the numbers 1, 2, 3, and 4 to each of the team members.
-    - If you have 3 team members, make one person *Member 2* and *Member 4*.
+2. Assign the numbers 1, 2, 3, and 4 to each of the team members. If you have 3 team members, make one person *Member 2* and *Member 4*.
 
 3. Take turns in completing the steps below exactly as written, only <u>one member</u> at a time:
 
