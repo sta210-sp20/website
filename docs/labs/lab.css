@@ -133,6 +133,7 @@ ol>li:before {
 	color: #6CA0DC;
 	left: -0.5px;
 	font-weight: bold;
+	margin-right: 10px;
 }
 
 ol ol {

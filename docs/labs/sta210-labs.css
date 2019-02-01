@@ -125,7 +125,7 @@ ol>li {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-right: 0;
-	padding-left: 90px;
+	padding-left: 95px;
 }
 
 ol>li:before {
@@ -137,6 +137,7 @@ ol>li:before {
 	color: #1689AE;
 	left: -0.5px;
 	font-weight: bold;
+	margin-right: 10px;
 }
 
 ol ol {

@@ -1,5 +1,5 @@
 ---
-title: "Lab 03: Comparing Group Means using ANOVA"
+title: "Lab 03: Comparing group means using ANOVA"
 date: "due Wed, Feb 6 at 11:59p"
 output: 
   tufte::tufte_html:
@@ -13,53 +13,19 @@ link-citations: yes
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       warning=FALSE, 
-                      message=FALSE)
+                      message=FALSE,
+                      eval=FALSE)
 ```
 
-**WRITE AN INTRO**
+The goal of this lab is to use Analysis of Variance (ANOVA) to compare means in multiple groups. Additionally, you will be introduced to new R functions used for [wrangling](https://en.wikipedia.org/wiki/Data_wrangling) and summarizing data.
 
-# Warmup Exercise 
+# Getting Started 
 
-Before working on today's lab, we will do a warmup exercise to practice dealing with merge conflicts. Completing this exercise will be included in part of the Lab 03 grade. To do the exercise, complete the steps belwo: 
+- Go to the STA210-Sp19 organization on GitHub ([https://github.com/STA210-Sp19](https://github.com/STA210-Sp19)). Click on the repo with the prefix **lab-03-anova-**. It contains the starter documents you need to complete the warmup exercise. 
 
-- Go to the STA210-Sp19 organization on GitHub ([https://github.com/STA210-Sp19](https://github.com/STA210-Sp19)). Click on the repo with the prefix **lab-03-warmup-**. It contains the starter documents you need to complete the warmup exercise. Clone the repo and create a new project in RStudio Cloud.
+- Clone the repo and create a new project in RStudio Cloud. 
 
 - Configure git by typing the following in the **console**.
-
-```{r eval=FALSE}
-library(usethis)
-use_git_config(user.name="your name", user.email="your email")
-```
-
-- Work through the [Warmup Exercise](https://www2.stat.duke.edu/courses/Spring19/sta210.001/labs/lab-03-warmup.html) as a team. Be sure to follow the instructions exactly.
-
-# Getting Started
-
-Each of your assignments will begin with the following steps.
-
-## Clone Assignment Repo
-
-- Go to the STA210-Sp19 organization on GitHub ([https://github.com/STA210-Sp19](https://github.com/STA210-Sp19)). Click on the repo with the prefix **lab-03-**. It contains the starter documents you need to complete the lab.
-
-- Click on the green **Clone or download** button, select **Use HTTPS** (this might already be selected by default, and if it is, you'll see the text **Clone with HTTPS** as in the image below). Click on the clipboard icon to copy the repo URL.
-
-- Go to RStudio Cloud and into the STA 210 course workspace. Create a **New Project from Git Repo**. You will need to click on the down arrow next to the **New Project** button to see this option.
-
-- Copy and paste the URL of your assignment repo into the dialog box.  Be sure "Add packages from the base project" is checked. 
-
-- Click OK, and you should see the contents from your GitHub repo in the **Files** pane in RStudio. 
-
-## Configure git
-
-There is one more piece of housekeeping we need to take care of before we get started. Specifically,  we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your email address and your name.
-
-To do so, you will use the `use_git_config()` function from the `usethis` package. 
-
-Type the following lines of code in the **console** in RStudio filling in your name and email address.
-
-```{marginfigure}
-Your email address is the address tied to your GitHub account and your name should be first and last name.
-```
 
 ```{r eval=FALSE}
 library(usethis)
@@ -78,102 +44,141 @@ library(broom)
 
 ## Project name: 
 
-Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 02 - Simple Linear Regression"
+Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 03 - ANOVA".
 
 # Warm up
-
-**Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.**
 
 Before we introduce the data, let's warm up with a simple exercise.
 
 ## YAML: 
 
-Open the R Markdown (Rmd) file in your project, change the author name to your **team** name, and knit the document.
+- Pick one team member to update the *author* and *date* fields at the top of the R Markdown file. Knit, commit, and push all the updated documents to Github.
 
-## Commiting and pushing changes:
-
-- Go to the **Git** pane in your RStudio. 
-- View the **Diff** and confirm that you are happy with the changes.
-- Add a commit message like "Update team name" in the **Commit message** box and hit **Commit**.
-- Click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password.
-
-## Pulling changes:
-
-Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
+- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
 
 ## Data 
 
-In today's lab, we will analyze the `scorecard` dataset from the rcfss package. This dataset contains information about 1849 colleges obtained from the Department of Education's College Scorecard. Load the rcfss library into the global R environment and type `?scorecard` in the **console** to learn more about the dataset and variable definitions. Today's analysis will focus on the following variables: 
+In today's lab, we will analyze the `diamonds` dataset from the ggplot2 package. Type `?diamonds` in the console to see a dictionary of the variables in the data set. This analysis will focus on the relationship between a diamond's carat weight and its color. Before starting the exercises, take a moment to read more about the diamond attributes on the Gemological Institute of America webpage: [https://www.gia.edu/diamond-quality-factor](https://www.gia.edu/diamond-quality-factor).
 
-|  |  |
-|-----------|------------------------------------------|
-| `type` | Type of college (Public, Private - nonprofit, Private - for profit) |
-| `cost` | The average annual cost of attendance, including tuition and feeds, books and supplies, and living expenses, minus the average grant/scholarship aid |
-| `admrate` | Undergraduate admissions rate (from 0 - 100%) |
 
 # Exercises 
 
-## Exploratory Data Analysis
+The diamonds dataset contains the price and other characteristics for over 50,000 diamonds price from $326 to $18823. In this lab, we will analyze the subset of diamonds that are priced $1200 or less. 
 
-1. Plot a histogram to examine the distribution of `admrate`. What is the shape of the distribution? 
+1. Create a dataframe called `diamonds_low` that is the subset of diamonds priced $1200 or less. How many observations are in `diamonds_low`? 
 
-2. To better understand the distribution of `admrate`, we would like calculate measures of center and spread of the distribution. Fill in the code below to use the `skim` function to calculate summary statistics for `admrate`. Report the appropriate measures of center (mean or median) and spread (standard deviation or IQR) based on the shape of the distribution from Exercise 1.
+When using Analysis of Variance (ANOVA) to compare group means, it is ideal to have approximately the same number of observations in each group. Therefore, we will combine the worst two color groups, I and J, and create a new color category called "I/J". Since `color` is an ordinal (`<ord>`) variable, we need to use the `recode_factor` function in the dplyr package to create the new category. 
 
-```{r eval=FALSE}
-scorecard %>%
-  select(admrate) %>%
-  skim()
+Use the `count` function before and after making the new color category to ensure the recoding worked as expected.
+
+```{r}
+# number of observations at each color level 
+diamonds_low %>% 
+  count(color)
 ```
 
-3. Plot the distribution of `cost` and calculate the appropriate summary statistics. Describe the distribution of `cost` (shape, center, and spread) using the plot and appropriate summary statistics.  
+```{r}
+#create a new vector of the recoded values
+color_recoded <-  recode_factor(diamonds_low$color,
+                                `I` = "I/J", `J` = "I/J",
+                                .default = levels(diamonds_low$color))
 
-4. One nice feature of the `skim` function is that it provides information about the number of observations that are missing values of the variable. How many observations have missing values of `admrate`? How many observations have missing values of `cost`? 
+#replace the color variable with the recoded data
+diamonds_low <- diamonds_low %>% 
+  mutate(color = color_recoded)
+```
 
-5. Later in the semester, we will techniques to deal with missing values in the data. For now, however, we will only include complete observations for the remainder of this analysis. We can use the `filter` function to select only the rows that values for both `cost` and `admrate`. 
 
-Fill in the code below to create a new dataset called `scorecard_new` that only includes observations with values for both `admrate` and `cost`.
+```{marginfigure}
+Refer to the [ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) and [ggplot2 reference](https://ggplot2.tidyverse.org/reference/index.html) for plot ideas and help with code.
+```
 
-```{r eval=FALSE}
-__________ <- scorecard %>%
-  filter(!is.na(admrate),________)
+2. We begin by plotting the relationship between `color` and `carat`. As a group, brainstorm ways to plot the relationship between the two variables, then make one of the plots. Be sure to include informative axes labels and an informative title.
+
+3. Fill in the code below to calculate the mean and variance of `carat` at each level of `color`. 
+
+```{marginfigure}
+The `group_by` function is used to do calculation in groups. The `summarise` function is used to reduce variables to values.
+```
+
+```{r}
+diamonds_low %>% 
+  group_by(_______) %>%
+  summarise(n = n(), 
+            avg_carat = mean(carat),
+            var_carat = _______)
+```
+
+Based on the plots and summary statistics, does there appear to be a relationship between carat weight the color of diamonds? In other words, does there appear to be a significant difference in the mean carat weight across colors?
+
+4. When using ANOVA to compare means across groups, we make the following assumptions (note how similar they are to the assumptions for regression): 
+
+  - **Normality**: The distribution of $y$ is approximately normal within each category of $x$ - in the $k^{th}$ category, $y \sim (\mu_k, \sigma^2)$ . If the sample size is large, ANOVA is robust to some departures from Normality. 
+  - **Independence**: All observations are independent from one another, i.e. one observation does not affect another.
+  - **Constant Variance**: The distribution of $y$ within each category of $x$ has a common variance, $\sigma^2$. One way to assess if variances are sufficiently equal is to look at the ratio of the maximum group variance to the minimum group variance. If this ratio is less than 2, then we can conclude the variances are approximately equal. This isn't an exact threshold, but rather a commonly used guideline. *Note: There are formal tests for equal variance that are outside the scope of this class.*
+
+Are the assumptions for ANOVA met? Comment on each assumption using the summary statistics and/or plots from previous exercises to support your conclusion. You may also calculate any additional summary statistics or make additional plots as needed.
+  
+*Regardless of your answer to Excerise 4, We will proceed with the analysis in the remainder of this lab as if the assumptions are met.*
+
+5. Use the code below to calculate the ANOVA table. The `tidy` function from the broom package is used to put the ANOVA output in a dataframe, and with the `kable` function from the knitr package, you can display the results in an easy-to-read table.
+
+```{r}
+anova <- aov(carat ~ color, data=diamonds_low)
+anova %>% 
+  tidy() %>%
+   kable()
+```
+
+6. Use the ANOVA table to calculate the total mean square, i.e. the sample variance of `carat`. Show your calculations. You can put the calculations in a code chunk to use R like a calculator. 
+
+7. What is $\hat{\sigma}^2$, the estimated variance of `carat` within each level of `color`. 
+
+8. We can use ANOVA to test if the true mean value of `carat` is equal for all levels of `color`, i.e. 
+
+$$ H_0: \mu_1 = \mu_2 = \dots = \mu_6$$
+
+State the alternative hypothesis is the context of the data. 
+
+9. Based on the ANOVA table, what is your conclusion from the test of the hypotheses in the previous question? State the conclusion in the context of the data.
+
+10. Use the code below to plot a 95% confidence interval for the mean carat weight at each level of color. Calculate the value of `sigma` by filling in the estimated variance from Exercise 7. 
+
+The formula for the confidence interval for the mean of group $k$ is 
+
+```{marginfigure}
+The critical value $t^*$ is calculated using the *t* distribution with $n-K$ degrees of freedom. 
 ```
 
 ```{marginfigure}
-Learn more about the `filter` function in [Section 5.2 of R for Data Science] (https://r4ds.had.co.nz/transform.html#filter-rows-with-filter)
+The standard error of the mean is calculated using $\hat{\sigma}$, the square root of the variance within each group calculated from the ANOVA table.
 ```
 
-You will use `scorecard_new` for the rest of the lab. 
-
-6. Create a scatterplot to display the relationship between `cost` (response variable) and `admrate` (explanatory variable). Use the scatterplot to describe the relationship between the two variables.
-
-7. The data contains information about the type of college, and we would like to incorporate this information into the scatterplot. One way to do this is to use a different color marker for each type of college. Fill in the code below the scatterplot from the previous exercise with the marker colors based on the variable `type`. Describe two new observations from this scatterplot that you didn't see in the previous plot.
+$$\bar{y}_k \pm t^* \frac{\hat{\sigma}}{\sqrt{n_k}}$$
 
 ```{r eval=FALSE}
-ggplot(data=scorecard_new, mapping=aes(x=admrate, y=cost, color=type)) + 
-  _____________________
+n.groups <- diamonds_low %>% distinct(color) %>% count()
+crit.val <- qt(0.975, (nrow(diamonds_low)-n.groups$n))
+sigma <- sqrt(_________)
+
+conf.intervals <- diamonds_low %>%
+  group_by(color) %>% 
+  summarise(mean_carat = mean(carat), n = n(), 
+            lower = mean_carat - crit.val * sigma/sqrt(n),
+            upper = mean_carat + crit.val * sigma/sqrt(n))
 ```
 
-## Simple Linear Regression
+```{r eval=FALSE}
+ggplot(data=conf.intervals,aes(x=color,y=mean_carat)) +
+  geom_point() + 
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1) + 
+  labs(title="95% confidence interval for the mean value of carat",
+       subtitle="by Color") +
+  coord_flip()
+```
 
-8. Fit a regression model to describe the relationship between a college's admission rate and cost. Use the `tidy` function to display the model.
+11. For what color level is the mean carat weight the most different from all the others? 
 
-9. Interpret the slope in the context of the problem. Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful. 
+12. Based on this analysis, describe the relationship between the color and the mean carat weight in diamonds that cost $1200 or less. *Refer to the diamond documentation to recall what the color scale means.*
 
-10. While the `tidy` function is used to display the model, we can obtain a one-row summary of the model using the `glance` function. Use the `glance` function to get a summary of the model fit in the previous exercise. See the [documentation for `glance`](https://rdrr.io/cran/broom/man/glance.lm.html) for the syntax and a list of values output from the function.
-
-11. What is the value of $R^2$? Interpret this value in the context of the problem. Do you think this is a "good" value of $R^2$? Explain.
-
-12. What is the value of $\hat{\sigma}$, the residual standard error.
-
-13. What is the 95% confidence interval for the coefficient of `admrate`, i.e. the slope? Interpret the interval in the context of the data. 
-
-14. We want to test the following hypotheses about the population slope $\beta_1$:
-
-$$H_0: \beta_1 = 0 \hspace{5mm} \text{versus} \hspace{5mm} H_a: \beta_1 \neq 0$$
-
-State what the null and alternative hypotheses mean in terms of the linear relationship between `admrate` and `cost`.
-
-15. Consider the confidence interval from Exercise 13 and the hypotheses in Exercise 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.  
-
-
-*You're done! Commit all remaining changes, use the commit message "Done with Lab 2!", and push. Before you wrap up the assignment, make sure the .Rmd, .html, and .md documents are all updated on your GitHub repo.*
+*You're done! Commit all remaining changes, use the commit message "Done with Lab 3!", and push. Before you wrap up the assignment, make sure the .Rmd, .html, and .md documents are all updated on your GitHub repo.*
