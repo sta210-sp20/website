@@ -51,9 +51,9 @@ library(cowplot) # use plot_grid function
 
 ---
 
-## Motivating Example
+## Example: Starting Wages
 
-- In the 1970s Harris Trust and Savings Bank was sued for discrimination on the basis of sex. 
+- In the 1970s Harris Trust and Savings Bank was sued for discrimination on the basis of gender.
 
 - The defense presented an analysis of the salaries for skilled, entry-level clerical employees as evidence. 
 
@@ -97,10 +97,8 @@ glimpse(wages)
 - <font class="vocab">Question: </font> Did female employees receive lower starting salaries on average than male employees with similar experience and qualifications?
 
 ```{r}
-ggplot(data=wages,aes(x=Bsal,fill=Female)) + 
-  geom_density(alpha=0.5) + 
-  labs(y="Starting Salary", title ="Starting Salary",
-       subtitle = "by Gender") 
+ggplot(data=wages,aes(x=Bsal,fill=Female)) + geom_density(alpha=0.5) + 
+  labs(y="Starting Salary", title ="Starting Salary by Gender") 
 ```
 
 ---
@@ -136,8 +134,10 @@ pairs(Bsal ~ Senior + Age + Educ + Exper, data=wages)
 - We will calculate a multiple linear regression model with the following form: 
 <br> 
 
-$$\color{blue}{Bsal = \\ 
+.small[
+$$\color{blue}{Bsal = 
 \beta_0 + \beta_1 \text{Senior} + \beta_2 \text{Age} + \beta_3 \text{Educ} + \beta_4 \text{Exper} + \beta_5 \text{Female}}$$
+]
 <br> 
 
 
@@ -169,7 +169,7 @@ $$\color{blue}{y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p
 $$\color{blue}{y = \beta_0 + \beta_1 x_{1} + \beta_2 x_2 + \dots + \beta_p x_p}$$
 --
 
-- We will use multiple linear regression to calculate an estimate of the model 
+- We will use multiple linear regression to estimate the mean
 $$\color{blue}{\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_{1} + \hat{\beta}_2 x_2 + \dots + \hat{\beta}_p x_{p}}$$
 
 ---
@@ -177,18 +177,20 @@ $$\color{blue}{\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_{1} + \hat{\beta}_2 x_2
 ## Regression Output
 
 ```{r}
-model <- lm(Bsal ~ Senior + Age + Educ + Exper + Female, data=wages)
+model <- lm(Bsal ~ Senior + Age + Educ + Exper + Female, 
+            data=wages)
 kable(tidy(model),format="html",digits=3)
 ```
+
 ---
 
 ## Interpreting $\hat{\beta}_j$
 
-- An estimated coefficient $\hat{\beta}_j$ is the amount $y$ is expected to change when $x_j$ increases by one unit **holding the values all other explanatory variables constant**
+- An estimated coefficient $\hat{\beta}_j$ is the amount $y$ is expected to change when $x_j$ increases by one unit **holding the values all other predictor variables constant**
 
 --
 
-- *Example:* The estimated coefficient for `Educ` is 92.31. This means for each additional year of education an employee has, we expect starting salary to increase by about $92.31, holding all over variables constant.
+- *Example:* The estimated coefficient for `Educ` is 92.31. This means for each additional year of education an employee has, we expect starting salary to increase by about $92.31, holding all other predictor variables constant.
 
 ---
 
@@ -214,7 +216,7 @@ $$H_0: \beta_j = \beta_{j0}$$
 $$\color{blue}{\text{test statistic} = \frac{\hat{\beta}_j - \beta_{j0}}{SE(\hat{\beta}_j)}}$$
 
 
-- We calculate the **p-value:** using a $t$ distribution with $(n - p - 1)$ degrees of freedom 
+- We calculate the **p-value:** using a $t$ distribution with $(n - p - 1)$ degrees of freedom, where $p$ is the number of predictor variables
     - Note: There are $(p+1)$ total terms in the model 
   
 ---
@@ -228,8 +230,8 @@ kable(tidy(model),format="html",digits=3)
 .question[
 Given the other variables in the model, are the following significant predictors of `Bsal`? 
 
-- Education (`educ`)
-- Experience (`exper`)
+- Education (`Educ`)
+- Experience (`Exper`)
 ]
 
 ---
@@ -241,9 +243,7 @@ kable(tidy(model),format="html",digits=3)
 ```
 
 .question[
-Given the other variables in the model, which variable has a stronger linear relationship with `Bsal`? 
-
-`Senior` or `Educ`?
+Given the other variables in the model, which variable has a stronger linear relationship with `Bsal` - `Senior` or `Educ`?
 ]
 
 ---
@@ -268,6 +268,9 @@ $$\color{blue}{\hat{\beta}_j \pm t^* SE(\hat{\beta}_j)}$$
 kable(tidy(model,conf.int=TRUE),format="html",digits=3)
 ```
 
+.question[
+Interpret the 95% confidence interval for the coefficient of `Educ`.
+]
 ---
 
 ### Notes about CI and Hypothesis Tests
@@ -407,7 +410,6 @@ pairs(Bsal ~ Senior + Age + Educ + Exper, data=wages)
 ```{r}
 wages <- wages %>% 
   mutate(predicted = predict.lm(model), residuals = resid(model))
-
 ggplot(data=wages,aes(x=predicted, y=residuals)) + 
   geom_point() + 
   geom_hline(yintercept=0,color="red") +
