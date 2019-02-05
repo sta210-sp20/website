@@ -66,7 +66,7 @@ ssb <-  # sum of squares between (model)
 msb <-  # mean square between
 msw <-  # mean square within (residuals)
 f_stat <-  #F -statistic 
-p_val <- 1-pf(_____)  # p-value
+p_val <- 1-pf(____, _____, _____)  # p-value
 ```
 
 Use the code below to combine all of the values and print an ANOVA table.
@@ -87,7 +87,7 @@ anova <- bind_cols("Source"=source,"df"=df,"Sum of squares"=ss,
 kable(anova) 
 ```
 
-2. Using the table you created in the previous question. How many groups are there? Is there sufficient evidence to support the claim that the group population means are equal? Briefly explain.
+2. Use the table you created in the previous question. How many groups are there? Is there sufficient evidence against the claim that the group population means are equal? Briefly explain.
 
 3. A linear regression model was used to describe the relationship between a quantitative predictor variable $x$ and a response variable $y$. The output from the Analysis of Variance is shown below. Use the table to answer Questions 3 - 7. You can assume all assumptions for linear regression (and thus ANOVA) are sufficiently met.
 
@@ -101,7 +101,7 @@ kable(tidy(m))
 
 How many observations are the dataset used to conduct this analysis?
 
-4. What is the estimated regression variance? 
+4. What is the estimate of $\sigma^2$?
 
 5. Use the ANOVA table to calculate the proportion of the variation in $y$ that is explained by $x$. Show how you calculated this value in your R code, i.e. use R as a "calculator".
 

@@ -269,7 +269,7 @@ ssb &lt;-  # sum of squares between (model)
 msb &lt;-  # mean square between
 msw &lt;-  # mean square within (residuals)
 f_stat &lt;-  #F -statistic 
-p_val &lt;- 1-pf(_____)  # p-value</code></pre>
+p_val &lt;- 1-pf(____, _____, _____)  # p-value</code></pre>
 <p>Use the code below to combine all of the values and print an ANOVA table.</p>
 <pre class="r"><code>source &lt;- c(&quot;Between Groups&quot;, &quot;Within Groups&quot;, &quot;Total&quot;)
 df &lt;- c(dfb, dfw,dft)
@@ -285,7 +285,7 @@ anova &lt;- bind_cols(&quot;Source&quot;=source,&quot;df&quot;=df,&quot;Sum of s
 # print the table 
 kable(anova) </code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Using the table you created in the previous question. How many groups are there? Is there sufficient evidence to support the claim that the group population means are equal? Briefly explain.</p></li>
+<li><p>Use the table you created in the previous question. How many groups are there? Is there sufficient evidence against the claim that the group population means are equal? Briefly explain.</p></li>
 <li><p>A linear regression model was used to describe the relationship between a quantitative predictor variable <span class="math inline">\(x\)</span> and a response variable <span class="math inline">\(y\)</span>. The output from the Analysis of Variance is shown below. Use the table to answer Questions 3 - 7. You can assume all assumptions for linear regression (and thus ANOVA) are sufficiently met.</p></li>
 </ol>
 <table>
@@ -328,7 +328,7 @@ kable(anova) </code></pre>
 </table>
 <p>How many observations are the dataset used to conduct this analysis?</p>
 <ol start="4" style="list-style-type: decimal">
-<li><p>What is the estimated regression variance?</p></li>
+<li><p>What is the estimate of <span class="math inline">\(\sigma^2\)</span>?</p></li>
 <li><p>Use the ANOVA table to calculate the proportion of the variation in <span class="math inline">\(y\)</span> that is explained by <span class="math inline">\(x\)</span>. Show how you calculated this value in your R code, i.e. use R as a “calculator”.</p></li>
 <li><p>What does the F-statistic mean? In other words, how is the F-statistic calculated?</p></li>
 <li><p>We can use this table to test the following hypotheses: <span class="math display">\[H_0: \beta_1 = 0 \hspace{5mm} \text{ vs }\hspace{5mm} H_a: \beta_1 \neq 0\]</span> State the conclusion of the test in terms of the relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. Briefly describe how you came to this conclusion.</p></li>
