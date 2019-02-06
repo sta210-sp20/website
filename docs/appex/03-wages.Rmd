@@ -1,0 +1,64 @@
+---
+title: "Starting salaries between 1965 and 1975"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r global-options}
+knitr::opts_chunk$set(warning=FALSE,
+                   message=FALSE)
+```
+
+```{r load-packages}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(Sleuth3)
+```
+
+```{r prepare-data}
+wages <- case1202 %>% 
+  mutate(Female = ifelse(Sex=="Female",1,0)) %>%
+  select(-Sal77,-Sex)
+```
+
+### Initial model
+
+```{r}
+model <- lm(Bsal ~ Senior + Age + Educ + Exper + Female, 
+            data=wages)
+tidy(model,conf.int=TRUE)
+```
+
+### Model with mean-centered variables
+
+```{r}
+wages <- wages %>%
+  mutate(SeniorCent = Senior - mean(Senior), 
+         AgeCent = Age-mean(Age), 
+         EducCent = Educ - mean(Educ), 
+         ExperCent = Exper - mean(Exper))
+```
+
+- Calculate the regression model using the mean-centered variables. 
+
+```{r}
+
+```
+
+- How did the model change?
+
+### Model with indicator variables
+
+- Use the code below to create a categorical variable for `Educ`.
+
+```{r}
+wages <- wages %>%
+  mutate(EducCat = as.factor(Educ))
+```
+
+- Calculate the regression model using `EducCat` instead of `Educ`.
+
+```{r}
+
+```
