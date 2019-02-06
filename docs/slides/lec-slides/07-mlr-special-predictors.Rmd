@@ -416,3 +416,10 @@ ggplot(data=wages, aes(x=Senior,y=Bsal,color=as.factor(Female))) +
 .question[
 Do you think there is a significant interaction effect that includes gender and seniority? Why or why not?
 ]
+
+
+---
+
+## Before next class
+
+- [Reading 05](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-05.html)
