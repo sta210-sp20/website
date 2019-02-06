@@ -19,10 +19,10 @@ output:
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
 	fig.align = "center",
-	fig.height =5,
-	fig.width = 8,
+	fig.height = 4,
 	message = FALSE,
-	warning = FALSE
+	warning = FALSE, 
+	dpi = 300
 )
 ```
 
@@ -49,18 +49,21 @@ library(cowplot) # use plot_grid function
 
 ---
 
-## Example: Starting wages
+## Starting wages data
 
-- In the 1970s Harris Trust and Savings Bank was sued for discrimination on the basis of Female.
+**Explanatory**
+- <font class="vocab">`Educ`: </font>years of Education
+- <font class="vocab">`Exper`: </font>months of previous work Experience (before hire at bank)
+- <font class="vocab">`Female`: </font>1 if female, 0 if male
+- <font class="vocab">`Senior`: </font>months worked at bank since hire
+- <font class="vocab">`Age`: </font>Age in months
 
-- The defense presented an analysis of the salaries for skilled, entry-level clerical employees as evidence. 
-
-- **Question**: Did female employees receive lower starting salaries on averAge than male employees with similar Experience and qualifications?
+**Response**
+- <font class="vocab">`Bsal`: </font>annual salary at time of hire
 
 ---
 
-
-## Data
+## Starting wages 
 
 ```{r}
 wages <- case1202 %>% 
@@ -74,19 +77,6 @@ glimpse(wages)
 
 ---
 
-## Variables
-
-**Explanatory**
-- <font class="vocab">`Educ`: </font>years of Education
-- <font class="vocab">`Exper`: </font>months of previous work Experience (before hire at bank)
-- <font class="vocab">`Female`: </font>1 if female, 0 if male
-- <font class="vocab">`Senior`: </font>months worked at bank since hire
-- <font class="vocab">`Age`: </font>Age in months
-
-**Response**
-- <font class="vocab">`Bsal`: </font>annual salary at time of hire
-
----
 
 ## Regression model
 
@@ -109,14 +99,14 @@ class: middle, center
 
 - The multiple linear regression model assumes 
 
-$$\color{blue}{x|x_1, x_2,  \ldots, x_p \sim N(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p, \sigma^2)}$$
+$$\color{blue}{y|x_1, x_2,  \ldots, x_p \sim N(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p, \sigma^2)}$$
 <br> 
 
 --
 
 - For a given observation $(x_{i1}, x_{i2}, \ldots, x_{iP}, y_i)$, we can rewrite the previous statement as 
 
-$$\color{blue}{y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p X_{ip} + \epsilon_{i} \hspace{10mm} \epsilon_i \sim N(0,\sigma^2)}$$
+$$\color{blue}{y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon_{i} \hspace{10mm} \epsilon_i \sim N(0,\sigma^2)}$$
 
 ---
 
@@ -129,7 +119,7 @@ $$\color{blue}{e_i = y_{i} - (\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}
 
 - The estimated value of the regression variance , $\sigma^2$, is 
 
-$$\color{blue}{\hat{\sigma}^2  = \frac{RSS}{n-p-1} = \frac{\sum_{i=1}^ne_i^2}{n-p-1}\hspace{10mm} df = n-p-1}$$
+$$\color{blue}{\hat{\sigma}^2  = \frac{RSS}{n-p-1} = \frac{\sum_{i=1}^ne_i^2}{n-p-1}}$$
 
 ---
 
@@ -141,7 +131,7 @@ $$\color{blue}{\sum_{i=1}^n e_i^2 = \sum_{i=1}^{n}[y_i - (\beta_0 + \beta_1 x_{i
 
 --
 
-- Produces messy formulas, but we can represent the regression equation using matrix notation
+- This produces messy formulas, but we can represent the regression equation using matrix notation
 
 ---
 
@@ -164,10 +154,10 @@ $$\mathbf{Y} = \begin{bmatrix}
 1&x_{21} & x_{22} & \dots & x_{2p}\\
 \vdots & \vdots & \vdots & \ddots & \vdots \\
 1&x_{n1} & x_{n2} & \dots & x_{np} \end{bmatrix}\hspace{15mm}\boldsymbol{\beta}=\begin{bmatrix}
-    \boldsymbol{\beta}_0 \\
-    \boldsymbol{\beta}_1 \\
+    \beta_0 \\
+    \beta_1 \\
     \vdots\\
-     \boldsymbol{\beta}_p
+     \beta_p
 \end{bmatrix}$$
 <br> 
 
@@ -237,36 +227,41 @@ class: middle, center
 
 ## Interpreting the Intercept 
 
-```{r,echo=F, eval=FALSE}
+```{r echo=FALSE}
 kable(tidy(model),format="html",digits=3)
 ```
 
+.question[
 - Interpret the intercept. 
+
 - Is this interpretation meaningful? Why or why not?
+]
 ---
 
 
 
 ### Mean-Centered Variables
 
-- To aid with the interpretation of the intercept, you can subtract each continuous explanatory variable from its mean value
+- To aid with the interpretation of the intercept, you can subtract each continuous predictor variable from its mean value
 
-  + Use these <font class="vocab3">mean-centered</font> variables in the regression model 
-  
---
 
-- Now the intercept is interpreted as the estimated mean response at the averAge value of the explanatory variables
+- Use these <font class="vocab3">mean-centered</font> variables in the regression model 
+
+
+- Now the intercept is interpreted as the expected (i.e. mean) value of the response at the average value of the predictor variables
 
 ---
 
  
 
 ### Salary: Mean-Centered Variables
+
 ```{r}
 wages <- wages %>%
-  mutate(SeniorCenter = Senior - mean(Senior), AgeCenter = Age-mean(Age), 
-         EducCenter = Educ - mean(Educ), 
-         ExperCenter = Exper - mean(Exper))
+  mutate(SeniorCent = Senior - mean(Senior), 
+         AgeCent = Age-mean(Age), 
+         EducCent = Educ - mean(Educ), 
+         ExperCent = Exper - mean(Exper))
 ```
 
 .pull-left[
@@ -277,7 +272,7 @@ labs(title="Seniority",x="Seniority")
 ]
 .pull-right[
 ```{r,echo=F}
-ggplot(data=wages,aes(x=SeniorCenter)) + geom_histogram(fill="green",color="black") + 
+ggplot(data=wages,aes(x=SeniorCent)) + geom_histogram(fill="green",color="black") + 
 labs(title="Mean-Centered Seniority",xlab="Mean-Centered Seniority")
 ```
 ]
@@ -289,27 +284,27 @@ labs(title="Mean-Centered Seniority",xlab="Mean-Centered Seniority")
 
 ### Salary: Mean-Centered Variables
 
-```{r,echo=F}
-modelCenter <- lm(Bsal ~ Female + SeniorCenter + AgeCenter + EducCenter + ExperCenter, data=wages)
-kable(tidy(modelCenter),format="html",digits=3)
+```{r, include=FALSE}
+modelCent <- lm(Bsal ~ Female + SeniorCent + AgeCent + 
+                    EducCent + ExperCent, data=wages)
+kable(tidy(modelCent,conf.int=TRUE),format="html",digits=3)
+wages <- wages %>% mutate(residuals=resid(modelCent))
 ```
 
-- What changed?
-
-- What remained the same?
+.question[
+Calculate the regression model using the mean-centered variables. How did the model change?
+]
 
 ---
 
-
-
 ## Quadratic Terms
 
- - Sometimes the response variable may have a quadratic relationship with one or more explanatory variables
-  + You can see this in a plot of the residuals vs. an explanatory variable 
+ - Sometimes the response variable may have a quadratic relationship with one or more predictor variables
+    - You can see this in a plot of the residuals vs. a predictor variable 
 - Include quadratic terms in the model to capture the relationship 
 
 - <font class="vocab">Good Practice:</font> Also include all lower order terms 
-  + This helps with interpretation 
+This helps with interpretation 
   
 - You can show quadratic relationships by plotting the predicted mean response for different values of the explanatory variable
 
@@ -317,40 +312,107 @@ kable(tidy(modelCenter),format="html",digits=3)
 
 ---
 
- 
+Below are plots of the residuals versus each quantitative predictor variable. 
 
-## Indicator Variables 
+```{r,echo=F}
+p1 <- ggplot(data=wages,aes(x=Senior,y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Seniority", y="Residuals")
+
+p2 <- ggplot(data=wages,aes(x=Age,y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Age", y="Residuals")
+
+p3 <- ggplot(data=wages,aes(x=Educ,y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Education", y="Residuals")
+
+p4 <- ggplot(data=wages,aes(x=Exper,y=residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red") +
+  labs(x = "Experience", y="Residuals")
+
+plot_grid(p1,p2,p3,p4,nrow=2)
+```
+
+.question[
+Which variables (if any) appear to have a quadratic relationship with `Bsal`?
+]
+
+---
+
+## Indicator (dummy) variables
 
 
 - Suppose there is a categorical variable with $k$ levels (categories)
-- Make $k$ indicator variables
-- Use $k-1$ of the indicator variables in the model
-  + Can't uniquely estimate all $k$ variables at once if the intercept is in the model
-- Level not included is called the <font class="vocab3">reference level</font>
-- Coefficients interpreted as the change in the mean of the response over the reference level
 
+- Make $k$ indicator (dummy) variables
+
+- Use $k-1$ of the indicator variables in the model
+    - Can't uniquely estimate all $k$ variables at once if the intercept is in the model
+    
+- Level that doesn't have a variable in the model is called the <font class="vocab3">baseline</font>
+
+- Coefficients interpreted as the change in the mean of the response over the baseline
 
 ---
 
+## Indicator variables when $k=2$
+
+```{r echo=FALSE}
+kable(tidy(modelCent,conf.int=TRUE),format="html",digits=3)
+```
+
+.question[
+- What is the intercept of the model for males? 
+
+- What is the intercept of the model for females?
+]
+
+---
+
+## Indicator variables when $k > 2$
+
+Build a regression model with Education treated as a categorical variable. 
+
+.question[
+- What is the baseline for Education?
+
+- Interpret the coefficient for `EducCat16`.
+
+- What is your conclusion from the p-value of `EducCat12`?
+
+- What is your conclusion from the p-value of `EducCat15`?
+]
  
+ 
+---
 
 ## Interaction Terms
 
-- **Case**: Relationship of the an explanatory variable with the response depends on the value of another explanatory variable
+- **Case**: Relationship of the predictor variable with the response depends on the value of another predictor variable
   + This is an <font class="vocab3">interaction effect</font>
   
-- Create a new interaction variable that is one explanatory variable times the other in the interaction 
+- Create a new interaction variable that is one predictor variable times the other in the interaction 
 
-- <font class="vocab">Good Practice:</font> When including an interaction term, also include each variable on its own (called main effect)
-
+- <font class="vocab">Good Practice:</font> When including an interaction term, also include each variable on its own (called **main effect**)
 
 ---
 
- 
-
-## Interaction 
+## Interaction effects
 
 ```{r,echo=F}
-ggplot(data=wages, aes(x=Senior,y=Bsal)) + geom_point() + facet_wrap(.~Female) + 
-  labs(title="Effect of Seniority by Female", x="Seniority",y="Starting Salary")
+ggplot(data=wages, aes(x=Senior,y=Bsal,color=as.factor(Female))) +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE) + 
+  labs(title = "Starting Salary vs. Seniority by Gender", 
+       x = "Months at Company", 
+       y = "Starting Salary")
 ```
+
+.question[
+Do you think there is a significant interaction effect that includes gender and seniority? Why or why not?
+]

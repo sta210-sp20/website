@@ -44,18 +44,21 @@ library(cowplot) # use plot_grid function
 
 ---
 
-## Example: Starting wages
+## Starting wages data
 
-- In the 1970s Harris Trust and Savings Bank was sued for discrimination on the basis of Female.
+**Explanatory**
+- &lt;font class="vocab"&gt;`Educ`: &lt;/font&gt;years of Education
+- &lt;font class="vocab"&gt;`Exper`: &lt;/font&gt;months of previous work Experience (before hire at bank)
+- &lt;font class="vocab"&gt;`Female`: &lt;/font&gt;1 if female, 0 if male
+- &lt;font class="vocab"&gt;`Senior`: &lt;/font&gt;months worked at bank since hire
+- &lt;font class="vocab"&gt;`Age`: &lt;/font&gt;Age in months
 
-- The defense presented an analysis of the salaries for skilled, entry-level clerical employees as evidence. 
-
-- **Question**: Did female employees receive lower starting salaries on averAge than male employees with similar Experience and qualifications?
+**Response**
+- &lt;font class="vocab"&gt;`Bsal`: &lt;/font&gt;annual salary at time of hire
 
 ---
 
-
-## Data
+## Starting wages 
 
 
 ```r
@@ -82,19 +85,6 @@ glimpse(wages)
 
 ---
 
-## Variables
-
-**Explanatory**
-- &lt;font class="vocab"&gt;`Educ`: &lt;/font&gt;years of Education
-- &lt;font class="vocab"&gt;`Exper`: &lt;/font&gt;months of previous work Experience (before hire at bank)
-- &lt;font class="vocab"&gt;`Female`: &lt;/font&gt;1 if female, 0 if male
-- &lt;font class="vocab"&gt;`Senior`: &lt;/font&gt;months worked at bank since hire
-- &lt;font class="vocab"&gt;`Age`: &lt;/font&gt;Age in months
-
-**Response**
-- &lt;font class="vocab"&gt;`Bsal`: &lt;/font&gt;annual salary at time of hire
-
----
 
 ## Regression model
 
@@ -188,14 +178,14 @@ class: middle, center
 
 - The multiple linear regression model assumes 
 
-`$$\color{blue}{x|x_1, x_2,  \ldots, x_p \sim N(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p, \sigma^2)}$$`
+`$$\color{blue}{y|x_1, x_2,  \ldots, x_p \sim N(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p, \sigma^2)}$$`
 &lt;br&gt; 
 
 --
 
 - For a given observation `\((x_{i1}, x_{i2}, \ldots, x_{iP}, y_i)\)`, we can rewrite the previous statement as 
 
-`$$\color{blue}{y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p X_{ip} + \epsilon_{i} \hspace{10mm} \epsilon_i \sim N(0,\sigma^2)}$$`
+`$$\color{blue}{y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon_{i} \hspace{10mm} \epsilon_i \sim N(0,\sigma^2)}$$`
 
 ---
 
@@ -208,7 +198,7 @@ class: middle, center
 
 - The estimated value of the regression variance , `\(\sigma^2\)`, is 
 
-`$$\color{blue}{\hat{\sigma}^2  = \frac{RSS}{n-p-1} = \frac{\sum_{i=1}^ne_i^2}{n-p-1}\hspace{10mm} df = n-p-1}$$`
+`$$\color{blue}{\hat{\sigma}^2  = \frac{RSS}{n-p-1} = \frac{\sum_{i=1}^ne_i^2}{n-p-1}}$$`
 
 ---
 
@@ -220,7 +210,7 @@ class: middle, center
 
 --
 
-- Produces messy formulas, but we can represent the regression equation using matrix notation
+- This produces messy formulas, but we can represent the regression equation using matrix notation
 
 ---
 
@@ -243,10 +233,10 @@ class: middle, center
 1&amp;x_{21} &amp; x_{22} &amp; \dots &amp; x_{2p}\\
 \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
 1&amp;x_{n1} &amp; x_{n2} &amp; \dots &amp; x_{np} \end{bmatrix}\hspace{15mm}\boldsymbol{\beta}=\begin{bmatrix}
-    \boldsymbol{\beta}_0 \\
-    \boldsymbol{\beta}_1 \\
+    \beta_0 \\
+    \beta_1 \\
     \vdots\\
-     \boldsymbol{\beta}_p
+     \beta_p
 \end{bmatrix}$$`
 &lt;br&gt; 
 
@@ -338,23 +328,80 @@ class: middle, center
 
 ## Interpreting the Intercept 
 
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6277.893 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 652.271 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.625 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Senior &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -22.582 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.296 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.264 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Age &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.631 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.721 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.876 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.384 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Educ &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 92.306 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.864 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.713 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Exper &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.501 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.055 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.474 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.636 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -767.913 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 128.970 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -5.954 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
-
+.question[
 - Interpret the intercept. 
+
 - Is this interpretation meaningful? Why or why not?
+]
 ---
 
 
 
 ### Mean-Centered Variables
 
-- To aid with the interpretation of the intercept, you can subtract each continuous explanatory variable from its mean value
+- To aid with the interpretation of the intercept, you can subtract each continuous predictor variable from its mean value
 
-  + Use these &lt;font class="vocab3"&gt;mean-centered&lt;/font&gt; variables in the regression model 
-  
---
 
-- Now the intercept is interpreted as the estimated mean response at the averAge value of the explanatory variables
+- Use these &lt;font class="vocab3"&gt;mean-centered&lt;/font&gt; variables in the regression model 
+
+
+- Now the intercept is interpreted as the expected (i.e. mean) value of the response at the average value of the predictor variables
 
 ---
 
@@ -362,11 +409,13 @@ class: middle, center
 
 ### Salary: Mean-Centered Variables
 
+
 ```r
 wages &lt;- wages %&gt;%
-  mutate(SeniorCenter = Senior - mean(Senior), AgeCenter = Age-mean(Age), 
-         EducCenter = Educ - mean(Educ), 
-         ExperCenter = Exper - mean(Exper))
+  mutate(SeniorCent = Senior - mean(Senior), 
+         AgeCent = Age-mean(Age), 
+         EducCent = Educ - mean(Educ), 
+         ExperCent = Exper - mean(Exper))
 ```
 
 .pull-left[
@@ -383,6 +432,57 @@ wages &lt;- wages %&gt;%
 
 ### Salary: Mean-Centered Variables
 
+
+
+.question[
+Calculate the regression model using the mean-centered variables. How did the model change?
+]
+
+---
+
+## Quadratic Terms
+
+ - Sometimes the response variable may have a quadratic relationship with one or more predictor variables
+    - You can see this in a plot of the residuals vs. a predictor variable 
+- Include quadratic terms in the model to capture the relationship 
+
+- &lt;font class="vocab"&gt;Good Practice:&lt;/font&gt; Also include all lower order terms 
+This helps with interpretation 
+  
+- You can show quadratic relationships by plotting the predicted mean response for different values of the explanatory variable
+
+- The same applies for higher order polynomial relationships 
+
+---
+
+Below are plots of the residuals versus each quantitative predictor variable. 
+
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+.question[
+Which variables (if any) appear to have a quadratic relationship with `Bsal`?
+]
+
+---
+
+## Indicator (dummy) variables
+
+
+- Suppose there is a categorical variable with `\(k\)` levels (categories)
+
+- Make `\(k\)` indicator (dummy) variables
+
+- Use `\(k-1\)` of the indicator variables in the model
+    - Can't uniquely estimate all `\(k\)` variables at once if the intercept is in the model
+    
+- Level that doesn't have a variable in the model is called the &lt;font class="vocab3"&gt;baseline&lt;/font&gt;
+
+- Coefficients interpreted as the change in the mean of the response over the baseline
+
+---
+
+## Indicator variables when `\(k=2\)`
+
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -391,6 +491,8 @@ wages &lt;- wages %&gt;%
    &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; conf.low &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; conf.high &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
@@ -400,6 +502,8 @@ wages &lt;- wages %&gt;%
    &lt;td style="text-align:right;"&gt; 99.659 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 59.443 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5725.925 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6122.090 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
@@ -407,95 +511,91 @@ wages &lt;- wages %&gt;%
    &lt;td style="text-align:right;"&gt; 128.970 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; -5.954 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1024.255 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -511.571 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; SeniorCenter &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SeniorCent &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; -22.582 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 5.296 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; -4.264 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -33.108 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -12.056 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; AgeCenter &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; AgeCent &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.631 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.721 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.876 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.384 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.801 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.063 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; EducCenter &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; EducCent &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 92.306 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 24.864 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 3.713 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.887 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 141.725 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; ExperCenter &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ExperCent &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.501 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1.055 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.474 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.636 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.597 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.598 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-- What changed?
+.question[
+- What is the intercept of the model for males? 
 
-- What remained the same?
-
----
-
-
-
-## Quadratic Terms
-
- - Sometimes the response variable may have a quadratic relationship with one or more explanatory variables
-  + You can see this in a plot of the residuals vs. an explanatory variable 
-- Include quadratic terms in the model to capture the relationship 
-
-- &lt;font class="vocab"&gt;Good Practice:&lt;/font&gt; Also include all lower order terms 
-  + This helps with interpretation 
-  
-- You can show quadratic relationships by plotting the predicted mean response for different values of the explanatory variable
-
-- The same applies for higher order polynomial relationships 
+- What is the intercept of the model for females?
+]
 
 ---
 
+## Indicator variables when `\(k &gt; 2\)`
+
+Build a regression model with Education treated as a categorical variable. 
+
+.question[
+- What is the baseline for Education?
+
+- Interpret the coefficient for `EducCat16`.
+
+- What is your conclusion from the p-value of `EducCat12`?
+
+- What is your conclusion from the p-value of `EducCat15`?
+]
  
-
-## Indicator Variables 
-
-
-- Suppose there is a categorical variable with `\(k\)` levels (categories)
-- Make `\(k\)` indicator variables
-- Use `\(k-1\)` of the indicator variables in the model
-  + Can't uniquely estimate all `\(k\)` variables at once if the intercept is in the model
-- Level not included is called the &lt;font class="vocab3"&gt;reference level&lt;/font&gt;
-- Coefficients interpreted as the change in the mean of the response over the reference level
-
-
----
-
  
+---
 
 ## Interaction Terms
 
-- **Case**: Relationship of the an explanatory variable with the response depends on the value of another explanatory variable
+- **Case**: Relationship of the predictor variable with the response depends on the value of another predictor variable
   + This is an &lt;font class="vocab3"&gt;interaction effect&lt;/font&gt;
   
-- Create a new interaction variable that is one explanatory variable times the other in the interaction 
+- Create a new interaction variable that is one predictor variable times the other in the interaction 
 
-- &lt;font class="vocab"&gt;Good Practice:&lt;/font&gt; When including an interaction term, also include each variable on its own (called main effect)
-
+- &lt;font class="vocab"&gt;Good Practice:&lt;/font&gt; When including an interaction term, also include each variable on its own (called **main effect**)
 
 ---
 
- 
+## Interaction effects
 
-## Interaction 
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+.question[
+Do you think there is a significant interaction effect that includes gender and seniority? Why or why not?
+]
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
