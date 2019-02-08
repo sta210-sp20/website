@@ -1,0 +1,160 @@
+---
+title: "Lab 04: Multiple Linear Regression"
+date: "due Wed, Feb 13 at 11:59p"
+output: 
+  tufte::tufte_html:
+    css: "./sta210-labs.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+    fig_height: 10
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE)
+```
+
+**INSERT INTRO**
+
+# Getting Started 
+
+- Go to the STA210-Sp19 organization on GitHub ([https://github.com/STA210-Sp19](https://github.com/STA210-Sp19)). Click on the repo with the prefix **lab-04-**. It contains the starter documents you need to complete the warmup exercise. 
+
+- Clone the repo and create a new project in RStudio Cloud. 
+
+- Configure git by typing the following in the **console**.
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="your name", user.email="your email")
+```
+
+## Password caching
+
+If you would like your git password cached for a week for this project, type the following in the **Terminal**:
+
+```{bash eval=FALSE}
+git config --global credential.helper 'cache --timeout 604800'
+```
+
+You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
+
+
+## Packages
+
+We will use the following packages in today's lab.
+
+```{r load-packages}
+library(tidyverse)
+library(knitr)
+library(broom)
+```
+
+## Project name: 
+
+Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 04 - Multiple linear regression".
+
+# Warm up
+
+Before we introduce the data, let's warm up with a simple exercise.
+
+## YAML: 
+
+- Pick one team member to update the *author* and *date* fields at the top of the R Markdown file. Knit, commit, and push all the updated documents to Github.
+
+- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
+
+## Data 
+
+**Insert description of the data**
+
+# Exercises 
+
+```{r}
+houses <- read_csv("data/KingCountyHouses.csv")
+
+```
+
+
+1. Look at the distribution of `bedrooms`. Notice that the max value is 33. Does it make sense for a house to have 33 bedrooms? What do you think caused this value? 
+
+We will limit the analysis with houses that have fewer than 10 bedrooms. 
+
+2. Fit a regression model using a house's square feet to predict the price. Plot the residuals versus the predicted values. Describe the shape in the residual plot. What regression assumption is obviously violated based on this plot?
+
+3. In order to fix the violation of the assumptions is to transform the response variable. (We will talk about this in class next week). Some of the most common transformations are the natural log, the square root and the reciprocal. Below are the distribution of price using the transformations.
+
+```{r echo=FALSE, eval=TRUE}
+houses <- houses %>% filter(bedrooms < 10)
+library(cowplot)
+
+p1 <- ggplot(data=houses,aes(x=price)) +
+  geom_histogram() + 
+  labs(title="Distribution of Price")
+
+p2 <- ggplot(data=houses,aes(x=log(price))) +
+  geom_histogram() + 
+  labs(title="Distribution of log(Price)")
+
+p3 <- ggplot(data=houses,aes(x=sqrt(price))) +
+  geom_histogram() + 
+  labs(title="Distribution of sqrt(Price)")
+
+p4 <- ggplot(data=houses,aes(x=1/price)) +
+  geom_histogram() + 
+  labs(title="Distribution of 1/Price")
+
+plot_grid(p1,p2,p3,p4,ncol=2)
+```
+
+Which distribution do you think we should choose to correct the violation of the model assumptions? Briefly explain your choice. 
+
+4. Create a new variable `logprice` and fit a regression model with `logprice` as the response and `sqft` as the predictor variable. Create a plot of the residuals versus the predicted values. Briefly explain how this plot of the residuals is  an improvement over the plot of the residuals using the original model. 
+
+
+5. We would like to add more factors to the model but first need to prepare more of the data. 
+
+Can we reasonably treat the variable `floors` as categorical? Briefly explain why or why not. 
+
+6. Make a new variable `floorsCat` that is the categorical version of the variable `floors`. Use the `count` function to get the number of observations at each level of `floorsCat`. How many levels of `floorsCat` are in this dataset? What is the most common number of floors?
+
+7. We wish to use the model for interpretation, so we would like to use the mean-centered variables in the model. Calculate the mean-centered versions of the variables `sqft`, `bedrooms`, `bathrooms` `yr_built`, and `yr_renovated` and add them to the `houses` data frame. 
+
+It is not appropriate to calculate the mean-centered version o the variable `waterfront`. Briefly explain why it isn't. 
+
+
+8. Fit a regression model with `logprice` as the response variable, and the mean-centered variables from the previous exercise along with `waterfront` and `floorsCat` as the predicted variables. Display the model.
+
+9. Interpret the intercept in the context of the data. Write the interpretation in terms of the log price.
+
+10. What is the baseline level for the variable `floorsCat`? 
+
+11. What is the intercept of the model for the subset of houses with 2 floors? 
+
+12. Interpret the coefficient of `floorsCat3` in terms of the log price.
+
+13. We would like to consider potential interactions for the model. A significant **interaction** occurs when the relationship of a predictor variable with the response depends on the value of another predictor variable. Often, we can visualize potential interactions in the model. 
+
+Fill in the code below to plot the relationship between `logprice` and `bedrooms` by `waterfront`.  Based on this plot, do you think there is a significant interaction effect between `bedrooms` and `waterfront`? In other words, do you think the relationship between the logprice and the number of bedrooms differs based on whether or not a house is on the waterfront? 
+
+```{r eval=FALSE}
+ggplot(data=houses,mapping=aes(x=_____,y=_____,color=as.factor(waterfront))) +
+  geom_smooth(method="lm", se=FALSE) +
+  labs(title="__________________", 
+       x="Number of bedrooms", 
+       y="Log Price",
+       color="Waterfront")
+```
+
+14. Fit a regression model using the predictors from Exercise 8 along with the interaction term `bedrooms*waterfront`. Does this model support your hypothesis in the previous exercise about the interaction effect between bedrooms and waterfront? Explain your reasoning. 
+
+15. Lastly, we examine whether there is a significant interaction effect between `sqft` and `waterfront`. Plot the relationship between `logprice` and `sqft` by `waterfront`. Based on this plot, do you think there is a significant interaction effect between `sqft` and `waterfront`? In other words, do you think the relationship between the logprice and the square footage differs based on whether or not a house is on the waterfront? 
+
+Fit a regression model using the predictors from Exercise 8 along with the interaction term `sqft*waterfront`. Does this model support your hypothesis about the interaction effect between square footage and waterfront? Explain your reasoning.
+
+
+15. 
+
+*You're done! Commit all remaining changes, use the commit message "Done with Lab 4!", and push. Before you wrap up the assignment, make sure the .Rmd, .md documents are all updated on your GitHub repo.*
