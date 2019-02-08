@@ -104,7 +104,7 @@ houses <- read_csv("data/KingCountyHouses.csv")
 1. Use data visualization and summary statistics to examine the distribution of `bedrooms`. What is the maximum value? Does this value make sense? If not, what is this an indication of, i.e. how did this value get recorded in the data? Briefly explain.
 
 ```{marginfigure}
-You can use the [documentation](https://dplyr.tidyverse.org/reference/summarise.html) for the `summarise` function for help with syntax. 
+See the [documentation](https://dplyr.tidyverse.org/reference/summarise.html) for more information about the `summarise` function.
 ```
 
 2. We want to remove observations that have extreme values for bedrooms, i.e. those with values for `bedrooms` above the 95<sup>th</sup> percentile in the data. What is the 95<sup>th</sup> percentile for `bedrooms`? Use the `summarise` function to help you calculate this value.
@@ -112,6 +112,7 @@ You can use the [documentation](https://dplyr.tidyverse.org/reference/summarise.
 
 
 3. Fill in the code below to filter the data so that the extreme observations are removed.  How many observations are in the updated dataset? 
+
 ```{r eval=FALSE}
 houses <- houses %>% filter(bedrooms <= ____)
 ```
