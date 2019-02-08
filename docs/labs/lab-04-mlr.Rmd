@@ -10,11 +10,24 @@ output:
 link-citations: yes
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       warning=FALSE, 
                       message=FALSE)
 ```
+
+<p><span class="marginnote shownote">
+<!--
+<div class="figure">-->
+<img src="img/04-mlr/seattle-home.jpg" alt=" " width="527"  />
+<br><br>
+<img src="img/04-mlr/seattle-home-3.jpg" alt=" " width="527"  />
+
+<!--
+<p class="caption marginnote">--> <!--</p>-->
+<!--</div>--></span></p>
+
 
 **INSERT INTRO**
 
@@ -154,7 +167,9 @@ ggplot(data=houses,mapping=aes(x=_____,y=_____,color=as.factor(waterfront))) +
 
 Fit a regression model using the predictors from Exercise 8 along with the interaction term `sqft*waterfront`. Does this model support your hypothesis about the interaction effect between square footage and waterfront? Explain your reasoning.
 
-
-15. 
-
 *You're done! Commit all remaining changes, use the commit message "Done with Lab 4!", and push. Before you wrap up the assignment, make sure the .Rmd, .md documents are all updated on your GitHub repo.*
+
+## Acknowledgement
+
+The data used in this lab was obtained from [https://github.com/proback/BYSH](https://github.com/proback/BYSH).
+
