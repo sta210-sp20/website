@@ -221,6 +221,12 @@ SE
 
 ---
 
+class: middle
+
+See [https://github.com/STA210-Sp19/supplemental-notes/blob/master/regression-basics-matrix.pdf](https://github.com/STA210-Sp19/supplemental-notes/blob/master/regression-basics-matrix.pdf) for more details about the matrix form of linear regressin. 
+
+---
+
 class: middle, center
 
 ## Special Predictors
