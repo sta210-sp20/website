@@ -248,7 +248,10 @@ library(knitr) </code></pre>
 <p>The <em>Computations &amp; Concepts</em> section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.</p>
 <p>For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017. The Kentucky Derby is a 1.25 mile horse race held annually at the Churchill Downs race track in Louisville, Kentucky. This dataset contains information about 122 derbies held 1896 to 2017. We will use the following variables from the data:</p>
 <ul>
-<li><code>year</code>: year of race recorded as number of years since 1896</li>
+<li><code>year</code>: year of race recorded as number of years since 1896
+<ul>
+<li>e.g.: 2017 is recorded as <code>2017 - 1896 = 121</code></li>
+</ul></li>
 <li><code>condition</code>: condition of the track - fast, good, and slow.
 <ul>
 <li>“good” includes the official designations “good” and “dusty”</li>
@@ -258,7 +261,7 @@ library(knitr) </code></pre>
 <li><code>speed</code>: average speed of the winner (in feet per second)</li>
 </ul>
 <p>Below is a regression model using <code>year</code>, <code>condition</code>, and <code>starters</code>, and <code>year * condition</code> to explain variation in <code>speed</code>. The model is shown in mathetmatical notation as well as in the output from R. Use the model to answer Questions 1 - 7.</p>
-<p><span class="math display">\[\hat{\text{speed}} = \beta_0 + \beta_1 \text{year} + \beta_2 \text{starters} + \beta_3 \text{good} + \beta_4 \text{slow} + \beta_5 (year \times good) + \beta_6 (year \times slow)\]</span></p>
+<p><span class="math display">\[\hat{\text{speed}} = \beta_0 + \beta_1 \text{year} + \beta_2 \text{starters} + \beta_3 \text{good} + \beta_4 \text{slow} + \beta_5 (\text{year} \times \text{good}) + \beta_6 (\text{year} \times \text{slow})\]</span></p>
 <table>
 <thead>
 <tr class="header">
@@ -324,12 +327,15 @@ library(knitr) </code></pre>
 <ol style="list-style-type: decimal">
 <li><p>Write the model describing the relationship between <code>speed</code>, <code>year</code>, <code>starters</code> and <code>condition</code> for fast track conditions.</p></li>
 <li><p>Write the model describing the relationship between <code>speed</code>, <code>year</code>, <code>starters</code> and <code>condition</code> for slow track conditions.</p></li>
-<li><p>What subset is described by the intercept? In other words, 52.387 seconds is the mean winning time for what races?</p></li>
-<li><p>What is the p-value for the test that mean winning speed is the same under fast track conditions and good track conditions (holding year and starters constant)?</p></li>
-<li><p>What is the p-value for the test that the slope year is the same for fast track conditions and good track conditions (holding year and starters constant)?</p></li>
-<li><p>What is the 95% confidence interval for the amount by which the speed on good track conditions exceeds the speed on fast track conditions after accounting for year and number of starters?</p></li>
-<li><p>Let’s conduct the nested F test to test whether the slope of year is the same for all three condition types. The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F statistic and p-value for this test. What is your conclusion?</p></li>
+<li><p>What subset is described by the intercept? In other words, 52.387 feet per second is the average speed for the winner in what race(s)? Is the intercept meaningful? Explain.</p></li>
+<li><p>What is the p-value for the test that the mean winning speed is the same for fast track conditions and good track conditions (holding year and starters constant)?</p></li>
+<li><p>What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions (holding year and starters constant)?</p></li>
+<li><p>What is the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions?</p></li>
+<li><p>Let’s conduct the nested F test to test whether the slope of year is the same for all three condition types. In other words, we wish to test the hypotheses</p></li>
 </ol>
+<p><span class="math display">\[ \begin{aligned} &amp;H_0: \beta_5 = \beta_6 = 0 \\
+&amp;H_a: \text{ at least one }\beta_j \text{ is not 0}\end{aligned}\]</span></p>
+<p>The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F test statistic and p-value for this test. What is your conclusion?</p>
 </div>
 <div id="part-2-data-analysis" class="section level2">
 <h2>Part 2: Data Analysis</h2>

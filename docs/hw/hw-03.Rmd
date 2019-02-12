@@ -49,6 +49,7 @@ The *Computations & Concepts* section of homework contains short answer question
 For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017. The Kentucky Derby is a 1.25 mile horse race held annually at the Churchill Downs race track in Louisville, Kentucky. This dataset contains information about 122 derbies held 1896 to 2017. We will use the following variables from the data:
 
 - `year`: year of race recorded as number of years since 1896
+    - e.g.: 2017 is recorded as `2017 - 1896 = 121`
 - `condition`: condition of the track - fast, good, and slow.
     - "good" includes the official designations "good" and "dusty"
     - "slow" includes the official designations "slow", "heavy", "muddy", and "sloppy"
@@ -58,7 +59,7 @@ For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017.
 Below is a regression model using `year`, `condition`, and `starters`, and `year * condition` to explain variation in `speed`. The model is shown in mathetmatical notation as well as in the output from R. Use the model to answer Questions 1 - 7. 
 
 
-$$\hat{\text{speed}} = \beta_0 + \beta_1 \text{year} + \beta_2 \text{starters} + \beta_3 \text{good} + \beta_4 \text{slow} + \beta_5 (year \times good) + \beta_6 (year \times slow)$$  
+$$\hat{\text{speed}} = \beta_0 + \beta_1 \text{year} + \beta_2 \text{starters} + \beta_3 \text{good} + \beta_4 \text{slow} + \beta_5 (\text{year} \times \text{good}) + \beta_6 (\text{year} \times \text{slow})$$  
 
 ```{r echo=F}
 model <- lm(speed ~ year + starters + condition + year*condition, data=derby)
@@ -69,15 +70,20 @@ kable(tidy(model),format="markdown")
 
 2. Write the model describing the relationship between `speed`, `year`, `starters` and `condition` for slow track conditions. 
 
-3. What subset is described by the intercept? In other words, 52.387 seconds is the mean winning time for what races?
+3. What subset is described by the intercept? In other words, 52.387 feet per second is the average speed for the winner in what race(s)? Is the intercept meaningful? Explain.
 
-4. What is the p-value for the test that mean winning speed is the same under fast track conditions and good track conditions (holding year and starters constant)? 
+4. What is the p-value for the test that the mean winning speed is the same for fast track conditions and good track conditions (holding year and starters constant)? 
 
-5. What is the p-value for the test that the slope year is the same for fast track conditions and good track conditions (holding year and starters constant)? 
+5. What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions (holding year and starters constant)? 
 
-6. What is the 95% confidence interval for the amount by which the speed on good track conditions exceeds the speed on fast track conditions after accounting for year and number of starters?
+6. What is the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions?
 
-7. Let's conduct the nested F test to test whether the slope of year is the same for all three condition types. The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F statistic and p-value for this test. What is your conclusion? 
+7. Let's conduct the nested F test to test whether the slope of year is the same for all three condition types. In other words, we wish to test the hypotheses
+
+$$ \begin{aligned} &H_0: \beta_5 = \beta_6 = 0 \\
+&H_a: \text{ at least one }\beta_j \text{ is not 0}\end{aligned}$$
+
+The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F test statistic and p-value for this test. What is your conclusion? 
 
 
 ## Part 2: Data Analysis
