@@ -108,15 +108,15 @@ Fit a regression model with `logprice` as the response and `floorsCat`, `sqftCen
 - Briefly explain why we should use the log-transformed version of `price` instead of the original version of the variable. 
 - Describe the relationship between a house's price and square footage (holding all else constant), including the appropriate confidence intervals. 
 - Describe how the expected price differs based on the number of floors in the house (holding all else constant). Include discussion about whether or not the differences are statistically significant.
-- Consider the interaction between `waterfront` and `bedrooms`. Is this interaction significant? If so, describe how the relationship between `price` and `bedrooms` changes based on whether the house has a waterfront view.
+- Consider the interaction between `waterfront` and `bedroomsCent`. Is this interaction significant? If so, describe how the relationship between `price` and `bedroomsCent` changes based on whether the house has a waterfront view. (*You do not need show a check of the model assumptions for this model if you've checked the model assumptions for the model without the interaction.*)
 
-As usual, be sure to include exploratory data analysis and an analysis of the model assumptions. 
+As usual, be sure to include exploratory data analysis and an analysis of the model assumptions.
 
 ## Extra Credit (5 pts)
 
-To best satisfy the modeling assumptions, we should log-transform both the price and the square footage. Build a simple linear regression model of `logprice` versus `logsqft`, the log-transformed version of `sqft`. Display the model output.
+To best satisfy the modeling assumptions, we should log-transform both the price and the square footage. Build a simple linear regression model of `logprice` versus `logsqft`, the log-transformed version of `sqft`. Display the model output. (*You do not need show a check of the model assumptions for this model.*)
 
-- Interpret the intercept in the context of the data. Does the intercept have a meaningful interpretation? Briefly explain. 
+- Interpret the intercept in terms of price. Does the intercept have a meaningful interpretation? Briefly explain. 
 - Based on this model, what is the expected change in price when the square footage is multiplied by a factor of 1.1? 
 
 

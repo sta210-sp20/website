@@ -67,7 +67,7 @@ lessons:
   - date: "Mon, Feb 11"
     title: "Transformations & Model Assessment"
     hw: "hw-02.html"
-    slides: "lec-slides/08-model-assessment.html"
+    slides: "lec-slides/08-transformations.html"
  # - title: "Midterm 01 assigned"
   - date: "Wed, Feb 13"
     title: "Model Assessment: Part 2"

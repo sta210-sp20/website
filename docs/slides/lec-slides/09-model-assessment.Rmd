@@ -1,7 +1,7 @@
 ---
-title: "Transformations & Model Assessment"
+title: "Model Assessment"
 author: "Dr. Maria Tackett"
-date: "02.11.19"
+date: "02.13.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -28,9 +28,7 @@ knitr::opts_chunk$set(
 
 ## Announcements
 
-- HW 02 due today
-
-- Lab 04 due Wednesday 
+- Lab 04 due today
 
 - HW 03 due Monday, Feb 18
 

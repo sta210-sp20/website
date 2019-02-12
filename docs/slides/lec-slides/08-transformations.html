@@ -66,7 +66,7 @@ ggplot(data=respiratory, aes(x=Age, y=Rate)) +
   labs("Respiratory Rate vs. Age")
 ```
 
-&lt;img src="08-model-assessment_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-transformations_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -106,7 +106,7 @@ ggplot(data=respiratory, aes(x=Age, y=Rate)) +
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;img src="08-model-assessment_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-transformations_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -174,9 +174,9 @@ class: middle, center
 ### Interpretation with log-transformed `\(y\)`
 
 - Given the previous facts, if `\(\log(y) = \beta_0 + \beta_1 x\)`, then 
-.alert[
-`$$\text{Median}(y) = \exp\{\beta_0\}\exp\{\beta_1x\}$$`
-]
+
+`$$\mathbf{\text{Median}(y) = \boldsymbol{\exp\{\beta_0\}\exp\{\beta_1 x\}}}$$`
+
 &lt;br&gt;
 
 --
@@ -197,7 +197,7 @@ class: middle, center
 respiratory &lt;- respiratory %&gt;% mutate(log_rate = log(Rate))
 ```
 
-&lt;img src="08-model-assessment_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-transformations_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -208,7 +208,7 @@ respiratory &lt;- respiratory %&gt;% mutate(log_rate = log(Rate))
 log_model &lt;- lm(log_rate ~ Age, data = respiratory)
 ```
 
-&lt;img src="08-model-assessment_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-transformations_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -328,11 +328,11 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of `
 ## Log Transformation on `\(x\)`
 
 .pull-left[
-&lt;img src="08-model-assessment_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-transformations_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="08-model-assessment_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-transformations_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 - Try a transformation on `\(X\)` if the scatterplot shows some curvature but the variance is constant for all values of `\(X\)`
@@ -359,7 +359,7 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of `
 
 ## Rate vs. log(Age)
 
-&lt;img src="08-model-assessment_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-transformations_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
