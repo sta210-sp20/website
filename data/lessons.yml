@@ -81,6 +81,7 @@ lessons:
   - date: "Mon, Feb 18"
     title: "Model Selection"
     reading: "reading-06.html"
+    hw: "hw-03.html"
    # slides: "lec-slides/06a-language-of-models.html"
   - date: "Wed, Feb 20"
     title: "Review"
