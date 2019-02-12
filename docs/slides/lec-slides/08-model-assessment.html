@@ -352,7 +352,7 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of `
 
 --
 
-- &lt;font class="vocab"&gt;Slope: &lt;/font&gt; When `\(x\)` is multiplied by a factor of `\(\mathbf{C}\)`, `\(y\)` is expected to change by `\(\boldsymbol{\beta_1}\mathbf{\log(C)}\)` units (i.e. the mean of `\(y\)` changes by `\(\boldsymbol{\beta_1}\mathbf{\log(C)}\)`
+- &lt;font class="vocab"&gt;Slope: &lt;/font&gt; When `\(x\)` is multiplied by a factor of `\(\mathbf{C}\)`, `\(y\)` is expected to change by `\(\boldsymbol{\beta_1}\mathbf{\log(C)}\)` units, i.e. the mean of `\(y\)` changes by `\(\boldsymbol{\beta_1}\mathbf{\log(C)}\)`
     - *Example*: when `\(x\)` is multiplied by a factor of 2, `\(y\)` is expected to change by `\(\boldsymbol{\beta_1}\mathbf{\log(2)}\)` units
 
 ---
@@ -487,6 +487,16 @@ The estimate of the regression variance, `\(\hat{\sigma}^2 = MSE\)`
 ---
 
 ## Restaurant tips
+
+What affects the amount of customers tip at a restaurant? 
+
+- **Response:**
+    - &lt;font class="vocab"&gt;`Tip`&lt;/font&gt;: amount of the tip
+    
+- **Predictors:**
+    - &lt;font class="vocab"&gt;`Party`&lt;/font&gt;: number of people in the party
+    - &lt;font class="vocab'&gt;`Meal`&lt;/font&gt;:  time of day (Lunch, Dinner, Late Night) 
+    - &lt;font class="vocab"&gt;`Age`&lt;/font&gt;: age category of person paying the bill (Yadult, Middle, SenCit)
 
 
 ```r
@@ -758,54 +768,58 @@ kable(anova(model0,model1),format="html")
 
 ### Is `Meal` a significant preddictor of tips?
 
-
-```r
-kable(tidy(model1),format="html",digits=3)
-```
-
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; df &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; sumsq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; meansq &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.254 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.182 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.002 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Party &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1188.636 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1188.636 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 311.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.808 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.121 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.909 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Meal &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 88.460 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 44.230 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11.573 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; AgeSenCit &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.390 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.990 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.324 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeYadult &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.505 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.412 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.227 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.222 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLate Night &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.632 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.407 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.013 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Age &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 13.032 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 6.516 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.705 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.185 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Residuals &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 622.979 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.822 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MealLunch &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.612 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.402 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.523 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.130 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -818,21 +832,21 @@ Why is it not good practice to use the individual p-values to determine whether 
 
 ### Tips data:  Nested F Test
 
-`$$\begin{aligned}&amp;H_0: \beta_{late night} + \beta_{lunch} = 0\\
+`$$\begin{aligned}&amp;H_0: \beta_{late night} = \beta_{lunch} = 0\\
 &amp;H_a: \text{ at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$`
 
 --
 
 
 ```r
-reduced &lt;- lm(Tip ~ Party, data = tips)
+reduced &lt;- lm(Tip ~ Party + Age, data = tips)
 ```
 
 --
 
 
 ```r
-full &lt;- lm(Tip ~ Party + Meal, data = tips)
+full &lt;- lm(Tip ~ Party + Age + Meal, data = tips)
 ```
 
 --
@@ -855,20 +869,20 @@ kable(anova(reduced,full),format="html")
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 167 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 724.4717 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 165 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 686.4439 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 165 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 636.0117 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 622.9793 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 88.46005 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11.47456 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.16e-05 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 63.46457 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.302623 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0003684 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

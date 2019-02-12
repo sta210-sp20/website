@@ -290,7 +290,7 @@ $$y = \beta_0 + \beta_1 \log(x)$$
 
 --
 
-- <font class="vocab">Slope: </font> When $x$ is multiplied by a factor of $\mathbf{C}$, $y$ is expected to change by $\boldsymbol{\beta_1}\mathbf{\log(C)}$ units (i.e. the mean of $y$ changes by $\boldsymbol{\beta_1}\mathbf{\log(C)}$
+- <font class="vocab">Slope: </font> When $x$ is multiplied by a factor of $\mathbf{C}$, $y$ is expected to change by $\boldsymbol{\beta_1}\mathbf{\log(C)}$ units, i.e. the mean of $y$ changes by $\boldsymbol{\beta_1}\mathbf{\log(C)}$
     - *Example*: when $x$ is multiplied by a factor of 2, $y$ is expected to change by $\boldsymbol{\beta_1}\mathbf{\log(2)}$ units
 
 ---
@@ -403,6 +403,16 @@ $$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text
 ---
 
 ## Restaurant tips
+
+What affects the amount of customers tip at a restaurant? 
+
+- **Response:**
+    - <font class="vocab">`Tip`</font>: amount of the tip
+    
+- **Predictors:**
+    - <font class="vocab">`Party`</font>: number of people in the party
+    - <font class="vocab'>`Meal`</font>:  time of day (Lunch, Dinner, Late Night) 
+    - <font class="vocab">`Age`</font>: age category of person paying the bill (Yadult, Middle, SenCit)
 
 ```{r}
 tips <- read_csv("data/tip-data.csv") %>%
@@ -529,8 +539,9 @@ $$F = \frac{(RSS_{reduced} - RSS_{full})\big/(p_{full} - p_{reduced})}{RSS_{full
 
 ### Is `Meal` a significant preddictor of tips?
 
-```{r}
-kable(tidy(model1),format="html",digits=3)
+```{r echo=F}
+model.tips <- lm(Tip ~ Party + Age + Meal,data=tips)
+kable(tidy(model.tips),format="html", digits=3)
 ```
 
 .question[
@@ -541,27 +552,30 @@ Why is it not good practice to use the individual p-values to determine whether 
 
 ### Tips data:  Nested F Test
 
-$$\begin{aligned}&H_0: \beta_{late night} + \beta_{lunch} = 0\\
+$$\begin{aligned}&H_0: \beta_{late night} = \beta_{lunch} = 0\\
 &H_a: \text{ at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$
 
 --
 
 ```{r}
-reduced <- lm(Tip ~ Party, data = tips)
+reduced <- lm(Tip ~ Party + Age, data = tips)
 ```
 
 --
 
 ```{r}
-full <- lm(Tip ~ Party + Meal, data = tips)
+full <- lm(Tip ~ Party + Age + Meal, data = tips)
 ```
 
 --
 
 ```{r}
-kable(anova(reduced,full),format="html")
+kable(anova(full,reduced),format="html")
 ```
 
 --
 
 **At least one coefficient associated with `Meal` is not zero. Therefore, `Meal` is a significant predictor of `Tips`.**
+
+
+
