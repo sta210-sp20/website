@@ -246,7 +246,7 @@ library(knitr) </code></pre>
 <div id="part-1-computations-concepts" class="section level2">
 <h2>Part 1: Computations &amp; Concepts</h2>
 <p>The <em>Computations &amp; Concepts</em> section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.</p>
-<p>For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017. The Kentucky Derby is a 1.25 mile horse race held annually at the Churchill Downs race track in Louisville, Kentucky. We will use the following variables from the data:</p>
+<p>For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017. The Kentucky Derby is a 1.25 mile horse race held annually at the Churchill Downs race track in Louisville, Kentucky. This dataset contains information about 122 derbies held 1896 to 2017. We will use the following variables from the data:</p>
 <ul>
 <li><code>year</code>: year of race recorded as number of years since 1896</li>
 <li><code>condition</code>: condition of the track - fast, good, and slow.
@@ -257,7 +257,8 @@ library(knitr) </code></pre>
 <li><code>starters</code>: number of horses who raced</li>
 <li><code>speed</code>: average speed of the winner (in feet per second)</li>
 </ul>
-<p>Below is a regression model using <code>year</code>, <code>condition</code>, and <code>starters</code>, and <code>year * condition</code> to explain variation in <code>speed</code>. Use the model to answer Questions 1 - 7.</p>
+<p>Below is a regression model using <code>year</code>, <code>condition</code>, and <code>starters</code>, and <code>year * condition</code> to explain variation in <code>speed</code>. The model is shown in mathetmatical notation as well as in the output from R. Use the model to answer Questions 1 - 7.</p>
+<p><span class="math display">\[\hat{\text{speed}} = \beta_0 + \beta_1 \text{year} + \beta_2 \text{starters} + \beta_3 \text{good} + \beta_4 \text{slow} + \beta_5 (year \times good) + \beta_6 (year \times slow)\]</span></p>
 <table>
 <thead>
 <tr class="header">
@@ -324,8 +325,8 @@ library(knitr) </code></pre>
 <li><p>Write the model describing the relationship between <code>speed</code>, <code>year</code>, <code>starters</code> and <code>condition</code> for fast track conditions.</p></li>
 <li><p>Write the model describing the relationship between <code>speed</code>, <code>year</code>, <code>starters</code> and <code>condition</code> for slow track conditions.</p></li>
 <li><p>What subset is described by the intercept? In other words, 52.387 seconds is the mean winning time for what races?</p></li>
-<li><p>What is the p-value for the test that mean winning speed is the same under fast track conditions and good track conditions after accounting for year and number of starters?</p></li>
-<li><p>What is the p-value for the test that the slope year is the same for fast track conditions and good track conditions after accounting for year and number of starters?</p></li>
+<li><p>What is the p-value for the test that mean winning speed is the same under fast track conditions and good track conditions (holding year and starters constant)?</p></li>
+<li><p>What is the p-value for the test that the slope year is the same for fast track conditions and good track conditions (holding year and starters constant)?</p></li>
 <li><p>What is the 95% confidence interval for the amount by which the speed on good track conditions exceeds the speed on fast track conditions after accounting for year and number of starters?</p></li>
 <li><p>Let’s conduct the nested F test to test whether the slope of year is the same for all three condition types. The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F statistic and p-value for this test. What is your conclusion?</p></li>
 </ol>

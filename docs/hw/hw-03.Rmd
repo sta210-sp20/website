@@ -46,7 +46,7 @@ derby <- derby %>%
 
 The *Computations & Concepts* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
 
-For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017. The Kentucky Derby is a 1.25 mile horse race held annually at the Churchill Downs race track in Louisville, Kentucky. We will use the following variables from the data:
+For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017. The Kentucky Derby is a 1.25 mile horse race held annually at the Churchill Downs race track in Louisville, Kentucky. This dataset contains information about 122 derbies held 1896 to 2017. We will use the following variables from the data:
 
 - `year`: year of race recorded as number of years since 1896
 - `condition`: condition of the track - fast, good, and slow.
@@ -55,7 +55,10 @@ For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017.
 - `starters`: number of horses who raced
 - `speed`: average speed of the winner (in feet per second)
 
-Below is a regression model using `year`, `condition`, and `starters`, and `year * condition` to explain variation in `speed`. Use the model to answer Questions 1 - 7. 
+Below is a regression model using `year`, `condition`, and `starters`, and `year * condition` to explain variation in `speed`. The model is shown in mathetmatical notation as well as in the output from R. Use the model to answer Questions 1 - 7. 
+
+
+$$\hat{\text{speed}} = \beta_0 + \beta_1 \text{year} + \beta_2 \text{starters} + \beta_3 \text{good} + \beta_4 \text{slow} + \beta_5 (year \times good) + \beta_6 (year \times slow)$$  
 
 ```{r echo=F}
 model <- lm(speed ~ year + starters + condition + year*condition, data=derby)
@@ -68,11 +71,11 @@ kable(tidy(model),format="markdown")
 
 3. What subset is described by the intercept? In other words, 52.387 seconds is the mean winning time for what races?
 
-4. What is the p-value for the test that mean winning speed is the same under fast track conditions and good track conditions after accounting for year and number of starters? 
+4. What is the p-value for the test that mean winning speed is the same under fast track conditions and good track conditions (holding year and starters constant)? 
 
-5. What is the p-value for the test that the slope year is the same for fast track conditions and good track conditions after accounting for year and number of starters? 
+5. What is the p-value for the test that the slope year is the same for fast track conditions and good track conditions (holding year and starters constant)? 
 
-6. What is the 95% confidence interval for the amount by which the speed on good track conditions exceeds the speed on fast track conditions after accounting for year and number of starters? 
+6. What is the 95% confidence interval for the amount by which the speed on good track conditions exceeds the speed on fast track conditions after accounting for year and number of starters?
 
 7. Let's conduct the nested F test to test whether the slope of year is the same for all three condition types. The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F statistic and p-value for this test. What is your conclusion? 
 
