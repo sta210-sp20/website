@@ -1,5 +1,5 @@
 ---
-title: "HW 02: Multiple Regression"
+title: "HW 03: Multiple Linear Regression"
 author: "due Mon, Feb 18 at 11:59p"
 date: ""
 output: 
