@@ -34,7 +34,6 @@ knitr::opts_chunk$set(
 
 ---
 
- 
 ## R packages
 
 ```{r}
@@ -47,288 +46,23 @@ library(Sleuth3) #ex0824 data
 
 ---
 
-## Respiratory Rate vs. Age
+## Restaurant tips
 
-- A high respiratory rate can potentially indicate a respiratory infection in children. In order to determine what indicates a "high" rate, we first want to understand the relationship between a child's age and their respiratory rate. 
+What affects the amount of customers tip at a restaurant? 
 
-- The data contain the respiratory rate for 618 children ages 15 days to 3 years.
-
-- **Variables**: 
-    - <font class="vocab">`Age`</font>: age in months
-    - <font class="vocab">`Rate`</font>: respiratory rate (breaths per minute)
-
----
-
-## Rate vs. Age
+- **Response:**
+    - <font class="vocab">`Tip`</font>: amount of the tip
+    
+- **Predictors:**
+    - <font class="vocab">`Party`</font>: number of people in the party
+    - <font class="vocab">`Meal`</font>:  time of day (Lunch, Dinner, Late Night) 
+    - <font class="vocab">`Age`</font>: age category of person paying the bill (Yadult, Middle, SenCit)
 
 ```{r}
-respiratory <- ex0824
-ggplot(data=respiratory, aes(x=Age, y=Rate)) +
-  geom_point() + 
-  labs("Respiratory Rate vs. Age")
+tips <- read_csv("data/tip-data.csv") %>%
+  filter(!is.na(Party))
 ```
 
----
-
-## Rate vs. Age
-
-```{r echo=FALSE}
-model <- lm(Rate ~ Age, data=respiratory)
-kable(tidy(model, conf.int=TRUE),format="html", digits=3)
-```
-
-```{r echo=FALSE}
-respiratory <- respiratory %>% 
-  mutate(residuals = resid(model), predicted = predict(model))
-
-ggplot(data=respiratory, aes(x=predicted, y=residuals)) +
-  geom_point() + 
-  geom_hline(yintercept=0,color="red")
-```
-
----
-
-class: middle, center
-## Log transformations
-
----
-
-## Need to transform $y$ 
-
-- Typically, a "fan-shaped" residual plot indicates the need for a transformation of the response variable $y$
-  + $\mathbf{\color{green}{\log(y)}}$: Easiest to interpret 
-
---
-
-
-- When building a model: 
-  + Choose a transformation and build the model on the transformed data
-  + Reassess the residual plots
-  + If the residuals plots did not sufficiently improve, try a new transformation!
-
----
-
-## Log transformation on $y$
-
-- Use when the residual plot shows "fan-shaped" pattern
-
-- If we apply a log transformation to the response variable, we want to estimate the parameters for the model...
-.alert[
-$$\log(y) = \beta_0 + \beta_1 x$$
-]
-
---
-
-- We want to interpret the model in terms of $y$ not $\log(y)$, so we write all interpretations in terms of 
-
-.alert[
-$$y = \exp\{\beta_0 + \beta_1 x\} = \exp\{\beta_0\}\exp\{\beta_1x\}$$
-]
----
-
-### Mean and median of $\log(y)$
-
-- Recall that $y = \beta_0 + \beta_1 x_i$ is the **mean** value of $y$ at the given value $x_i$. This doesn't hold when we log-transform $y$
-
---
-
-- The mean of the logged values is **not** equal to the log of the mean value. Therefore at a given value of $x$
-
-$$\color{blue}{\begin{aligned}\exp\{\text{Mean}(\log(y))\} \neq \text{Mean}(y) \\[5pt]
-\Rightarrow \exp\{\beta_0 + \beta_1 x\} \neq \text{Mean}(y) \end{aligned}}$$
-
---
-
-- However, the median of the logged values **is** equal to the log of the median value. Therefore, 
-$$\color{blue}{\exp\{\text{Median}(\log(y))\} = \text{Median}(y)}$$
-
---
-
-- If the distribution of $\log(y)$ is symmetric about the regression line, for a given value $x_i$,
-$$\color{blue}{\text{Median}(\log(y)) = \text{Mean}(\log(y))}$$
-
----
-
-### Interpretation with log-transformed $y$
-
-- Given the previous facts, if $\log(y) = \beta_0 + \beta_1 x$, then 
-.alert[
-$$\text{Median}(y) = \exp\{\beta_0\}\exp\{\beta_1x\}$$
-]
-<br>
-
---
-
-- <font class="vocab">Intercept:</font> When $x=0$, the median of $y$ is expected to be $\exp\{\beta_0\}$
-
---
-
-- <font class="vocab">Slope: </font>For every one unit increase in $x$, the median of $y$ is expected to multiply by a factor of $\exp\{\beta_1\}$
-
-
----
-
-## log(Rate) vs. Age
-
-```{r}
-respiratory <- respiratory %>% mutate(log_rate = log(Rate))
-```
-
-```{r echo=F}
-ggplot(data=respiratory, aes(x=Age,y=log_rate)) + 
-  geom_point() +
-  labs(title="Log-Transformed Rate vs. Age")
-```
-
----
-
-## log(Rate) vs. Age
-
-```{r}
-log_model <- lm(log_rate ~ Age, data = respiratory)
-```
-
-```{r echo=F}
-ggplot(data=respiratory, aes(x=predict(log_model), y=resid(log_model))) +
-  geom_point() + 
-  geom_hline(yintercept=0, color="red") +
-  labs(x="Predicted", y="Residuals",
-       title="Residuals vs. Predicted", 
-       subtitle="log-transformed Rate")
-```
-
----
-
-## log(Rate) vs. Age
-
-```{r}
-kable(tidy(log_model, conf.int=TRUE),format="html", digits=3)
-```
-<br>
-
-.question[
-1. Write the model in terms of $\log(rate)$. 
-2. Write the model in terms of $rate$. Interpret the slope and intercept.
-
-]
-
----
-
-## Confidence interval for $\beta_j$
-
-- The confidence interval for the coefficient of $x$ describing its relationship with $\log(y)$ is
-
-$$\hat{\beta}_1 \pm t^* SE(\hat{\beta_j})$$
-
---
-
-- The confidence interval for the coefficient of $x$ describing its relationship with $y$ is
-
-.alert[
-$$\exp\big\{\hat{\beta}_1 \pm t^* SE(\hat{\beta_j})\big\}$$
-]
-
----
-
-## Coefficient of `Age`
-
-```{r }
-kable(tidy(log_model, conf.int=TRUE),format="html", digits=3)
-```
-
-.question[
-Interpret the 95% confidence interval for the coefficient of `Age` in terms of `Rate`.
-]
-
----
-
-## Log Transformation on $x$
-
-.pull-left[
-```{r,echo=F}
-set.seed(1)
-s <- ggplot2::diamonds %>% sample_n(100)
-ggplot(data=s,aes(x=carat,y=log(price)))+
-  geom_point(color="blue")+
-  ggtitle("Scatterplot")+
-  xlab("X")+
-  ylab("Y") + 
-  theme(plot.title = element_text(hjust = 0.5,size=20))
-```
-]
-
-.pull-right[
-```{r,echo=F}
-mod2 <- lm(log(price) ~ carat, data=s)
-s <- s %>% mutate(residuals = resid(mod2))
-ggplot(data=s,aes(x=carat,y=residuals)) + 
-geom_point()+
-geom_hline(yintercept=0,color="red") +
-  ggtitle("Residual Plot")+
-  xlab("X")+
-  ylab("residuals") + 
-  theme(plot.title = element_text(hjust = 0.5,size=20))
-```
-]
-
-- Try a transformation on $X$ if the scatterplot shows some curvature but the variance is constant for all values of $X$
-
----
-
-## Model with Transformation on $x$
-
-.alert[
-$$y = \beta_0 + \beta_1 \log(x)$$
-]
-<br> 
-
---
-
-- <font class="vocab">Intercept: </font> When $\log(x)=0$, $(x=1)$, $y$ is expected to be $\beta_0$ (i.e. the mean of $y$ is $\beta_0$)
-
---
-
-- <font class="vocab">Slope: </font> When $x$ is multiplied by a factor of $\mathbf{C}$, $y$ is expected to change by $\boldsymbol{\beta_1}\mathbf{\log(C)}$ units, i.e. the mean of $y$ changes by $\boldsymbol{\beta_1}\mathbf{\log(C)}$
-    - *Example*: when $x$ is multiplied by a factor of 2, $y$ is expected to change by $\boldsymbol{\beta_1}\mathbf{\log(2)}$ units
-
----
-
-## Rate vs. log(Age)
-
-```{r,echo=F}
-ex0824 <- ex0824 %>% mutate(log.age = log(Age))
-ggplot(data=ex0824,aes(x=log.age,y=Rate)) + 
-  geom_point()  +
-  ggtitle("Respiratory Rate vs. log(Age)") + 
-  xlab("log(Age)")+
-  ylab("Respiratory Rate")
-```
-
----
-
-## Respiratory Rate vs. Age
-
-```{r,echo=F}
-mod3 <- lm(Rate ~ log.age,data=ex0824)
-kable(tidy(mod3, conf.int=TRUE),format="html")
-```
-<br> 
-
-.question[
-
-1. Write the equation for the model of $y$ regressed on $\log(x)$. 
-
-2. Interpret the intercept in the context of the problem. 
-
-3. Interpret the slope in terms of how the mean respiratory rate changes when a child's age doubles. 
-
-4. Suppose a doctor has a patient who is currently 3 years old. Will this model provide a reliable prediction of the child's respiratory rate when her age doubles? Why or why not?
-]
----
-
-class: middle, center
-
-## Model Assessment
 
 ---
 
@@ -344,7 +78,7 @@ We can use the Analysis of Variance (ANOVA) table to decompose the variability i
 | Total | $$\sum\limits_{i=1}^{n}(y_i - \bar{y})^2$$ | $$n-1$$ | $$\frac{TSS}{n-1}$$ |  |  |
 
 
-The estimate of the regression variance, $\hat{\sigma}^2 = MSE$
+The estimate of the regression variance, $\hat{\sigma}^2 = RMS$
 
 ---
 
@@ -400,38 +134,43 @@ $$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text
 
 ---
 
-## Restaurant tips
-
-What affects the amount of customers tip at a restaurant? 
-
-- **Response:**
-    - <font class="vocab">`Tip`</font>: amount of the tip
-    
-- **Predictors:**
-    - <font class="vocab">`Party`</font>: number of people in the party
-    - <font class="vocab'>`Meal`</font>:  time of day (Lunch, Dinner, Late Night) 
-    - <font class="vocab">`Age`</font>: age category of person paying the bill (Yadult, Middle, SenCit)
+### Restaurant tips: model
 
 ```{r}
-tips <- read_csv("data/tip-data.csv") %>%
-  filter(!is.na(Party))
-```
-
-
----
-
-## Restaurant tips ANOVA
-
-```{r}
-model1 <- aov(Tip ~ Party + Meal + Age , data = tips)
+model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
 kable(tidy(model1),format="html",digits=3)
 ```
 
 ---
+
+## Restaurant tips: ANOVA
+
+- <font class="vocab">R output</font>
 
 ```{r echo=F}
-kable(tidy(model1),format="html",digits=3)
+kable(anova(model1),format="html",digits=3)
 ```
+
+--
+
+- <font class="vocab">ANOVA table</font>
+
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Regression (Model) | `r 1188.63588 + 88.46005 + 13.03236` | 5 | `r (1188.63588 + 88.46005 + 13.03236)/5` | `r ((1188.63588 + 88.46005 + 13.03236)/5)/(622.97932/163)` | 0 |
+| Residual | 622.97932	 | 163 | `r 622.97932/163`  |  |  |
+| Total | `r 1188.63588 + 88.46005 + 13.03236 + 622.97932	`  | 168 |  |  |  |
+
+---
+
+### Calculating $R^2$ and Adj $R^2$
+
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Regression (Model) | `r 1188.63588 + 88.46005 + 13.03236` | 5 | `r (1188.63588 + 88.46005 + 13.03236)/5` | `r ((1188.63588 + 88.46005 + 13.03236)/5)/(622.97932/163)` | 0 |
+| Residual | 622.97932	 | 163 | `r 622.97932/163`  |  |  |
+| Total | `r 1188.63588 + 88.46005 + 13.03236 + 622.97932	`  | 168 |  |  |  |
+
 
 ```{r}
 #r-squared
@@ -486,7 +225,7 @@ model0 <- lm(Tip ~ 1, data=tips)
 --
 
 ```{r}
-model1 <- aov(Tip ~ Party + Meal + Age , data = tips)
+model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
 ```
 
 --
@@ -500,7 +239,10 @@ kable(anova(model0,model1),format="html")
 ### Testing subset of coefficients
 
 - Sometimes we want to test whether a subset of coefficients are all equal to 0
-    - This is often the case when we want test whether a categorical variable with $k$ levels is a significant predictor of the response
+
+- This is often the case when we want test 
+    - whether a categorical variable with $k$ levels is a significant predictor of the response
+    - whether the interaction between a categorical and quantitative variable is significant
 
 - To do so, we will use the  <font class="vocab3">Nested F Test </font> 
 
@@ -514,7 +256,7 @@ $$\begin{aligned}&\text{Full}: y = \beta_0 + \beta_1 x_1 + \dots + \beta_q x_q +
 &\text{Red}: y = \beta_0 + \beta_1 x_1 + \dots + \beta_q x_q\end{aligned}$$
 <br>
 
-- We want to test whether any of the variables $\beta_{q+1} x_{q+1}, \ldots, \beta_p x_p$ are significant predictors. To do so, we will test the hypothesis: 
+- We want to test whether any of the variables $x_{q+1}, x_{q+2}, \ldots, x_p$ are significant predictors. To do so, we will test the hypothesis: 
 
 .alert[
 $$\begin{aligned}&H_0: \beta_{q+1} =  \beta_{q+2} = \dots = \beta_p = 0 \\ 
@@ -535,16 +277,12 @@ $$F = \frac{(RSS_{reduced} - RSS_{full})\big/(p_{full} - p_{reduced})}{RSS_{full
 
 ---
 
-### Is `Meal` a significant preddictor of tips?
+### Is `Meal` a significant predictor of tips?
 
 ```{r echo=F}
 model.tips <- lm(Tip ~ Party + Age + Meal,data=tips)
 kable(tidy(model.tips),format="html", digits=3)
 ```
-
-.question[
-Why is it not good practice to use the individual p-values to determine whether `Meal` (or any categorical variable) is significant?
-]
 
 ---
 
@@ -574,6 +312,454 @@ kable(anova(full,reduced),format="html")
 --
 
 **At least one coefficient associated with `Meal` is not zero. Therefore, `Meal` is a significant predictor of `Tips`.**
+
+---
+
+class: middle
+
+.question[
+Why is it not good practice to use the individual p-values to determine whether `Meal` (or any categorical variable with $k > 2$ levels) is significant?
+]
+
+---
+
+## Practice with Interactions 
+
+```{r echo=F}
+full <- lm(Tip ~ Party + Age + Meal + Meal*Party, data = tips)
+kable(tidy(full),format="html")
+```
+
+.question[
+1. Write the general form of the model. 
+2. Write the model for `Meal == "Late Night"`. 
+3. How does the mean change when `Meal == "Late Night"`? 
+4. How does the slope of `Party` change when `Meal == "Late Night"`?
+]
+---
+
+### Nested F test for interactions
+
+**Is the interaction between `Party` and `Meal` significant?**
+
+```{r}
+reduced <- lm(Tip ~ Party + Age + Meal, data = tips)
+```
+
+--
+
+```{r}
+full <- lm(Tip ~ Party + Age + Meal + Meal*Party, data = tips)
+```
+
+--
+
+```{r}
+kable(anova(full,reduced),format="html")
+```
+
+---
+
+class: middle, center
+
+## Influential and Leverage Points
+
+---
+
+## Influential Observations
+
+An observation is <font class="vocab3">influential</font> if removing it substantially changes the coefficients of the regression model 
+
+```{r,echo=F}
+library(cowplot)
+set.seed(12)
+n <- 20
+x <- c(runif(n,0,1))
+y <- 3*x + rnorm(n,0,.5)
+new.pt <- data.frame(x=2,y=0)
+x.new <- c(x,2)
+y.new <- c(y,0)
+data <- bind_cols(x=x.new,y=y.new)
+p1<- ggplot(data=data,aes(x=x,y=y))+geom_point(alpha =0.5)  + 
+              geom_point(data=new.pt,color="red",size=3,shape=17) + 
+  geom_smooth(method="lm",se=F) + 
+  labs(title = "With Influential Point")+ theme_light()+
+  theme(title=element_text(hjust=0.5,size=14)) + 
+  scale_x_continuous(limits = c(0,2)) 
+
+data2 <- bind_cols(x=x,y=y)
+p2 <- ggplot(data=data2,aes(x=x,y=y))+geom_point(alpha=0.5) + geom_smooth(method="lm",se=F) + 
+  labs(title="Without Influential Point") + 
+  scale_x_continuous(limits = c(0, 2)) + theme_light() + theme(title=element_text(hjust=0.5,size=14))  
+plot_grid(p1,p2,ncol=2)
+```
+
+---
+
+## Influential Observations 
+
+- In addition to the coefficients, influential observations can have a large impact on the standard errors
+
+- Occasionally these observations can be identified in the scatterplot
+  + This is often not the case - especially when dealing with multivariate data
+
+- We will use measures to quantify an individual observation's influence on the regression model 
+  + **Cook's distance**, **leverage**, **standardized residuals**
+
+---
+
+## Leverage
+
+- <font class="vocab3">Leverage: </font> measure of the distance between an observation's explanatory variable values and the average explanatory variables for the whole data set
+  
+- An observation has large leverage if its combination of values for the explanatory variables is very far from the typical combinations in the data 
+  + It is **<u>potentially</u>** an influential point, i.e. may have a large impact on the coefficient estimates and standard errors
+
+
+- **Note:** Identifying points with large leverage has nothing to do with the values of the response variables
+
+---
+
+## Caculating Leverage
+
+- <font class="vocab">Simple Regression:</font> leverage of the $i^{th}$ observation is 
+$$h_i = \frac{(X_i - \bar{X})^2}{\sum_{j=1}^{n}(X_j-\bar{X})^2} + \frac{1}{n}$$
+
+
+- <font class="vocab">Multiple Regression:</font> leverage of the $i^{th}$ observation is the $i^{th}$ diagonal of
+$$\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$$
+
+---
+
+## Large Leverage
+
+- Values of leverage are between $\frac{1}{n}$ and 1 for each observation 
+
+- The average leverage for all observations in the data set is $\frac{p}{n}$
+
+- Determination of "large leverage" is relatively arbitrary 
+  + one threshold is $\frac{2p}{n}$
+
+- Observations with large leverage tend to have small residuals
+
+---
+
+## Large Leverage
+
+- Questions to check if you identify points with large leverage: 
+  + Are they a result of data entry errors?
+  + Are they in the scope for the individuals for which you want to make predictions?
+  + Are they impacting the estimates of the model coefficients, especially for interactions?
+
+- Just because a point has large leverage does not necessarily mean it will have a substantial impact on the regression. Therefore you should check other measures.
+
+---
+
+### Standardized (Studentized) Residuals
+
+- What is the best way to identify outliers (points that don't fit the pattern from the regression line)? 
+  
+--
+
+- Look for points that have large residuals
+
+--
+
+- We want a common scale, so we can more easily identify "large" residuals
+
+--
+
+- We will look at each residual divided by its standard error
+
+---
+
+## Standardized Residuals 
+
+$$\color{blue}{standres_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}}$$
+<br>
+
+--
+
+- The standard error of a residual, $\hat{\sigma}\sqrt{1-h_i}$ depends on the value of the explanatory variables 
+
+--
+
+
+- Residuals for observations that are high leverage have smaller variance than residuals for observations that are low leverage 
+
+  + This is because the regression line tries to fit high leverage observations as closely as possible
+
+--
+
+- Standardized residuals follow a $N(0,1)$ distribution
+
+---
+
+## Standardized Residuals 
+
+- Values with very large standardized residuals are outliers, since they don't fit the pattern determined by the regression model 
+
+- Since the standardized residuals follow $N(0,1)$ distribution, we expect about 5% of the standardized residuals to have magnitude greater than 2
+
+- Observations with large standardized residuals are outliers but may not have an impact on the regression line
+
+- <font class="vocab">Good Practice: </font>Make residual plots with standardized residuals, since they better reflect constant variance when that assumption holds
+
+---
+
+### What to do with outliers?
+
+- It is **<font color="green">OK</font>** to drop an observation based on the **<u>explanatory variables</u>** if...
+  + It is meaningful to drop the observation given the context of the problem 
+  + You intended to build a model on a smaller range of the explanatory variables. Mention this in the write up of the results and be careful to avoid extrapolation when making predictions
+
+- It is **<font color="red">not OK</font>** to drop an observation based on the response variable
+  + These are legitimate observations and should be in the model
+- You can try transformations, increasing the sample size by collecting more data, or doing nothing. 
+  + It is fine to have some outliers in the data
+
+---
+
+### Motivating Cook's Distance
+
+- If a observation has a large impact on the estimated regression coefficients, when we drop that observation...
+  + The estimated coefficients should change 
+  + The predicted $Y$ value for that observation should change
+- One way to determine each observation's impact could be to delete it, rerun the regression, compare the predicted $Y$ values from the new and original models
+  + This could be very time consuming 
+- Instead, we can use <font class="vocab3">Cook's Distance</font> which gives a measure of the change in the predicted $Y$ value when an observation is dropped
+
+---
+
+## Cook's Distance
+
+- <font class="vocab3">Cook's Distance: </font> Measure of an observation's overall impact, i.e. the effect removing the observation has on the estimated coefficients
+
+- For the $i^{th}$ observation, we can calculate Cook's Distance as 
+$$\color{blue}{D_i = \frac{1}{p}(standres_i)^2\bigg(\frac{h_i}{1-h_i}\bigg)}$$
+
+---
+
+## Large Cook's Distance
+
+- It is **<font color="green">OK</font>** to drop an observation based on the **<u>explanatory variables</u>** if...
+  + It is meaningful to drop the observation given the context of the problem 
+  + You intended to build a model on a smaller range of the explanatory variables. Mention this in the write up of the results and be careful to avoid extrapolation when making predictions
+- It is **<font color="red">not OK</font>** to drop an observation based on the response variable
+  + These are legitimate observations and should be in the model
+- You can try transformations or increasing the sample size by collecting more data
+
+---
+
+## Using these measures
+
+- standardized residuals, leverage, and Cook's Distance should all be examined together 
+
+- Examine plots of the measures to identify observations that may have an impact on your regression model 
+
+- Thresholds for flagging potentially influential observations used by some software: 
+  + $D_i > 1$
+  + $h_i > 2p/n$
+  + $|standres_i| > 2$
+  
+---
+
+## Example: Diamonds Data 
+
+- We will build a regression model using 300 randomly selected observations for the `diamonds` data 
+
+```{r}
+set.seed(12)
+diamonds <- diamonds %>% filter(carat < 1.1)
+diamonds_data <- diamonds %>% 
+  sample_n(300) %>%
+  mutate(logprice= log(price),
+         caratCent = carat - mean(carat),
+         caratCent.sq = caratCent^2, 
+         carat.sq = carat^2)
+```
+
+```{r}
+diamonds_model <- lm(logprice ~ caratCent + caratCent.sq + 
+                       color + clarity, data=diamonds_data)
+kable(tidy(diamonds_model),format="html")
+```
+
+---
+
+##Example: Diamonds
+
+- We can output the model diagnostics (along with the predicted values and residuals) using the <font class="vocab">`augment`</font> function in the broom package
+
+```{r}
+#add leverage, cook's distance and standardized residuals to data set
+diamonds_output <- augment(diamonds_model) %>%
+  mutate(obs_num = row_number())
+```
+
+```{r}
+glimpse(diamonds_output)
+```
+---
+
+## Diamonds: Leverage
+
+```{r}
+ggplot(data=diamonds_output, aes(x=obs_num,y=.hat)) + 
+  geom_point(alpha=0.5) + 
+  geom_hline(yintercept=0.1,color="red")+
+  labs(x="Observation Number",y="Leverage",title="Leverage")
+```
+
+
+---
+
+### Diamonds: Cook's Distance
+
+```{r}
+ggplot(data=diamonds_output, aes(x=obs_num,y=.cooksd)) + 
+  geom_point() + 
+  geom_hline(yintercept=1,color="red")+
+  labs(x="Observation Number",y="Cook's Distance",title="Cook's Distance")
+```
+
+---
+
+### Diamonds: Standardized Residuals
+
+```{r echo=F}
+p1 <- ggplot(data=diamonds_output, aes(x=.fitted,y=.std.resid)) +
+  geom_point() + 
+  geom_hline(yintercept=0,color="red")
+p2 <- ggplot(data=diamonds_output, aes(x=caratCent,y=.std.resid)) + 
+  geom_point() + 
+  geom_hline(yintercept=0,color="red")
+p3 <- ggplot(data=diamonds_output, aes(x=color,y=.std.resid)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red")
+p4 <- ggplot(data=diamonds_output, aes(x=clarity,y=.std.resid)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept=0,color="red")
+plot_grid(p1,p2,p3,p4,ncol=2)
+```
+
+---
+
+## Observations of Interest
+
+```{r}
+diamonds_output %>% filter(.hat > 0.2) %>% 
+  select(logprice,color,clarity,caratCent)
+```
+---
+
+class: middle, center
+
+## Multicollinearity
+
+---
+
+### Why multicollinearity is a problem
+
+- We can't include two variables that have a perfect linear association with each other
+
+- If we did so, we could not pick a unique best fit model
+
+
+---
+
+### Why multicollinearity is a problem
+
+- Ex. Suppose the true population regression equation is $\mu\{Y|X\} = 3 + 4X$
+
+--
+
+- Suppose we try estimating that regression model using the variables $X$ and $Z = X/10$
+$$\begin{aligned}\hat{\mu}\{Y|X\} &= \hat{\beta}_0 + \hat{\beta}_1X  + \hat{\beta}_2\frac{X}{10}\\
+&= \hat{\beta}_0 + \bigg(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10}\bigg)X\end{aligned}$$
+
+--
+
+- We can set $\hat{\beta}_1$ and $\hat{\beta}_2$ to any two numbers such that $\hat{\beta}_1 + \frac{\hat{\beta}_2}{10} = 4$
+  + The data then is unable to choose the "best" combination of $\hat{\beta}_1$ and $\hat{\beta}_2$
+  
+---
+
+### Why multicollinearity is a problem
+
+- When we have almost perfect collinearities (i.e. highly correlated explanatory variables), the standard errors for our regression coefficients inflate
+
+- In other words, we lose precision in our estimates of the regression coefficients 
+  
+---
+ 
+## Detecting Multicollinearity
+
+Multicollinearity may occur when...
+- There are very high correlations $(r > 0.9)$ among two or more explanatory variables, especially for smaller sample sizes
+
+--
+
+- One (or more) explanatory variables is an almost perfect linear combination of the others 
+
+--
+
+- Include quadratic terms without first mean-centering the variables before squaring
+
+--
+
+- Including interactions with two or more continuous variables
+
+---
+
+ 
+
+## Detecting Multicollinearity 
+
+- Look at a correlation matrix of the explanatory variables, including all dummy variables 
+  + Look out for values close to 1 or -1
+
+- If you think one explanatory variable is an almost perfect linear combination of other explanatory variables, you can run a regression of that explanatory variable vs. the others and see if $R^2$ is close to 1
+
+---
+
+## Detetcing Multicollinearity (VIF)
+
+- <font class="vocab">Variance Inflation Factor (VIF)</font>: Measure of multicollinearity 
+
+$$\color{blue}{VIF = \frac{1}{1-R^2_X}}$$
+
+where $R^2_X$ is the proportion of variation $X$ that is explained by the linear combination of the other explanatory variables in the model.
+
+
+- Typically $VIF > 10$ indicates concerning multicollinearity
+
+
+- Use the <font class="vocab">`vif()`</font> function in the `car` package to calculate VIF
+
+---
+
+## Diamonds VIF
+
+- Calculate VIF using the <font class="vocab">`vif`</font> function in the rms package 
+
+```{r}
+library(rms)
+tidy(vif(diamonds_model))
+```
+
+
+<!-- --- -->
+
+<!-- ## Diamonds VIF -->
+
+<!-- ```{r} -->
+<!-- diamonds_data %>% group_by(clarity) %>% summarise(n=n()) -->
+<!-- ``` -->
+
+
+
+
 
 
 

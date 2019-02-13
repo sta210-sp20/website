@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Model Assessment</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Dr. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Model Assessment
+### Dr. Maria Tackett
+### 02.13.19
+
+---
+
+
+
+
+
+## Announcements
+
+- Lab 04 due today
+
+- HW 03 due Monday, Feb 18
+
+---
+
+## R packages
+
+
+```r
+library(tidyverse)
+library(knitr)
+library(broom)
+library(cowplot) # use plot_grid function
+library(Sleuth3) #ex0824 data
+```
+
+---
+
+## Restaurant tips
+
+What affects the amount of customers tip at a restaurant? 
+
+- **Response:**
+    - &lt;font class="vocab"&gt;`Tip`&lt;/font&gt;: amount of the tip
+    
+- **Predictors:**
+    - &lt;font class="vocab"&gt;`Party`&lt;/font&gt;: number of people in the party
+    - &lt;font class="vocab"&gt;`Meal`&lt;/font&gt;:  time of day (Lunch, Dinner, Late Night) 
+    - &lt;font class="vocab"&gt;`Age`&lt;/font&gt;: age category of person paying the bill (Yadult, Middle, SenCit)
+
+
+```r
+tips &lt;- read_csv("data/tip-data.csv") %&gt;%
+  filter(!is.na(Party))
+```
+
+
+---
+
+## ANOVA table for regression
+
+We can use the Analysis of Variance (ANOVA) table to decompose the variability in our response variable
+
+
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Regression (Model) | `$$\sum\limits_{i=1}^{n}(\hat{y}_i - \bar{y})^2$$` | `$$p$$` | `$$\frac{MSS}{p}$$` | `$$\frac{MMS}{RMS}$$` | `$$P(F &gt; \text{F-Stat})$$` |
+| Residual | `$$\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2$$` | `$$n-p-1$$` | `$$\frac{RSS}{n-p-1}$$` |  |  |
+| Total | `$$\sum\limits_{i=1}^{n}(y_i - \bar{y})^2$$` | `$$n-1$$` | `$$\frac{TSS}{n-1}$$` |  |  |
+
+
+The estimate of the regression variance, `\(\hat{\sigma}^2 = RMS\)`
+
+---
+
+## `\(R^2\)` 
+
+- **Recall**: `\(R^2\)` is the proportion of the variation in the response variable explained by the regression model
+&lt;br&gt;
+
+--
+
+- `\(R^2\)` will always increase as we add more variables to the model 
+  + If we add enough variables, we can always achieve `\(R^2=100\%\)`
+&lt;br&gt;
+
+--
+
+- If we only use `\(R^2\)` to choose a best fit model, we will be prone to choose the model with the most predictor variables
+
+
+---
+
+## Adjusted `\(R^2\)`
+
+- &lt;font class="vocab"&gt;Adjusted `\(R^2\)`&lt;/font&gt;: a version of `\(R^2\)` that penalizes for unnecessary predictor variables
+&lt;br&gt; 
+
+- Similar to `\(R^2\)`, it measures the proportion of variation in the response that is explained by the regression model 
+&lt;br&gt;
+
+- Differs from `\(R^2\)` by using the mean squares rather than sums of squares and therefore adjusting for the number of predictor variables
+
+---
+
+## `\(R^2\)` and Adjusted `\(R^2\)`
+
+`$$R^2 = \frac{\text{Total Sum of Squares} - \text{Residual Sum of Squares}}{\text{Total Sum of Squares}}$$`
+&lt;br&gt;
+
+--
+
+.alert[
+`$$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text{Total Mean Square}}$$`
+]
+&lt;br&gt;
+
+--
+
+- `\(Adj. R^2\)` can be used as a quick assessment to compare the fit of multiple models; however, it should not be the only assessment!
+
+--
+
+- Use `\(R^2\)` when describing the relationship between the response and predictor variables
+
+---
+
+### Restaurant tips: model
+
+
+```r
+model1 &lt;- lm(Tip ~ Party + Meal + Age , data = tips)
+kable(tidy(model1),format="html",digits=3)
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.254 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.182 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.002 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Party &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.808 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.121 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.909 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLate Night &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.632 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.407 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.013 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLunch &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.612 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.402 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.523 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.130 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeSenCit &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.390 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.990 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.324 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeYadult &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.505 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.412 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.227 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.222 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Restaurant tips: ANOVA
+
+- &lt;font class="vocab"&gt;R output&lt;/font&gt;
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sum Sq &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Mean Sq &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; F value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Party &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1188.636 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1188.636 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 311.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Meal &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 88.460 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 44.230 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.573 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Age &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.032 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.516 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.705 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.185 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Residuals &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 622.979 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.822 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+- &lt;font class="vocab"&gt;ANOVA table&lt;/font&gt;
+
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Regression (Model) | 1290.12829 | 5 | 258.025658 | 67.5113618 | 0 |
+| Residual | 622.97932	 | 163 | 3.821959  |  |  |
+| Total | 1913.10761  | 168 |  |  |  |
+
+---
+
+### Calculating `\(R^2\)` and Adj `\(R^2\)`
+
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Regression (Model) | 1290.12829 | 5 | 258.025658 | 67.5113618 | 0 |
+| Residual | 622.97932	 | 163 | 3.821959  |  |  |
+| Total | 1913.10761  | 168 |  |  |  |
+
+
+
+```r
+#r-squared
+tss &lt;- 1188.63588 + 88.46005 + 13.03236 + 622.97932	
+rss &lt;- 622.97932	
+(r_sq &lt;- (tss - rss)/tss)
+```
+
+```
+## [1] 0.6743626
+```
+
+
+```r
+#adj r-squared
+tms &lt;- tss/(nrow(tips)-1)
+rms &lt;- 3.821959	
+(adj_r_sq &lt;- (tms - rms)/tms)
+```
+
+```
+## [1] 0.6643738
+```
+
+---
+
+### Restaurant tips: `\(R^2\)` and Adj. `\(R^2\)`
+
+
+```r
+glance(model1)
+```
+
+```
+## # A tibble: 1 x 11
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.674         0.664  1.95      67.5 6.14e-38     6  -350.  714.  736.
+## # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;
+```
+&lt;br&gt;
+
+- Close values of `\(R^2\)` and Adjusted `\(R^2\)` indicate that the variables in the model are significant in understanding variation in tips
+
+---
+
+## ANOVA F Test
+
+- Using the ANOVA table, we can test whether any variable in the model is a significant predictor of the response. We conduct this test using the following hypotheses: 
+
+.alert[
+`$$\begin{aligned}&amp;H_0: \beta_{1} =  \beta_{2} = \dots = \beta_p = 0 \\ 
+&amp;H_a: \text{at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$`
+]
+
+&lt;br&gt;
+
+- The statistic for this test is the `\(F\)` test statistic in the ANOVA table 
+
+- We calculate the p-value using an `\(F\)` distribution with `\(p\)` and `\((n-p-1)\)` degrees of freedom
+
+---
+
+## ANOVA F Test in R
+
+
+```r
+model0 &lt;- lm(Tip ~ 1, data=tips)
+```
+
+--
+
+
+```r
+model1 &lt;- lm(Tip ~ Party + Meal + Age , data = tips)
+```
+
+--
+
+
+```r
+kable(anova(model0,model1),format="html")
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Res.Df &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; RSS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sum of Sq &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; F &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 168 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1913.1076 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 622.9793 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1290.128 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 67.51136 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+### Testing subset of coefficients
+
+- Sometimes we want to test whether a subset of coefficients are all equal to 0
+
+- This is often the case when we want test 
+    - whether a categorical variable with `\(k\)` levels is a significant predictor of the response
+    - whether the interaction between a categorical and quantitative variable is significant
+
+- To do so, we will use the  &lt;font class="vocab3"&gt;Nested F Test &lt;/font&gt; 
+
+---
+
+## Nested F Test
+
+- Suppose we have a full and reduced model: 
+
+`$$\begin{aligned}&amp;\text{Full}: y = \beta_0 + \beta_1 x_1 + \dots + \beta_q x_q + \beta_{q+1} x_{q+1} + \dots \beta_p x_p \\
+&amp;\text{Red}: y = \beta_0 + \beta_1 x_1 + \dots + \beta_q x_q\end{aligned}$$`
+&lt;br&gt;
+
+- We want to test whether any of the variables `\(x_{q+1}, x_{q+2}, \ldots, x_p\)` are significant predictors. To do so, we will test the hypothesis: 
+
+.alert[
+`$$\begin{aligned}&amp;H_0: \beta_{q+1} =  \beta_{q+2} = \dots = \beta_p = 0 \\ 
+&amp;H_a: \text{at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$`
+]
+
+---
+
+## Nested F Test
+
+- The test statistic for this test is 
+
+
+`$$F = \frac{(RSS_{reduced} - RSS_{full})\big/(p_{full} - p_{reduced})}{RSS_{full}\big/(n-p_{full}-1)}$$`
+&lt;br&gt; 
+
+- Calculate the p-value using the F distribution with `\((p_{full} - p_{reduced})\)` and `\((n-p_{full}-1)\)` degrees of freedom
+
+---
+
+### Is `Meal` a significant predictor of tips?
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.254 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.182 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.002 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Party &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.808 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.121 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.909 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeSenCit &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.390 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.990 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.324 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeYadult &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.505 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.412 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.227 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.222 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLate Night &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.632 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.407 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.013 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLunch &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.612 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.402 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.523 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.130 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+### Tips data:  Nested F Test
+
+`$$\begin{aligned}&amp;H_0: \beta_{late night} = \beta_{lunch} = 0\\
+&amp;H_a: \text{ at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$`
+
+--
+
+
+```r
+reduced &lt;- lm(Tip ~ Party + Age, data = tips)
+```
+
+--
+
+
+```r
+full &lt;- lm(Tip ~ Party + Age + Meal, data = tips)
+```
+
+--
+
+
+```r
+kable(anova(full,reduced),format="html")
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Res.Df &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; RSS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sum of Sq &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; F &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 622.9793 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 165 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 686.4439 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -63.46457 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.302623 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0003684 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+**At least one coefficient associated with `Meal` is not zero. Therefore, `Meal` is a significant predictor of `Tips`.**
+
+---
+
+class: middle
+
+.question[
+Why is it not good practice to use the individual p-values to determine whether `Meal` (or any categorical variable with `\(k &gt; 2\)` levels) is significant?
+]
+
+---
+
+## Practice with Interactions 
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.2764989 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4910882 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.5993270 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0102086 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Party &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.7947980 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1715003 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.4652753 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeSenCit &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4007889 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3969295 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0097230 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3141431 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeYadult &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.4701634 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4197146 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.1201978 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2642977 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLate Night &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.8454674 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7089728 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.6030159 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0101039 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLunch &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.4608832 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8651044 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.5327487 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5949421 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Party:MealLate Night &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1108600 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2846584 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3894491 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6974586 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Party:MealLunch &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.0500822 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2825586 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.1772455 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8595384 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.question[
+1. Write the general form of the model. 
+2. Write the model for `Meal == "Late Night"`. 
+3. How does the mean change when `Meal == "Late Night"`? 
+4. How does the slope of `Party` change when `Meal == "Late Night"`?
+]
+---
+
+### Nested F test for interactions
+
+**Is the interaction between `Party` and `Meal` significant?**
+
+
+```r
+reduced &lt;- lm(Tip ~ Party + Age + Meal, data = tips)
+```
+
+--
+
+
+```r
+full &lt;- lm(Tip ~ Party + Age + Meal + Meal*Party, data = tips)
+```
+
+--
+
+
+```r
+kable(anova(full,reduced),format="html")
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Res.Df &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; RSS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sum of Sq &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; F &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 161 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 621.9651 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 622.9793 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.014261 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1312743 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.877071 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: middle, center
+
+## Influential and Leverage Points
+
+---
+
+## Influential Observations
+
+An observation is &lt;font class="vocab3"&gt;influential&lt;/font&gt; if removing it substantially changes the coefficients of the regression model 
+
+&lt;img src="09-model-assessment_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Influential Observations 
+
+- In addition to the coefficients, influential observations can have a large impact on the standard errors
+
+- Occasionally these observations can be identified in the scatterplot
+  + This is often not the case - especially when dealing with multivariate data
+
+- We will use measures to quantify an individual observation's influence on the regression model 
+  + **Cook's distance**, **leverage**, **standardized residuals**
+
+---
+
+## Leverage
+
+- &lt;font class="vocab3"&gt;Leverage: &lt;/font&gt; measure of the distance between an observation's explanatory variable values and the average explanatory variables for the whole data set
+  
+- An observation has large leverage if its combination of values for the explanatory variables is very far from the typical combinations in the data 
+  + It is **&lt;u&gt;potentially&lt;/u&gt;** an influential point, i.e. may have a large impact on the coefficient estimates and standard errors
+
+
+- **Note:** Identifying points with large leverage has nothing to do with the values of the response variables
+
+---
+
+## Caculating Leverage
+
+- &lt;font class="vocab"&gt;Simple Regression:&lt;/font&gt; leverage of the `\(i^{th}\)` observation is 
+`$$h_i = \frac{(X_i - \bar{X})^2}{\sum_{j=1}^{n}(X_j-\bar{X})^2} + \frac{1}{n}$$`
+
+
+- &lt;font class="vocab"&gt;Multiple Regression:&lt;/font&gt; leverage of the `\(i^{th}\)` observation is the `\(i^{th}\)` diagonal of
+`$$\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$$`
+
+---
+
+## Large Leverage
+
+- Values of leverage are between `\(\frac{1}{n}\)` and 1 for each observation 
+
+- The average leverage for all observations in the data set is `\(\frac{p}{n}\)`
+
+- Determination of "large leverage" is relatively arbitrary 
+  + one threshold is `\(\frac{2p}{n}\)`
+
+- Observations with large leverage tend to have small residuals
+
+---
+
+## Large Leverage
+
+- Questions to check if you identify points with large leverage: 
+  + Are they a result of data entry errors?
+  + Are they in the scope for the individuals for which you want to make predictions?
+  + Are they impacting the estimates of the model coefficients, especially for interactions?
+
+- Just because a point has large leverage does not necessarily mean it will have a substantial impact on the regression. Therefore you should check other measures.
+
+---
+
+### Standardized (Studentized) Residuals
+
+- What is the best way to identify outliers (points that don't fit the pattern from the regression line)? 
+  
+--
+
+- Look for points that have large residuals
+
+--
+
+- We want a common scale, so we can more easily identify "large" residuals
+
+--
+
+- We will look at each residual divided by its standard error
+
+---
+
+## Standardized Residuals 
+
+`$$\color{blue}{standres_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}}$$`
+&lt;br&gt;
+
+--
+
+- The standard error of a residual, `\(\hat{\sigma}\sqrt{1-h_i}\)` depends on the value of the explanatory variables 
+
+--
+
+
+- Residuals for observations that are high leverage have smaller variance than residuals for observations that are low leverage 
+
+  + This is because the regression line tries to fit high leverage observations as closely as possible
+
+--
+
+- Standardized residuals follow a `\(N(0,1)\)` distribution
+
+---
+
+## Standardized Residuals 
+
+- Values with very large standardized residuals are outliers, since they don't fit the pattern determined by the regression model 
+
+- Since the standardized residuals follow `\(N(0,1)\)` distribution, we expect about 5% of the standardized residuals to have magnitude greater than 2
+
+- Observations with large standardized residuals are outliers but may not have an impact on the regression line
+
+- &lt;font class="vocab"&gt;Good Practice: &lt;/font&gt;Make residual plots with standardized residuals, since they better reflect constant variance when that assumption holds
+
+---
+
+### What to do with outliers?
+
+- It is **&lt;font color="green"&gt;OK&lt;/font&gt;** to drop an observation based on the **&lt;u&gt;explanatory variables&lt;/u&gt;** if...
+  + It is meaningful to drop the observation given the context of the problem 
+  + You intended to build a model on a smaller range of the explanatory variables. Mention this in the write up of the results and be careful to avoid extrapolation when making predictions
+
+- It is **&lt;font color="red"&gt;not OK&lt;/font&gt;** to drop an observation based on the response variable
+  + These are legitimate observations and should be in the model
+- You can try transformations, increasing the sample size by collecting more data, or doing nothing. 
+  + It is fine to have some outliers in the data
+
+---
+
+### Motivating Cook's Distance
+
+- If a observation has a large impact on the estimated regression coefficients, when we drop that observation...
+  + The estimated coefficients should change 
+  + The predicted `\(Y\)` value for that observation should change
+- One way to determine each observation's impact could be to delete it, rerun the regression, compare the predicted `\(Y\)` values from the new and original models
+  + This could be very time consuming 
+- Instead, we can use &lt;font class="vocab3"&gt;Cook's Distance&lt;/font&gt; which gives a measure of the change in the predicted `\(Y\)` value when an observation is dropped
+
+---
+
+## Cook's Distance
+
+- &lt;font class="vocab3"&gt;Cook's Distance: &lt;/font&gt; Measure of an observation's overall impact, i.e. the effect removing the observation has on the estimated coefficients
+
+- For the `\(i^{th}\)` observation, we can calculate Cook's Distance as 
+`$$\color{blue}{D_i = \frac{1}{p}(standres_i)^2\bigg(\frac{h_i}{1-h_i}\bigg)}$$`
+
+---
+
+## Large Cook's Distance
+
+- It is **&lt;font color="green"&gt;OK&lt;/font&gt;** to drop an observation based on the **&lt;u&gt;explanatory variables&lt;/u&gt;** if...
+  + It is meaningful to drop the observation given the context of the problem 
+  + You intended to build a model on a smaller range of the explanatory variables. Mention this in the write up of the results and be careful to avoid extrapolation when making predictions
+- It is **&lt;font color="red"&gt;not OK&lt;/font&gt;** to drop an observation based on the response variable
+  + These are legitimate observations and should be in the model
+- You can try transformations or increasing the sample size by collecting more data
+
+---
+
+## Using these measures
+
+- standardized residuals, leverage, and Cook's Distance should all be examined together 
+
+- Examine plots of the measures to identify observations that may have an impact on your regression model 
+
+- Thresholds for flagging potentially influential observations used by some software: 
+  + `\(D_i &gt; 1\)`
+  + `\(h_i &gt; 2p/n\)`
+  + `\(|standres_i| &gt; 2\)`
+  
+---
+
+## Example: Diamonds Data 
+
+- We will build a regression model using 300 randomly selected observations for the `diamonds` data 
+
+
+```r
+set.seed(12)
+diamonds &lt;- diamonds %&gt;% filter(carat &lt; 1.1)
+diamonds_data &lt;- diamonds %&gt;% 
+  sample_n(300) %&gt;%
+  mutate(logprice= log(price),
+         caratCent = carat - mean(carat),
+         caratCent.sq = caratCent^2, 
+         carat.sq = carat^2)
+```
+
+
+```r
+diamonds_model &lt;- lm(logprice ~ caratCent + caratCent.sq + 
+                       color + clarity, data=diamonds_data)
+kable(tidy(diamonds_model),format="html")
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.4718575 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0167309 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 446.5900319 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; caratCent &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.3866728 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0332114 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 101.9732745 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; caratCent.sq &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.7906069 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1311933 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -13.6486169 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; color.L &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.4367615 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0256565 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -17.0233977 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; color.Q &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.0340383 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0241127 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.4116317 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1591531 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; color.C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0176009 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0223872 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7862036 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4324037 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; color^4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0348444 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0206408 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.6881323 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0924836 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; color^5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0050951 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0187726 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2714126 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7862709 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; color^6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.0068243 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0166042 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.4109980 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6813839 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; clarity.L &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.9670289 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0534004 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.1090052 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; clarity.Q &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.2661185 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0516755 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -5.1498003 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000005 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; clarity.C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1658013 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0426213 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.8901031 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0001249 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; clarity^4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.0841623 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0313521 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.6844227 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0076924 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; clarity^5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.0056745 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0230437 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.2462496 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8056669 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; clarity^6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.0262228 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0193231 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.3570664 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1758377 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; clarity^7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0393289 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0175108 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.2459746 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0254744 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+##Example: Diamonds
+
+- We can output the model diagnostics (along with the predicted values and residuals) using the &lt;font class="vocab"&gt;`augment`&lt;/font&gt; function in the broom package
+
+
+```r
+#add leverage, cook's distance and standardized residuals to data set
+diamonds_output &lt;- augment(diamonds_model) %&gt;%
+  mutate(obs_num = row_number())
+```
+
+
+```r
+glimpse(diamonds_output)
+```
+
+```
+## Observations: 300
+## Variables: 13
+## $ logprice     &lt;dbl&gt; 8.101072, 7.469084, 7.776115, 8.606668, 8.352790, 7…
+## $ caratCent    &lt;dbl&gt; 0.30756667, -0.07243333, 0.09756667, 0.44756667, 0.…
+## $ caratCent.sq &lt;dbl&gt; 0.094597254, 0.005246588, 0.009519254, 0.200315921,…
+## $ color        &lt;ord&gt; D, F, H, H, H, F, H, G, H, D, H, G, F, H, F, F, I, …
+## $ clarity      &lt;ord&gt; SI2, VS2, SI1, VS2, SI2, SI1, SI1, VVS1, VVS1, SI1,…
+## $ .fitted      &lt;dbl&gt; 8.285117, 7.376214, 7.601690, 8.614099, 8.189859, 8…
+## $ .se.fit      &lt;dbl&gt; 0.02376527, 0.02043313, 0.02474098, 0.02848080, 0.0…
+## $ .resid       &lt;dbl&gt; -0.184045608, 0.092869782, 0.174425657, -0.00743105…
+## $ .hat         &lt;dbl&gt; 0.03953785, 0.02922790, 0.04285105, 0.05678480, 0.0…
+## $ .sigma       &lt;dbl&gt; 0.1192082, 0.1195986, 0.1192598, 0.1197289, 0.11931…
+## $ .cooksd      &lt;dbl&gt; 6.352009e-03, 1.170360e-03, 6.226311e-03, 1.542121e…
+## $ .std.resid   &lt;dbl&gt; -1.57126386, 0.78864140, 1.49170999, -0.06401896, 1…
+## $ obs_num      &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
+```
+---
+
+## Diamonds: Leverage
+
+
+```r
+ggplot(data=diamonds_output, aes(x=obs_num,y=.hat)) + 
+  geom_point(alpha=0.5) + 
+  geom_hline(yintercept=0.1,color="red")+
+  labs(x="Observation Number",y="Leverage",title="Leverage")
+```
+
+&lt;img src="09-model-assessment_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+### Diamonds: Cook's Distance
+
+
+```r
+ggplot(data=diamonds_output, aes(x=obs_num,y=.cooksd)) + 
+  geom_point() + 
+  geom_hline(yintercept=1,color="red")+
+  labs(x="Observation Number",y="Cook's Distance",title="Cook's Distance")
+```
+
+&lt;img src="09-model-assessment_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Diamonds: Standardized Residuals
+
+&lt;img src="09-model-assessment_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Observations of Interest
+
+
+```r
+diamonds_output %&gt;% filter(.hat &gt; 0.2) %&gt;% 
+  select(logprice,color,clarity,caratCent)
+```
+
+```
+## # A tibble: 2 x 4
+##   logprice color clarity caratCent
+##      &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt;       &lt;dbl&gt;
+## 1     7.50 H     I1          0.358
+## 2     7.86 F     I1          0.338
+```
+---
+
+class: middle, center
+
+## Multicollinearity
+
+---
+
+### Why multicollinearity is a problem
+
+- We can't include two variables that have a perfect linear association with each other
+
+- If we did so, we could not pick a unique best fit model
+
+
+---
+
+### Why multicollinearity is a problem
+
+- Ex. Suppose the true population regression equation is `\(\mu\{Y|X\} = 3 + 4X\)`
+
+--
+
+- Suppose we try estimating that regression model using the variables `\(X\)` and `\(Z = X/10\)`
+`$$\begin{aligned}\hat{\mu}\{Y|X\} &amp;= \hat{\beta}_0 + \hat{\beta}_1X  + \hat{\beta}_2\frac{X}{10}\\
+&amp;= \hat{\beta}_0 + \bigg(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10}\bigg)X\end{aligned}$$`
+
+--
+
+- We can set `\(\hat{\beta}_1\)` and `\(\hat{\beta}_2\)` to any two numbers such that `\(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10} = 4\)`
+  + The data then is unable to choose the "best" combination of `\(\hat{\beta}_1\)` and `\(\hat{\beta}_2\)`
+  
+---
+
+### Why multicollinearity is a problem
+
+- When we have almost perfect collinearities (i.e. highly correlated explanatory variables), the standard errors for our regression coefficients inflate
+
+- In other words, we lose precision in our estimates of the regression coefficients 
+  
+---
+ 
+## Detecting Multicollinearity
+
+Multicollinearity may occur when...
+- There are very high correlations `\((r &gt; 0.9)\)` among two or more explanatory variables, especially for smaller sample sizes
+
+--
+
+- One (or more) explanatory variables is an almost perfect linear combination of the others 
+
+--
+
+- Include quadratic terms without first mean-centering the variables before squaring
+
+--
+
+- Including interactions with two or more continuous variables
+
+---
+
+ 
+
+## Detecting Multicollinearity 
+
+- Look at a correlation matrix of the explanatory variables, including all dummy variables 
+  + Look out for values close to 1 or -1
+
+- If you think one explanatory variable is an almost perfect linear combination of other explanatory variables, you can run a regression of that explanatory variable vs. the others and see if `\(R^2\)` is close to 1
+
+---
+
+## Detetcing Multicollinearity (VIF)
+
+- &lt;font class="vocab"&gt;Variance Inflation Factor (VIF)&lt;/font&gt;: Measure of multicollinearity 
+
+`$$\color{blue}{VIF = \frac{1}{1-R^2_X}}$$`
+
+where `\(R^2_X\)` is the proportion of variation `\(X\)` that is explained by the linear combination of the other explanatory variables in the model.
+
+
+- Typically `\(VIF &gt; 10\)` indicates concerning multicollinearity
+
+
+- Use the &lt;font class="vocab"&gt;`vif()`&lt;/font&gt; function in the `car` package to calculate VIF
+
+---
+
+## Diamonds VIF
+
+- Calculate VIF using the &lt;font class="vocab"&gt;`vif`&lt;/font&gt; function in the rms package 
+
+
+```r
+library(rms)
+tidy(vif(diamonds_model))
+```
+
+```
+## # A tibble: 15 x 2
+##    names            x
+##    &lt;chr&gt;        &lt;dbl&gt;
+##  1 caratCent     1.71
+##  2 caratCent.sq  1.41
+##  3 color.L       1.35
+##  4 color.Q       1.50
+##  5 color.C       1.38
+##  6 color^4       1.24
+##  7 color^5       1.15
+##  8 color^6       1.09
+##  9 clarity.L     4.16
+## 10 clarity.Q     3.16
+## 11 clarity.C     3.69
+## 12 clarity^4     2.64
+## 13 clarity^5     1.61
+## 14 clarity^6     1.25
+## 15 clarity^7     1.15
+```
+
+
+&lt;!-- --- --&gt;
+
+&lt;!-- ## Diamonds VIF --&gt;
+
+&lt;!-- ```{r} --&gt;
+&lt;!-- diamonds_data %&gt;% group_by(clarity) %&gt;% summarise(n=n()) --&gt;
+&lt;!-- ``` --&gt;
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

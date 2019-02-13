@@ -346,7 +346,7 @@ We can use the Analysis of Variance (ANOVA) table to decompose the variability i
 | Total | $$\sum\limits_{i=1}^{n}(y_i - \bar{y})^2$$ | $$n-1$$ | $$\frac{TSS}{n-1}$$ |  |  |
 
 
-The estimate of the regression variance, $\hat{\sigma}^2 = MSE$
+The estimate of the regression variance, $\hat{\sigma}^2 = RMS$
 
 ---
 
