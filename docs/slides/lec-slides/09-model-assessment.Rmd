@@ -41,14 +41,13 @@ library(tidyverse)
 library(knitr)
 library(broom)
 library(cowplot) # use plot_grid function
-library(Sleuth3) #ex0824 data
 ```
 
 ---
 
 ## Restaurant tips
 
-What affects the amount of customers tip at a restaurant? 
+What affects the amount customers tip at a restaurant?
 
 - **Response:**
     - <font class="vocab">`Tip`</font>: amount of the tip
@@ -234,6 +233,7 @@ model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
 kable(anova(model0,model1),format="html")
 ```
 
+**At least one coefficient is non-zero, i.e. at least one predictor in the model is significant**
 ---
 
 ### Testing subset of coefficients
