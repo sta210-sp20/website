@@ -36,14 +36,13 @@ library(tidyverse)
 library(knitr)
 library(broom)
 library(cowplot) # use plot_grid function
-library(Sleuth3) #ex0824 data
 ```
 
 ---
 
 ## Restaurant tips
 
-What affects the amount of customers tip at a restaurant? 
+What affects the amount customers tip at a restaurant?
 
 - **Response:**
     - &lt;font class="vocab"&gt;`Tip`&lt;/font&gt;: amount of the tip
@@ -280,6 +279,8 @@ rss &lt;- 622.97932
 ## [1] 0.6743626
 ```
 
+--
+
 
 ```r
 #adj r-squared
@@ -383,6 +384,7 @@ kable(anova(model0,model1),format="html")
 &lt;/tbody&gt;
 &lt;/table&gt;
 
+**At least one coefficient is non-zero, i.e. at least one predictor in the model is significant**
 ---
 
 ### Testing subset of coefficients
@@ -552,7 +554,7 @@ kable(anova(full,reduced),format="html")
 class: middle
 
 .question[
-Why is it not good practice to use the individual p-values to determine whether `Meal` (or any categorical variable with `\(k &gt; 2\)` levels) is significant?
+Why is it not good practice to use the individual p-values to determine a categorical variable with `\(k &gt; 2\)` levels) is significant? *Hint*: What does it actually mean if none of the `\(k-1\)` p-values are significant?
 ]
 
 ---
@@ -891,6 +893,10 @@ diamonds_data &lt;- diamonds %&gt;%
          carat.sq = carat^2)
 ```
 
+---
+
+## Diamonds Model 
+
 
 ```r
 diamonds_model &lt;- lm(logprice ~ caratCent + caratCent.sq + 
@@ -1026,7 +1032,7 @@ kable(tidy(diamonds_model),format="html")
 
 ---
 
-##Example: Diamonds
+## Diamonds Model Output 
 
 - We can output the model diagnostics (along with the predicted values and residuals) using the &lt;font class="vocab"&gt;`augment`&lt;/font&gt; function in the broom package
 
@@ -1036,6 +1042,10 @@ kable(tidy(diamonds_model),format="html")
 diamonds_output &lt;- augment(diamonds_model) %&gt;%
   mutate(obs_num = row_number())
 ```
+
+---
+
+## Diamonds Model Output 
 
 
 ```r
