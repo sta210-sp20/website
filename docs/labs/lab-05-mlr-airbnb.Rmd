@@ -89,7 +89,8 @@ We will use the following variables in this lab:
 - `property_type`: Type of dwelling (House, Apartment, etc.)
 - `room_type`: 
     - *Entire home/apt* (guests have entire place to themselves)
-    - *Private room* (Guests have private room to sleep, all other rooms shared)     - *Shared room* (Guests sleep in room shared with others) 
+    - *Private room* (Guests have private room to sleep, all other rooms shared)
+    - *Shared room* (Guests sleep in room shared with others) 
 - `number_of_reviews`: Total number of reviews for the listing
 - `review_scores_rating`: Average review score (0 - 100)
 
@@ -111,7 +112,7 @@ airbnb <- inner_join(basic_info,details)
 
 
 
-How many observations are in `airbnb`? How many columns?
+How many observations are in `airbnb`? How many variables?
 
 2. Some Airbnb rentals have cleaning fees, and we want to include the cleaning fee when we calculate the total rental cost. Use the code below to see how the data in the column `cleaning_fee` is currently stored in the `airbnb` data frame.
 
@@ -156,14 +157,16 @@ airbnb <- airbnb %>%
 
 *This is an example of data that is missing not at random, since there is a specific pattern/explanation to the misisng data.  We will talk more about dealing with missing data later in the semester.*
 
+
+```{marginfigure}
+See [Section 5.6.3 of *R for Data Science*](https://r4ds.had.co.nz/transform.html#counts) for more information about counting observations.
+```
+
 6. Next, we look at the variable `property_type`. 
     - Use the `count` function to determine how many categories are in the variable `property` and the frequency of each category.
     - What are the top 4 most common property types? These make up what proportion of the observations? 
     
-```{marginfigure}
-See [Section 5.6.3 of *R for Data Science*](https://r4ds.had.co.nz/transform.html#counts) for more information about counting observations.
-```
-    
+
 7. Since an overwhelming majority of the observations in the data are one of the top 4 property types, we would like to create a simplified version of the `proprety_type` variable that has 5 categories: *House*, *Apartment*, *Guest suite*, *Bungalow*, and *Other*. Fill in the code below to create `prop_type_simp`.
 
 ```{r eval=F}

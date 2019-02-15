@@ -127,7 +127,8 @@ details &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <li><code>room_type</code>:
 <ul>
 <li><em>Entire home/apt</em> (guests have entire place to themselves)</li>
-<li><em>Private room</em> (Guests have private room to sleep, all other rooms shared) - <em>Shared room</em> (Guests sleep in room shared with others)</li>
+<li><em>Private room</em> (Guests have private room to sleep, all other rooms shared)</li>
+<li><em>Shared room</em> (Guests sleep in room shared with others)</li>
 </ul></li>
 <li><code>number_of_reviews</code>: Total number of reviews for the listing</li>
 <li><code>review_scores_rating</code>: Average review score (0 - 100)</li>
@@ -143,7 +144,7 @@ details &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 </ol>
 <p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/relational-data.html#mutating-joins">Section 13.4 of <em>R for Data Science</em></a> for more information about joins.</span></span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airbnb &lt;-<span class="st"> </span><span class="kw">inner_join</span>(basic_info,details)</code></pre></div>
-<p>How many observations are in <code>airbnb</code>? How many columns?</p>
+<p>How many observations are in <code>airbnb</code>? How many variables?</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Some Airbnb rentals have cleaning fees, and we want to include the cleaning fee when we calculate the total rental cost. Use the code below to see how the data in the column <code>cleaning_fee</code> is currently stored in the <code>airbnb</code> data frame.</li>
 </ol>
@@ -168,15 +169,13 @@ details &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
     <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span>cleaning_fee
   ))</code></pre></div>
 <p><em>This is an example of data that is missing not at random, since there is a specific pattern/explanation to the misisng data. We will talk more about dealing with missing data later in the semester.</em></p>
+<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/transform.html#counts">Section 5.6.3 of <em>R for Data Science</em></a> for more information about counting observations.</span></span></p>
 <ol start="6" style="list-style-type: decimal">
 <li>Next, we look at the variable <code>property_type</code>.
 <ul>
 <li>Use the <code>count</code> function to determine how many categories are in the variable <code>property</code> and the frequency of each category.</li>
 <li>What are the top 4 most common property types? These make up what proportion of the observations?</li>
 </ul></li>
-</ol>
-<p><label for="tufte-mn-4" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-4" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/transform.html#counts">Section 5.6.3 of <em>R for Data Science</em></a> for more information about counting observations.</span></span></p>
-<ol start="7" style="list-style-type: decimal">
 <li>Since an overwhelming majority of the observations in the data are one of the top 4 property types, we would like to create a simplified version of the <code>proprety_type</code> variable that has 5 categories: <em>House</em>, <em>Apartment</em>, <em>Guest suite</em>, <em>Bungalow</em>, and <em>Other</em>. Fill in the code below to create <code>prop_type_simp</code>.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airbnb &lt;-<span class="st"> </span>airbnb <span class="op">%&gt;%</span>
