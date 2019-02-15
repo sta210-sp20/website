@@ -1,0 +1,193 @@
+---
+title: "Lab 05: Multiple Linear Regression - Airbnb"
+subtitle: "Transformations & Special Predictors"
+date: "due Wed, Feb 20 at 11:59p"
+output: 
+  tufte::tufte_html:
+    css: "./sta210-labs.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+    fig_height: 10
+link-citations: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE)
+```
+
+**FILL IN**
+The goal of this lab is to use multiple linear regression to understand the variation in the selling price of houses in King County, Washington. You will also gain practice using special predictors, such as categorical predictors and interaction effects, in the model, and you will be introduced to variable transformations.
+
+
+# Getting Started 
+
+- Go to the STA210-Sp19 organization on GitHub ([https://github.com/STA210-Sp19](https://github.com/STA210-Sp19)). Click on the repo with the prefix **lab-05-**. It contains the starter documents you need to complete the warmup exercise. 
+
+- Clone the repo and create a new project in RStudio Cloud. 
+
+- Configure git by typing the following in the **console**.
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="your name", user.email="your email")
+```
+
+## Password caching
+
+If you would like your git password cached for a week for this project, type the following in the **Terminal**:
+
+```{bash eval=FALSE}
+git config --global credential.helper 'cache --timeout 604800'
+```
+
+You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
+
+
+## Packages
+
+We will use the following packages in today's lab.
+
+```{r load-packages}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(skimr)
+```
+
+## Project name: 
+
+Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 05 - Multiple linear regression".
+
+# Warm up
+
+Before we introduce the data, let's warm up with a simple exercise.
+
+## YAML: 
+
+- Pick one team member to update the *author* and *date* fields at the top of the R Markdown file. Knit, commit, and push all the updated documents to Github.
+
+- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
+
+## Data 
+
+**FILL IN DESCRIPTION AND VARIABLE DEFINITIONS**.
+
+The data is from [http://insideairbnb.com/index.html](http://insideairbnb.com/index.html). It is about Airbnb rental properties in Asheville, NC.  We are using a reduced version of the dataset; see the website for all the information available.
+
+```{r}
+basic_info <- read_csv("data/airbnb_basic.csv")
+details <- read_csv("data/airbnb_details.csv")
+```
+
+# Exercises 
+
+## Data wrangling
+
+1. Create a new dataset called `airbnb` that is an `inner_join()` to combine the information from the `basic_info` and `details` dataframes. 
+
+```{r eval=F}
+airbnb <- inner_join(basic_info,details,by=c("_______","________"))
+```
+
+Use the `glimpse` and/or `View` functions to see the joined dataset. 
+
+2. If there are two columns that have the same name but contain different data, R will index the column names with a ".x" and ".y". Compare the data in `price.x` (`price` column from the `basic_info` dataset) and `price.y` (`price` column from the `details` dataset). How is the data stored in these columns the same? How is it different? 
+
+3. Later in the lab, we will build a regression model with the price as the response variable. Which column of price data is best to use as the response variable - `price.x` or `price.y`? Briefly explain your choice. 
+
+Then, fill in the code below to add a variable called `price` to the `airbnb` dataset that contains the column of price data that you can eventually use for the regression analysis. 
+
+```{r eval=F}
+airbnb <- airbnb %>%
+  mutate(price = _______)
+```
+
+4. Some Airbnb rentals have cleaning fees, which should be incorporated in the total cost of the rental. Currently, the data in `cleaning_fee` is stored as character data, because there is a dollar sign, `$` in each observation. To prepare this data for modeling, we will need to clean it in a few steps. 
+
+First, we will use the `extract` function in `tidyr` package to create a column of cleaning fees without the dollar sign.  Use the code below to extract the cleaning fee values and reassign them to the variable `cleaning_fee`. 
+
+```{marginfigure}
+See [https://tidyr.tidyverse.org/reference/extract.html) for more information about the `extract` function.
+```
+
+```{r eval=F}
+airbnb <- airbnb %>% extract(cleaning_fee, "cleaning_fee") 
+```
+
+Use the `as.numeric` and `mutate` functions to make the newly extracted variable `cleaning_fee` numeric. Be sure to add the variable to the `airbnb` dataset. 
+
+5. Look at a summary of the `cleaning_fee` data. How many observations have missing values for `cleaning_fee`? What do you think these missing observations most likely mean? 
+
+Use this information to fill in a numeric value for the missing observations. You can fill in the code below to fill in this data. 
+
+```{r eval=F}
+airbnb <- airbnb %>%
+  mutate(cleaning_fee = case_when(
+    is.na(cleaning_fee) ~ ______, 
+    TRUE ~ cleaning_fee
+  ))
+```
+
+```{marginfigure}
+See [https://dplyr.tidyverse.org/reference/case_when.html](https://dplyr.tidyverse.org/reference/case_when.html) for more information about the `case_when` function.
+```
+
+6. Next, we look at the variable `property_type`. 
+    - How many categories does this variable have? 
+    - What are the top 4 most common property types? 
+    - What proportion of observations are one of the 34 most common property types?
+    
+We would like to create a new variable, `prop_type_simp`,  a simplified version of `property_type` that has separate categories for the top 4 types, and then classifies all other property types as "Other".  Fill in the code below to use the `case_when` statement to create `prop_type_simp`.
+
+```{r eval=F}
+airbnb <- airbnb %>%
+  mutate(prop_type_simp = case_when(
+    property_type %in% c("House","______", "______","______") ~ property_type, 
+    TRUE ~ "Other"
+  ))
+```
+
+
+7. Next, we want to examine the minimum number of nights for each listing. To do so, we will use the variable `minimum_nights.x`. (Note that `minimum_nights.x == mimumum_nights.y`)
+
+Use the `count` function to find the most common values for the variable .
+    - What are the top 5 most common values for the minimum number of nights? 
+    - Which value in the top 5 stands out? What does this value indicate about these Airbnb listings?
+    
+8. For the regression analysis, we only want to use Airbnb listings that are intended for travel purposes, i.e. alternatives to hotels. Filter the `airbnb` data frame so that only observations with 3 or fewer minimum nights are included. Be sure to assign the data frame to a new object name, so you can use it in the regression analysis in the next section.  How many observations are in the reduced data frame?
+
+```{marginfigure}
+See [Section 5.6.3 of *R for Data Science*](https://r4ds.had.co.nz/transform.html#counts) for more information about counting observations.
+```
+
+
+## Regression Analysis
+
+9. For the response variable, will use the cost to stay at an Airbnb location for 3 nights. Create a new variable called `price_3_nights` that uses `price.x` and `cleaning_fee` to calculate the cost to stay at the Airbnb property for 3 nights.
+
+10. Create histograms of `price_3_nights` and `log(price_3_nights)`. Based on the histograms,  which variable should you use for the regression model? Use this variable as the response for the remainder of the lab. Briefly explain.  
+
+11. Fit a regression model called `model1` with the response varaible from the previous question and the following predictor variables: `prop_type_simp`, `number_of_reviews.x`, `review_scores_rating`, `cleaning_fee`. Output the model. 
+
+12. Interpret the intercept of the model in terms `price_3_nights`.
+
+13. Interpret the coefficient `review_scores_rating` in terms of `price_3_nights_nights`.
+
+14. We want to use a Nested F test to determine if `room_type.x` is a significant predictor of the minimum cost. Fit a regression model called `model2` that includes all of the predictor variables in `model1` and `room_type.x`. Use the code below to conduct a Nested F test to determine if `room_type.x` is a significant predictor of the minimum cost.
+
+```{r eval = F}
+anova(model1, model2)
+```
+
+What is your conclusion from the Nested F test? 
+
+15. Suppose you are planning to visit Asheville over spring break, and you want to stay in an Airbnb. You find an Airbnb that is an apartment with a private room, has 10 reviews, and an average rating of 90, and a $50 cleaning fee. Use `model2` to predict the total cost to stay at this Airbnb for 3 nights. Include the appropriate interval with your prediction.
+
+*You're done! Commit all remaining changes, use the commit message "Done with Lab 4!", and push. Before you wrap up the assignment, make sure the .Rmd and .md  documents are updated in your GitHub repo. There is a 10% penalty if the .Rmd file has to be knitted to display graphs, i.e. the graphs are not showing in the .md file on GitHub.*
+
+## Acknowledgement
+
+The data from this lab is from [insideairbnb.com](http://insideairbnb.com/index.html)
