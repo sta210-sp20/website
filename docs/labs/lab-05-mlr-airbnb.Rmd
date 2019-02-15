@@ -1,5 +1,5 @@
 ---
-title: "Lab 05: Multiple Linear Regression - Airbnb"
+title: "Lab 05: Airbnbs in Asheville, NC"
 subtitle: "Data Wrangling & Regression"
 date: "due Wed, Feb 20 at 11:59p"
 output: 
@@ -59,7 +59,7 @@ library(broom)
 
 ## Project name: 
 
-Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 05 - Multiple linear regression".
+Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 05 - Airbnb ".
 
 # Warm up
 
@@ -199,9 +199,9 @@ Use this variable as the response for the remainder of the lab.
 
 12. Interpret the coefficient `review_scores_rating` in terms of `price_3_nights`.
 
-13.Interpret the coefficient of `prop_type_simpGuest suite` in terms of `price_3_nights`.
+13. Interpret the coefficient of `prop_type_simpGuest suite` in terms of `price_3_nights`.
 
-14.We want to determine if `room_type` is a significant predictor of the cost for 3 nights, given everything else in the model. Fit a regression model called `model2` that includes all of the predictor variables in `model1` and `room_type`. Display the model output. 
+14. We want to determine if `room_type` is a significant predictor of the cost for 3 nights, given everything else in the model. Fit a regression model called `model2` that includes all of the predictor variables in `model1` and `room_type`. Display the model output. 
 
 Use the code below to conduct a Nested F test to determine if `room_type` is a significant predictor of the minimum cost. What is your conclusion from the Nested F test? 
 
