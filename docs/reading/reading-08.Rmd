@@ -1,26 +1,19 @@
 ---
-title: "Reading 08: Logistic Regression"
+title: "Reading 08: Model Validation"
 output: 
   html_document: 
     theme: yeti
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-### Due Mon, Mar 4
+### Due Wed, Feb 27
 
 ### Required:
 
 - [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
-    - 4.1 An overview of classification
-    - 4.2 Why not linear regression 
-    - 4.3.1 The logistic model
-    - 4.3.2 Estimating the regression coefficients
-    - 4.3.3 Making predictions
+    - 5.1.1 The Validation Set Approach
+    - 5.1.2 Leave-One-Out Cross-Validation
+    - 5.1.3 *k*-Fold Cross-Validation
 <br>
 <br>
 
 [All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
-
