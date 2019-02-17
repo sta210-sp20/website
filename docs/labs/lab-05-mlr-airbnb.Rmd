@@ -117,7 +117,7 @@ How many observations are in `airbnb`? How many variables?
 2. Some Airbnb rentals have cleaning fees, and we want to include the cleaning fee when we calculate the total rental cost. Use the code below to see how the data in the column `cleaning_fee` is currently stored in the `airbnb` data frame.
 
 ```{r eval=F}
-typeof(airbnb$character)
+typeof(airbnb$cleaning_fee)
 ```
 
 The column `cleaning_fee` currently contains what type of data? Why do you think the data is stored this way even though `cleaning_fee` is a quantitative variable?

@@ -148,7 +148,7 @@ details &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <ol start="2" style="list-style-type: decimal">
 <li>Some Airbnb rentals have cleaning fees, and we want to include the cleaning fee when we calculate the total rental cost. Use the code below to see how the data in the column <code>cleaning_fee</code> is currently stored in the <code>airbnb</code> data frame.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(airbnb<span class="op">$</span>character)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(airbnb<span class="op">$</span>cleaning_fee)</code></pre></div>
 <p>The column <code>cleaning_fee</code> currently contains what type of data? Why do you think the data is stored this way even though <code>cleaning_fee</code> is a quantitative variable?</p>
 <ol start="3" style="list-style-type: decimal">
 <li>Since <code>cleaning_fee</code> is a quantitative variable, we need to make sure it is stored as numeric data in the dataframe. To do so, we will first use the <code>extract</code> function in <code>tidyr</code> package to create a column of cleaning fees that don’t have the dollar sign. Then, we will use the <code>as.numeric()</code> function to make the extracted data the numeric data type <code>double</code>.</li>
