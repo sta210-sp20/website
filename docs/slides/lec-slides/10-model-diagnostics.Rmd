@@ -1,7 +1,7 @@
 ---
-title: "Model Assessment"
+title: "Model Diagnostics"
 author: "Dr. Maria Tackett"
-date: "02.13.19"
+date: "02.18.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -18,7 +18,7 @@ output:
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
 	fig.align = "center",
-	fig.height = 4,
+	fig.height = 3,
 	message = FALSE,
 	warning = FALSE, 
 	dpi = 300
@@ -28,10 +28,14 @@ knitr::opts_chunk$set(
 
 ## Announcements
 
-- Lab 04 due today
+- HW 03 due today at 11:59p
 
-- HW 03 due Monday, Feb 18
+- Lab 05 due Wed, Feb 20 at 11:59p
 
+- Looking ahead: 
+    - **Exam 1 on Mon, Feb 25**
+    - Practice exam on Sakai 
+    - Can bring 1 page of notes
 ---
 
 ## R packages
@@ -43,322 +47,6 @@ library(broom)
 library(cowplot) # use plot_grid function
 ```
 
----
-
-## Restaurant tips
-
-What affects the amount customers tip at a restaurant?
-
-- **Response:**
-    - <font class="vocab">`Tip`</font>: amount of the tip
-    
-- **Predictors:**
-    - <font class="vocab">`Party`</font>: number of people in the party
-    - <font class="vocab">`Meal`</font>:  time of day (Lunch, Dinner, Late Night) 
-    - <font class="vocab">`Age`</font>: age category of person paying the bill (Yadult, Middle, SenCit)
-
-```{r}
-tips <- read_csv("data/tip-data.csv") %>%
-  filter(!is.na(Party))
-```
-
-
----
-
-## ANOVA table for regression
-
-We can use the Analysis of Variance (ANOVA) table to decompose the variability in our response variable
-
-
-|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
-|------------------|----------------|--------------------|-------------|-------------|--------------------|
-| Regression (Model) | $$\sum\limits_{i=1}^{n}(\hat{y}_i - \bar{y})^2$$ | $$p$$ | $$\frac{MSS}{p}$$ | $$\frac{MMS}{RMS}$$ | $$P(F > \text{F-Stat})$$ |
-| Residual | $$\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2$$ | $$n-p-1$$ | $$\frac{RSS}{n-p-1}$$ |  |  |
-| Total | $$\sum\limits_{i=1}^{n}(y_i - \bar{y})^2$$ | $$n-1$$ | $$\frac{TSS}{n-1}$$ |  |  |
-
-
-The estimate of the regression variance, $\hat{\sigma}^2 = RMS$
-
----
-
-## $R^2$ 
-
-- **Recall**: $R^2$ is the proportion of the variation in the response variable explained by the regression model
-<br>
-
---
-
-- $R^2$ will always increase as we add more variables to the model 
-  + If we add enough variables, we can always achieve $R^2=100\%$
-<br>
-
---
-
-- If we only use $R^2$ to choose a best fit model, we will be prone to choose the model with the most predictor variables
-
-
----
-
-## Adjusted $R^2$
-
-- <font class="vocab">Adjusted $R^2$</font>: a version of $R^2$ that penalizes for unnecessary predictor variables
-<br> 
-
-- Similar to $R^2$, it measures the proportion of variation in the response that is explained by the regression model 
-<br>
-
-- Differs from $R^2$ by using the mean squares rather than sums of squares and therefore adjusting for the number of predictor variables
-
----
-
-## $R^2$ and Adjusted $R^2$
-
-$$R^2 = \frac{\text{Total Sum of Squares} - \text{Residual Sum of Squares}}{\text{Total Sum of Squares}}$$
-<br>
-
---
-
-.alert[
-$$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text{Total Mean Square}}$$
-]
-<br>
-
---
-
-- $Adj. R^2$ can be used as a quick assessment to compare the fit of multiple models; however, it should not be the only assessment!
-
---
-
-- Use $R^2$ when describing the relationship between the response and predictor variables
-
----
-
-### Restaurant tips: model
-
-```{r}
-model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
-kable(tidy(model1),format="html",digits=3)
-```
-
----
-
-## Restaurant tips: ANOVA
-
-- <font class="vocab">R output</font>
-
-```{r echo=F}
-kable(anova(model1),format="html",digits=3)
-```
-
---
-
-- <font class="vocab">ANOVA table</font>
-
-|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
-|------------------|----------------|--------------------|-------------|-------------|--------------------|
-| Regression (Model) | `r 1188.63588 + 88.46005 + 13.03236` | 5 | `r (1188.63588 + 88.46005 + 13.03236)/5` | `r ((1188.63588 + 88.46005 + 13.03236)/5)/(622.97932/163)` | 0 |
-| Residual | 622.97932	 | 163 | `r 622.97932/163`  |  |  |
-| Total | `r 1188.63588 + 88.46005 + 13.03236 + 622.97932	`  | 168 |  |  |  |
-
----
-
-### Calculating $R^2$ and Adj $R^2$
-
-|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
-|------------------|----------------|--------------------|-------------|-------------|--------------------|
-| Regression (Model) | `r 1188.63588 + 88.46005 + 13.03236` | 5 | `r (1188.63588 + 88.46005 + 13.03236)/5` | `r ((1188.63588 + 88.46005 + 13.03236)/5)/(622.97932/163)` | 0 |
-| Residual | 622.97932	 | 163 | `r 622.97932/163`  |  |  |
-| Total | `r 1188.63588 + 88.46005 + 13.03236 + 622.97932	`  | 168 |  |  |  |
-
-
-```{r}
-#r-squared
-tss <- 1188.63588 + 88.46005 + 13.03236 + 622.97932	
-rss <- 622.97932	
-(r_sq <- (tss - rss)/tss)
-```
-
---
-
-```{r}
-#adj r-squared
-tms <- tss/(nrow(tips)-1)
-rms <- 3.821959	
-(adj_r_sq <- (tms - rms)/tms)
-```
-
----
-
-### Restaurant tips: $R^2$ and Adj. $R^2$
-
-```{r}
-glance(model1)
-```
-<br>
-
-- Close values of $R^2$ and Adjusted $R^2$ indicate that the variables in the model are significant in understanding variation in tips
-
----
-
-## ANOVA F Test
-
-- Using the ANOVA table, we can test whether any variable in the model is a significant predictor of the response. We conduct this test using the following hypotheses: 
-
-.alert[
-$$\begin{aligned}&H_0: \beta_{1} =  \beta_{2} = \dots = \beta_p = 0 \\ 
-&H_a: \text{at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$
-]
-
-<br>
-
-- The statistic for this test is the $F$ test statistic in the ANOVA table 
-
-- We calculate the p-value using an $F$ distribution with $p$ and $(n-p-1)$ degrees of freedom
-
----
-
-## ANOVA F Test in R
-
-```{r}
-model0 <- lm(Tip ~ 1, data=tips)
-```
-
---
-
-```{r}
-model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
-```
-
---
-
-```{r}
-kable(anova(model0,model1),format="html")
-```
-
-**At least one coefficient is non-zero, i.e. at least one predictor in the model is significant**
----
-
-### Testing subset of coefficients
-
-- Sometimes we want to test whether a subset of coefficients are all equal to 0
-
-- This is often the case when we want test 
-    - whether a categorical variable with $k$ levels is a significant predictor of the response
-    - whether the interaction between a categorical and quantitative variable is significant
-
-- To do so, we will use the  <font class="vocab3">Nested F Test </font> 
-
----
-
-## Nested F Test
-
-- Suppose we have a full and reduced model: 
-
-$$\begin{aligned}&\text{Full}: y = \beta_0 + \beta_1 x_1 + \dots + \beta_q x_q + \beta_{q+1} x_{q+1} + \dots \beta_p x_p \\
-&\text{Red}: y = \beta_0 + \beta_1 x_1 + \dots + \beta_q x_q\end{aligned}$$
-<br>
-
-- We want to test whether any of the variables $x_{q+1}, x_{q+2}, \ldots, x_p$ are significant predictors. To do so, we will test the hypothesis: 
-
-.alert[
-$$\begin{aligned}&H_0: \beta_{q+1} =  \beta_{q+2} = \dots = \beta_p = 0 \\ 
-&H_a: \text{at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$
-]
-
----
-
-## Nested F Test
-
-- The test statistic for this test is 
-
-
-$$F = \frac{(RSS_{reduced} - RSS_{full})\big/(p_{full} - p_{reduced})}{RSS_{full}\big/(n-p_{full}-1)}$$
-<br> 
-
-- Calculate the p-value using the F distribution with $(p_{full} - p_{reduced})$ and $(n-p_{full}-1)$ degrees of freedom
-
----
-
-### Is `Meal` a significant predictor of tips?
-
-```{r echo=F}
-model.tips <- lm(Tip ~ Party + Age + Meal,data=tips)
-kable(tidy(model.tips),format="html", digits=3)
-```
-
----
-
-### Tips data:  Nested F Test
-
-$$\begin{aligned}&H_0: \beta_{late night} = \beta_{lunch} = 0\\
-&H_a: \text{ at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$
-
---
-
-```{r}
-reduced <- lm(Tip ~ Party + Age, data = tips)
-```
-
---
-
-```{r}
-full <- lm(Tip ~ Party + Age + Meal, data = tips)
-```
-
---
-
-```{r}
-kable(anova(full,reduced),format="html")
-```
-
---
-
-**At least one coefficient associated with `Meal` is not zero. Therefore, `Meal` is a significant predictor of `Tips`.**
-
----
-
-class: middle
-
-.question[
-Why is it not good practice to use the individual p-values to determine a categorical variable with $k > 2$ levels) is significant? *Hint*: What does it actually mean if none of the $k-1$ p-values are significant?
-]
-
----
-
-## Practice with Interactions 
-
-```{r echo=F}
-full <- lm(Tip ~ Party + Age + Meal + Meal*Party, data = tips)
-kable(tidy(full),format="html")
-```
-
-.question[
-1. Write the general form of the model. 
-2. Write the model for `Meal == "Late Night"`. 
-3. How does the mean change when `Meal == "Late Night"`? 
-4. How does the slope of `Party` change when `Meal == "Late Night"`?
-]
----
-
-### Nested F test for interactions
-
-**Is the interaction between `Party` and `Meal` significant?**
-
-```{r}
-reduced <- lm(Tip ~ Party + Age + Meal, data = tips)
-```
-
---
-
-```{r}
-full <- lm(Tip ~ Party + Age + Meal + Meal*Party, data = tips)
-```
-
---
-
-```{r}
-kable(anova(full,reduced),format="html")
-```
 
 ---
 
@@ -406,7 +94,7 @@ plot_grid(p1,p2,ncol=2)
   + This is often not the case - especially when dealing with multivariate data
 
 - We will use measures to quantify an individual observation's influence on the regression model 
-  + **Cook's distance**, **leverage**, **standardized residuals**
+  + **leverage**, **standardized residuals**, and **Cook's distance**
 
 ---
 
@@ -414,18 +102,20 @@ plot_grid(p1,p2,ncol=2)
 
 - <font class="vocab3">Leverage: </font> measure of the distance between an observation's explanatory variable values and the average explanatory variables for the whole data set
   
-- An observation has large leverage if its combination of values for the explanatory variables is very far from the typical combinations in the data 
+- An observation has high leverage if its combination of values for the explanatory variables is very far from the typical combinations in the data 
   + It is **<u>potentially</u>** an influential point, i.e. may have a large impact on the coefficient estimates and standard errors
 
 
-- **Note:** Identifying points with large leverage has nothing to do with the values of the response variables
+- **Note:** Identifying points with high leverage has nothing to do with the values of the response variables
 
 ---
 
 ## Caculating Leverage
 
 - <font class="vocab">Simple Regression:</font> leverage of the $i^{th}$ observation is 
-$$h_i = \frac{(X_i - \bar{X})^2}{\sum_{j=1}^{n}(X_j-\bar{X})^2} + \frac{1}{n}$$
+.alert[
+$$h_i =  \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum_{j=1}^{n}(x_j-\bar{x})^2}$$
+]
 
 
 - <font class="vocab">Multiple Regression:</font> leverage of the $i^{th}$ observation is the $i^{th}$ diagonal of
@@ -433,31 +123,31 @@ $$\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$$
 
 ---
 
-## Large Leverage
+## High Leverage
 
 - Values of leverage are between $\frac{1}{n}$ and 1 for each observation 
 
-- The average leverage for all observations in the data set is $\frac{p}{n}$
+- The average leverage for all observations in the data set is $\frac{(p+1)}{n}$
 
-- Determination of "large leverage" is relatively arbitrary 
-  + one threshold is $\frac{2p}{n}$
+- Determination of **high leverage** is relatively arbitrary 
+  + one threshold is $\frac{2(p+1)}{n}$
 
-- Observations with large leverage tend to have small residuals
+- Observations with high leverage tend to have small residuals
 
 ---
 
-## Large Leverage
+## High Leverage
 
-- Questions to check if you identify points with large leverage: 
+- Questions to check if you identify points with high leverage: 
   + Are they a result of data entry errors?
   + Are they in the scope for the individuals for which you want to make predictions?
   + Are they impacting the estimates of the model coefficients, especially for interactions?
 
-- Just because a point has large leverage does not necessarily mean it will have a substantial impact on the regression. Therefore you should check other measures.
+- Just because a point has high leverage does not necessarily mean it will have a substantial impact on the regression. Therefore you should check other measures.
 
 ---
 
-### Standardized (Studentized) Residuals
+### Standardized & Studentized Residuals
 
 - What is the best way to identify outliers (points that don't fit the pattern from the regression line)? 
   
@@ -477,12 +167,14 @@ $$\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$$
 
 ## Standardized Residuals 
 
-$$\color{blue}{standres_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}}$$
+.alert[
+$$std.res_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}$$
+]
 <br>
 
 --
 
-- The standard error of a residual, $\hat{\sigma}\sqrt{1-h_i}$ depends on the value of the explanatory variables 
+- The standard error of a residual, $\hat{\sigma}\sqrt{1-h_i}$ depends on the value of the predictor variables 
 
 --
 
@@ -490,35 +182,19 @@ $$\color{blue}{standres_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}}$$
 - Residuals for observations that are high leverage have smaller variance than residuals for observations that are low leverage 
 
   + This is because the regression line tries to fit high leverage observations as closely as possible
-
---
-
-- Standardized residuals follow a $N(0,1)$ distribution
-
+  
 ---
 
 ## Standardized Residuals 
 
 - Values with very large standardized residuals are outliers, since they don't fit the pattern determined by the regression model 
 
-- Since the standardized residuals follow $N(0,1)$ distribution, we expect about 5% of the standardized residuals to have magnitude greater than 2
+- Observations with standardized residuals with magnitude $ > 2$ should be more closely examined
 
 - Observations with large standardized residuals are outliers but may not have an impact on the regression line
 
-- <font class="vocab">Good Practice: </font>Make residual plots with standardized residuals, since they better reflect constant variance when that assumption holds
-
----
-
-### What to do with outliers?
-
-- It is **<font color="green">OK</font>** to drop an observation based on the **<u>explanatory variables</u>** if...
-  + It is meaningful to drop the observation given the context of the problem 
-  + You intended to build a model on a smaller range of the explanatory variables. Mention this in the write up of the results and be careful to avoid extrapolation when making predictions
-
-- It is **<font color="red">not OK</font>** to drop an observation based on the response variable
-  + These are legitimate observations and should be in the model
-- You can try transformations, increasing the sample size by collecting more data, or doing nothing. 
-  + It is fine to have some outliers in the data
+- <font class="vocab">Good Practice: </font>Make residual plots with standardized residuals
+    - It is easier to identify outliers and check for constant variance assumption
 
 ---
 
@@ -527,8 +203,10 @@ $$\color{blue}{standres_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}}$$
 - If a observation has a large impact on the estimated regression coefficients, when we drop that observation...
   + The estimated coefficients should change 
   + The predicted $Y$ value for that observation should change
+  
 - One way to determine each observation's impact could be to delete it, rerun the regression, compare the predicted $Y$ values from the new and original models
   + This could be very time consuming 
+  
 - Instead, we can use <font class="vocab3">Cook's Distance</font> which gives a measure of the change in the predicted $Y$ value when an observation is dropped
 
 ---
@@ -538,129 +216,216 @@ $$\color{blue}{standres_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}}$$
 - <font class="vocab3">Cook's Distance: </font> Measure of an observation's overall impact, i.e. the effect removing the observation has on the estimated coefficients
 
 - For the $i^{th}$ observation, we can calculate Cook's Distance as 
-$$\color{blue}{D_i = \frac{1}{p}(standres_i)^2\bigg(\frac{h_i}{1-h_i}\bigg)}$$
+.alert[
+$$D_i = \frac{1}{p}(std.res_i)^2\bigg(\frac{h_i}{1-h_i}\bigg)$$
+]
 
----
+- *Note:* Cook's distance, $D_i$, incorporates both the residual and the leverage for each observation
 
-## Large Cook's Distance
-
-- It is **<font color="green">OK</font>** to drop an observation based on the **<u>explanatory variables</u>** if...
-  + It is meaningful to drop the observation given the context of the problem 
-  + You intended to build a model on a smaller range of the explanatory variables. Mention this in the write up of the results and be careful to avoid extrapolation when making predictions
-- It is **<font color="red">not OK</font>** to drop an observation based on the response variable
-  + These are legitimate observations and should be in the model
-- You can try transformations or increasing the sample size by collecting more data
+- An observation with large $D_i$ is said to have a strong influence on the predicted values 
 
 ---
 
 ## Using these measures
 
-- standardized residuals, leverage, and Cook's Distance should all be examined together 
+- Standardized residuals, leverage, and Cook's Distance should all be examined together 
 
 - Examine plots of the measures to identify observations that may have an impact on your regression model 
 
-- Thresholds for flagging potentially influential observations used by some software: 
-  + $D_i > 1$
-  + $h_i > 2p/n$
-  + $|standres_i| > 2$
-  
+- Some thresholds for flagging potentially influential observations:
+  + **Leverage**: $h_i > \frac{2(p+1)}{n}$ (some software uses $2p/n$)
+  + **Standardized Residuals**: $|std.res_i| > 2$
+  + **Cook's Distance**: $D_i > 1$
+
 ---
 
-## Example: Diamonds Data 
+### What to do with outliers/influential observations?
 
-- We will build a regression model using 300 randomly selected observations for the `diamonds` data 
+- It is **<font color="green">OK</font>** to drop an observation based on the **<u>predictor variables</u>** if...
+    - It is meaningful to drop the observation given the context of the problem 
+    - You intended to build a model on a smaller range of the predictor variables. Mention this in the write up of the results and be careful to avoid extrapolation when making predictions
+
+--
+
+- It is **<font color="red">not OK</font>** to drop an observation based on the response variable
+    - These are legitimate observations and should be in the model
+- You can try transformations or increasing the sample size by collecting more data
+
+--
+
+- In either instance, you can try building the model with and without the outliers/influential observations
+
+---
+
+## Model diagnostics in R
+
+- Use the <font class="vocab">`augment`</font> function in the broom package to output the model diagnostics (along with the predicted values and residuals)
+
+- Output from `augment` : 
+    - response and predictor variables in the model
+    - `.fitted`: predicted values
+    - `.se.fit`: standard errors of predicted values
+    - `.resid`: residuals
+    - **`.hat`**: leverage
+    - `.sigma`: estimate of residual standard deviation when corresponding observation is dropped from model
+    - **`.cooksd`**: Cook's distance
+    - **`.std.resid`**: standardized residuals
+
+---
+
+## Example: Restaurant tips
+
+What affects the amount customers tip at a restaurant?
+
+- **Response:**
+    - <font class="vocab">`Tip`</font>: amount of the tip
+    
+- **Predictors:**
+    - <font class="vocab">`Party`</font>: number of people in the party
+    - <font class="vocab">`Meal`</font>:  time of day (Lunch, Dinner, Late Night) 
+    - <font class="vocab">`Age`</font>: age category of person paying the bill (Yadult, Middle, SenCit)
 
 ```{r}
-set.seed(12)
-diamonds <- diamonds %>% filter(carat < 1.1)
-diamonds_data <- diamonds %>% 
-  sample_n(300) %>%
-  mutate(logprice= log(price),
-         caratCent = carat - mean(carat),
-         caratCent.sq = caratCent^2, 
-         carat.sq = carat^2)
+tips <- read_csv("data/tip-data.csv") %>%
+  filter(!is.na(Party))
+```
+
+
+---
+
+## Example: Tips
+
+```{r}
+model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
+kable(tidy(model1),format="html",digits=3)
 ```
 
 ---
 
-## Diamonds Model 
+## Using `augment` function
 
+- Use the `augment` function to add predicted values and model diagnostics to data
+    - Add the observation number for diagnostic plots
+    
 ```{r}
-diamonds_model <- lm(logprice ~ caratCent + caratCent.sq + 
-                       color + clarity, data=diamonds_data)
-kable(tidy(diamonds_model),format="html")
-```
-
----
-
-## Diamonds Model Output 
-
-- We can output the model diagnostics (along with the predicted values and residuals) using the <font class="vocab">`augment`</font> function in the broom package
-
-```{r}
-#add leverage, cook's distance and standardized residuals to data set
-diamonds_output <- augment(diamonds_model) %>%
+tips_output <- augment(model1) %>%
   mutate(obs_num = row_number())
 ```
 
 ---
 
-## Diamonds Model Output 
+## Augmented data
 
 ```{r}
-glimpse(diamonds_output)
-```
----
-
-## Diamonds: Leverage
-
-```{r}
-ggplot(data=diamonds_output, aes(x=obs_num,y=.hat)) + 
-  geom_point(alpha=0.5) + 
-  geom_hline(yintercept=0.1,color="red")+
-  labs(x="Observation Number",y="Leverage",title="Leverage")
-```
-
-
----
-
-### Diamonds: Cook's Distance
-
-```{r}
-ggplot(data=diamonds_output, aes(x=obs_num,y=.cooksd)) + 
-  geom_point() + 
-  geom_hline(yintercept=1,color="red")+
-  labs(x="Observation Number",y="Cook's Distance",title="Cook's Distance")
+glimpse(tips_output)
 ```
 
 ---
 
-### Diamonds: Standardized Residuals
+## Leverage
 
-```{r echo=F}
-p1 <- ggplot(data=diamonds_output, aes(x=.fitted,y=.std.resid)) +
+```{r}
+leverage_threshold <- 2*(5+1)/nrow(tips)
+```
+
+```{r}
+ggplot(data = tips_output, aes(x = obs_num,y = .hat)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = leverage_threshold,color = "red")+
+  labs(x = "Observation Number",y = "Leverage",title = "Leverage") +
+  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
+```
+
+---
+
+### Points with high leverage
+
+```{r}
+tips_output %>% filter(.hat > leverage_threshold) %>% 
+  select(Party, Meal, Age)
+```
+
+.question[
+Why do you think these points have high leverage?
+]
+
+---
+
+### Standardized Residuals vs. Predicted
+
+```{r}
+ggplot(data = tips_output, aes(x = .fitted,y = .std.resid)) +
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = 0,color = "red") +
+  geom_hline(yintercept = -2,color = "red",linetype = "dotted") +
+  geom_hline(yintercept = 2,color = "red",linetype = "dotted") +
+  labs(x ="Predicted Value",y ="Standardized Residuals",title = "Standardized Residuals vs. Predicted") +
+  geom_text(aes(label = ifelse(abs(.std.resid) >2,as.character(obs_num),"")), nudge_x = 0.3)
+```
+
+---
+
+### Standardized residuals vs. predictors 
+
+```{r echo=F, fig.height = 5}
+p1 <- ggplot(data = tips_output, aes(x = Party, y=.std.resid)) + 
   geom_point() + 
-  geom_hline(yintercept=0,color="red")
-p2 <- ggplot(data=diamonds_output, aes(x=caratCent,y=.std.resid)) + 
-  geom_point() + 
-  geom_hline(yintercept=0,color="red")
-p3 <- ggplot(data=diamonds_output, aes(x=color,y=.std.resid)) + 
+  geom_hline(yintercept = 0,color = "red")
+p2 <- ggplot(data=tips_output, aes(x = Meal, y = .std.resid)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red")
-p4 <- ggplot(data=diamonds_output, aes(x=clarity,y=.std.resid)) + 
+p3 <- ggplot(data = tips_output, aes(x = Age, y = .std.resid)) + 
   geom_boxplot() + 
   geom_hline(yintercept=0,color="red")
-plot_grid(p1,p2,p3,p4,ncol=2)
+plot_grid(p1,p2,p3,ncol=2)
 ```
 
 ---
 
-## Observations of Interest
+### Points with large magnitude std.res.
 
 ```{r}
-diamonds_output %>% filter(.hat > 0.2) %>% 
-  select(logprice,color,clarity,caratCent)
+tips_output %>% filter(abs(.std.resid) > 2) %>% 
+  select(Party, Meal, Age, Tip)
 ```
+
+.question[
+- Why do you think these points have standardized residuals with large magnitude?
+- What other variables could you examine?
+]
+
+---
+
+## Why we want to find outliers
+
+- Estimate of regression standard deviation, $\hat{\sigma}$, using all observations
+
+```{r}
+glance(model1)$sigma
+```
+
+- Estimate of $\hat{\sigma}$ without points with large magnitude standardized residuals
+
+```{r}
+tips_output %>%
+  filter(abs(.std.resid) <= 2) %>%
+  summarise(sigma_est = sqrt(sum(.resid^2)/(n() - 5 - 1)))
+```
+
+- Recall that we use $\hat{\sigma}$ to calculate the standard errors for all confidence intervals and p-values, so outliers can affect conclusions drawn from model
+
+---
+
+### Cook's Distance
+
+```{r}
+ggplot(data = tips_output, aes(x = obs_num, y = .cooksd)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept=1,color = "red")+
+  labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
+  geom_text(aes(label = ifelse(.hat>1,as.character(obs_num),"")))
+```
+
 ---
 
 class: middle, center
@@ -737,7 +502,9 @@ Multicollinearity may occur when...
 
 - <font class="vocab">Variance Inflation Factor (VIF)</font>: Measure of multicollinearity 
 
-$$\color{blue}{VIF = \frac{1}{1-R^2_X}}$$
+.alert[
+$$VIF(\hat{\beta}_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}$$
+]
 
 where $R^2_X$ is the proportion of variation $X$ that is explained by the linear combination of the other explanatory variables in the model.
 
@@ -745,27 +512,46 @@ where $R^2_X$ is the proportion of variation $X$ that is explained by the linear
 - Typically $VIF > 10$ indicates concerning multicollinearity
 
 
-- Use the <font class="vocab">`vif()`</font> function in the `car` package to calculate VIF
+- Use the <font class="vocab">`vif()`</font> function in the `rms` package to calculate VIF
 
 ---
 
-## Diamonds VIF
+## Tips VIF
 
 - Calculate VIF using the <font class="vocab">`vif`</font> function in the rms package 
 
 ```{r}
 library(rms)
-tidy(vif(diamonds_model))
+tidy(vif(model1))
 ```
 
+---
 
-<!-- --- -->
+### Calculating VIF for `Party`
 
-<!-- ## Diamonds VIF -->
+```{r}
+party_model <- lm(Party ~ Meal + Age, data=tips)
+r.sq <- glance(party_model)$r.squared
+(vif <- 1/(1-r.sq))
+```
 
-<!-- ```{r} -->
-<!-- diamonds_data %>% group_by(clarity) %>% summarise(n=n()) -->
-<!-- ``` -->
+---
+
+### Calculating VIF for `MealLateNight`
+
+```{r}
+# create indicator variables for Meal
+tips <- tips %>% 
+  mutate(late_night = if_else(Meal=="Late Night",1,0), 
+         lunch = if_else(Meal=="Lunch",1,0))
+```
+
+```{r}
+late_night_model <- lm(late_night ~ lunch + Party + Age, data=tips)
+r.sq <- glance(late_night_model)$r.squared
+(vif <- 1/(1-r.sq))
+```
+
 
 
 
