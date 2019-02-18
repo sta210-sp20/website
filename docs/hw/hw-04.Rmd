@@ -69,15 +69,22 @@ m_logprice_aug %>%
 ```
 
 3. First, we will examine we will examine the leverage for each observation. 
-    a. Based on the lecture notes, what threshold will we use to determine if observations are high leverage points? 
-    b. Plot the leverage vs. the observation number (you may need to create a new variable that contains the observation number). Include a line in the plot marking the threshold from part (a).
-    c. How many observations are considered high leverage? 
-    d. Based on Cook's distance, do these points have a significant influence on the model coefficents? Briefly explain.   
 
-4. Next, we will examine the standardized residuals. 
-    a. Plot the standardized residuals versus the predicted values. Include lines at 2 and -2 indicating the thresholds used to determine if standardized residuals have a large magnitude.
-    b. Based on our thresholds, how many observations are considered to have standarized residuals with large magnitude?
-    c. We can approximate the distribution of standardized residuals using a $N(0,1)$ distribution. Based on this, what proportion of observations do you expect to have standardized residuals with magntiude $> 2$? Consider your answer from part (b). Do you think there is a concern with the number of observations flagged as having standardized residuals with large magnitude? Briefly explain. 
+    - Based on the lecture notes, what threshold will we use to determine if observations are high leverage points? 
+    
+    - Plot the leverage vs. the observation number (you may need to create a new variable that contains the observation number). Include a line in the plot marking the threshold from the previous part. 
+    
+    - How many observations are considered high leverage? 
+    
+    - Based on Cook's distance, do these points have a significant influence on the model coefficents? Briefly explain.   
+
+4. Next, we will examine the standardized residuals.  
+
+    - Plot the standardized residuals versus the predicted values. Include lines at 2 and -2 indicating the thresholds used to determine if standardized residuals have a large magnitude.
+    
+    - Based on our thresholds, how many observations are considered to have standarized residuals with large magnitude?
+    
+    - We can approximate the distribution of standardized residuals using a $N(0,1)$ distribution. Based on this, what proportion of observations do you expect to have standardized residuals with magntiude $> 2$? Consider your answer from part the previous part. Do you think there is a concern with the number of observations flagged as having standardized residuals with large magnitude? Briefly explain. 
     
 5. Use the `vif` function in the *rms* package to find the variance inflation factor for each predictor variable in the model. Are there any obvious concerns with multicollinearity in this model? Briefly explain. 
 

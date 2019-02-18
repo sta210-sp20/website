@@ -140,8 +140,15 @@ ol>li:before {
 	font-weight: bold;
 }
 
-ol ol {
-	counter-reset: subitem;
+ol ol>li:before {
+	counter-reset: sub-item;
+		/* Use the counter as content */
+	/* Increment the counter by 1 */
+	position: absolute;
+	color: #1689AE;
+	left: -0.5px;
+	font-weight: bold;
+	padding-left: 90px;
 }
 
 .td {
