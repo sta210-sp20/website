@@ -31,6 +31,7 @@ We will use the following packages in this assignment:
 library(tidyverse)
 library(broom)
 library(knitr) 
+library(rms)
 ```
 
 ## Data 
@@ -68,7 +69,7 @@ m_logprice_aug %>%
   slice(1:5)
 ```
 
-3. First, we will examine we will examine the leverage for each observation. 
+3. First, we will examine the leverage for each observation. 
 
     - Based on the lecture notes, what threshold will we use to determine if observations are high leverage points? 
     

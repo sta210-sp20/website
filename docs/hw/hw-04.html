@@ -238,7 +238,8 @@ div.tocify {
 <p>We will use the following packages in this assignment:</p>
 <pre class="r"><code>library(tidyverse)
 library(broom)
-library(knitr) </code></pre>
+library(knitr) 
+library(rms)</code></pre>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
@@ -271,7 +272,7 @@ library(knitr) </code></pre>
 <pre class="r"><code>m_logprice_aug %&gt;%
   slice(1:5)</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li><p>First, we will examine we will examine the leverage for each observation.</p>
+<li><p>First, we will examine the leverage for each observation.</p>
 <ul>
 <li><p>Based on the lecture notes, what threshold will we use to determine if observations are high leverage points?</p></li>
 <li><p>Plot the leverage vs. the observation number (you may need to create a new variable that contains the observation number). Include a line in the plot marking the threshold from the previous part.</p></li>

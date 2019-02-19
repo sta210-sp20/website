@@ -96,6 +96,7 @@ lessons:
     title: "Exam I"
    # reading: "reading-04.html"
    # slides: "lec-slides/07a-model-nonlinear-intro-mlr.html"
+    hw: "hw-04.html"
   - date: "Wed, Feb 27"
     title: "Model Selection"
     reading: "reading-06.html"
