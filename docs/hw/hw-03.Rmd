@@ -72,7 +72,7 @@ kable(tidy(model),format="markdown")
 
 3. What subset is described by the intercept? In other words, 52.387 feet per second is the average speed for the winner in what race(s)? Is the intercept meaningful? Explain.
 
-4. What is the p-value for the test that the mean winning speed is the same for fast track conditions and good track conditions (holding year and starters constant)? 
+4. What is the p-value for the test that the mean winning speed is the same for fast track conditions and good track conditions, given *year* and *starters* both equal 0? 
 
 5. What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions (holding year and starters constant)? 
 
