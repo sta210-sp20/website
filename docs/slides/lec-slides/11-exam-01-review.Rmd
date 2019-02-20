@@ -123,4 +123,4 @@ class: middle, center
 
 ## Diamonds Analysis 
 
-- Copy the **Diamonds: Exam 01 Review** project on RStudio Cloud.
+- Copy the **Diamonds - Exam 01 Review** project on RStudio Cloud.
