@@ -1,0 +1,91 @@
+---
+title: "Diamond: Exam 01 Review"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,
+                   message=FALSE)
+```
+
+```{r load-packages}
+library(tidyverse)
+library(broom)
+library(rms)
+```
+
+```{r prepare-data}
+set.seed(12)
+diamonds_samp <- diamonds %>% 
+  filter(carat < 1.1) %>%
+  sample_n(300) %>%
+  mutate(log_price = log(price), 
+         caratCent = carat - mean(carat), 
+         caratCent_sq = caratCent^2, 
+        color = factor(as.character(color)), # to fix variable format in model output
+        clarity = factor(as.character(clarity)) # to fix variable format in model output
+)
+```
+
+### Main Effects Model
+
+- Why should we use `logprice` instead of `price` as the response variable? In other words, what is an example of previous analysis that could have been done to help us determine whether to use `logprice` or `price`?
+
+- Below is the model with `log_price` as the response and `caratCent`, `color`, and `clarity` as the predictor variables.
+
+```{r}
+model_orig <- lm(log_price ~ caratCent +  color + clarity, data=diamonds_samp)
+tidy(model_orig)
+```
+
+- What is the baseline level of `color`? What is the baseline level of `clarity`? 
+
+- Interpret the intercept in terms of `price`. 
+
+- Describe the difference in the typical prices of diamonds that are color E and diamonds that are color D, holding all else constant. 
+
+- Describe the difference in the typical prices of diamonds that are color E and diamonds that are color G, holding all else constant. 
+
+- Use the code below to obtain the ANOVA table for this model.
+
+```{r}
+anova(model_orig)
+```
+
+- What is the estimated regression variance? 
+
+- Compare $R^2$ and $Adj. R^2$. What does this comparison tell you about the predictors in the model?
+
+- Use the code below to calculate the VIF for this model.
+
+```{r}
+vif(model_orig)
+```
+
+- This model has potential problems with multicollinearity. How did we come to this conclusion? Which variables are highly collinear?
+
+- Why do you think this multicollinearity is occurring? *Hint: Examine the distribution of the variable(s) that have high multicollinearity.*
+
+## Model with Interactions 
+
+- Below is the model that includes an interaction term between `caratCent` and `color`. What is the appropriate method to determine if the interaction is significant? 
+
+```{r}
+model_int <- lm(log_price ~ caratCent + color + 
+                  clarity + caratCent*color, data=diamonds_samp)
+```
+
+- Conduct the test you listed above. What is your conclusion? 
+
+
+*Regardless of your answer to the previous question, use `model_int` to answer the next two questions:*
+
+
+- What is the estimated slope of `caratCent` for a diamond with `color==D`? 
+
+- What is the estimated slope of `caratCent` for a diamond with `color==J`?
+
+
+
+
