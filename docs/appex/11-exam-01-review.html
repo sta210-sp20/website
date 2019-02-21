@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-02-19" />
+<meta name="date" content="2019-02-21" />
 
 <title>Diamond: Exam 01 Review</title>
 
@@ -122,7 +122,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Diamond: Exam 01 Review</h1>
-<h4 class="date"><em>2019-02-19</em></h4>
+<h4 class="date"><em>2019-02-21</em></h4>
 
 </div>
 
@@ -143,9 +143,15 @@ diamonds_samp &lt;- diamonds %&gt;%
 <div id="main-effects-model" class="section level3">
 <h3>Main Effects Model</h3>
 <ul>
-<li><p>Why should we use <code>logprice</code> instead of <code>price</code> as the response variable? In other words, what is an example of previous analysis that could have been done to help us determine whether to use <code>logprice</code> or <code>price</code>?</p></li>
-<li><p>Below is the model with <code>log_price</code> as the response and <code>caratCent</code>, <code>color</code>, and <code>clarity</code> as the predictor variables.</p></li>
+<li><strong>Why should we use <code>logprice</code> instead of <code>price</code> as the response variable? In other words, what is an example of previous analysis that could have been done to help us determine whether to use <code>logprice</code> or <code>price</code>?</strong></li>
 </ul>
+<p>To determine if a transformation on the response variable is needed, we can examine the following:</p>
+<ul>
+<li>The distribution of the response variable to see if there is extreme skewness</li>
+<li>The plot of the residuals vs. predicted to check for non-constant variance</li>
+<li>The histogram and QQ-plot of the residuals to see if there is extreme skewness in the residuals</li>
+</ul>
+<p>Below is the model with <code>log_price</code> as the response and <code>caratCent</code>, <code>color</code>, and <code>clarity</code> as the predictor variables.</p>
 <pre class="r"><code>model_orig &lt;- lm(log_price ~ caratCent +  color + clarity, data=diamonds_samp)
 tidy(model_orig)</code></pre>
 <pre><code>## # A tibble: 15 x 5
@@ -167,12 +173,53 @@ tidy(model_orig)</code></pre>
 ## 14 clarityVVS1   1.12      0.114       9.81 8.90e- 20
 ## 15 clarityVVS2   0.963     0.114       8.44 1.66e- 15</code></pre>
 <ul>
-<li><p>What is the baseline level of <code>color</code>? What is the baseline level of <code>clarity</code>?</p></li>
-<li><p>Interpret the intercept in terms of <code>price</code>.</p></li>
-<li><p>Describe the difference in the typical prices of diamonds that are color E and diamonds that are color D, holding all else constant.</p></li>
-<li><p>Describe the difference in the typical prices of diamonds that are color E and diamonds that are color G, holding all else constant.</p></li>
-<li><p>Use the code below to obtain the ANOVA table for this model.</p></li>
+<li><strong>What is the baseline level of <code>color</code>? What is the baseline level of <code>clarity</code>?</strong></li>
 </ul>
+<p>The baseline level of <code>color</code> is <code>D</code>. The baseline level of <code>clarity</code> is <code>I1</code>.</p>
+<ul>
+<li><strong>Interpret the intercept in terms of <code>price</code>.</strong></li>
+</ul>
+<p>We expect the median price of diamonds with color D, clarity I1, and the mean carat weight (0.6024333) to be approximately $exp{5.9707} = $ $391.78.</p>
+<ul>
+<li><strong>Describe the difference in the typical prices of diamonds that are color E and diamonds that are color D, holding all else constant.</strong></li>
+</ul>
+<p>The difference in terms of the log(price) is the coefficient of <code>colorE</code>, -0.01446831. Therefore, the difference in terms of the price is</p>
+<pre class="r"><code>(diff_e_d &lt;- exp(-0.01446831))</code></pre>
+<pre><code>## [1] 0.9856359</code></pre>
+<p>Therefore, holding all else constant, diamonds that are color E are expected to have a median price that is 0.986 times the median price of diamonds that are color D.</p>
+<ul>
+<li><strong>Describe the difference in the typical prices of diamonds that are color E and diamonds that are color G, holding all else constant.</strong></li>
+</ul>
+<pre class="r"><code>(diff_e_g_log &lt;- -0.01446831 - -0.13073057)</code></pre>
+<pre><code>## [1] 0.1162623</code></pre>
+<p>Therefore, the difference in terms of the price is</p>
+<pre class="r"><code>(diff_e_g &lt;- exp(diff_e_g_log))</code></pre>
+<pre><code>## [1] 1.12329</code></pre>
+<p>Therefore, holding all else constant, diamonds that are color E are expected to have a median price that is 1.123 times the median price of diamonds that are color G.</p>
+<ul>
+<li><strong>What is the predicted price of a single diamond that has color E, clarity VS2 and is 0.3 carats? Finish the code below the predicted value and the corresponding interval.</strong></li>
+</ul>
+<pre class="r"><code>x0 &lt;- data.frame(color=&quot;E&quot;, clarity=&quot;VS2&quot;, carat=0.3)
+x0 &lt;- x0 %&gt;% mutate(
+  caratCent = carat - mean(diamonds_samp$carat),
+  caratCent_sq = caratCent^2
+)
+
+(exp(predict(model_orig,x0,interval=&quot;prediction&quot;))) #interval to predict for single observation</code></pre>
+<pre><code>##        fit      lwr      upr
+## 1 749.1419 550.5672 1019.337</code></pre>
+<ul>
+<li><p><strong>Suppose we wish to find the predicted median price of subset of all diamonds with color E, clarity VS2, and 0.3 carats. How do you expect the predicted price to change? How do you expect the corresponding interval to change?</strong></p>
+<ul>
+<li>The predicted price won’t change, but the interval will be more narrow.</li>
+</ul></li>
+<li><p><strong>Write code to find the predicted price and corresponding interval for the median price for the subset of all diamonds with color E, clarity VS2 and 0.3 carats.</strong></p></li>
+</ul>
+<pre class="r"><code>(exp(predict(model_orig,x0,interval=&quot;confidence&quot;))) #interval to predict typical price for subset</code></pre>
+<pre><code>##        fit      lwr      upr
+## 1 749.1419 705.9399 794.9878</code></pre>
+<p><br><br></p>
+<p>Use the code below to obtain the ANOVA table for this model.</p>
 <pre class="r"><code>anova(model_orig)</code></pre>
 <pre><code>## Analysis of Variance Table
 ## 
@@ -185,9 +232,15 @@ tidy(model_orig)</code></pre>
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <ul>
-<li><p>What is the estimated regression variance?</p></li>
-<li><p>Compare <span class="math inline">\(R^2\)</span> and <span class="math inline">\(Adj. R^2\)</span>. What does this comparison tell you about the predictors in the model?</p></li>
-<li><p>Use the code below to calculate the VIF for this model.</p></li>
+<li><strong>What is the estimated regression variance?</strong></li>
+</ul>
+<p>The estimated regression variance is the Residual Mean Square, 0.0204.</p>
+<ul>
+<li><strong>Compare <span class="math inline">\(R^2\)</span> and <span class="math inline">\(Adj. R^2\)</span>. What does this comparison tell you about the predictors in the model?</strong></li>
+</ul>
+<p><span class="math inline">\(R^2\)</span> is 0.9654056 and Adjusted <span class="math inline">\(R^2\)</span> is 0.9637063. These values are very close, indicating that the predictors in the model are important for understanding variation in price. There aren’t a lot of predictors in the model that aren’t significant.</p>
+<ul>
+<li>Use the code below to calculate the VIF for this model.</li>
 </ul>
 <pre class="r"><code>vif(model_orig)</code></pre>
 <pre><code>##   caratCent      colorE      colorF      colorG      colorH      colorI 
@@ -197,25 +250,68 @@ tidy(model_orig)</code></pre>
 ## clarityVVS1 clarityVVS2 
 ##   15.415579   14.937186</code></pre>
 <ul>
-<li><p>This model has potential problems with multicollinearity. How did we come to this conclusion? Which variables are highly collinear?</p></li>
-<li><p>Why do you think this multicollinearity is occuring? <em>Hint: Examine the distribution of the variable(s) that have high multicollinearity.</em></p></li>
+<li><strong>This model has potential problems with multicollinearity. How did we come to this conclusion? Which variables are highly collinear?</strong></li>
 </ul>
+<p>We know this model has potential problems with multicollinearity, because there are multiple predictors with VIFs close or above 10. The variables with high collinearity are the indicator variables for <code>clarity</code>.</p>
+<ul>
+<li><strong>Why do you think this multicollinearity is occurring? <em>Hint: Examine the distribution of the variable(s) that have high multicollinearity.</em></strong></li>
+</ul>
+<p>Let’s look at the distribution of <code>clarity</code>.</p>
+<pre class="r"><code>diamonds_samp %&gt;% 
+  count(clarity)</code></pre>
+<pre><code>## # A tibble: 8 x 2
+##   clarity     n
+##   &lt;fct&gt;   &lt;int&gt;
+## 1 I1          2
+## 2 IF         11
+## 3 SI1        67
+## 4 SI2        47
+## 5 VS1        47
+## 6 VS2        65
+## 7 VVS1       31
+## 8 VVS2       30</code></pre>
+<p>The baseline level is <code>I1</code>, and there are only 4 observations out of 300 with this level for clarity. Because there are so few observations at the baseline level, it is almost as if we have no baseline level for the categorical predictor <code>clarity</code> in the model. Remember, if we have no baseline level for a categorical variable in the model and there is an intercept, then the indicator variables are just linear combinations for one another. In this case, the indicator variables aren’t exact linear combinations of one another, but they are highly collinear.</p>
+<p>This multicollinearity is reduced when the baseline level is changed to a different level of <code>clarity</code>. Below is the VIF for a model with <code>IF</code>, the highest level of clarity as the baseline.</p>
+<pre class="r"><code>diamonds_samp %&gt;% 
+  mutate(clarity = fct_rev(clarity)) %&gt;% #reverse the factoring order of clarity
+  lm(log_price ~ caratCent +  color + clarity, data=.) %&gt;%
+  vif()</code></pre>
+<pre><code>##   caratCent      colorE      colorF      colorG      colorH      colorI 
+##    1.358048    1.747926    2.025269    2.120465    1.836018    1.624679 
+##      colorJ clarityVVS1  clarityVS2  clarityVS1  claritySI2  claritySI1 
+##    1.240465    1.853290    2.604675    2.222750    2.551777    2.624684 
+##   clarityIF   clarityI1 
+##    1.371711    1.099082</code></pre>
 </div>
 <div id="model-with-interactions" class="section level2">
 <h2>Model with Interactions</h2>
 <ul>
-<li>Below is the model that includes an interaction term between <code>caratCent</code> and <code>color</code>. What is the appropriate method to determine if the interaction is significant?</li>
+<li><p>Below is the model that includes an interaction term between <code>caratCent</code> and <code>color</code>. What is the appropriate method to determine if the interaction is significant?</p></li>
+<li><p>We should use the nested F test.</p></li>
 </ul>
 <pre class="r"><code>model_int &lt;- lm(log_price ~ caratCent + color + 
                   clarity + caratCent*color, data=diamonds_samp)</code></pre>
 <ul>
-<li>Conduct the appropriate test. What is your conclusion?</li>
+<li>Conduct the test you listed above. What is your conclusion?</li>
 </ul>
+<pre class="r"><code>anova(model_orig, model_int)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: log_price ~ caratCent + color + clarity
+## Model 2: log_price ~ caratCent + color + clarity + caratCent * color
+##   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+## 1    285 6.7179                           
+## 2    279 6.5733  6   0.14463 1.0231 0.4104</code></pre>
+<p>The p-value is 0.1412, indicating that there is not sufficient evidence that the interaction between carat and color is significant.</p>
 <p><em>Regardless of your answer to the previous question, use <code>model_int</code> to answer the next two questions:</em></p>
 <ul>
-<li><p>What is the estimated slope of <code>caratCent</code> for a diamond with <code>color==D</code>?</p></li>
-<li><p>What is the estimated slope of <code>caratCent</code> for a diamond with <code>color==J</code>?</p></li>
+<li><strong>What is the estimated slope of <code>caratCent</code> for a diamond with <code>color==D</code>?</strong></li>
 </ul>
+<p>When color is D, the estimated slope of <code>caratCent</code> is 4.34013.</p>
+<ul>
+<li><strong>What is the estimated slope of <code>caratCent</code> for a diamond with <code>color==J</code>?</strong></li>
+</ul>
+<p>When color is J, the estimated slope of <code>caratCent</code> is 4.34013 + -0.46343 = 3.8767.</p>
 </div>
 
 
