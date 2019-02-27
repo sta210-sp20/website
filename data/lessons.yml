@@ -100,7 +100,7 @@ lessons:
   - date: "Wed, Feb 27"
     title: "Model Selection"
     reading: "reading-06.html"
-   # slides: "lec-slides/07b-mlr-model-select.html"
+    slides: "lec-slides/12-model-selection.html"
   - date: "Fri, Mar 1"
     title: "Lab 06"
    # lab: "lab-07-mlr-course-evals.html"
