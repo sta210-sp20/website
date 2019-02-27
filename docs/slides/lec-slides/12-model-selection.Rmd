@@ -268,7 +268,7 @@ $$\begin{aligned} & AIC = n\log(RSS) - n \log(n) + \color{red}{2(p+1)} \\
 
 ---
 
-### `step` function (AIC selection criteria)
+### `step` function (AIC)
 
 ```{r,eval=F}
 null_model <- lm(Y ~ 1, data = my_data)
@@ -297,7 +297,7 @@ regfit_hybrid <- step(full_model, null_model, method="both")
 
 ---
 
-### `regsubsets` function (BIC, Adj. $R^2$ selection criteria)
+### `regsubsets` function (BIC, Adj. $R^2$)
 
 - Forward selection 
 
@@ -318,7 +318,7 @@ regfit_backward <- regsubsets(Y ~ ., data = my_data,
 
 ```{r eval=F}
 sel_summary <- summary(regfit_forward)
-coef(regfit_forward, which.max(sel_summary$adjr2)) # Adj R-sq criteria
-coef(regfit_forward, which.min(sel_summary$bic)) # BIC criteria
+coef(regfit_forward, which.max(sel_summary$adjr2)) # Adj R-sq 
+coef(regfit_forward, which.min(sel_summary$bic)) # BIC 
 ```
 

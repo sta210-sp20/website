@@ -257,7 +257,7 @@ Suppose you are on a committee tasked with improving the average SAT scores for 
 
 ---
 
-### `step` function (AIC selection criteria)
+### `step` function (AIC)
 
 
 ```r
@@ -290,26 +290,32 @@ regfit_hybrid &lt;- step(full_model, null_model, method="both")
 
 ---
 
-### `regsubsets` function (BIC, Adj. `\(R^2\)` selection criteria)
+### `regsubsets` function (BIC, Adj. `\(R^2\)`)
 
 - Forward selection 
 
 
 ```r
-regfit_forward &lt;- regsubsets(Y ~ ., data = my_data, method="forward")
-sel_summary &lt;- summary(regfit_forward)
-coef(regfit_forward, which.max(sel_summary$adjr2)) # Adj R-sq criteria
-coef(regfit_forward, which.min(sel_summary$bic)) # BIC criteria
+regfit_forward &lt;- regsubsets(Y ~ ., data = my_data, 
+                             method="forward")
 ```
 
-- Backward selection
+- Backward selection 
 
 
 ```r
-regfit_backward &lt;- regsubsets(Y ~ ., data = my_data, method="backward")
-sel_summary &lt;- summary(regfit_backward)
-coef(regfit_backward, which.max(sel_summary$adjr2)) # Adj R-sq criteria
-coef(regfit_backward, which.min(sel_summary$bic)) # BIC criteria
+regfit_backward &lt;- regsubsets(Y ~ ., data = my_data, 
+                              method="backward")
+```
+
+- Choose the best model:
+    - Code shown for forward selection; use similar code for backward selection
+
+
+```r
+sel_summary &lt;- summary(regfit_forward)
+coef(regfit_forward, which.max(sel_summary$adjr2)) # Adj R-sq 
+coef(regfit_forward, which.min(sel_summary$bic)) # BIC 
 ```
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
