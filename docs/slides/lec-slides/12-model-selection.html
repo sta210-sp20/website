@@ -269,14 +269,15 @@ full_model &lt;- lm(Y ~ ., data = my_data)
 
 
 ```r
-regfit_forward &lt;- step(null_model, full_model, method="forward")
+regfit_forward &lt;- step(null_model, scope = formula(full_model), 
+                       direction = "forward")
 ```
 
 
 - Backward selection
 
 ```r
-regfit_backward &lt;- step(full_model, null_model, method="backward")
+regfit_backward &lt;- step(full_model, direction = "backward")
 ```
 
 
@@ -284,7 +285,8 @@ regfit_backward &lt;- step(full_model, null_model, method="backward")
 
 
 ```r
-regfit_hybrid &lt;- step(full_model, null_model, method="both")
+regfit_hybrid &lt;- step(null_model, scope = formula(full_model), 
+                      direction = "both")
 ```
 
 
