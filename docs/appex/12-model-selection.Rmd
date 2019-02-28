@@ -14,6 +14,7 @@ library(tidyverse)
 library(knitr)
 library(broom)
 library(Sleuth3)
+library(leaps)
 ```
 
 

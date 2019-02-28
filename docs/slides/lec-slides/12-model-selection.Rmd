@@ -177,6 +177,10 @@ $$AIC = n\log(RSS) - n \log(n) + 2(p+1)$$
 
 - <font class="vocab">Schwarz's Bayesian Information Criterion (BIC): </font>
 $$BIC = n\log(RSS) - n\log(n) + log(n)\times(p+1)$$
+<br>
+<br>
+
+See the [supplemental note](https://github.com/STA210-Sp19/supplemental-notes/blob/master/models-selection-criteria.pdf) on AIC & BIC for derivations.
 
 ---
 
