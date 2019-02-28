@@ -1,0 +1,187 @@
+---
+title: "Lab 06: Model Selection"
+date: "due Wed, Mar 3 at 11:59p"
+output: 
+  tufte::tufte_html:
+    css: "./sta210-labs.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+    fig_height: 10
+link-citations: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE, 
+                      eval=FALSE)
+```
+
+**ADD INTRO**
+
+# Getting Started 
+
+- Go to the STA210-Sp19 organization on GitHub ([https://github.com/STA210-Sp19](https://github.com/STA210-Sp19)). Click on the repo with the prefix **lab-06-**. It contains the starter documents you need to complete the warmup exercise. 
+
+- Clone the repo and create a new project in RStudio Cloud. 
+
+- Configure git by typing the following in the **console**.
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="your name", user.email="your email")
+```
+
+```{marginfigure}
+When configuring Git, be sure to use the email address that is associated with your GitHub account.
+```
+
+## Password caching
+
+If you would like your git password cached for a week for this project, type the following in the **Terminal**:
+
+```{bash eval=FALSE}
+git config --global credential.helper 'cache --timeout 604800'
+```
+
+You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
+
+
+## Packages
+
+We will use the following packages in today's lab.
+
+```{r load-packages}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(leaps)
+library(Sleuth3)
+library(ISLR)
+```
+
+## Project name: 
+
+Currently your project is called *Untitled Project*. Update the name of your project to the title of today's lab.
+
+# Warm up
+
+Before we introduce the data, let's warm up with a simple exercise.
+
+## YAML: 
+
+- Pick one team member to update the *author* and *date* fields at the top of the R Markdown file. Knit, commit, and push all the updated documents to Github.
+
+- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
+
+## Data
+
+For the first part of the lab, we will use the SAT data.
+
+```{r load-data}
+sat_scores <- case1201 %>%
+  select(-State) 
+```
+
+# Exercises
+
+## Part I
+
+For the first part of the lab, we will return to the model selection activity from Feb 27 class.
+
+1. Manually perform backward selection using Adj. $R^2$ as the selection criteria. Show each step of the selection process. To help you get started, the full model and the code for the first set of models to test are below. You will need to find Adj. $R^2$ for each model. Display the coefficients from your final model.
+
+```{r}
+full_model <- lm(SAT ~ ., data = sat_scores)
+```
+
+```{r}
+m1 <- lm(SAT ~ Income + Years + Public + Expend + Rank, data = sat_scores)
+```
+
+```{r}
+m2 <- lm(SAT ~ Takers + Years + Public + Expend + Rank, data = sat_scores)
+```
+
+```{r}
+m3 <- lm(SAT ~ Takers + Income + Public + Expend + Rank, data = sat_scores)
+```
+
+```{r}
+m4 <- lm(SAT ~ Takers + Income + Years + Expend + Rank, data = sat_scores)
+```
+
+```{r}
+m5 <- lm(SAT ~ Takers + Income + Years + Public + Rank, data = sat_scores)
+```
+
+```{r}
+m6 <- lm(SAT ~ Takers + Income + Years + Public + Expend, data = sat_scores)
+```
+
+2. What is the best 5-variable model? 
+
+3. Use the `regsubsets` function to perform backward selection using Adj. $R^2$ as the selection criteria. Display the final model and its Adjusted $R^2$ value.
+
+4. Use the `regsubsets` function to perform backward selection using BIC as the selection criteria. Display the final model. 
+
+5. Use the `step` function to perform backward selection using AIC as the selection criteria. Display the final model.
+
+6. Compare the final models selected by Adjusted $R^2$, BIC, and AIC. 
+    - Do the models have the same number of predictors? Briefly explain.
+    - Are the same predictor variables in each model? Briefly explain.
+    
+7. Consider the comparisons made in the previous exercise. Are these differences what you would expect given the selection criteria used? Briefly explain.
+
+## Part II
+
+In the second part of the lab, we will continue exploring properties of model selection and the `regsubsets` function. For this part of the lab, we will use the `Hitters` dataset in the `ISLR` package. We will use the performance statistics of baseball players to predict their salary.
+
+1. Read through the data dictionary for the `Hitters` dataset. You can access it by typing `?Hitters` in the console. What is the difference between the variables `AtBat` and `CAtBat`?
+
+2. There are some observations with missing values for `Salary`. How many observations are missing `Salary`? 
+
+3. Filter the data, so only those observations that have `Salary`data will be included in the dataset. You will use this filtered data for the remainder of the lab.
+
+4. Use the code below to conduct forward selection and save the results in an object called `sel_summary` (selection summary).
+
+```{marginfigure}
+The `nvmax` option indicates the maximum-sized subsets to consider in the model selection.
+```
+
+
+```{r eval=F}
+regfit_forward <- regsubsets(Salary ~ ., data = Hitters, method="forward", nvmax = 19)
+sel_summary <- summary(regfit_forward)
+```
+
+5. Make the data work so we can plot. Each row contains the summary statistics for the best fit model with that number of variables. For example, the second row contains the summary statistics of the best fit model that contains 2 variables.
+
+```{r}
+summary_stats <- data.frame(bic = sel_summary$bic, 
+                       adjr2 = sel_summary$adjr2, 
+                       rsq = sel_summary$rsq,
+                       rss = sel_summary$rss) %>%
+mutate(nvar = row_number())
+```
+
+6. Plot BIC. How does BIC change as the number of variables increases? Based on this how many variables are in the best fit model?
+
+7. Plot Adj $R^2$. How does Adj. $R^2$ change as the number of variables increases? Based on this how many variables are in the best fit model?
+
+8. Plot $R^2$. How does $R^2$ change as the number of variables increases? 
+
+9. Based on your answers to the previous exercises, briefly explain why we don't use $R^2$ as a model selection criteria.
+
+10. Select a final model. Display the variables and their coefficients and the summary statistics from the `summary_stats` data frame for this model. See the Model Selection notes for code to display coefficients from `regsubets`.
+
+11. Briefly explain why you chose the model in the previous exercise.
+    - Which model selection criteria did you use (BIC, Adj $R^2$)? Why?
+    - What other factors did you consider besides the value of the model selection criteria? 
+    
+    
+## Acknowledgements
+
+Part II of this lab was inspired by Lab 6.5 in [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/) and [Variable Selection in Regression](https://www.andrew.cmu.edu/user/achoulde/95791/homework/homework3.html).
+
