@@ -121,7 +121,7 @@ ol>li {
 	position: relative;
 	/* Disable the normal item numbering */
 	list-style: none;
-	width: 90%;
+	width: 95%;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-right: 0;
@@ -138,6 +138,10 @@ ol>li:before {
 	left: -0.5px;
 	font-weight: bold;
 	margin-right: 10px;
+}
+
+ol ul {
+  width: 95%;
 }
 
 ol ol {
