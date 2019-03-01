@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       eval=FALSE)
 ```
 
-**ADD INTRO**
+The goal of today’s lab is to practice forward and backward model selection. In addition to practice with model selection functions in R, you will manually conduct a backward selection procedure to better understand what occurs when you use model selection functions.
 
 # Getting Started 
 
@@ -77,20 +77,37 @@ Before we introduce the data, let's warm up with a simple exercise.
 
 ## Data
 
-For the first part of the lab, we will use the SAT data.
+You will use two datasets in this lab. 
 
-```{r load-data}
-sat_scores <- case1201 %>%
-  select(-State) 
-```
+### Part I
+
+The dataset for Part I contains the SAT score (out of 1600) and other variables that may be associated with SAT performance for each of the 50 states in the U.S. The data is based on test takers for the 1982 exam. The following variables are in the dataset: 
+
+- **`SAT`**: average total SAT score
+- **`State`**: U.S. State
+- **`Takers`**: percentage of high school seniors who took exam
+- **`Income`**: median income of families of test-takers ($ hundreds)
+- **`Years`**: average number of years test-takers had formal education in social sciences, natural sciences, and humanities
+- **`Public`**: percentage of test-takers who attended public high schools
+- **`Expend`**: total state expenditure on high schools ($ hundreds per student)
+- **`Rank`**: median percentile rank of test-takers within their high school classes
+
+### Part II
+
+The dataset for Part II contains the performance statistics and salaries of Major League Baseball players in the 1986 and 1987 seasons. The data is in the `Hitters` dataset in the `ISLR` package. Type `?Hitters` in the console to see the variables and their definitions.
 
 # Exercises
 
 ## Part I
 
-For the first part of the lab, we will return to the model selection activity from Feb 27 class.
+For the first part of the lab, you will return to the model selection activity you started in class this week using the SAT data. The data is in the `case1201` data frame in the `Sleuth3` package.
 
-1. Manually perform backward selection using Adj. $R^2$ as the selection criteria. Show each step of the selection process. To help you get started, the full model and the code for the first set of models to test are below. You will need to find Adj. $R^2$ for each model. Display the coefficients from your final model.
+```{r eval=F}
+sat_scores <- case1201 %>%
+  select(-State) 
+```
+
+1. Manually perform backward selection using Adj. $R^2$ as the selection criterion. Show each step of the selection process. To help you get started, the full model and the code for the first set of models to test are below. Show each step of the selection process. Display the coefficients and Adj. $R^2$ of your final model.
 
 ```{r}
 full_model <- lm(SAT ~ ., data = sat_scores)
@@ -120,66 +137,83 @@ m5 <- lm(SAT ~ Takers + Income + Years + Public + Rank, data = sat_scores)
 m6 <- lm(SAT ~ Takers + Income + Years + Public + Expend, data = sat_scores)
 ```
 
-2. What is the best 5-variable model? 
+2. What is the best 5-variable model? Display the model output.
 
-3. Use the `regsubsets` function to perform backward selection using Adj. $R^2$ as the selection criteria. Display the final model and its Adjusted $R^2$ value.
+3. Use the `regsubsets` function to perform backward selection. What is the final model when Adj. $R^2$ is the selection criterion? Display the coefficients and the Adj. $R^2$ of the final model. *This should be the same as your final model in Exercise 1.*
 
-4. Use the `regsubsets` function to perform backward selection using BIC as the selection criteria. Display the final model. 
+4. What is the final model when BIC is the selection criterion? Display the coefficients and the BIC of the final model.
 
-5. Use the `step` function to perform backward selection using AIC as the selection criteria. Display the final model.
-
-6. Compare the final models selected by Adjusted $R^2$, BIC, and AIC. 
+5. Compare the final models selected by Adj. $R^2$ and BIC.
     - Do the models have the same number of predictors? Briefly explain.
     - Are the same predictor variables in each model? Briefly explain.
     
-7. Consider the comparisons made in the previous exercise. Are these differences what you would expect given the selection criteria used? Briefly explain.
+6. Consider the comparisons made in the previous exercise. Are these differences what you would expect given the selection criteria used? Briefly explain.
 
 ## Part II
 
-In the second part of the lab, we will continue exploring properties of model selection and the `regsubsets` function. For this part of the lab, we will use the `Hitters` dataset in the `ISLR` package. We will use the performance statistics of baseball players to predict their salary.
+The data for this part of the lab is the `Hitters` dataset in the `ISLR` package. We would like to fit a regression model that uses the performance statistics of baseball players to predictor their salary. There are 19 potential predictor variables, so we will use the `regsubsets` function to conduct forward selection to choose a final model.
 
-1. Read through the data dictionary for the `Hitters` dataset. You can access it by typing `?Hitters` in the console. What is the difference between the variables `AtBat` and `CAtBat`?
+7. Read through the data dictionary for the `Hitters` dataset. You can access it by typing `?Hitters` in the console. What is the difference between the variables `HmRun` and `CHmRun`?
 
-2. There are some observations with missing values for `Salary`. How many observations are missing `Salary`? 
+8. Some observations have missing values for `Salary`. Filter the data, so only observations that have values for `Salary` are included. You will use this filtered data for the remainder of the lab.
 
-3. Filter the data, so only those observations that have `Salary`data will be included in the dataset. You will use this filtered data for the remainder of the lab.
-
-4. Use the code below to conduct forward selection and save the results in an object called `sel_summary` (selection summary).
+9. Fill in the code below to conduct forward selection and save the results in an object called `sel_summary` (selection summary).
 
 ```{marginfigure}
 The `nvmax` option indicates the maximum-sized subsets to consider in the model selection.
 ```
 
+```{r eval=F}
+regfit_forward <- regsubsets(_______, ________, method="forward", nvmax = 19)
+sel_summary <- summary(_______)
+```
+
+10. The object `sel_summary` contains the summary statistics for the best fit model containing $k$ predictors, where $k = 1, \ldots, 19$. The object `sel_summary` is a list object, so it is cumbersome to extract the information we want. We will create a data frame called `summary_stats` such that each row represents the best fit model with $k$ predictors and each column is a summary statistic. For example, the second row contains the summary statistics of the best fit model that contains 2 variables.
+
+Fill in the code below to create the data frame `summary_stats` that includes the BIC, $R^2$, Adj. $R^2$, and residual sum of squares (RSS) for each model in `sel_summary`. The data frame `summary_stats` will also include the column `np`, the number of predictors in the model. 
 
 ```{r eval=F}
-regfit_forward <- regsubsets(Salary ~ ., data = Hitters, method="forward", nvmax = 19)
-sel_summary <- summary(regfit_forward)
-```
-
-5. Make the data work so we can plot. Each row contains the summary statistics for the best fit model with that number of variables. For example, the second row contains the summary statistics of the best fit model that contains 2 variables.
-
-```{r}
 summary_stats <- data.frame(bic = sel_summary$bic, 
-                       adjr2 = sel_summary$adjr2, 
-                       rsq = sel_summary$rsq,
-                       rss = sel_summary$rss) %>%
-mutate(nvar = row_number())
+                       adjr2 = _______, 
+                       rsq = _______,
+                       rss = _______) %>%
+mutate(np = row_number()) #number of variables
 ```
 
-6. Plot BIC. How does BIC change as the number of variables increases? Based on this how many variables are in the best fit model?
+```{marginfigure}
+See the [ggplot2 documentation](https://ggplot2.tidyverse.org/reference/geom_abline.html#arguments) for code to add a vertical line.
+```
 
-7. Plot Adj $R^2$. How does Adj. $R^2$ change as the number of variables increases? Based on this how many variables are in the best fit model?
+11. Use the data in the `summary_stats` data frame to plot BIC versus the number of predictors. Include a vertical line on your plot that shows the number of predictors for the final model selected based on BIC. Be sure your plot has clear and informative title and axes labels. 
+    - How does BIC change as the number of predictors increases? 
+    - How many predictors are in the final model selected based on BIC?
 
-8. Plot $R^2$. How does $R^2$ change as the number of variables increases? 
+*You can fill in the code below with either `max` or `min` to find the number of predictors in the final model selected based on BIC.*
 
-9. Based on your answers to the previous exercises, briefly explain why we don't use $R^2$ as a model selection criteria.
+```{r eval=F}
+np_bic <- summary_stats %>%
+  filter(bic == _____(bic)) %>%
+  select(np) %>% 
+  pull()
+```
 
-10. Select a final model. Display the variables and their coefficients and the summary statistics from the `summary_stats` data frame for this model. See the Model Selection notes for code to display coefficients from `regsubets`.
 
-11. Briefly explain why you chose the model in the previous exercise.
+12. Use the data in the `summary_stats` data frame to plot Adj. $R^2$ versus the number of predictors. Include a vertical line on your plot that shows the number of predictors for the final model selected based on Adj. $R^2$. Be sure your plot has clear and informative title and axes labels. 
+    - How does Adj. $R^2$ change as the number of predictors increases? 
+    - How many predictors are in the final model selected based on Adj. $R^2$?
+
+
+13. Use the data in the `summary_stats` data frame to plot $R^2$ versus the number of predictors. Include a vertical line on your plot that shows the number of predictors for the final model selected based on $R^2$. Be sure your plot has clear and informative title and axes labels. 
+    - How does $R^2$ change as the number of predictors increases? 
+    - How many predictors are in the final model selected based on $R^2$?
+
+14. Based on your answers to the previous exercises, briefly explain $R^2$ shouldn't be used as a model selection criterion.
+
+15. Choose a final model to predict a baseball player's `Salary` from his performance statistics. Display the variables, their coefficients, and the summary statistics from the `summary_stats` data frame for this model. 
+
+16. Briefly explain why you chose the model in the previous exercise.
     - Which model selection criteria did you use (BIC, Adj $R^2$)? Why?
     - What other factors did you consider besides the value of the model selection criteria? 
-    
     
 ## Acknowledgements
 
