@@ -92,7 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
-<p>We will use the following packages in today’s lab.</p>
+<p>You will need the following packages for today’s lab:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(knitr)
 <span class="kw">library</span>(broom)
@@ -117,7 +117,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>You will use two datasets in this lab.</p>
+<p>There are two datasets for this lab.</p>
 <div id="part-i" class="section level3">
 <h3>Part I</h3>
 <p>The dataset for Part I contains the SAT score (out of 1600) and other variables that may be associated with SAT performance for each of the 50 states in the U.S. The data is based on test takers for the 1982 exam. The following variables are in the dataset:</p>
@@ -134,7 +134,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="part-ii" class="section level3">
 <h3>Part II</h3>
-<p>The dataset for Part II contains the performance statistics and salaries of Major League Baseball players in the 1986 and 1987 seasons. The data is in the <code>Hitters</code> dataset in the <code>ISLR</code> package. Type <code>?Hitters</code> in the console to see the variables and their definitions.</p>
+<p>The dataset for Part II contains the performance statistics and salaries of Major League Baseball players in the 1986 and 1987 seasons. The data is in the <code>Hitters</code> dataset in the <code>ISLR</code> package. Type <code>?Hitters</code> in the console to see the variables names and their definitions.</p>
 </div>
 </div>
 </div>
@@ -142,11 +142,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>Exercises</h1>
 <div id="part-i-1" class="section level2">
 <h2>Part I</h2>
-<p>For the first part of the lab, you will return to the model selection activity you started in class this week using the SAT data. The data is in the <code>case1201</code> data frame in the <code>Sleuth3</code> package.</p>
+<p>For the first part of the lab, you will return to the model selection activity you started in class using the SAT data. The data is in the <code>case1201</code> data frame in the <code>Sleuth3</code> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sat_scores &lt;-<span class="st"> </span>case1201 <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>State) </code></pre></div>
 <ol style="list-style-type: decimal">
-<li>Manually perform backward selection using Adj. <span class="math inline">\(R^2\)</span> as the selection criterion. Show each step of the selection process. To help you get started, the full model and the code for the first set of models to test are below. Show each step of the selection process. Display the coefficients and Adj. <span class="math inline">\(R^2\)</span> of your final model.</li>
+<li>Manually perform backward selection using <span class="math inline">\(Adj. R^2\)</span> as the selection criterion. To help you get started, the full model and the code for the first set of models to test are below. Show each step of the selection process. Display the coefficients and <span class="math inline">\(Adj. R^2\)</span> of your final model.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">full_model &lt;-<span class="st"> </span><span class="kw">lm</span>(SAT <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> sat_scores)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(SAT <span class="op">~</span><span class="st"> </span>Income <span class="op">+</span><span class="st"> </span>Years <span class="op">+</span><span class="st"> </span>Public <span class="op">+</span><span class="st"> </span>Expend <span class="op">+</span><span class="st"> </span>Rank, <span class="dt">data =</span> sat_scores)</code></pre></div>
@@ -157,9 +157,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m6 &lt;-<span class="st"> </span><span class="kw">lm</span>(SAT <span class="op">~</span><span class="st"> </span>Takers <span class="op">+</span><span class="st"> </span>Income <span class="op">+</span><span class="st"> </span>Years <span class="op">+</span><span class="st"> </span>Public <span class="op">+</span><span class="st"> </span>Expend, <span class="dt">data =</span> sat_scores)</code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>What is the best 5-variable model? Display the model output.</p></li>
-<li><p>Use the <code>regsubsets</code> function to perform backward selection. What is the final model when Adj. <span class="math inline">\(R^2\)</span> is the selection criterion? Display the coefficients and the Adj. <span class="math inline">\(R^2\)</span> of the final model. <em>This should be the same as your final model in Exercise 1.</em></p></li>
-<li><p>What is the final model when BIC is the selection criterion? Display the coefficients and the BIC of the final model.</p></li>
-<li>Compare the final models selected by Adj. <span class="math inline">\(R^2\)</span> and BIC.
+<li><p>Use the <code>regsubsets</code> function to perform backward selection. What is the final model when <span class="math inline">\(Adj. R^2\)</span> is the selection criterion? Display the coefficients and the <span class="math inline">\(Adj. R^2\)</span> of the final model. <em>This should be the same result you got in Exercise 1.</em></p></li>
+<li><p>What is the final model when <span class="math inline">\(BIC\)</span> is the selection criterion? Display the coefficients and the <span class="math inline">\(BIC\)</span> of the final model.</p></li>
+<li>Compare the final models selected by <span class="math inline">\(Adj. R^2\)</span> and <span class="math inline">\(BIC\)</span>.
 <ul>
 <li>Do the models have the same number of predictors? Briefly explain.</li>
 <li>Are the same predictor variables in each model? Briefly explain.</li>
@@ -169,53 +169,53 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="part-ii-1" class="section level2">
 <h2>Part II</h2>
-<p>The data for this part of the lab is the <code>Hitters</code> dataset in the <code>ISLR</code> package. We would like to fit a regression model that uses the performance statistics of baseball players to predictor their salary. There are 19 potential predictor variables, so we will use the <code>regsubsets</code> function to conduct forward selection to choose a final model.</p>
+<p>The data for this part of the lab is the <code>Hitters</code> dataset in the <code>ISLR</code> package. Your goal is to fit a regression model that uses the performance statistics of baseball players to predictor their salary. There are 19 potential predictor variables, so you will use the <code>regsubsets</code> function to conduct forward selection to choose a final model.</p>
 <ol start="7" style="list-style-type: decimal">
 <li><p>Read through the data dictionary for the <code>Hitters</code> dataset. You can access it by typing <code>?Hitters</code> in the console. What is the difference between the variables <code>HmRun</code> and <code>CHmRun</code>?</p></li>
 <li><p>Some observations have missing values for <code>Salary</code>. Filter the data, so only observations that have values for <code>Salary</code> are included. You will use this filtered data for the remainder of the lab.</p></li>
 <li><p>Fill in the code below to conduct forward selection and save the results in an object called <code>sel_summary</code> (selection summary).</p></li>
 </ol>
-<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">The <code>nvmax</code> option indicates the maximum-sized subsets to consider in the model selection.</span></span></p>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">The <code>nvmax</code> option indicates the maximum-sized variable subsets to consider in the model selection.</span></span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">regfit_forward &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(_______, ________, <span class="dt">method=</span><span class="st">&quot;forward&quot;</span>, <span class="dt">nvmax =</span> <span class="dv">19</span>)
 sel_summary &lt;-<span class="st"> </span><span class="kw">summary</span>(_______)</code></pre></div>
 <ol start="10" style="list-style-type: decimal">
-<li>The object <code>sel_summary</code> contains the summary statistics for the best fit model containing <span class="math inline">\(k\)</span> predictors, where <span class="math inline">\(k = 1, \ldots, 19\)</span>. The object <code>sel_summary</code> is a list object, so it is cumbersome to extract the information we want. We will create a data frame called <code>summary_stats</code> such that each row represents the best fit model with <span class="math inline">\(k\)</span> predictors and each column is a summary statistic. For example, the second row contains the summary statistics of the best fit model that contains 2 variables.</li>
+<li>The object <code>sel_summary</code> contains the summary statistics for the best fit model containing <span class="math inline">\(k\)</span> predictors, where <span class="math inline">\(k = 1, \ldots, 19\)</span>. The object <code>sel_summary</code> is a list object, so it is cumbersome to extract the relevant summary statistics. Therefore, you can create a data frame called <code>summary_stats</code> such that each row represents the best fit model with <span class="math inline">\(k\)</span> predictors and each column is a summary statistic. For example, the second row contains the summary statistics of the best fit model that contains 2 variables.</li>
 </ol>
-<p>Fill in the code below to create the data frame <code>summary_stats</code> that includes the BIC, <span class="math inline">\(R^2\)</span>, Adj. <span class="math inline">\(R^2\)</span>, and residual sum of squares (RSS) for each model in <code>sel_summary</code>. The data frame <code>summary_stats</code> will also include the column <code>np</code>, the number of predictors in the model.</p>
+<p>Fill in the code below to create the data frame <code>summary_stats</code> that includes the <span class="math inline">\(BIC\)</span>, <span class="math inline">\(R^2\)</span>, <span class="math inline">\(Adj. R^2\)</span>, and residual sum of squares (RSS) for each model in <code>sel_summary</code>. The data frame <code>summary_stats</code> will also include the column <code>np</code>, the number of predictors in the model represented on each row.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summary_stats &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">bic =</span> sel_summary<span class="op">$</span>bic, 
                        <span class="dt">adjr2 =</span> _______, 
                        <span class="dt">rsq =</span> _______,
                        <span class="dt">rss =</span> _______) <span class="op">%&gt;%</span>
-<span class="kw">mutate</span>(<span class="dt">np =</span> <span class="kw">row_number</span>()) <span class="co">#number of variables</span></code></pre></div>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">np =</span> <span class="kw">row_number</span>()) <span class="co">#number of variables</span></code></pre></div>
 <p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://ggplot2.tidyverse.org/reference/geom_abline.html#arguments">ggplot2 documentation</a> for code to add a vertical line.</span></span></p>
 <ol start="11" style="list-style-type: decimal">
-<li>Use the data in the <code>summary_stats</code> data frame to plot BIC versus the number of predictors. Include a vertical line on your plot that shows the number of predictors for the final model selected based on BIC. Be sure your plot has clear and informative title and axes labels.
+<li>Use the data in the <code>summary_stats</code> data frame to plot <span class="math inline">\(BIC\)</span> versus the number of predictors. Include a vertical line on your plot that shows the number of predictors for the overall final model you would select based on <span class="math inline">\(BIC\)</span>. Be sure your plot has clear and informative title and axes labels.
 <ul>
-<li>How does BIC change as the number of predictors increases?</li>
-<li>How many predictors are in the final model selected based on BIC?</li>
+<li>How does <span class="math inline">\(BIC\)</span> change as the number of predictors increases?</li>
+<li>How many predictors are in the final model selected based on <span class="math inline">\(BIC\)</span>?</li>
 </ul></li>
 </ol>
-<p><em>You can fill in the code below with either <code>max</code> or <code>min</code> to find the number of predictors in the final model selected based on BIC.</em></p>
+<p><em>You can fill in the code below with either <code>max</code> or <code>min</code> to find the number of predictors in the final model selected based on <span class="math inline">\(BIC\)</span>.</em></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">np_bic &lt;-<span class="st"> </span>summary_stats <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(bic <span class="op">==</span><span class="st"> </span><span class="kw">_____</span>(bic)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(np) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">pull</span>()</code></pre></div>
 <ol start="12" style="list-style-type: decimal">
-<li>Use the data in the <code>summary_stats</code> data frame to plot Adj. <span class="math inline">\(R^2\)</span> versus the number of predictors. Include a vertical line on your plot that shows the number of predictors for the final model selected based on Adj. <span class="math inline">\(R^2\)</span>. Be sure your plot has clear and informative title and axes labels.
+<li>Use the data in the <code>summary_stats</code> data frame to plot <span class="math inline">\(Adj. R^2\)</span> versus the number of predictors. Include a vertical line on your plot that shows the number of predictors for the final model you would select based on <span class="math inline">\(Adj. R^2\)</span>. Be sure your plot has clear and informative title and axes labels.
 <ul>
-<li>How does Adj. <span class="math inline">\(R^2\)</span> change as the number of predictors increases?</li>
-<li>How many predictors are in the final model selected based on Adj. <span class="math inline">\(R^2\)</span>?</li>
+<li>How does <span class="math inline">\(Adj. R^2\)</span> change as the number of predictors increases?</li>
+<li>How many predictors are in the final model selected based on <span class="math inline">\(Adj. R^2\)</span>?</li>
 </ul></li>
 <li>Use the data in the <code>summary_stats</code> data frame to plot <span class="math inline">\(R^2\)</span> versus the number of predictors. Include a vertical line on your plot that shows the number of predictors for the final model selected based on <span class="math inline">\(R^2\)</span>. Be sure your plot has clear and informative title and axes labels.
 <ul>
 <li>How does <span class="math inline">\(R^2\)</span> change as the number of predictors increases?</li>
 <li>How many predictors are in the final model selected based on <span class="math inline">\(R^2\)</span>?</li>
 </ul></li>
-<li><p>Based on your answers to the previous exercises, briefly explain <span class="math inline">\(R^2\)</span> shouldn’t be used as a model selection criterion.</p></li>
+<li><p>Should <span class="math inline">\(R^2\)</span> be used as a model selection criterion? Briefly explain why or why not using your answers to Exercises 11 - 13.</p></li>
 <li><p>Choose a final model to predict a baseball player’s <code>Salary</code> from his performance statistics. Display the variables, their coefficients, and the summary statistics from the <code>summary_stats</code> data frame for this model.</p></li>
 <li>Briefly explain why you chose the model in the previous exercise.
 <ul>
-<li>Which model selection criteria did you use (BIC, Adj <span class="math inline">\(R^2\)</span>)? Why?</li>
+<li>Which model selection criteria did you use (<span class="math inline">\(BIC\)</span>, <span class="math inline">\(Adj. R^2\)</span>, <span class="math inline">\(R^2\)</span>)? Why?</li>
 <li>What other factors did you consider besides the value of the model selection criteria?</li>
 </ul></li>
 </ol>
