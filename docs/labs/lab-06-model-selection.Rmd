@@ -57,8 +57,8 @@ library(tidyverse)
 library(knitr)
 library(broom)
 library(leaps)
-library(Sleuth3)
-library(ISLR)
+library(Sleuth3) #case1201 data
+library(ISLR) #Hitters data
 ```
 
 ## Project name: 
