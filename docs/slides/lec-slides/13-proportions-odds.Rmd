@@ -441,4 +441,3 @@ $$\begin{aligned}&H_0: \log(\phi) = 0\\
 
 - Median: 34.5, IQR: 7.4
 
-- Question 3
