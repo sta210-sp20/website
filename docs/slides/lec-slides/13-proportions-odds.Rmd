@@ -159,7 +159,7 @@ qnorm(0.95)
 
 ---
 
-### Example: Calculating 90% confidence interval
+### Opinions about reclining: 90% CI
 
 ```{r}
 crit.val <- qnorm(0.95)
@@ -275,7 +275,7 @@ p_hat <- flying %>%
 
 - **Ex.**
   + proportion of fliers who think reclining is rude: `r p_hat`.
-  + odds a flier thinking reclining is rude: `r p_hat/(1-p_hat)` to 1
+  + odds a flier thinking reclining is rude: `r round(p_hat/(1-p_hat),3)` to 1
 
 ---
 
@@ -392,7 +392,7 @@ $$ z = \frac{\log(\hat{\phi}) - 0}{SE_0[\log(\hat{\phi})]} = \frac{\log(\hat{\ph
 
 - To calculate standard error, we estimate $\hat{\pi}_c$, the sample proportion from the combined data
  
-$$SE_0[\log(\hat{\phi})] =SE_0\bigg[\log\bigg(\frac{\hat{\omega}_1}{\hat{\omega}_2}\bigg)\bigg] = \sqrt{ \frac{1}{n_1\hat{\pi}_c(1-\hat{\pi}_c)} + \frac{1}{n_2\hat{\pi}_c(1-\hat{\pi}_c)}}$$
+$$SE_0[\log(\hat{\phi})] =SE_0\bigg[\log\bigg(\frac{\hat{\omega}_1}{\hat{\omega}_2}\bigg)\bigg] = \sqrt{ \frac{1}{n_1\hat{p}_c(1-\hat{p}_c)} + \frac{1}{n_2\hat{p}_c(1-\hat{p}_c)}}$$
 
 ---
 
@@ -426,7 +426,7 @@ $$\begin{aligned}&H_0: \log(\phi) = 0\\
 
 - **18 - 29**: $n =$ `r n[1]`, $\hat{\omega} =$ `r odds[1]`
 
-- **30 - 44**: $n_ =$ `r n[2]`, $\hat{\omega} =$ `r odds[2]`
+- **30 - 44**: $n =$ `r n[2]`, $\hat{\omega} =$ `r odds[2]`
 
 .question[
 1. Calculate the test statistic. 
@@ -440,3 +440,5 @@ $$\begin{aligned}&H_0: \log(\phi) = 0\\
 - Mean: 33.1, SD: 5.3
 
 - Median: 34.5, IQR: 7.4
+
+- Question 3

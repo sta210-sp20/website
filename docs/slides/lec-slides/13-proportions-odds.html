@@ -156,7 +156,7 @@ qnorm(0.95)
 
 ---
 
-### Example: Calculating 90% confidence interval
+### Opinions about reclining: 90% CI
 
 
 ```r
@@ -281,7 +281,7 @@ class: middle, center
 
 - **Ex.**
   + proportion of fliers who think reclining is rude: 0.412.
-  + odds a flier thinking reclining is rude: 0.7006803 to 1
+  + odds a flier thinking reclining is rude: 0.701 to 1
 
 ---
 
@@ -407,7 +407,7 @@ $$ z = \frac{\log(\hat{\phi}) - 0}{SE_0[\log(\hat{\phi})]} = \frac{\log(\hat{\ph
 
 - To calculate standard error, we estimate `\(\hat{\pi}_c\)`, the sample proportion from the combined data
  
-`$$SE_0[\log(\hat{\phi})] =SE_0\bigg[\log\bigg(\frac{\hat{\omega}_1}{\hat{\omega}_2}\bigg)\bigg] = \sqrt{ \frac{1}{n_1\hat{\pi}_c(1-\hat{\pi}_c)} + \frac{1}{n_2\hat{\pi}_c(1-\hat{\pi}_c)}}$$`
+`$$SE_0[\log(\hat{\phi})] =SE_0\bigg[\log\bigg(\frac{\hat{\omega}_1}{\hat{\omega}_2}\bigg)\bigg] = \sqrt{ \frac{1}{n_1\hat{p}_c(1-\hat{p}_c)} + \frac{1}{n_2\hat{p}_c(1-\hat{p}_c)}}$$`
 
 ---
 
@@ -426,7 +426,7 @@ $$ z = \frac{\log(\hat{\phi}) - 0}{SE_0[\log(\hat{\phi})]} = \frac{\log(\hat{\ph
 
 - **18 - 29**: `\(n =\)` 172, `\(\hat{\omega} =\)` 1.208
 
-- **30 - 44**: `\(n_ =\)` 222, `\(\hat{\omega} =\)` 0.553
+- **30 - 44**: `\(n =\)` 222, `\(\hat{\omega} =\)` 0.553
 
 .question[
 1. Calculate the test statistic. 
@@ -440,6 +440,8 @@ $$ z = \frac{\log(\hat{\phi}) - 0}{SE_0[\log(\hat{\phi})]} = \frac{\log(\hat{\ph
 - Mean: 33.1, SD: 5.3
 
 - Median: 34.5, IQR: 7.4
+
+- Question 3
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
