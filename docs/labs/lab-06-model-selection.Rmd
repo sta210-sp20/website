@@ -1,6 +1,6 @@
 ---
 title: "Lab 06: Model Selection"
-date: "due Wed, Mar 3 at 11:59p"
+date: "due Wed, Mar 5 at 11:59p"
 output: 
   tufte::tufte_html:
     css: "./sta210-labs.css"
