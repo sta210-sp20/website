@@ -116,7 +116,7 @@ lessons:
    # hw: "hw-03.html"
   - date: "Wed, Mar 6"
     title: "Logistic Regression"
-   # slides: "lec-slides/08b-bootstrap.html"
+    slides: "lec-slides/14-logistic.html"
   - date: "Fri, Mar 8"
     title: "No lab"
    # lab: "lab-08-bootstrap.html"

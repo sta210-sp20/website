@@ -229,7 +229,7 @@ $$\begin{aligned}&\log\Big(\frac{p_i}{1-p_i}\Big) = \beta_0 + \beta_1 X_i\\[15pt
 
 ---
 
-### Interpreting intercept: $\beta_0$
+### Interpreting the intercept: $\beta_0$
 
 .alert[
 $$\log\Big(\frac{p_i}{1-p_i}\Big) = \beta_0 + \beta_1 X_i$$
@@ -271,10 +271,10 @@ If $X$ is a <u>categorical</u> predictor
 
 - We can calculate the $\color{blue}{C%}$ <font color="blue">confidence interval</font> based on the large-sample Normal approximations
 
-- **CI for $\boldsymbol{\beta}_1$**: $$\hat{\beta}_1 \pm z^* SE(\beta_1)$$
+- **CI for $\boldsymbol{\beta}_1$**: $$\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)$$
 
 .alert[
-**CI for $\exp\{\boldsymbol{\beta}_1\}$**: $$\exp\{\hat{\beta}_1 \pm z^* SE(\beta_1)\}$$
+**CI for $\exp\{\boldsymbol{\beta}_1\}$**: $$\exp\{\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)\}$$
   ]
 
 ---
@@ -411,7 +411,7 @@ class: middle, center
 
 - To do so, we will use the logistic regression model to predict the probability of a "yes" response for the given observation. If we have one predictor variable, then...
 
-$$p_i = \frac{\exp(\beta_0 + \beta_1 X_i)}{1 + \exp(\beta_0 + \beta_1 X_i)} = \frac{\exp(\beta_0)\exp(\beta_1 X_i)}{1 + \exp(\beta_0)\exp(\beta_1 X_i)} $$
+$$p_i = \frac{\exp(\beta_0 + \beta_1 X_i)}{1 + \exp(\beta_0 + \beta_1 X_i)}$$
 
 - We will use the predicted probabilities to classify the observation as having a "yes" or "no" response
 
@@ -557,7 +557,7 @@ class: regular
 ```{r}
 library(plotROC) #extension of ggplot2
 ggplot(ht_age_aug, aes(d = as.numeric(rude), m = .fitted)) + 
-  geom_roc() + 
+  geom_roc(n.cuts = 0) + 
   geom_abline(intercept = 0)
 ```
 
@@ -575,7 +575,7 @@ roc(ht_age_aug$rude,ht_age_aug$.fitted)$auc
 ```{r echo=F}
 library(plotROC) #extension of ggplot2
 ggplot(ht_age_aug, aes(d = as.numeric(rude), m = .fitted)) + 
-  geom_roc() + 
+  geom_roc(n.cuts = 0) + 
   geom_abline(intercept = 0)
 ```
 
