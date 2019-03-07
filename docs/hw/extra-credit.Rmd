@@ -87,7 +87,7 @@ y <- alcohol_met %>%
 7. Based on the hat matrix, are there any observations that stand out, i.e. observations of interest that you should further investigate? If so, which observation(s)? 
     - Include the criteria you used to make the determination.
 
-8. Calculate the variance-covariance matrix for the coefficients. Are there concerns with multicollinearity? Briefly explain and show the calculations used to make the conclusion.
+8. Calculate the variance-covariance matrix for the coefficients. Do there appear to be concerns with multicollinearity? Briefly explain and show the calculations used to make the conclusion.
 
 *Once you're finished, be sure to push your work to GitHub! Go to your GitHub repo to make sure all of your work submitted. The only work that will be considered for extra credit is the work in the .Rmd <u>and</u> .md file in the **extra-credit-** repo by the deadline.*
 
