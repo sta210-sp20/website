@@ -11,7 +11,7 @@
 class: center, middle, inverse, title-slide
 
 # Logistic regression
-## Model fit &amp; Assumptions
+## Model fit &amp; Exploratory data analysis
 ### Dr. Maria Tackett
 ### 03.18.19
 
@@ -43,8 +43,6 @@ library(questionr)
 
 ---
 
- 
-
 ### Review
 
 - `\(Y\)`: binary response
@@ -59,35 +57,15 @@ library(questionr)
 
 ---
 
- 
-
-### Comparing Odds
-
-Suppose we have two independent groups with odds `\(\omega_1\)` and `\(\omega_2\)`
-
-- &lt;font class="vocab3"&gt;Odds Ratio:&lt;/font&gt; `\(\phi = \frac{\omega_1}{\omega_2}\)`
-
-- Use inference to assess if groups have equal odds, i.e. `\(\phi = 1\)`
-  + &lt;font class="vocab3"&gt;Hypothesis Test:&lt;/font&gt; `$$H_0: \log(\phi) = 0$$`
-  + &lt;font class="vocab3"&gt;Confidence Interval:&lt;/font&gt;
-  
-  `$$\exp\Big\{\log(\phi) \pm z^* SE(\log(\phi))\Big\}$$`
-
----
-
- 
-
 ### NHANES Data
 
-- &lt;a  href="https://www.cdc.gov/nchs/nhanes/index.htm" target="_blank"&gt;National Health and Nutrition Examination Survey&lt;/a&gt; is conducted by the National Center for Health Statistics (NCHS) 
+- [National Health and Nutrition Examination Survey](https://www.cdc.gov/nchs/nhanes/index.htm) is conducted by the National Center for Health Statistics (NCHS) 
 
 - The goal is to *"assess the health and nutritional status of adults and children in the United States"*
 
 - This survey includes an interview and a physical examination
 
 ---
-
- 
 
 ### NHANES Data
 
@@ -97,216 +75,53 @@ Suppose we have two independent groups with odds `\(\omega_1\)` and `\(\omega_2\
 
 - The data in this package is modified for educational purposes and should **not** be used for research
 
-- Original data can be obtained from the &lt;a href="https://www.cdc.gov/nchs/data_access/index.htm" target="_blank"&gt;NCHS website&lt;/a&gt; for research purposes
+- Original data can be obtained from the [NCHS website](https://www.cdc.gov/nchs/data_access/index.htm) for research purposes
 
 - Type &lt;font class="vocab"&gt;`?NHANES`&lt;/font&gt; in console to see list of variables and definitions
 
 ---
-
- 
 
 ### NHANES: Physical Activity &amp; Sleep
 
 - Do people who do regular physical activity have lower odds of sleep problems than those who do not do regular physical activity?
 
 - We will analyze the following variables: 
-  + &lt;font class="vocab"&gt;`PhysActive`: &lt;/font&gt;Participant does moderate to vigorous-intensity sports, fitness or recreational activities
-  
+
   + &lt;font class="vocab"&gt;`SleepTrouble`: &lt;/font&gt;Participant has told doctor or other health professional they had trouble sleeping
   
+  + &lt;font class="vocab"&gt;`PhysActive`: &lt;/font&gt;Participant does moderate to vigorous-intensity sports, fitness or recreational activities
+  
+  + &lt;font class="vocab"&gt;`Age`: &lt;/font&gt;Age at time of screening (in years). Participants 80 or older were recorded as 80.
+  
 ---
-
- 
 
 ### NHANES: Physical Activity &amp; Sleep
 
+.small[
 
 ```r
-# Filter data to only include adults with all data for pulse 
 set.seed(1234)
-nhanes &lt;- NHANES %&gt;% filter(Age &gt; 18, !is.na(Pulse)) %&gt;% 
+nhanes &lt;- NHANES %&gt;% 
+  filter(Age &gt; 18) %&gt;% 
   sample_n(500)
-nhanes %&gt;% select(Age,Gender,PhysActive,SleepTrouble) %&gt;% glimpse()
+nhanes %&gt;% 
+  select(SleepTrouble, PhysActive, Age, CompHrsDay) %&gt;%
+  slice(1:5)
 ```
 
 ```
-## Observations: 500
-## Variables: 4
-## $ Age          &lt;int&gt; 59, 32, 24, 29, 58, 62, 80, 30, 52, 44, 57, 32, 54,…
-## $ Gender       &lt;fct&gt; male, female, female, male, female, male, male, mal…
-## $ PhysActive   &lt;fct&gt; No, No, No, No, Yes, No, No, Yes, Yes, No, No, No, …
-## $ SleepTrouble &lt;fct&gt; Yes, No, Yes, No, No, No, No, No, No, Yes, No, No, …
+## # A tibble: 5 x 4
+##   SleepTrouble PhysActive   Age CompHrsDay
+##   &lt;fct&gt;        &lt;fct&gt;      &lt;int&gt; &lt;fct&gt;     
+## 1 No           Yes           33 &lt;NA&gt;      
+## 2 Yes          No            65 1_hr      
+## 3 No           Yes           52 0_hrs     
+## 4 No           Yes           34 0_to_1_hr 
+## 5 No           Yes           58 1_hr
 ```
----
-
- 
-
-### NHANES: Physical Activity &amp; Sleep
-
-
-```r
-#get counts for each combination of PhysActive and SleepTrouble
-table &lt;- nhanes %&gt;% group_by(PhysActive,SleepTrouble) %&gt;% summarise(n=n())
-kable(table,format="html")
-```
-
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; PhysActive &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; SleepTrouble &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 161 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 75 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 189 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 75 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-
-
-
-
-
+]
 
 ---
-
- 
-
-### NHANES: Physical Activity &amp; Sleep
-
-- **Group 1: PhysActive="Yes", Group 2: PhysActive="No"**
-  + `\(\hat{\omega}_1\)`: 0.3968
-  + `\(\hat{\omega}_2\)`: 0.4658
-  + `\(\hat{\phi}\)`: 0.8519
-  + `\(SE(\log(\hat{\phi}))\)` = 0.1954
-  + `\(SE_0(\log(\hat{\phi}))\)` = 0.1955
-
-
-- Is there evidence that people who do regular physical activity have lower odds of sleep problems than those who do not do regular physical activity?
-- Calculate a 95% confidence interval for the odds ratio.
-
----
-
- 
-
-### NHANES: Physical Activity &amp; Sleep
-
-- R has a functions to calculate the odds ratio 
-
-- &lt;font class="vocab"&gt;`odds.ratio()`&lt;/font&gt; function in the `questionr` package is shown below
-
-
-```r
-#calculate odds ratio and 95% confidence interval
-model &lt;- glm(SleepTrouble ~ PhysActive, family=binomial, data=nhanes)
-or &lt;- odds.ratio(model,level=0.95)
-kable(or,format="html",digits=3)
-```
-
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; OR &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; 2.5 % &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; 97.5 % &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; p &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.466 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.352 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.61 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; PhysActiveYes &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.852 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.580 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.25 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.412 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
----
-
-class: middle, center
-
-&lt;font class="vocab3"&gt;We want to build a model to incorporate more variables that could potentially explain the odds of having sleep problems.&lt;/font&gt;
-
----
-
-
- 
-
-### Linear model? 
-
-- We want to use a model to predict a binary response `\(Y\)`
-
---
-
-- Suppose we use a linear regression model to predict `\(Y\)` using some explanatory variable `\(X\)`
-
-`$$Y_i = \beta_0 + \beta_1X_{i} + \epsilon_i \hspace{10mm} \epsilon_i \sim N(0,\sigma^2)$$`
-
---
-
-- This model assumes that `\(Y\)` could be any continuous value; however, it can only be 0 or 1
-
---
-
-- So linear regression is not appropriate
-
----
-
- 
-
-### Other model choices
-
-Let `\(P(Y_i=1|X_i) = p_i\)` and `\(P(Y_i=0|X_i) = 1-p_i\)`
-&lt;br&gt; 
-&lt;br&gt; 
-
---
-
-Potential models for `\(p_i\)`: 
-&lt;br&gt;
-
---
-
-- **&lt;font class="vocab"&gt;Linear:&lt;/font&gt;** `\(p_i = \beta_0 + \beta_1 X_i\)`
-  + `\(p_i\)` possibly outside of `\((0,1)\)`
---
-
-- **&lt;font class="vocab"&gt;Log-linear:&lt;/font&gt;** `\(\log(p_i) =\beta_0 + \beta_1 X_i\)`
-  + `\(p_i\)` possibly greater than 1
-
----
-
- 
 
 ### Logistic Regression Model 
 
@@ -323,8 +138,6 @@ Potential models for `\(p_i\)`:
 
 ---
 
- 
-
 ### Logistic Regression Model 
 
 `$$\log\Big(\frac{p_i}{1-p_i}\Big) = \beta_0 + \beta_1 X_i$$`
@@ -337,9 +150,7 @@ Potential models for `\(p_i\)`:
 
 ---
 
- 
-
-### Solving Logit Equation 
+### Calculating predicted probability, `\(\hat{p}\)` 
 
 `$$\begin{aligned}&amp;\log\Big(\frac{p_i}{1-p_i}\Big) = \beta_0 + \beta_1 X_i\\
 \Rightarrow \hspace{8mm} &amp;\exp\bigg\{\log\Big(\frac{p_i}{1-p_i}\Big)\bigg\} = \exp\{\beta_0 + \beta_1 X_i\}\\
@@ -348,39 +159,41 @@ Potential models for `\(p_i\)`:
 
 ---
 
- 
+### Interpreting the intercept: `\(\beta_0\)`
 
-### Interpreting Model Coefficients
-
+.alert[
 `$$\log\Big(\frac{p_i}{1-p_i}\Big) = \beta_0 + \beta_1 X_i$$`
+]
 
 --
 
-- &lt;font class="vocab"&gt;Slope, `\(\beta_1\)`: &lt;/font&gt;
-  + As `\(X_i\)` increases by 1 unit, log-odds of `\(Y\)` increases by `\(\beta_1\)`
-  + As `\(X_i\)` increases by 1 unit, the odds of `\(Y\)` multiply by a factor of `\(\exp\{\beta_1\}\)`
+- When `\(X=0\)`, log-odds of `\(Y\)` are `\(\beta_0\)`
+    - Won't use this interpretation in practice
+
+- **When `\(X=0\)`, odds of `\(Y\)` are `\(\exp\{\beta_0\}\)`**
 
 ---
 
- 
+### Interpreting slope coefficient `\(\beta_1\)`
 
-### Interpreting Model Coefficients
-
+.alert[
 `$$\log\Big(\frac{p_i}{1-p_i}\Big) = \beta_0 + \beta_1 X_i$$`
+]
+
+If `\(X\)` is a &lt;u&gt;quantitative&lt;/u&gt; predictor
+
+- As `\(X_i\)` increases by 1 unit, log-odds of `\(Y\)` increases by `\(\beta_1\)`
+
+- **As `\(X_i\)` increases by 1 unit, the odds of `\(Y\)` multiply by a factor of `\(\exp\{\beta_1\}\)`**
 
 --
 
-- &lt;font class="vocab"&gt;Intercept, `\(\beta_0\)`: &lt;/font&gt;
-  + When `\(X=0\)`, log-odds of `\(Y\)` are `\(\beta_0\)`
-  + When `\(X=0\)`, odds of `\(Y\)` are `\(\exp\{\beta_0\}\)`
-  + If we mean-center `\(X\)`, then we can interpret the intercept in terms of the mean of `\(X\)`
---
+If `\(X\)` is a &lt;u&gt;categorical&lt;/u&gt; predictor
 
-- Can interpret results by graphing predicted `\(p\)` for values of `\(X\)`
+- The difference in the log-odds between group `\(X\)` and the baseline is `\(\beta_1\)`
+- **The odds of `\(Y\)` for group `\(X\)` are expected to be `\(\exp\{\beta_1\}\)` times the odds of `\(Y\)` for the baseline group.**
 
 ---
-
- 
 
 ### Estimating the Coefficients
 
@@ -397,8 +210,6 @@ Potential models for `\(p_i\)`:
 
 ---
 
- 
-
 ### Inference for Coefficients
 
 - &lt;font class="vocab3"&gt;standard error, `\(SE(\hat{\beta}_1)\)`: &lt;/font&gt;estimated standard deviation of the sampling distribution of `\(\hat{\beta}_1\)`
@@ -409,11 +220,9 @@ Potential models for `\(p_i\)`:
 
 ---
 
- 
-
 ### Logistic Regression in R
 
-- Use the &lt;font class="vocab"&gt;`glm()`&lt;/font&gt; function in R 
+- Use the &lt;font class="vocab"&gt;`glm`&lt;/font&gt; function in R 
 
 - Set &lt;font class="vocab"&gt;`family=binomial`&lt;/font&gt;
 
@@ -424,291 +233,267 @@ my.model &lt;- glm(Y ~ X, family=binomial,data=my.data)
 
 ---
 
- 
+### Age, Physical Activity, &amp; Sleep
 
-### NHANES: Pulse Rate &amp; Sleep
-
-- **Can pulse rate be used to distinguish the odds of an adult having trouble sleeping?**
-
-- &lt;font class="vocab"&gt;`Pulse`&lt;/font&gt;: 60 second pulse rate
-
+.alert[
+What is the relationship between age, physical activity, and the odds of having sleep trouble in adults?
+]
 
 
 ```r
-#caluclate logistic model using mean-centered Pulse
-nhanes &lt;- nhanes %&gt;% mutate(pulse.cent = Pulse - mean(Pulse))
-log.odds &lt;- glm(SleepTrouble ~ pulse.cent, family=binomial,data=nhanes)
-kable(tidy(log.odds),format="html",digits=3)
+# Use mean-centered age
+nhanes &lt;- nhanes %&gt;%
+  mutate(ageCent = Age - mean(Age))
 ```
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.854 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.098 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -8.697 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; pulse.cent &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.016 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.008 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.948 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.051 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+
+```r
+sleep_model &lt;- glm(SleepTrouble ~ ageCent + PhysActive, data = nhanes, family = binomial)
+kable(tidy(sleep_model, exponentiate = FALSE, conf.int = TRUE), 
+      format = "markdown", digits = 3)
+```
+
+
+
+|term          | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:-------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept)   |   -1.000|     0.149|    -6.723|   0.000|   -1.299|    -0.714|
+|ageCent       |    0.011|     0.006|     1.735|   0.083|   -0.001|     0.023|
+|PhysActiveYes |   -0.209|     0.210|    -0.996|   0.319|   -0.622|     0.203|
 
 ---
 
- 
-
-### NHANES: Pulse Rate &amp; Sleep
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.854 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.098 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -8.697 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; pulse.cent &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.016 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.008 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.948 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.051 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+### Age, Physical activity, &amp; Sleep trouble
 
 
+|term          | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:-------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept)   |   -1.000|     0.149|    -6.723|   0.000|   -1.299|    -0.714|
+|ageCent       |    0.011|     0.006|     1.735|   0.083|   -0.001|     0.023|
+|PhysActiveYes |   -0.209|     0.210|    -0.996|   0.319|   -0.622|     0.203|
 
-
-- &lt;font class="vocab"&gt;Slope: &lt;/font&gt; As pulse rate increases by 1 beat per minute, the odds of having sleep trouble are expected to multiply by a factor of 1.02, with 95% confidence interval 1 to 1.032
-
---
-
-- &lt;font class="vocab"&gt;Intercept: &lt;/font&gt; A person with an average pulse (72.452 beats per minute) is expected to have 0.43 to 1 odds of having sleep trouble, with 95% confidence interval 0.35 to 0.515
+.question[
+1. Interpret the intercept in terms of the **odds** of sleep trouble.
+2. Interpret the coefficient of `PhysActive` in terms of the **odds** of sleep trouble.
+3. Interpret the coefficient of `ageCent` in terms of the **odds** of sleep trouble. 
+]
 
 ---
 
- 
+class: middle, center
 
-### NHANES: Computers &amp; Sleep
-
-- &lt;font class="vocab"&gt;`CompHrsDay`: &lt;/font&gt; Number of hours per day on average participant used a computer or gaming device over the last 30 days. 
-  + 0_hrs
-  + 0_to_1_hr
-  + 1_hr
-  + 2_hr
-  + 3_hr
-  + 4_hr
-  + More_4_hr
-- &lt;font class="vocab"&gt;`Age`: &lt;/font&gt; Age at time of screening (in years). Participants 80 or older were recorded as 80.
+## Model Fit
 
 ---
 
- 
+## Checking Model Fit
 
-### NHANES: Computers &amp; Sleep
+**Residuals do not work well to assess model fit**
+- Residuals always positive when `\(Y=1\)` and negative when `\(Y=0\)`
+- Constant variance not an assumption of logistic regression
+- Normality of residuals not an assumption of logistic regression
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -2.168 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.594 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -3.648 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; CompHrsDay0_to_1_hr &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.284 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.382 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.745 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.456 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; CompHrsDay1_hr &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.436 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.419 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.040 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.298 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; CompHrsDay2_hr &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.412 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.530 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.776 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.438 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; CompHrsDay3_hr &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.331 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.650 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.047 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.041 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; CompHrsDay4_hr &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.803 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.990 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.822 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.068 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; CompHrsDayMore_4_hr &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.318 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.626 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.508 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.611 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Age &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.024 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.009 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.590 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.010 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-
-- Describe the relationship between the amount of time spent on a computer and the odds of having trouble sleeping after adjusting for age.
+**To check function of predictors is well specified, i.e. the model fits the data well**
+- Confusion matrix (see Mar 6 notes) and ROC curve
+- Binned residuals 
 
 ---
 
+### ROC Curve
 
+- **Receiver Operating Characteristic (ROC) curve**: 
+  + *X-axis*: `\(1 - \text{ specificity}\)`
+  + *Y-axis*: `\(\text{ Sensitivity}\)` 
+  
+- Evaluated with a lot of different values for the threshold
 
-### Assumptions &amp; Model Fit
+- Logistic model fits well if the area under the curve (AUC) is close to 1
 
-- &lt;font class="vocab"&gt;Assumptions&lt;/font&gt;
-  + Independence of residuals
-  + Log-odds has linear relationship with explanatory variables
-  + No significant impacts due to influential points or multicollinearity (when there are multiple explanatory variables)
---
-
-- Not effective to examine the residuals
-  + Residual positive when `\(Y=1\)` and negative when `\(Y=0\)`
-  + Constant variance not an assumption of logistic regression
-  + Normality of residuals not an assumption of logistic regression
-
----
-
-
-
-### Assumptions &amp; Model Fit
-
-- &lt;font class="vocab"&gt;Check Assumptions&lt;/font&gt;
-  + Plot of binned residuals vs. predicted values
-  + Plot of binned residuals vs. numeric explanatory variables
-  + Leverage, Cook's distance, and multicollinearity (if more than one explanatory variable)
---
-
-- &lt;font class="vocab"&gt;Check Model Fit&lt;/font&gt;
-  + Examine ROC curve
-  + Examine confusion matrix
+- ROC in R
+    - Use the &lt;font class="vocab"&gt;`roc`&lt;/font&gt; function in the `pROC` to calculate AUC
+    - Use &lt;font class="vocab"&gt;`geom_roc`&lt;/font&gt; layer in ggplot to plot the ROC curve
 
 ---
 
+### ROC
 
+.small[
+
+```r
+sleep_aug &lt;- augment(sleep_model, type.predict = "response", 
+                     type.residuals = "response")
+```
+
+
+```r
+library(plotROC)
+ggplot(sleep_aug, aes(d=SleepTrouble, m = .fitted)) + 
+  geom_roc(n.cuts = 0) + 
+  geom_abline(intercept = 0)
+```
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### ROC: Area under the curve
+
+
+```r
+library(pROC)
+roc(sleep_aug$SleepTrouble,sleep_aug$.fitted)$auc
+```
+
+```
+## Area under the curve: 0.5684
+```
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Not useful: Raw residuals vs. predicted
+
+- Include **`type.residuals = "response"`** in the `augment` function to get the raw residuals. 
+`$$e_i = Y_i - \hat{p}_i$$` 
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+---
 
 ### Binned Residuals
 
-To examine binned residuals...
+- It is not useful to plot the raw residuals, so we will examine binned residual plots 
 
-- Calculate raw residuals
-- Order observations either by the values of the predicted probabilities or by the numeric explanatory variable itself
-- Use the ordered data to create *g* bins of approximately equal size
-  + Default value: `\(g = \sqrt{n}\)`
-- Calculate average residual value in each bin
-- Plot average residuals vs. average predicted probability (or average explanatory variable)
-
---
-
-Can use the &lt;font class="vocab"&gt;`arm`&lt;/font&gt; package in R
-
----
-
-
-
-### Binned Residuals
-
+**When examining binned residuals**
+    
 - Look for patterns
 
-- Nonlinear trend may be indication that squared term or log transformation of explanatory variable required
+- Nonlinear trend may be indication that squared term or log transformation of predictor variable required
 
 - If bins have average residuals with large magnitude
-  + Look at averages of other explanatory variables across bins
-  + Interaction may be required if large residuals correspond to certain combinations of explanatory variables
+  + Look at averages of other predictor variables across bins
+  + Interaction may be required if large residuals correspond to certain combinations of predictor variables
   
 ---
 
- 
+### Binned plot vs. predicted values
 
-### Raw Residuals: Pulse &amp; Sleep
+- Use the &lt;font class="vocab"&gt;`binnedplot`&lt;/font&gt; function in the **arm** package. 
+    - *Tip: Don't load the **arm** package to avoid conflicts with tidyverse*
 
+.small[
 
 ```r
-nhanes &lt;- nhanes %&gt;%
-  mutate(Residuals = residuals.glm(log.odds,type="response"), 
-         Predicted = predict.glm(log.odds,type="response"))
+arm::binnedplot(x=sleep_aug$.fitted,y=sleep_aug$.resid,xlab="Predicted Probabilities", 
+                main = "Binned Residual vs. Predicted Values")
 ```
 
-&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+]
+
 ---
 
- 
+### Making binned residual plot
 
-### Binned Residuals - Pulse &amp; Sleep
+- Calculate raw residuals
+
+- Order observations either by the values of the predicted probabilities (or by numeric predictor variable)
+
+- Use the ordered data to create *g* bins of approximately equal size. Default value: `\(g = \sqrt{n}\)`
+
+- Calculate average residual value in each bin
+
+- Plot average residuals vs. average predicted probability (or average predictor value)
+
+---
+
+###  Residuals vs. numerical predictors 
+
+Make binned plot with predictor on `\(x\)` axis
+
 
 ```r
-library(arm)
-binnedplot(x=nhanes$Predicted,y=nhanes$Residuals,xlab="Predicted Probabilities")
+arm::binnedplot(x=sleep_aug$ageCent,y=sleep_aug$.resid,xlab="Age", main = "Binned Residual vs. Age")
+```
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Residuals vs. categorical predictors 
+
+Calculate average residual for each level of the predictor
+    - Are all means close to 0? If not, there is a problem with model fit.
+    
+
+```r
+sleep_aug %&gt;%
+  group_by(PhysActive) %&gt;%
+  summarise(mean_resid = mean(resid))
+```
+
+```
+## # A tibble: 2 x 2
+##   PhysActive mean_resid
+##   &lt;fct&gt;           &lt;dbl&gt;
+## 1 No                 NA
+## 2 Yes                NA
+```
+
+---
+
+class: middle, center
+
+## Exploratory Data Analysis 
+
+---
+
+### Exploratory Data Analysis 
+
+**Categorical predictors**: 
+    - Examine the percentage of `\(Y=1\)` for each level (category)
+    - You can visualize using a stacked bar chart
+
+**Quantitative predictors**:
+  - Order the predictor variable and divide into `\(g\)` groups of equal size
+  - Calculate percentage `\(Y=1\)` in each group
+  - See if there's a pattern (e.g. is there a quadratic pattern?)
+  - Use `binnedplot` function 
+
+---
+
+### EDA: Sleep trouble vs. Age
+
+.small[
+
+```r
+# create 1/0 indicator for response variable to use binnedplot
+nhanes &lt;- nhanes %&gt;% 
+  mutate(sleep_tr_ind = if_else(SleepTrouble == "Yes",1,0))
+
+arm::binnedplot(x = nhanes$Age, y = nhanes$sleep_tr_ind, 
+                xlab = "Age",
+                ylab = "proportion",
+                main = "Sleep Trouble vs. Age", 
+                col.int = "white" #remove intervals
+                )
 ```
 
 &lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 
- 
-
-### Binned Residuals - Pulse &amp; Sleep
+### Sleep trouble vs. Physical activity 
 
 
 ```r
-library(arm)
-binnedplot(x=nhanes$Pulse,y=nhanes$Residuals,xlab="Pulse")
+ggplot(data = nhanes, aes(x = PhysActive, fill = SleepTrouble)) +
+  geom_bar(position = "fill") + 
+  labs(y = "proportion", 
+       title = "Sleep trouble vs. Physical activity")
 ```
 
 &lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
