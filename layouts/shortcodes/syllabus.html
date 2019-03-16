@@ -11,8 +11,8 @@
     <th style="width:5%;text-align:center">Lab</th>
     <th style="width:5%;text-align:center">AE</th>
     <th style="width:5%;text-align:center">HW</th>
-    <th style="width:5%;text-align:center">EC</th>
-    <th style="width:5%;text-align:center">Exam</th>
+    <!-- <th style="width:5%;text-align:center">EC</th> -->
+    <!-- <th style="width:5%;text-align:center">Exam</th>-->
     <th style="width:5%;text-align:center">Project</th>
   </tr>
 
@@ -62,6 +62,7 @@
           <i class="fa fa-pencil-square-o fa-lg"></i></font></td>
       {{ end }}
 
+<!--
       {{ if .ec }}
       <td align="center"><a href="{{ .Site.baseurl }}/ec/{{ .ec }}">
           <i class="fa fa-angle-double-up fa-lg"></i></a></td>
@@ -77,7 +78,7 @@
         <td align="center"><font color="f1f1f1">
           <i class="fa fa-check-square fa-lg"></i></font></td>
       {{ end }}
-      
+    -->
       {{ if .project }}
       <td align="center"><a href="{{ .Site.baseurl }}/project/{{ .project }}">
           <i class="fa fa-file-powerpoint fa-lg"></i></a></td>
