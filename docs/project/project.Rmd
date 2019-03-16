@@ -81,35 +81,36 @@ Document organization and writing                       | 3 pts
 
 #### Write up
 
-After providing the description of your dataset and research question in the 
-introduction use the remainder of your write up to showcase how you have arrived at 
-an answer / answers to your question using the regression techniques you've learned in this 
-class (and some beyond, if you're feeling adventurous). The goal is to demonstrate your ability to ask meaningful questions and answer them with the results from regression analysis, that
+The goal of the write up is to demonstrate your ability to ask meaningful questions and answer them with the results from regression analysis, that
 you are proficient in using R, and that you are proficient at interpreting and 
 presenting the results. Focus on methods that help you begin to answer your research 
 questions. You do not have to apply every statistical procedure we learned.
-Also pay attention to your presentation. Neatness, coherency, and clarity will count.
+Also pay attention to your presentation. Neatness, coherency, and clarity will count. 
 
-Your write up must also include a one to two page conclusion and discussion. This will include a discussion of the model assumptions. You should make every attempt to address violations in the assumptions; if you are unable to address some violations of assumptions, include limitations in your analysis due to these violations. This will require a summary of what you have learned about your research  question along with statistical arguments supporting your conclusions. Also 
-critique your own methods and provide suggestions for improving your analysis. 
+You can add sections as you see fit to the template in your project repo. At a minimum, your write up should have the following sections: 
+
+- **Section 1: Introduction**
+    - This is basically a revised version of what is in the project proposal. This should include your research question, hypotheses, and a description of the data. It should also include the exploratory data analysis. 
+    
+- **Section 2: Regression Analysis**
+    - This section includes the results of your final regression model. In addition to displaying the model output, you should include a brief description of why you chose that type of model and any interpretations/ interesting findings from the coefficients. You should also include a discussion of the model assumptions and model fit analysis. 
+    
+- **Section 3: Discussion & Limitations**
+    - This section should include any relevant predictions and/or conclusions drawn from the model. Also critique your own methods and provide suggestions for improving your analysis. 
 Issues pertaining to the reliability and validity of your data and 
 appropriateness of the regression analysis should also be discussed here. A 
 paragraph on what you would do differently if you were able to start over 
 with the project or what you would do next if you were going to continue 
 work on the project should also be included.
 
-
-**Before you finalize your write up, make sure your chunks are turned off 
-by including `echo = FALSE` in the header of each code chunk. This will hide the R code in the .md file of your final write up.**
-
-You can add sections as you see fit to the template in your project repo. At a minimum, you should have the following sections: 
-
-- Section 1: Introduction (includes introduction and exploratory data analysis)
-- Section 2: Regression Analysis (includes the final model and discussion of assumptions)
-- Section 3: Discussion and Limitations 
-- Section 4: Conclusion
-- Section 5: Additional Work
+- **Section 4: Conclusion**
+    - In this section, you should summarize your project and highlight any final points you wish the reader to get from the project.
+    
+- **Section 5: Additional Work**
     - This section should include any other models you tried, a check of the assumptions, and a brief explanation of why you didn't select the model.
+
+Before you finalize your write up, make sure your chunks are turned off 
+by including `echo = FALSE` in the header of each code chunk. This will hide the R code in the .md file of your final write up.
 
 **The main part of the write up (sections 1 - 4) should be no more than 3 pages. The Additional Work section may be up to 5 pages.**
 
