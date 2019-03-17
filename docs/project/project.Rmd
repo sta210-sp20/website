@@ -19,7 +19,7 @@ The goal of the final project is to apply what you've learned in this course to 
 The project will consist of two components: 
 
 - **Project proposal**: due Fri, March 29 at 11:59p
-- **Project write up and presentation**: Wed, May 1 (final exam period)
+- **Project write up and presentation**: due Wed, May 1 at 2p (final exam period)
 
 # Data
 
@@ -114,7 +114,7 @@ by including `echo = FALSE` in the header of each code chunk. This will hide the
 
 **The main part of the write up (sections 1 - 4) should be no more than 3 pages. The Additional Work section may be up to 5 pages.**
 
-#### Presentation: due Wed, May 1 at 2p
+#### Presentation
 
 **Your presentation should be no longer than 8 minutes, and each team member should say something substantial.**
 
@@ -232,7 +232,7 @@ the assignment works.
 
 # Additional resources
 
-- [ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+- [ggplot2 Reference](https://ggplot2.tidyverse.org/reference/index.html)
 - [Introduction to Effective Data Visualization](https://library.capture.duke.edu/Panopto/Pages/Viewer.aspx?id=6bbfe49f-deb4-4d5f-bdf4-244d5f88a219)
 - [Visualization in R using ggplot2](https://library.capture.duke.edu/Panopto/Pages/Viewer.aspx?id=7b91aa85-4cb9-4936-ac62-a96700d59246)
 - [Data and Visualization Services walk-in office hours](https://library.duke.edu/data/about/schedule)
