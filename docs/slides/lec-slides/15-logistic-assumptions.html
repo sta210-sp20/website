@@ -23,9 +23,9 @@ class: center, middle, inverse, title-slide
 
 ### Announcements
 
-- HW 05 due Mon, Mar 25 at 11:59p
+- HW 05 due Mon, March 25 at 11:59p
 
-
+- Project proposal due Fri, March 29 at 11:59p
 
 ---
 
@@ -38,7 +38,6 @@ library(knitr)
 library(broom)
 library(NHANES)
 library(pROC) #ROC curves
-library(questionr)
 ```
 
 ---
@@ -83,7 +82,7 @@ library(questionr)
 
 ### NHANES: Physical Activity &amp; Sleep
 
-- Do people who do regular physical activity have lower odds of sleep problems than those who do not do regular physical activity?
+- Does physical activity reduce the odds of having sleep trouble?
 
 - We will analyze the following variables: 
 
@@ -105,19 +104,19 @@ nhanes &lt;- NHANES %&gt;%
   filter(Age &gt; 18) %&gt;% 
   sample_n(500)
 nhanes %&gt;% 
-  select(SleepTrouble, PhysActive, Age, CompHrsDay) %&gt;%
+  select(SleepTrouble, PhysActive, Age) %&gt;%
   slice(1:5)
 ```
 
 ```
-## # A tibble: 5 x 4
-##   SleepTrouble PhysActive   Age CompHrsDay
-##   &lt;fct&gt;        &lt;fct&gt;      &lt;int&gt; &lt;fct&gt;     
-## 1 No           Yes           33 &lt;NA&gt;      
-## 2 Yes          No            65 1_hr      
-## 3 No           Yes           52 0_hrs     
-## 4 No           Yes           34 0_to_1_hr 
-## 5 No           Yes           58 1_hr
+## # A tibble: 5 x 3
+##   SleepTrouble PhysActive   Age
+##   &lt;fct&gt;        &lt;fct&gt;      &lt;int&gt;
+## 1 No           Yes           33
+## 2 Yes          No            65
+## 3 No           Yes           52
+## 4 No           Yes           34
+## 5 No           Yes           58
 ```
 ]
 
@@ -213,6 +212,7 @@ If `\(X\)` is a &lt;u&gt;categorical&lt;/u&gt; predictor
 ### Inference for Coefficients
 
 - &lt;font class="vocab3"&gt;standard error, `\(SE(\hat{\beta}_1)\)`: &lt;/font&gt;estimated standard deviation of the sampling distribution of `\(\hat{\beta}_1\)`
+    - The center of the sampling distribution is `\(\beta_1\)`, the population coefficient
 
 - We can calculate the `\(\color{blue}{100(1-\alpha)\%}\)` &lt;font color="blue"&gt;confidence interval&lt;/font&gt; based on the large-sample Normal approximations
   + **CI for `\(\boldsymbol{\beta}_1\)`**: `$$\hat{\beta}_1 \pm z^* SE(\beta_1)$$`
@@ -224,11 +224,16 @@ If `\(X\)` is a &lt;u&gt;categorical&lt;/u&gt; predictor
 
 - Use the &lt;font class="vocab"&gt;`glm`&lt;/font&gt; function in R 
 
-- Set &lt;font class="vocab"&gt;`family=binomial`&lt;/font&gt;
+
+```r
+my.model &lt;- glm(Y ~ X, data = my.data, family = binomial)
+```
+
+- Display linear model with log-odds as the response
 
 
 ```r
-my.model &lt;- glm(Y ~ X, family=binomial,data=my.data)
+tidy(my.model, exponentiate = FALSE) 
 ```
 
 ---
@@ -293,10 +298,37 @@ class: middle, center
 - Constant variance not an assumption of logistic regression
 - Normality of residuals not an assumption of logistic regression
 
-**To check function of predictors is well specified, i.e. the model fits the data well**
+**To check function of predictors is well specified, i.e. that the model fits the data well, use...**
 - Confusion matrix (see Mar 6 notes) and ROC curve
 - Binned residuals 
 
+---
+
+### Confusion Matrix
+
+- We can use the estimated probabilities to predict outcomes 
+
+- *Ex.*: Establish a threshold such that `\(Y=1\)` if predicted probability is greater than the threshold (Y=0 otherwise)
+
+- Determine how many observations were classified correctly and incorrectly and put the results in a `\(2 \times 2\)` table
+  + This table is the &lt;font class="vocab3"&gt;confusion matrix&lt;/font&gt;
+
+- If the proportion of misclassifications is high, then we conclude the model may not fit the data well
+
+---
+
+### Sensitivity &amp; Specificity
+
+- &lt;font class="vocab3"&gt;Sensitivity: &lt;/font&gt;Proportion of observations with `\(Y=1\)` that have predicted probability above a specified threshold
+  + Called true positive rate
+
+- &lt;font class="vocab3"&gt;Specificity: &lt;/font&gt;Proportion of observations with `\(Y=0\)` that have predicted probability below a specified threshold
+  + (1 - specificity) called false positive rate
+
+- What we want: 
+  + High sensitivity
+  + Low values of 1-specificity
+  
 ---
 
 ### ROC Curve
@@ -315,7 +347,7 @@ class: middle, center
 
 ---
 
-### ROC
+### ROC Curve
 
 .small[
 
@@ -332,7 +364,7 @@ ggplot(sleep_aug, aes(d=SleepTrouble, m = .fitted)) +
   geom_abline(intercept = 0)
 ```
 
-&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -349,7 +381,7 @@ roc(sleep_aug$SleepTrouble,sleep_aug$.fitted)$auc
 ## Area under the curve: 0.5684
 ```
 
-&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -358,7 +390,7 @@ roc(sleep_aug$SleepTrouble,sleep_aug$.fitted)$auc
 - Include **`type.residuals = "response"`** in the `augment` function to get the raw residuals. 
 `$$e_i = Y_i - \hat{p}_i$$` 
 
-&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -374,7 +406,7 @@ roc(sleep_aug$SleepTrouble,sleep_aug$.fitted)$auc
 
 - If bins have average residuals with large magnitude
   + Look at averages of other predictor variables across bins
-  + Interaction may be required if large residuals correspond to certain combinations of predictor variables
+  + Interaction may be required if large magnitude residuals correspond to certain combinations of predictor variables
   
 ---
 
@@ -390,7 +422,7 @@ arm::binnedplot(x=sleep_aug$.fitted,y=sleep_aug$.resid,xlab="Predicted Probabili
                 main = "Binned Residual vs. Predicted Values")
 ```
 
-&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -415,32 +447,86 @@ Make binned plot with predictor on `\(x\)` axis
 
 
 ```r
-arm::binnedplot(x=sleep_aug$ageCent,y=sleep_aug$.resid,xlab="Age", main = "Binned Residual vs. Age")
+arm::binnedplot(x=sleep_aug$ageCent,y=sleep_aug$.resid,xlab="AgeCent", main = "Binned Residual vs. Age")
 ```
 
-&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ### Residuals vs. categorical predictors 
 
-Calculate average residual for each level of the predictor
+- Calculate average residual for each level of the predictor
     - Are all means close to 0? If not, there is a problem with model fit.
     
 
 ```r
 sleep_aug %&gt;%
   group_by(PhysActive) %&gt;%
-  summarise(mean_resid = mean(resid))
+  summarise(mean_resid = mean(.resid))
 ```
 
 ```
 ## # A tibble: 2 x 2
 ##   PhysActive mean_resid
 ##   &lt;fct&gt;           &lt;dbl&gt;
-## 1 No                 NA
-## 2 Yes                NA
+## 1 No          -2.38e-13
+## 2 Yes         -1.48e-13
 ```
+
+---
+
+### Residuals 
+
+Let's look at the binned residuals versus `AgeCent` separately for those who are physically active and those who aren't. 
+
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-16-2.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Model with interaction term
+
+
+|term                  | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:---------------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept)           |   -1.091|     0.159|    -6.845|   0.000|   -1.414|    -0.788|
+|ageCent               |    0.028|     0.009|     3.154|   0.002|    0.011|     0.046|
+|PhysActiveYes         |   -0.165|     0.220|    -0.752|   0.452|   -0.596|     0.267|
+|ageCent:PhysActiveYes |   -0.037|     0.013|    -2.832|   0.005|   -0.063|    -0.012|
+
+.question[
+1. What is the effect of age on the odds of having sleep trouble for adults who are not physically active?
+2. What is the effect of age on the odds of having sleep trouble for adults who are physically active?
+3. Is the effect of age on having sleep trouble significantly different for the two groups?
+]
+
+---
+
+### Binned residuals
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Binned Residuals
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+
+```
+## # A tibble: 2 x 2
+##   PhysActive mean_resid
+##   &lt;fct&gt;           &lt;dbl&gt;
+## 1 No          -3.65e-15
+## 2 Yes         -3.19e-13
+```
+
+---
+
+### Binned residuals 
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-21-2.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -453,14 +539,14 @@ class: middle, center
 ### Exploratory Data Analysis 
 
 **Categorical predictors**: 
-    - Examine the percentage of `\(Y=1\)` for each level (category)
-    - You can visualize using a stacked bar chart
+- Examine the percentage of `\(Y=1\)` for each level (category)
+- You can visualize using a stacked bar chart
 
 **Quantitative predictors**:
-  - Order the predictor variable and divide into `\(g\)` groups of equal size
-  - Calculate percentage `\(Y=1\)` in each group
-  - See if there's a pattern (e.g. is there a quadratic pattern?)
-  - Use `binnedplot` function 
+- Order the predictor variable and divide into `\(g\)` groups of equal size
+- Calculate percentage `\(Y=1\)` in each group
+- See if there's a pattern (e.g. is there a quadratic pattern?)
+- Use `binnedplot` function 
 
 ---
 
@@ -481,7 +567,7 @@ arm::binnedplot(x = nhanes$Age, y = nhanes$sleep_tr_ind,
                 )
 ```
 
-&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -496,7 +582,14 @@ ggplot(data = nhanes, aes(x = PhysActive, fill = SleepTrouble)) +
        title = "Sleep trouble vs. Physical activity")
 ```
 
-&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+### Sleep trouble vs. Age &amp; Physical activity
+
+&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;&lt;img src="15-logistic-assumptions_files/figure-html/unnamed-chunk-24-2.png" style="display: block; margin: auto;" /&gt;
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
