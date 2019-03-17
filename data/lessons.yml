@@ -134,7 +134,7 @@ lessons:
    # reading: "reading-05.html"
    # hw: "hw-04.html"
    # ec: "ec-01.html"
-   # slides: "lec-slides/09a-sim-test.html"
+    slides: "lec-slides/15-logistic-assumptions.html"
   - date: "Wed, Mar 20"
     title: "Logistic Regression"
    # slides: "lec-slides/09b-inf-overview.html"
