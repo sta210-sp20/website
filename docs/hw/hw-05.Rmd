@@ -132,11 +132,11 @@ As usual, be sure to include exploratory data analysis before the model selectio
 | Regular and informative commit messages | 2 |
 
 
-## Acknowledgement
+# Acknowledgement
 
 The questions from this assignment are modified from exercises in Chapter 6 of  [https://github.com/proback/BYSH](https://github.com/proback/BYSH).
 
-## References
+# References
 
 - Roskes, Marieke, Daniel Sligte, Shaul Shalvi, and Carsten K. W. De Dreu. 2011. “The Right Side? Under Time Pressure, Approach Motivation Leads to Right-Oriented Bias.” *Psychology Science*, 22 (11): 1403–7. doi:10.1177/0956797611418677.
 
