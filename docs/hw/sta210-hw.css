@@ -8,7 +8,11 @@
 /* Tufte CSS styles */
 
 html {
-	font-size: 9.5pt;
+  font-size: 12pt;
+}
+
+p {
+	font-size: 12pt;
 }
 
 body {
@@ -115,6 +119,7 @@ pre {
 ol {
 	/* Remove the default left padding */
 	padding-left: 0;
+	font-size: 12pt;
 }
 
 ol>li {
@@ -127,6 +132,7 @@ ol>li {
 	padding-bottom: 10px;
 	padding-right: 0;
 	padding-left: 90px;
+	font-size: 12pt;
 }
 
 ol>li:before {
