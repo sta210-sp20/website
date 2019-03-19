@@ -92,7 +92,7 @@ Interpret all the coefficients in the model (including the intercept) in terms o
 
 The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as "mini-projects".
 
-7. Data in `NBA1718team.csv` (“NBA Enhanced Box Scores and Standings” 2018) looks at factors that are associated with a team’s winning percentage. You will use the data to build a model that could be used to predict a team's win percentage. The following variables are in the data set. 
+7. Data in `NBA1718team.csv` (“NBA Enhanced Box Scores and Standings” 2018) looks at factors that are associated with a team’s winning percentage. You will use the data to build a model that could be used to predict a team's win percentage. You will use the following variables in the dataset: 
     
     - `win_pct` = Percentage of Wins,
     - `FT_pct` = Average Free Throw Percentage per game,
@@ -103,7 +103,7 @@ The *Data Analysis* section of homework contains open-ended data analysis questi
     - `avg_3P_pct` = Average 3 Point Percentage per game,
     - `PTS` = Average Points per game,
     - `OREB` = Average Offensive Rebounds per game,
-    - `DREB` = Average Defensive per game,
+    - `DREB` = Average Defensive Rebounds per game,
     - `REB` = Average Rebounds per game,
     - `AST` = Average Assists per game,
     - `STL` = Average Steals per game,
@@ -113,10 +113,11 @@ The *Data Analysis* section of homework contains open-ended data analysis questi
 
 Click [here](https://www2.stat.duke.edu/courses/Spring19/sta210.001/hw/data/NBA1718team.csv) to download the data. Upload the data into the `data` folder in your RStudio Cloud project. 
 
-- Use `win_pct` to create a new variable that is the log-odds of winning. This will be the response variable for the analysis. 
-- Use the `step` function to conduct backward selection to choose a final model that can be used to predict win percentage. You want to define the model in such a way that the intercept has a reasonable and meaningful interpretation. Be sure to output the coefficients of the final model along with its AIC value. 
+-  Given the structure of the data, you will approach the logistic regression in a slightly different way than what we've seen thus far.  Use `win_pct` to create a new variable that is the log odds of winning. You will use the `lm` function to build a linear model with this new variable as the repsonse.
+- Use the `step` function to conduct backward selection to help choose a final model that can be used to predict win percentage. You want to define the model in such a way that the intercept has a reasonable and meaningful interpretation. Be sure to output the coefficients of the final model along with its AIC value. *Note: The model selected by backward selection may not be the final model. Consider all aspects of model selection and make any adjustments as necessary.* 
 - Based on this model, discuss which factors are important for predicting an NBA team's win percentage.
-- What is the predicted win percentage (and corresponding interval) for a team with average box statistics (e.g. avg free throw percentage, etc.)? 
+- What are the predicted odds of winning (and corresponding interval) for a team with average box statistics (e.g. avg free throw percentage, etc.)? 
+- What is the predicted probability of winning for a team with average box statistics? You don't need to calculate a confidence interval.
 - Based on your model, describe what statistics a team would need to have a high win percentage. 
 
 As usual, be sure to include exploratory data analysis before the model selection and appropriate analysis of the model fit and assumptions. 
@@ -134,7 +135,7 @@ As usual, be sure to include exploratory data analysis before the model selectio
 
 # Acknowledgement
 
-The questions from this assignment are modified from exercises in Chapter 6 of  [https://github.com/proback/BYSH](https://github.com/proback/BYSH).
+The questions from this assignment are modified from exercises in Chapter 6 of  [*Broadening Your Statistical Horizons](https://bookdown.org/roback/bookdown-bysh/).
 
 # References
 

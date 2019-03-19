@@ -395,7 +395,7 @@ div.tocify {
 <h2>Part 2: Data Analysis</h2>
 <p>The <em>Data Analysis</em> section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as “mini-projects”.</p>
 <ol start="7" style="list-style-type: decimal">
-<li><p>Data in <code>NBA1718team.csv</code> (“NBA Enhanced Box Scores and Standings” 2018) looks at factors that are associated with a team’s winning percentage. You will use the data to build a model that could be used to predict a team’s win percentage. The following variables are in the data set.</p>
+<li><p>Data in <code>NBA1718team.csv</code> (“NBA Enhanced Box Scores and Standings” 2018) looks at factors that are associated with a team’s winning percentage. You will use the data to build a model that could be used to predict a team’s win percentage. You will use the following variables in the dataset:</p>
 <ul>
 <li><code>win_pct</code> = Percentage of Wins,</li>
 <li><code>FT_pct</code> = Average Free Throw Percentage per game,</li>
@@ -406,7 +406,7 @@ div.tocify {
 <li><code>avg_3P_pct</code> = Average 3 Point Percentage per game,</li>
 <li><code>PTS</code> = Average Points per game,</li>
 <li><code>OREB</code> = Average Offensive Rebounds per game,</li>
-<li><code>DREB</code> = Average Defensive per game,</li>
+<li><code>DREB</code> = Average Defensive Rebounds per game,</li>
 <li><code>REB</code> = Average Rebounds per game,</li>
 <li><code>AST</code> = Average Assists per game,</li>
 <li><code>STL</code> = Average Steals per game,</li>
@@ -417,10 +417,11 @@ div.tocify {
 </ol>
 <p>Click <a href="https://www2.stat.duke.edu/courses/Spring19/sta210.001/hw/data/NBA1718team.csv">here</a> to download the data. Upload the data into the <code>data</code> folder in your RStudio Cloud project.</p>
 <ul>
-<li>Use <code>win_pct</code> to create a new variable that is the log-odds of winning. This will be the response variable for the analysis.</li>
-<li>Use the <code>step</code> function to conduct backward selection to choose a final model that can be used to predict win percentage. You want to define the model in such a way that the intercept has a reasonable and meaningful interpretation. Be sure to output the coefficients of the final model along with its AIC value.</li>
+<li>Given the structure of the data, you will approach the logistic regression in a slightly different way than what we’ve seen thus far. Use <code>win_pct</code> to create a new variable that is the log odds of winning. You will use the <code>lm</code> function to build a linear model with this new variable as the repsonse.</li>
+<li>Use the <code>step</code> function to conduct backward selection to help choose a final model that can be used to predict win percentage. You want to define the model in such a way that the intercept has a reasonable and meaningful interpretation. Be sure to output the coefficients of the final model along with its AIC value. <em>Note: The model selected by backward selection may not be the final model. Consider all aspects of model selection and make any adjustments as necessary.</em></li>
 <li>Based on this model, discuss which factors are important for predicting an NBA team’s win percentage.</li>
-<li>What is the predicted win percentage (and corresponding interval) for a team with average box statistics (e.g. avg free throw percentage, etc.)?</li>
+<li>What are the predicted odds of winning (and corresponding interval) for a team with average box statistics (e.g. avg free throw percentage, etc.)?</li>
+<li>What is the predicted probability of winning for a team with average box statistics? You don’t need to calculate a confidence interval.</li>
 <li>Based on your model, describe what statistics a team would need to have a high win percentage.</li>
 </ul>
 <p>As usual, be sure to include exploratory data analysis before the model selection and appropriate analysis of the model fit and assumptions.</p>
@@ -465,7 +466,7 @@ div.tocify {
 </div>
 <div id="acknowledgement" class="section level1">
 <h1>Acknowledgement</h1>
-<p>The questions from this assignment are modified from exercises in Chapter 6 of <a href="https://github.com/proback/BYSH" class="uri">https://github.com/proback/BYSH</a>.</p>
+<p>The questions from this assignment are modified from exercises in Chapter 6 of <a href="https://bookdown.org/roback/bookdown-bysh/">*Broadening Your Statistical Horizons</a>.</p>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
