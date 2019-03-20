@@ -417,7 +417,7 @@ div.tocify {
 </ol>
 <p>Click <a href="https://www2.stat.duke.edu/courses/Spring19/sta210.001/hw/data/NBA1718team.csv">here</a> to download the data. Upload the data into the <code>data</code> folder in your RStudio Cloud project.</p>
 <ul>
-<li>Given the structure of the data, you will approach the logistic regression in a slightly different way than what we’ve seen thus far. Use <code>win_pct</code> to create a new variable that is the log odds of winning. You will use the <code>lm</code> function to build a linear model with this new variable as the repsonse.</li>
+<li>Given the structure of the data, you will approach the logistic regression in a slightly different way than what we’ve seen thus far. Use <code>win_pct</code> to create a new variable that is the log odds of winning. Fit a linear model with this new variable as the repsonse.</li>
 <li>Use the <code>step</code> function to conduct backward selection to help choose a final model that can be used to predict win percentage. You want to define the model in such a way that the intercept has a reasonable and meaningful interpretation. Be sure to output the coefficients of the final model along with its AIC value. <em>Note: The model selected by backward selection may not be the final model. Consider all aspects of model selection and make any adjustments as necessary.</em></li>
 <li>Based on this model, discuss which factors are important for predicting an NBA team’s win percentage.</li>
 <li>What are the predicted odds of winning (and corresponding interval) for a team with average box statistics (e.g. avg free throw percentage, etc.)?</li>
