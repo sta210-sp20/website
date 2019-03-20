@@ -397,7 +397,7 @@ div.tocify {
 <ol start="7" style="list-style-type: decimal">
 <li><p>Data in <code>NBA1718team.csv</code> (“NBA Enhanced Box Scores and Standings” 2018) looks at factors that are associated with a team’s winning percentage. You will use the data to build a model that could be used to predict a team’s win percentage. You will use the following variables in the dataset:</p>
 <ul>
-<li><code>win_pct</code> = Percentage of Wins,</li>
+<li><code>win_pct</code> = Win percentage,</li>
 <li><code>FT_pct</code> = Average Free Throw Percentage per game,</li>
 <li><code>TOV</code> = Average Turnovers per game,</li>
 <li><code>FGA</code> = Average Field Goal Attempts per game,</li>
@@ -416,8 +416,9 @@ div.tocify {
 </ul></li>
 </ol>
 <p>Click <a href="https://www2.stat.duke.edu/courses/Spring19/sta210.001/hw/data/NBA1718team.csv">here</a> to download the data. Upload the data into the <code>data</code> folder in your RStudio Cloud project.</p>
+<p>Given the structure of the data, we will use the percentage of wins (rather than Win: Yes/No) as the response variable. There are a few ways to build a model for this type of response variable; however, we will approach it by using a logit transformation on the response, i.e. the log-odds.</p>
 <ul>
-<li>Given the structure of the data, you will approach the logistic regression in a slightly different way than what we’ve seen thus far. Use <code>win_pct</code> to create a new variable that is the log odds of winning. Fit a linear model with this new variable as the repsonse.</li>
+<li>Use <code>win_pct</code> to create a new variable that is the log odds of winning. Fit a linear model with this new variable as the repsonse.</li>
 <li>Use the <code>step</code> function to conduct backward selection to help choose a final model that can be used to predict win percentage. You want to define the model in such a way that the intercept has a reasonable and meaningful interpretation. Be sure to output the coefficients of the final model along with its AIC value. <em>Note: The model selected by backward selection may not be the final model. Consider all aspects of model selection and make any adjustments as necessary.</em></li>
 <li>Based on this model, discuss which factors are important for predicting an NBA team’s win percentage.</li>
 <li>What are the predicted odds of winning (and corresponding interval) for a team with average box statistics (e.g. avg free throw percentage, etc.)?</li>
