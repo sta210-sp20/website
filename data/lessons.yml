@@ -138,6 +138,7 @@ lessons:
   - date: "Wed, Mar 20"
     title: "Logistic Regression: EDA & Drop-in-Deviance Test"
     slides: "lec-slides/16-logistic-eda.html"
+    appex: "16-logistic.html"
   - date: "Fri, Mar 22"
     title: "Lab 07: Logistic Regression"
    # project: "project.html"
