@@ -59,7 +59,7 @@ library(rvest)
 - Take a few minutes to fill out the mid-semester survey: 
 
 .center[
-[http://bit.ly/sta199-midsemester-survey](http://bit.ly/sta199-midsemester-survey)
+[http://bit.ly/sta210-midsemester-survey](http://bit.ly/sta210-midsemester-survey)
 ]
 
 - Your responses are anonymous. 
