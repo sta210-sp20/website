@@ -169,7 +169,7 @@ arm::binnedplot(x = not_phys$Age, y = nhanes$sleep_tr_ind,
 
 class: middle, center
 
-### Change in deviance test
+### Drop-in-deviance test
 
 ---
 

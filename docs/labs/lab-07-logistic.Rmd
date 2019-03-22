@@ -1,5 +1,5 @@
 ---
-title: "Lab 06: Logistic Regression"
+title: "Lab 07: Logistic Regression"
 date: "due Wed, Mar 27 at 11:59p"
 output: 
   tufte::tufte_html:
@@ -18,10 +18,13 @@ knitr::opts_chunk$set(echo = TRUE,
                       eval=FALSE)
 ```
 
+```{r echo=FALSE, eval=T, fig.align="right",out.width="50%", out.extra='style="float:right; padding:1px"'}
+knitr::include_graphics("img/07-logistic/headphones.png")
+```
+
 Over the past ten years, recommendation systems have become increasingly popular as more companies strive to offer customized user experiences. Amazon recommends products you may like based on your browse and purchase history, Netflix recommends movies and TV shows based on your past viewing history, and music platforms like Spotify recommend songs you may like based on your listening history. While these recommendation systems can be built based on various different algorithms, they are all trying to achieve the same goal: use the characteristics of the products/movies/music a user is known to like to figure out the products/movies/music the user may like but hasn't discovered yet. 
 
-In today's lab, we will focus on using song characteristics to determine whether or not a user will like a song. We will use logistic regression to build a model that predicts the probability a user likes a song using the relevant characteristics of the song. The data in this lab is from the [Spotify Song Attributes](https://www.kaggle.com/geomack/spotifyclassification) data set in Kaggle. This data set contains song characteristics of 2017 songs and whether or not the person liked the song. This data set contains the song preferences of a single person; therefore, our the scope of our analysis is limited to the person who created the data set. 
-
+In today's lab, we will focus on using song characteristics to determine whether or not a user will like a song. We will use logistic regression to build a model that predicts the probability a user likes a song using the relevant characteristics of the song. 
 
 See ["How Does Spotify Know You So Well?"](https://medium.com/s/story/spotifys-discover-weekly-how-machine-learning-finds-your-new-music-19a41ab76efe) on Medium.com for more information about Spotify's recommendation algorithms.
 
@@ -60,9 +63,7 @@ You will need the following packages for today's lab:
 ```{r load-packages}
 library(tidyverse)
 library(broom)
-library(arm)
-
-#Fill in other packages as needed
+# Fill in other packages as needed
 ```
 
 ## Project name: 
@@ -81,107 +82,83 @@ Before we introduce the data, let's warm up with a simple exercise.
 
 ## Data
 
+The data in this lab is from the [Spotify Song Attributes](https://www.kaggle.com/geomack/spotifyclassification) data set in Kaggle. This data set contains song characteristics of 2017 songs and whether or not the person liked the song. This data set contains the song preferences of a single person; therefore, our the scope of our analysis is limited to the person who created the data set.
+
 You will use data `spotify.csv` to build the logistic regression model and test the model the songs in `test_songs.csv`. 
-Download `spotify.csv` [here](https://www2.stat.duke.edu/courses/Spring19/sta210.001/labs/data/spotify.csv) and `test_songs.csv` [here](https://www2.stat.duke.edu/courses/Spring19/sta210.001/labs/data/test_songs.csv) and upload the files to the data folder in your `lab-07` repo. Use the `read_csv` function to load the data. 
+Click [here](https://www2.stat.duke.edu/courses/Spring19/sta210.001/labs/data/spotify.csv) to download the dataset  `spotify.csv`, and click [here](https://www2.stat.duke.edu/courses/Spring19/sta210.001/labs/data/test_songs.csv) to download the dataset `test_songs.csv`. Upload both files to the  to the data folder in your `lab-07` project. 
 
-Data dictionary: 
-
-**FILL IN**
+The  [Spotify documentation page](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/) contains a description of the variables included in this dataset.
 
 # Exercises
 
 ## Exploratory Data Analysis
+    
+1. Use the `glimpse` function to see the size of the data set and the variable names. The response variable for this analysis is `like`, such that 1 indicates that the user likes the song and 0 otherwise. The remaining variables are potential predictor variables.
+```{marginfigure}
+Part of the code to make `like` a factor. 
 
-
-1. Use the `glimpse` function to see the size of the data set and the variable names. The response variable for this analysis is `like`, where 1 indicates that the user likes the song and 0 otherwise. The remaining variables will be considered as potential explanatory variables. 
-
-The variable definitions can be found in the <a href="https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/" target="_blank">Spotify documentation page</a>. Read through the documentation to see the definitions of the variables used in this analysis. Based on the documentation, what is the definition of **`valence`**?
-
-
-2. For now, we will use boxplots to look at the distributions of the numerical explanatory variables based on whether or not the Spotify user liked the song.
-
-Before making the boxplots, change the response variable `like` so that it is a factor variable type.
-
-Create boxplots of the variables `acousticness`, `danceability`, `duration_ms`,`energy`, and `instrumentalness`, each versus the response variable `like`. Use the `plot_grid()` function to fit the boxplots on one page by organizing them into three columns. An outline of the code is shown below: 
-  
-```{r,eval=F}
-p1 <- ggplot(data=music,aes(x=like,y=acousticness)) + geom_boxplot() + 
-  labs(title="Acousticness by Like")
-
-# include code for plots p2 - p5
-
-plot_grid(p1,p2,p3,p4,p5,ncol=3)
+```mutate(like = factor(like))```
 ```
 
-3. Create boxplots of the variables `liveness`, and `loudness`, `speechiness`, `tempo`, and `valence`, each versus the response variable `like`. Use the `plot_grid` function to fit the boxplots on one page by organizing them into two columns.
+    - Which variables are categorical? 
+    - Make the response variable and each of the categorical predictors a `factor` variable type in the dataset. 
+    
 
-4. We will use bar graphs to display the distributions of the remaining variables, since they are best understand as describing categories rather than numerical data. Create bar graphs for the variables `key`, `mode`, and `time_signature`. As before, use `plot_grid` to neatly organize the plots into two columns. 
 
+2. Choose a quantitative predictor variable. Make the appropriate plot of the response versus this predictor variable. Describe the relationship between the two variables. 
 
-There are many ways to plot bar graphs. Below is an example of one way to plot a stacked bar graph.
+3. Choose a categorical predictor variable. Make the appropriate plot of the response versus this predictor variable. Describe the relationship between the two variables. 
 
-```{r eval=F}
-p1 <- ggplot(data=music,aes(x=key)) + geom_bar(aes(fill=like)) + 
-  labs(title="Like vs.Key")
-```
+4. Let's consider a potential interaction effect between the variables you choose in Exercises 2 and 3. Make the appropriate plots to examine the potential interaction effect. Do these plots suggest there is a significant interaction effect? Briefly explain.
 
-5. Examine the plots from the previous exercises. Based on these plots, which variables might be useful in differentiating which songs the user likes vs. those the user doesn't like? Briefly explain. 
+*In practice, you should do exploratory data analysis for all potential explanatory variables. For the sake of time on today's lab, we did an abbreviated exploratory data analysis to make the assignment more manageable.*
 
 ## Part II: Logistic Regression Model
 
-6. We will begin by considering the model that includes all the explanatory variables. Use the `glm()` function to build a logistic regression model that includes all the explanatory variables. An outline of the `glm` syntax is shown below. 
+5. Fit the full model and display the model output. The main objective for the model is to predict whether the user will like a song. Should we use this model for this objective? Briefly explain.  
 
-Display your model. Recall that the primary goal of this analysis is to predict the probability this Spotify user will like a song. Should we use this model for prediction? Briefly explain.
+6. Use the `step` function to perform backward selection. Display the output for the selected model.
 
+7. Briefly describe the criteria used by `step` to select the final model. 
 
-7. To enable better prediction, we would like to select only the most relevant variables for the model. We will use the `step` function in R, since it is able to accept `glm` objects. Conduct **backward selection** using the `step()` function with your model from Question 3 as the starting point. 
+For the remainder of this lab, we will use the model chosen by model selection. In practice; however, we would not just stop with the results from the automated model selection procedure and would examine the model further to see if it can be simplified.
 
-8. Display the model selected by backward selection.
-
-9. There may be some variables that were selected by backward selection that do not significantly affect the probability of liking a song after accounting for the other variables in the model. Using a threshold of 0.05, remove any such variables (if applicable) and  display the final model. (*Note: Since we're using the p-values to determine if variables should be removed from the model, we are assuming the model is valid for inference. We will check the assumptions  to assess the model's adequancy in Part III.*)
-
-10. We will now look at the variable `duration_ms`. 
-    - What are the units of the variable `duration_ms`? </li>
-    - Use the code below to obtain the 95% confidence interval for the coefficient of `duration_ms` in terms of its effect on the **<u>log-odds of liking a song</u>**.
-
-```{r eval=F}
-#confint.default ensures the confidence interval is calculated correctly for logistic model
-confint.default(final.model,level=0.95)
-```
-
-11. Interpret the coefficient of `duration_ms` in terms of its effect on the **<u>odds of liking a song</u>**.
-
-12. What would be the coefficient of `duration` if the units were changed to *seconds*?
-
+8. Consider the variable `duration_ms`. 
+    
+    - Interpret the coefficient of `duration_ms` and its 95% confidence interval in terms of the odds of the user liking a song.
+    - Suppose instead of `duration_ms`, we use the variable `duration_sec`, the duration of a song in seconds. What would be the coefficient and corresponding 95% confidence interval for `duration_s`? *Assume all other variables in the model are unchanged.*
+    
+9. Interpret `mode` and its 95% confidence interval in terms of the odds of the user liking a song.
 
 ## Part III: Model Assessment
 
-13. We begin by examining the raw residuals vs. the predicted values. 
-    - Use the `mutate()` function to add the predicted values and residuals to the `music` data set. You can use the code below to calculate the predicted values and residuals in terms of the predicted probability of liking a song.
-    - Plot the residuals vs. the predicted values.
-    - Describe the plot from part (b). Why is it unhelpful to use a plot of the raw residuals to assess the fit of a logistic model?
+In the next few questions, we will do an abbreviated analysis of the residuals. 
 
-14. Instead of the raw residuals, we can use plots of the binned residuals to check the adequacy of the logistic model. See the lecture notes to recall the description of binned residual plots.
-    - Use the code below to plot the binned residuals vs. the predicted values.
+10. Create a binned plot of the residuals versus the predicted probabilities. 
 
-Similar to multiple linear regression, we need to plot the residuals vs. the explanatory variables. There are a lot of variables in our model, so we need to make the binned residuals plots in a way that will be easy for the reader to see. The plots produced by the `binnedplot` function are not the usual plot objects that can be used with the `plot_grid` function, so we must find another way to make organize multiple plots in a useful way.  
+11. Choose a quantitative predictor in the final model. Make the appropriate table or plot to examine the residuals versus this predictor variable.
 
-Put the code to create all the plots for the binned residuals vs. the explanatory variables in a single R code chunk. In order to put many plots on a single page, we will use the following header in the code chunk: 
+12. Choose a categorical predictor in the final model. Make the appropriate table or plot to examine the residuals versus this predictor variable.
 
-15. Based on the plots from the previous exercise, is this logistic model a good fit? Briefly explain.
+*We should examine plots of residuals versus <u>every</u> predictor variable to make a complete assessment of the model fit. For the sake of time on the lab, we will use these three plots to help make the assessment.*
 
-16. Look at the ROC curve and change in deviance statistic.
+13. Plot the ROC curve and find the area under the curve. 
 
-## Part IV: Prediction 
+14. Based on the residual plots and the ROC curve, is this logistic model a good fit for the data? Briefly explain.
 
+## Part IV: Prediction
 
-17. We finish this analysis by returning the original goal of determining whether or not the user would like a song. To test this, we will use our model to calculate the probability the user likes two songs: 
+15. You are part of the data science team at Spotify, and your model will be used to make song recommendations to users. The goal is to recommend songs the user has a high probability of liking. 
 
+As a group, choose a threshold value to distinguish between songs the user will like and those the user won't like. What is your threshold value? Use the ROC curve to help justify your choice. 
+
+16. Now let's put your model and decision threshold to the test! Use your model to calculate the predicted probability that the user will like the following two songs:
+ 
     - "Sign of the Times" by Harry Styles
     - "Hotline Bling" by Drake
+    
+Also include the appropriate interval. The data for the songs can be found in *test_songs.csv*. 
 
-The data for the songs can be found in *test_songs.csv*. Load the data into your R markdown file. 
+17. Using your decision threshold from Question 16, would you recommend "Sign of the Times" to this user? Would your recommend "Hotline Bling" to this user? 
 
-The user likes "Hotline Bling" but doesn't like "Sign of the Times". Based on these two songs, how well did the model distinguish between songs this Spotify user likes vs. those he doesn't? Briefly explain. 
-
-
+18. The user likes "Hotline Bling" but doesn't like "Sign of the Times". How good were your recommendations based on these two songs? If they were good recommendations, explain how the model and threshold helped you distinguish between songs the user would like and those he wouldn't. If they were not good recommendations, explain the limitations in your model and/or threshold.
