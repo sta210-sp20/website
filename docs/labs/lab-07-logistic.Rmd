@@ -126,7 +126,7 @@ For the remainder of this lab, you will use the model chosen by model selection 
 8. Consider the variable `duration_ms`. 
     
     - Interpret the coefficient of `duration_ms` and its 95% confidence interval in terms of the odds of the user liking a song.
-    - Suppose instead of `duration_ms`, we use the variable `duration_sec`, the duration of a song in seconds. What would be the effect of `duration_s` on the odds of the user liking a song? Include the updated coefficient and corresponding 95% confidence interval for `duration_s`. *Assume all other variables in the model are unchanged.*
+    - Suppose instead of `duration_ms`, we use the variable `duration_s`, the duration of a song in seconds. What would be the effect of `duration_s` on the odds of the user liking a song? Include the updated coefficient and corresponding 95% confidence interval for `duration_s`. *Assume all other variables in the model are unchanged.*
     
 9. Interpret `mode` and its 95% confidence interval in terms of the odds of the user liking a song. 
 

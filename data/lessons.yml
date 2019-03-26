@@ -147,7 +147,7 @@ lessons:
   - date: "Mon, Mar 25"
     title: "Multinomial Logistic Regression"
     hw: "hw-05.html"
-   # slides: "lec-slides/10a-sim-inf-review.html"
+    slides: "lec-slides/17-multinomial-logistic.html"
   - date: "Wed, Mar 27"
     title: "Multinomial Logistic Regression"
    # reading: "reading-06.html"
