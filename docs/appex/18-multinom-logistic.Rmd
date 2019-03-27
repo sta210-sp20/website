@@ -1,0 +1,76 @@
+---
+title: "Multinomial Logistic Regression"
+subtitle: "*Sesame Street* Analysis"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height =5,
+	fig.width = 8,
+	message = FALSE,
+	warning = FALSE,
+	echo= TRUE
+)
+```
+
+```{r,echo=F}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(cowplot)
+library(arm) #binned residuals
+library(nnet) #multinomial regression models
+```
+
+```{r}
+# read in dataset
+sesame <- read_csv("data/sesame.csv")
+```
+
+```{r}
+# mean-center relevant continuous variables, make categorical variables factors
+sesame <- sesame %>% 
+  mutate(viewcat = as.factor(viewcat), site = as.factor(site), 
+         prenumbCent = prenumb - mean(prenumb), preletCent = prelet - mean(prelet), 
+         ageCent = age - mean(age), viewenc = as.factor(if_else(viewenc==1,1,0)))
+```
+<br>
+
+### Questions
+
+1. Describe how you would conduct exploratory data analysis. What plots and/or summary statistics would you include? 
+
+```{r warning = F, message = F}
+model1 <- multinom(viewcat ~ site + viewenc + prenumbCent + preletCent + ageCent,
+                   data = sesame)
+kable(tidy(model1, conf.int=TRUE, exponentiate = FALSE),
+      format = "markdown")
+```
+<br>
+
+
+
+2. Interpret the intercept, -0.225. 
+
+3. Interpret the effect of the numbers pretest on the odds of viewership. 
+
+4. The primary objective of the experiment was to understand the effect of encouragement `viewenc` on viewership. Does encouragement have a significant effect on viewership? If so, describe the effect. Otherwise, explain why not. 
+
+5. We want to test if there are any significant interactions with `viewenc` and the pretests. We create a model that includes the variables from `model1` along with `viewenc*preletCent` and `viewenc*prenumbCent`. 
+
+```{r echo = T, warning = F, message = F}
+model2 <- multinom(viewcat ~ site + viewenc + prenumbCent + preletCent + ageCent + 
+                     viewenc*preletCent + viewenc*prenumbCent,
+                   data = sesame)
+```
+
+The results from the drop-in-deviance test are shown below. Is there evidence of a significant interaction effect? Explain. 
+
+```{r}
+anova(model1, model2, test = "Chisq")
+```
+
+6. Describe the plots, tables, and/or calculations you would create using the residuals to assess model fit.
