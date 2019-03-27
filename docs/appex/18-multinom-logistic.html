@@ -195,9 +195,12 @@ $(document).ready(function () {
 sesame &lt;- read_csv(&quot;data/sesame.csv&quot;)</code></pre>
 <pre class="r"><code># mean-center relevant continuous variables, make categorical variables factors
 sesame &lt;- sesame %&gt;% 
-  mutate(viewcat = as.factor(viewcat), site = as.factor(site), 
-         prenumbCent = prenumb - mean(prenumb), preletCent = prelet - mean(prelet), 
-         ageCent = age - mean(age), viewenc = as.factor(if_else(viewenc==1,1,0)))</code></pre>
+  mutate(viewcat = as.factor(viewcat), 
+         site = as.factor(site), 
+         prenumbCent = prenumb - mean(prenumb), 
+         preletCent = prelet - mean(prelet), 
+         ageCent = age - mean(age),
+         viewenc = ifelse(viewenc == 1, &quot;Encouraged&quot;, &quot;Not Encouraged&quot;))</code></pre>
 <p><br></p>
 <div id="questions" class="section level3">
 <h3>Questions</h3>
@@ -208,14 +211,24 @@ sesame &lt;- sesame %&gt;%
                    data = sesame)</code></pre>
 <pre><code>## # weights:  40 (27 variable)
 ## initial  value 332.710647 
-## iter  10 value 307.904120
-## iter  20 value 281.410411
-## iter  30 value 280.866915
+## iter  10 value 308.329993
+## iter  20 value 282.195646
+## iter  30 value 280.866903
 ## final  value 280.866878 
 ## converged</code></pre>
 <pre class="r"><code>kable(tidy(model1, conf.int=TRUE, exponentiate = FALSE),
       format = &quot;markdown&quot;)</code></pre>
 <table>
+<colgroup>
+<col width="8%"></col>
+<col width="22%"></col>
+<col width="11%"></col>
+<col width="10%"></col>
+<col width="11%"></col>
+<col width="10%"></col>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">y.level</th>
@@ -232,278 +245,278 @@ sesame &lt;- sesame %&gt;%
 <tr class="odd">
 <td align="left">2</td>
 <td align="left">(Intercept)</td>
-<td align="right">-0.2252104</td>
-<td align="right">0.4906193</td>
-<td align="right">-0.4590330</td>
-<td align="right">0.6462105</td>
-<td align="right">-1.1868066</td>
-<td align="right">0.7363857</td>
+<td align="right">2.4476479</td>
+<td align="right">0.5948957</td>
+<td align="right">4.1144148</td>
+<td align="right">0.0000388</td>
+<td align="right">1.2816736</td>
+<td align="right">3.6136221</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
 <td align="left">site2</td>
-<td align="right">-0.0562769</td>
-<td align="right">0.7812516</td>
-<td align="right">-0.0720342</td>
-<td align="right">0.9425747</td>
-<td align="right">-1.5875019</td>
-<td align="right">1.4749482</td>
+<td align="right">-0.0562097</td>
+<td align="right">0.7812605</td>
+<td align="right">-0.0719474</td>
+<td align="right">0.9426438</td>
+<td align="right">-1.5874521</td>
+<td align="right">1.4750327</td>
 </tr>
 <tr class="odd">
 <td align="left">2</td>
 <td align="left">site3</td>
-<td align="right">-1.0004967</td>
-<td align="right">0.6497528</td>
-<td align="right">-1.5398112</td>
-<td align="right">0.1236064</td>
-<td align="right">-2.2739889</td>
-<td align="right">0.2729955</td>
+<td align="right">-1.0005051</td>
+<td align="right">0.6497524</td>
+<td align="right">-1.5398252</td>
+<td align="right">0.1236030</td>
+<td align="right">-2.2739963</td>
+<td align="right">0.2729862</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
 <td align="left">site4</td>
-<td align="right">-1.8504836</td>
-<td align="right">0.6480874</td>
-<td align="right">-2.8552996</td>
-<td align="right">0.0042996</td>
-<td align="right">-3.1207115</td>
-<td align="right">-0.5802557</td>
+<td align="right">-1.8505122</td>
+<td align="right">0.6480878</td>
+<td align="right">-2.8553417</td>
+<td align="right">0.0042991</td>
+<td align="right">-3.1207411</td>
+<td align="right">-0.5802834</td>
 </tr>
 <tr class="odd">
 <td align="left">2</td>
 <td align="left">site5</td>
-<td align="right">-1.7436467</td>
-<td align="right">0.8392662</td>
-<td align="right">-2.0775847</td>
-<td align="right">0.0377476</td>
-<td align="right">-3.3885783</td>
-<td align="right">-0.0987151</td>
+<td align="right">-1.7438076</td>
+<td align="right">0.8392694</td>
+<td align="right">-2.0777686</td>
+<td align="right">0.0377307</td>
+<td align="right">-3.3887455</td>
+<td align="right">-0.0988698</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
-<td align="left">viewenc1</td>
-<td align="right">2.6728026</td>
-<td align="right">0.5013821</td>
-<td align="right">5.3308701</td>
+<td align="left">viewencNot Encouraged</td>
+<td align="right">-2.6728847</td>
+<td align="right">0.5013879</td>
+<td align="right">-5.3309715</td>
 <td align="right">0.0000001</td>
-<td align="right">1.6901118</td>
-<td align="right">3.6554934</td>
+<td align="right">-3.6555870</td>
+<td align="right">-1.6901824</td>
 </tr>
 <tr class="odd">
 <td align="left">2</td>
 <td align="left">prenumbCent</td>
-<td align="right">0.0325927</td>
-<td align="right">0.0355535</td>
-<td align="right">0.9167215</td>
-<td align="right">0.3592886</td>
-<td align="right">-0.0370909</td>
-<td align="right">0.1022763</td>
+<td align="right">0.0325903</td>
+<td align="right">0.0355537</td>
+<td align="right">0.9166519</td>
+<td align="right">0.3593251</td>
+<td align="right">-0.0370936</td>
+<td align="right">0.1022742</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
 <td align="left">preletCent</td>
-<td align="right">0.0036525</td>
-<td align="right">0.0415043</td>
-<td align="right">0.0880026</td>
-<td align="right">0.9298746</td>
-<td align="right">-0.0776945</td>
-<td align="right">0.0849995</td>
+<td align="right">0.0036567</td>
+<td align="right">0.0415046</td>
+<td align="right">0.0881037</td>
+<td align="right">0.9297943</td>
+<td align="right">-0.0776909</td>
+<td align="right">0.0850043</td>
 </tr>
 <tr class="odd">
 <td align="left">2</td>
 <td align="left">ageCent</td>
-<td align="right">-0.0341366</td>
-<td align="right">0.0417835</td>
-<td align="right">-0.8169865</td>
-<td align="right">0.4139362</td>
-<td align="right">-0.1160308</td>
-<td align="right">0.0477576</td>
+<td align="right">-0.0341343</td>
+<td align="right">0.0417836</td>
+<td align="right">-0.8169316</td>
+<td align="right">0.4139675</td>
+<td align="right">-0.1160287</td>
+<td align="right">0.0477600</td>
 </tr>
 <tr class="even">
 <td align="left">3</td>
 <td align="left">(Intercept)</td>
-<td align="right">0.0691231</td>
-<td align="right">0.4719447</td>
-<td align="right">0.1464645</td>
-<td align="right">0.8835547</td>
-<td align="right">-0.8558714</td>
-<td align="right">0.9941177</td>
+<td align="right">2.5153851</td>
+<td align="right">0.5911066</td>
+<td align="right">4.2553830</td>
+<td align="right">0.0000209</td>
+<td align="right">1.3568374</td>
+<td align="right">3.6739328</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
 <td align="left">site2</td>
-<td align="right">0.2023403</td>
-<td align="right">0.7468254</td>
-<td align="right">0.2709339</td>
-<td align="right">0.7864419</td>
-<td align="right">-1.2614105</td>
-<td align="right">1.6660911</td>
+<td align="right">0.2024818</td>
+<td align="right">0.7468361</td>
+<td align="right">0.2711195</td>
+<td align="right">0.7862991</td>
+<td align="right">-1.2612899</td>
+<td align="right">1.6662536</td>
 </tr>
 <tr class="even">
 <td align="left">3</td>
 <td align="left">site3</td>
-<td align="right">-0.8328082</td>
-<td align="right">0.6358110</td>
-<td align="right">-1.3098361</td>
-<td align="right">0.1902513</td>
-<td align="right">-2.0789748</td>
-<td align="right">0.4133584</td>
+<td align="right">-0.8327374</td>
+<td align="right">0.6358129</td>
+<td align="right">-1.3097210</td>
+<td align="right">0.1902902</td>
+<td align="right">-2.0789078</td>
+<td align="right">0.4134329</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
 <td align="left">site4</td>
-<td align="right">-2.4378099</td>
-<td align="right">0.6854650</td>
-<td align="right">-3.5564326</td>
-<td align="right">0.0003759</td>
-<td align="right">-3.7812965</td>
-<td align="right">-1.0943233</td>
+<td align="right">-2.4377774</td>
+<td align="right">0.6854693</td>
+<td align="right">-3.5563625</td>
+<td align="right">0.0003760</td>
+<td align="right">-3.7812725</td>
+<td align="right">-1.0942822</td>
 </tr>
 <tr class="even">
 <td align="left">3</td>
 <td align="left">site5</td>
-<td align="right">-3.6264227</td>
-<td align="right">1.2407156</td>
-<td align="right">-2.9228476</td>
-<td align="right">0.0034685</td>
-<td align="right">-6.0581806</td>
-<td align="right">-1.1946648</td>
+<td align="right">-3.6262825</td>
+<td align="right">1.2406520</td>
+<td align="right">-2.9228844</td>
+<td align="right">0.0034681</td>
+<td align="right">-6.0579158</td>
+<td align="right">-1.1946492</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
-<td align="left">viewenc1</td>
-<td align="right">2.4463002</td>
-<td align="right">0.5017294</td>
-<td align="right">4.8757360</td>
+<td align="left">viewencNot Encouraged</td>
+<td align="right">-2.4463374</td>
+<td align="right">0.5017349</td>
+<td align="right">-4.8757573</td>
 <td align="right">0.0000011</td>
-<td align="right">1.4629286</td>
-<td align="right">3.4296718</td>
+<td align="right">-3.4297196</td>
+<td align="right">-1.4629551</td>
 </tr>
 <tr class="even">
 <td align="left">3</td>
 <td align="left">prenumbCent</td>
-<td align="right">0.0705823</td>
-<td align="right">0.0354467</td>
-<td align="right">1.9912202</td>
-<td align="right">0.0464567</td>
-<td align="right">0.0011079</td>
-<td align="right">0.1400566</td>
+<td align="right">0.0705815</td>
+<td align="right">0.0354470</td>
+<td align="right">1.9911869</td>
+<td align="right">0.0464603</td>
+<td align="right">0.0011068</td>
+<td align="right">0.1400563</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
 <td align="left">preletCent</td>
-<td align="right">-0.0151351</td>
-<td align="right">0.0410746</td>
-<td align="right">-0.3684775</td>
-<td align="right">0.7125172</td>
-<td align="right">-0.0956397</td>
-<td align="right">0.0653696</td>
+<td align="right">-0.0151321</td>
+<td align="right">0.0410750</td>
+<td align="right">-0.3684021</td>
+<td align="right">0.7125735</td>
+<td align="right">-0.0956376</td>
+<td align="right">0.0653734</td>
 </tr>
 <tr class="even">
 <td align="left">3</td>
 <td align="left">ageCent</td>
-<td align="right">-0.0329586</td>
-<td align="right">0.0417656</td>
-<td align="right">-0.7891341</td>
-<td align="right">0.4300337</td>
-<td align="right">-0.1148176</td>
-<td align="right">0.0489004</td>
+<td align="right">-0.0329576</td>
+<td align="right">0.0417658</td>
+<td align="right">-0.7891049</td>
+<td align="right">0.4300507</td>
+<td align="right">-0.1148170</td>
+<td align="right">0.0489019</td>
 </tr>
 <tr class="odd">
 <td align="left">4</td>
 <td align="left">(Intercept)</td>
-<td align="right">-0.3062796</td>
-<td align="right">0.5066758</td>
-<td align="right">-0.6044882</td>
-<td align="right">0.5455191</td>
-<td align="right">-1.2993459</td>
-<td align="right">0.6867868</td>
+<td align="right">2.0259213</td>
+<td align="right">0.6142830</td>
+<td align="right">3.2980262</td>
+<td align="right">0.0009737</td>
+<td align="right">0.8219488</td>
+<td align="right">3.2298938</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
 <td align="left">site2</td>
-<td align="right">0.9549038</td>
-<td align="right">0.7495645</td>
-<td align="right">1.2739449</td>
-<td align="right">0.2026830</td>
-<td align="right">-0.5142156</td>
-<td align="right">2.4240232</td>
+<td align="right">0.9550186</td>
+<td align="right">0.7495735</td>
+<td align="right">1.2740827</td>
+<td align="right">0.2026341</td>
+<td align="right">-0.5141185</td>
+<td align="right">2.4241557</td>
 </tr>
 <tr class="odd">
 <td align="left">4</td>
 <td align="left">site3</td>
-<td align="right">-0.5941066</td>
-<td align="right">0.6701633</td>
-<td align="right">-0.8865102</td>
-<td align="right">0.3753426</td>
-<td align="right">-1.9076026</td>
-<td align="right">0.7193893</td>
+<td align="right">-0.5940721</td>
+<td align="right">0.6701628</td>
+<td align="right">-0.8864594</td>
+<td align="right">0.3753700</td>
+<td align="right">-1.9075671</td>
+<td align="right">0.7194228</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
 <td align="left">site4</td>
-<td align="right">-2.3732031</td>
-<td align="right">0.7582228</td>
-<td align="right">-3.1299547</td>
+<td align="right">-2.3732146</td>
+<td align="right">0.7582255</td>
+<td align="right">-3.1299588</td>
 <td align="right">0.0017483</td>
-<td align="right">-3.8592926</td>
-<td align="right">-0.8871137</td>
+<td align="right">-3.8593092</td>
+<td align="right">-0.8871199</td>
 </tr>
 <tr class="odd">
 <td align="left">4</td>
 <td align="left">site5</td>
-<td align="right">-1.6290164</td>
-<td align="right">0.8770129</td>
-<td align="right">-1.8574600</td>
-<td align="right">0.0632457</td>
-<td align="right">-3.3479301</td>
-<td align="right">0.0898974</td>
+<td align="right">-1.6291088</td>
+<td align="right">0.8770139</td>
+<td align="right">-1.8575632</td>
+<td align="right">0.0632311</td>
+<td align="right">-3.3480244</td>
+<td align="right">0.0898069</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
-<td align="left">viewenc1</td>
-<td align="right">2.3321813</td>
-<td align="right">0.5110634</td>
-<td align="right">4.5633891</td>
+<td align="left">viewencNot Encouraged</td>
+<td align="right">-2.3322395</td>
+<td align="right">0.5110683</td>
+<td align="right">-4.5634591</td>
 <td align="right">0.0000050</td>
-<td align="right">1.3305154</td>
-<td align="right">3.3338472</td>
+<td align="right">-3.3339150</td>
+<td align="right">-1.3305639</td>
 </tr>
 <tr class="odd">
 <td align="left">4</td>
 <td align="left">prenumbCent</td>
-<td align="right">0.0700413</td>
-<td align="right">0.0356595</td>
-<td align="right">1.9641677</td>
-<td align="right">0.0495106</td>
-<td align="right">0.0001499</td>
-<td align="right">0.1399327</td>
+<td align="right">0.0700397</td>
+<td align="right">0.0356597</td>
+<td align="right">1.9641139</td>
+<td align="right">0.0495169</td>
+<td align="right">0.0001480</td>
+<td align="right">0.1399314</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
 <td align="left">preletCent</td>
-<td align="right">0.0085207</td>
-<td align="right">0.0400765</td>
-<td align="right">0.2126105</td>
-<td align="right">0.8316308</td>
-<td align="right">-0.0700278</td>
-<td align="right">0.0870691</td>
+<td align="right">0.0085247</td>
+<td align="right">0.0400768</td>
+<td align="right">0.2127080</td>
+<td align="right">0.8315547</td>
+<td align="right">-0.0700245</td>
+<td align="right">0.0870738</td>
 </tr>
 <tr class="odd">
 <td align="left">4</td>
 <td align="left">ageCent</td>
-<td align="right">-0.0266575</td>
-<td align="right">0.0431000</td>
-<td align="right">-0.6185043</td>
-<td align="right">0.5362430</td>
-<td align="right">-0.1111319</td>
-<td align="right">0.0578169</td>
+<td align="right">-0.0266555</td>
+<td align="right">0.0431001</td>
+<td align="right">-0.6184563</td>
+<td align="right">0.5362746</td>
+<td align="right">-0.1111301</td>
+<td align="right">0.0578191</td>
 </tr>
 </tbody>
 </table>
 <p><br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Interpret the intercept, -0.225.</p></li>
+<li><p>Interpret the intercept for the part of the model of the odds of <code>viewcat == 2</code> versus <code>viewcat == 1</code>.</p></li>
 <li><p>Interpret the effect of the numbers pretest on the odds of viewership.</p></li>
 <li><p>The primary objective of the experiment was to understand the effect of encouragement <code>viewenc</code> on viewership. Does encouragement have a significant effect on viewership? If so, describe the effect. Otherwise, explain why not.</p></li>
 <li><p>We want to test if there are any significant interactions with <code>viewenc</code> and the pretests. We create a model that includes the variables from <code>model1</code> along with <code>viewenc*preletCent</code> and <code>viewenc*prenumbCent</code>.</p></li>
@@ -513,10 +526,10 @@ sesame &lt;- sesame %&gt;%
                    data = sesame)</code></pre>
 <pre><code>## # weights:  48 (33 variable)
 ## initial  value 332.710647 
-## iter  10 value 308.670219
-## iter  20 value 286.773596
-## iter  30 value 277.841733
-## final  value 277.774975 
+## iter  10 value 309.032326
+## iter  20 value 288.174392
+## iter  30 value 277.855094
+## final  value 277.774974 
 ## converged</code></pre>
 <p>The results from the drop-in-deviance test are shown below. Is there evidence of a significant interaction effect? Explain.</p>
 <pre class="r"><code>anova(model1, model2, test = &quot;Chisq&quot;)</code></pre>

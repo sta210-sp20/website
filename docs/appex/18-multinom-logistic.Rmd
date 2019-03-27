@@ -33,9 +33,12 @@ sesame <- read_csv("data/sesame.csv")
 ```{r}
 # mean-center relevant continuous variables, make categorical variables factors
 sesame <- sesame %>% 
-  mutate(viewcat = as.factor(viewcat), site = as.factor(site), 
-         prenumbCent = prenumb - mean(prenumb), preletCent = prelet - mean(prelet), 
-         ageCent = age - mean(age), viewenc = as.factor(if_else(viewenc==1,1,0)))
+  mutate(viewcat = as.factor(viewcat), 
+         site = as.factor(site), 
+         prenumbCent = prenumb - mean(prenumb), 
+         preletCent = prelet - mean(prelet), 
+         ageCent = age - mean(age),
+         viewenc = ifelse(viewenc == 1, "Encouraged", "Not Encouraged"))
 ```
 <br>
 
@@ -53,7 +56,7 @@ kable(tidy(model1, conf.int=TRUE, exponentiate = FALSE),
 
 
 
-2. Interpret the intercept, -0.225. 
+2. Interpret the intercept for the part of the model of the odds of `viewcat == 2` versus `viewcat == 1`. 
 
 3. Interpret the effect of the numbers pretest on the odds of viewership. 
 
