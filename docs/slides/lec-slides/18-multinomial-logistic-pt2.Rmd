@@ -470,6 +470,6 @@ table(iris$Species, pred_species)
 
 .class: middle, center
 
-[*Sesame Street* analysis](https://www2.stat.duke.edu/courses/Fall18/sta210.001/slides/lectures/sesame_analysis.html)
+[*Sesame Street* analysis](https://www2.stat.duke.edu/courses/Spring19/sta210.001/appex/18-multinom-logistic.html)
 
 
