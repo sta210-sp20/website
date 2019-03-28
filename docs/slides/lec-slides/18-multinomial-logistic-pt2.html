@@ -41,7 +41,7 @@ class: center, middle, inverse, title-slide
 ```r
 library(pROC)
 roc_results &lt;- roc(model_aug$y,model_aug$.fitted) 
-roc_results$thresholds[2546]
+roc_results$thresholds[2546] #2546 is the index for the threshold that has the chosen true positive rate = 0.6 and chosen false positive rate = 0.25
 ```
 
 ```
@@ -77,11 +77,11 @@ roc_results$sensitivities[2546]
 
 &lt;br&gt;
 
-The true positive rate is `\(\frac{337}{337 + 220} =\)` 0.605. 
+The true positive rate is `\(\frac{337}{337 + 220} = 0.6050\)`
 
 &lt;br&gt;
 
-The false positive rate is `\(\frac{775}{775 + 2326} =\)` 0.2499.
+The false positive rate is `\(\frac{775}{775 + 2326} = 0.2499\)`
 
 ---
 

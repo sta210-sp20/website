@@ -63,7 +63,7 @@ model_aug <- model_aug %>%
 ```{r}
 library(pROC)
 roc_results <- roc(model_aug$y,model_aug$.fitted) 
-roc_results$thresholds[2546]
+roc_results$thresholds[2546] #2546 is the index for the threshold that has the chosen true positive rate = 0.6 and chosen false positive rate = 0.25
 roc_results$sensitivities[2546]
 1 - roc_results$specificities[2546]
 ```
@@ -86,11 +86,11 @@ model_aug %>%
 
 <br>
 
-The true positive rate is $\frac{337}{337 + 220} =$ `r round(337 / (337 + 220), 4)`. 
+The true positive rate is $\frac{337}{337 + 220} = 0.6050$
 
 <br>
 
-The false positive rate is $\frac{775}{775 + 2326} =$ `r round(775 / (775 + 2326), 4)`.
+The false positive rate is $\frac{775}{775 + 2326} = 0.2499$
 
 ---
 

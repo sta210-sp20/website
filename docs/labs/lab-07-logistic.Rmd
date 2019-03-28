@@ -154,7 +154,7 @@ In the next few questions, we will do an abbreviated analysis of the residuals.
 
 As a group, choose a threshold value to distinguish between songs the user will like and those the user won't like. What is your threshold value? Use the ROC curve to help justify your choice. 
 
-16. Now let's put your model and decision threshold to the test! Use your model to calculate the predicted probability (and corresponding interval) that the user will like the following two songs:
+16. Now let's put your model and decision threshold to the test! Use your model to calculate the predicted probability that the user will like the following two songs:
  
     - "Sign of the Times" by Harry Styles
     - "Hotline Bling" by Drake
