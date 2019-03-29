@@ -196,6 +196,12 @@ $$\log\bigg(\frac{p_{ij}}{p_{i1}}\bigg) = \beta_{0j} + \beta_{1j} X_i$$
 $$\log\bigg(\frac{p_{i2}}{p_{i1}}\bigg) = \beta_{02} + \beta_{12} X_i \\[10pt]
 \log\bigg(\frac{p_{i3}}{p_{i1}}\bigg) = \beta_{03} + \beta_{13} X_i$$
 
+
+- <font class="vocab">Slope, $\beta_{1j}$</font>: When $X$ increases by one unit, the odds of $Y=j$ versus the baseline are expected to multiply by a factor of $\exp\{\beta_{1j}\}$
+
+- <font class="vocab3">Intercept, $\beta_{0j}$</font>: When $X=0$, the odds of $Y=j$ versus the baseline are expected to be $\exp\{\beta_{0j}\}$
+
+
 ---
 
 ### Multinomial Regression in R 
