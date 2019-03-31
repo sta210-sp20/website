@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Model Validation</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Dr. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Model Validation
+### Dr. Maria Tackett
+### 04.01.19
+
+---
+
+
+
+
+
+### Announcements
+
+- Lab 08 due Wed at 11:59p
+
+- HW 06 due Mon, Apr 8
+
+
+
+
+---
+
+class: middle, center
+
+### Multinomial Logistic Regression Example
+### *Sesame Street*
+---
+
+### Example: *Sesame Street*
+
+- We will analyze data from an experiment to test the effectiveness of the children's program *Sesame Street*. 
+
+- As part of the experiment, children were assigned to one of two groups: those who were encouraged to watch the program and those who were not
+
+- We want to understand what effect the encouragement had on the frequency of viewing after adjusting for other factors
+
+---
+
+### Response Variable
+
+- &lt;font class="vocab"&gt;`viewcat`&lt;/font&gt;
+  + 1: rarely watched show
+  + 2: once or twice a week
+  + 3: three to five times a week
+  + 4: watched show on average more than five times a week
+  
+---
+
+### Predictor Variables
+
+- &lt;font class="vocab"&gt;`age`:&lt;/font&gt; child's age in months
+- &lt;font class="vocab"&gt;`prenumb`: &lt;/font&gt;score on numbers pretest (0 to 54)
+- &lt;font class="vocab"&gt;`prelet`: &lt;/font&gt;score on letters pretest (0 to 58)
+- &lt;font class="vocab"&gt;`viewenc`:&lt;/font&gt; 1: encouraged to watch, 2: not encouraged
+- &lt;font class="vocab"&gt;`site:`&lt;/font&gt;
+  + 1: three to five year old from disadvantaged inner city area
+  + 2: four year old from advantaged suburban area
+  + 3: from advantaged rural area
+  + 4: from disadvantaged rural area
+  + 5: from Spanish speaking home
+
+.footnote[[Full data description](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html)]
+
+---
+
+class: middle, center
+
+[*Sesame Street* analysis](https://www2.stat.duke.edu/courses/Spring19/sta210.001/appex/18-multinom-logistic.html)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

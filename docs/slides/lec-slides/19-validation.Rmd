@@ -1,0 +1,91 @@
+---
+title: "Model Validation"
+author: "Dr. Maria Tackett"
+date: "04.01.19"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 4,
+	fig.width = 7,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+
+### Announcements
+
+- Lab 08 due Wed at 11:59p
+
+- HW 06 due Mon, Apr 8
+
+
+```{r, echo = F}
+library(tidyverse)
+library(knitr)
+library(broom)
+```
+
+---
+
+class: middle, center
+
+### Multinomial Logistic Regression Example
+### *Sesame Street*
+---
+
+### Example: *Sesame Street*
+
+- We will analyze data from an experiment to test the effectiveness of the children's program *Sesame Street*. 
+
+- As part of the experiment, children were assigned to one of two groups: those who were encouraged to watch the program and those who were not
+
+- We want to understand what effect the encouragement had on the frequency of viewing after adjusting for other factors
+
+---
+
+### Response Variable
+
+- <font class="vocab">`viewcat`</font>
+  + 1: rarely watched show
+  + 2: once or twice a week
+  + 3: three to five times a week
+  + 4: watched show on average more than five times a week
+  
+---
+
+### Predictor Variables
+
+- <font class="vocab">`age`:</font> child's age in months
+- <font class="vocab">`prenumb`: </font>score on numbers pretest (0 to 54)
+- <font class="vocab">`prelet`: </font>score on letters pretest (0 to 58)
+- <font class="vocab">`viewenc`:</font> 1: encouraged to watch, 2: not encouraged
+- <font class="vocab">`site:`</font>
+  + 1: three to five year old from disadvantaged inner city area
+  + 2: four year old from advantaged suburban area
+  + 3: from advantaged rural area
+  + 4: from disadvantaged rural area
+  + 5: from Spanish speaking home
+
+.footnote[[Full data description](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html)]
+
+---
+
+class: middle, center
+
+[*Sesame Street* analysis](https://www2.stat.duke.edu/courses/Spring19/sta210.001/appex/18-multinom-logistic.html)
+
+
