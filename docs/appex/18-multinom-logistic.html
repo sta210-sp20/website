@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-03-26" />
+<meta name="date" content="2019-03-31" />
 
 <title>Multinomial Logistic Regression</title>
 
@@ -186,11 +186,33 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Multinomial Logistic Regression</h1>
 <h3 class="subtitle"><em><em>Sesame Street</em> Analysis</em></h3>
-<h4 class="date"><em>2019-03-26</em></h4>
+<h4 class="date"><em>2019-03-31</em></h4>
 
 </div>
 
 
+<p>The main objective of this analysis is to understand how encouragement affects the frequency that children watch <em>Sesame Street</em>. We will use the following variables:</p>
+<p><strong>Response:</strong></p>
+<ul>
+<li><font class="vocab"><code>viewcat</code></font></li>
+<li>1: rarely watched show</li>
+<li>2: once or twice a week</li>
+<li>3: three to five times a week</li>
+<li>4: watched show on average more than five times a week</li>
+</ul>
+<p><strong>Predictors:</strong></p>
+<ul>
+<li><font class="vocab"><code>age</code>:</font> child’s age in months</li>
+<li><font class="vocab"><code>prenumb</code>: </font>score on numbers pretest (0 to 54)</li>
+<li><font class="vocab"><code>prelet</code>: </font>score on letters pretest (0 to 58)</li>
+<li><font class="vocab"><code>viewenc</code>:</font> 1: encouraged to watch, 2: not encouraged</li>
+<li><font class="vocab"><code>site:</code></font></li>
+<li>1: three to five year old from disadvantaged inner city area</li>
+<li>2: four year old from advantaged suburban area</li>
+<li>3: from advantaged rural area</li>
+<li>4: from disadvantaged rural area</li>
+<li>5: from Spanish speaking home</li>
+</ul>
 <pre class="r"><code># read in dataset
 sesame &lt;- read_csv(&quot;data/sesame.csv&quot;)</code></pre>
 <pre class="r"><code># mean-center relevant continuous variables, make categorical variables factors
@@ -205,7 +227,8 @@ sesame &lt;- sesame %&gt;%
 <div id="questions" class="section level3">
 <h3>Questions</h3>
 <ol style="list-style-type: decimal">
-<li>Describe how you would conduct exploratory data analysis. What plots and/or summary statistics would you include?</li>
+<li><p>We will build a model to predictor how often a child in this study watched <em>Sesame Street</em>. What type of model should we build? Why?</p></li>
+<li><p>Describe how you would conduct exploratory data analysis. What plots and/or summary statistics would you include? What information would you learn from the exploratory data analysis?</p></li>
 </ol>
 <pre class="r"><code>model1 &lt;- multinom(viewcat ~ site + viewenc + prenumbCent + preletCent + ageCent,
                    data = sesame)</code></pre>
@@ -515,9 +538,9 @@ sesame &lt;- sesame %&gt;%
 </tbody>
 </table>
 <p><br></p>
-<ol start="2" style="list-style-type: decimal">
-<li><p>Interpret the intercept for the part of the model of the odds of <code>viewcat == 2</code> versus <code>viewcat == 1</code>.</p></li>
-<li><p>Interpret the effect of the numbers pretest on the odds of viewership.</p></li>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Interpret the intercept associated with the odds of <code>viewcat == 2</code> versus <code>viewcat == 1</code>.</p></li>
+<li><p>Interpret the effect of the numbers pretest score on the odds of viewership.</p></li>
 <li><p>The primary objective of the experiment was to understand the effect of encouragement <code>viewenc</code> on viewership. Does encouragement have a significant effect on viewership? If so, describe the effect. Otherwise, explain why not.</p></li>
 <li><p>We want to test if there are any significant interactions with <code>viewenc</code> and the pretests. We create a model that includes the variables from <code>model1</code> along with <code>viewenc*preletCent</code> and <code>viewenc*prenumbCent</code>.</p></li>
 </ol>
@@ -542,9 +565,13 @@ sesame &lt;- sesame %&gt;%
 ##   Resid. df Resid. Dev   Test    Df LR stat.   Pr(Chi)
 ## 1       693   561.7338                                
 ## 2       687   555.5499 1 vs 2     6 6.183808 0.4029182</code></pre>
-<ol start="6" style="list-style-type: decimal">
-<li>Describe the plots, tables, and/or calculations you would create using the residuals to assess model fit.</li>
+<ol start="7" style="list-style-type: decimal">
+<li>How would you describe assess the appropriateness of the model flit? Describe the plots, tables, and/or calculations you would create to assess model fit.</li>
 </ol>
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
+<p>Data from <a href="http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html" class="uri">http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html</a></p>
 </div>
 
 
