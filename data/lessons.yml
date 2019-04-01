@@ -164,7 +164,7 @@ lessons:
     title: "Model validation"
     slides: "lec-slides/19-validation.html"
     appex: "18-multinom-logistic.html"
-   # reading: "reading-07.html"
+    reading: "reading-08.html"
   # - title: "Midterm 02 assigned"
   - date: "Wed, Apr 3"
     title: "Dealing with messy data"
