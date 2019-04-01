@@ -30,6 +30,8 @@ knitr::opts_chunk$set(
 
 - Lab 08 due Wed at 11:59p
 
+- Team feedback #2 due Wed at 11:59p
+
 - HW 06 due Mon, Apr 8
 
 
