@@ -30,10 +30,10 @@ The main objective of this analysis is to understand how encouragement affects t
 **Response:**
 
 - <font class="vocab">`viewcat`</font>
-  + 1: rarely watched show
-  + 2: once or twice a week
-  + 3: three to five times a week
-  + 4: watched show on average more than five times a week
+    + 1: rarely watched show
+    + 2: once or twice a week
+      + 3: three to five times a week
+      + 4: watched show on average more than five times a week
 
 
 **Predictors:**
@@ -43,11 +43,11 @@ The main objective of this analysis is to understand how encouragement affects t
 - <font class="vocab">`prelet`: </font>score on letters pretest (0 to 58)
 - <font class="vocab">`viewenc`:</font> 1: encouraged to watch, 2: not encouraged
 - <font class="vocab">`site:`</font>
-  + 1: three to five year old from disadvantaged inner city area
-  + 2: four year old from advantaged suburban area
-  + 3: from advantaged rural area
-  + 4: from disadvantaged rural area
-  + 5: from Spanish speaking home
+    + 1: three to five year old from disadvantaged inner city area
+    + 2: four year old from advantaged suburban area
+    + 3: from advantaged rural area
+    + 4: from disadvantaged rural area
+    + 5: from Spanish speaking home
 
 
 ```{r}
@@ -69,7 +69,7 @@ sesame <- sesame %>%
 
 ### Questions
 
-1. We will build a model to predictor how often a child in this study watched *Sesame Street*. What type of model should we build? Why? 
+1. We will build a model to predict how often a child in this study watched *Sesame Street*. What type of model should we build? Why? 
 
 2. Describe how you would conduct exploratory data analysis. What plots and/or summary statistics would you include? What information would you learn from the exploratory data analysis?
 
@@ -81,11 +81,10 @@ kable(tidy(model1, conf.int=TRUE, exponentiate = FALSE),
 ```
 <br>
 
-
-
 3. Interpret the intercept associated with the odds of `viewcat == 2` versus `viewcat == 1`. 
 
 4. Interpret the effect of the numbers pretest score on the odds of viewership. 
+
 
 5. The primary objective of the experiment was to understand the effect of encouragement `viewenc` on viewership. Does encouragement have a significant effect on viewership? If so, describe the effect. Otherwise, explain why not. 
 
@@ -103,7 +102,7 @@ The results from the drop-in-deviance test are shown below. Is there evidence of
 anova(model1, model2, test = "Chisq")
 ```
 
-7. How would you describe assess the appropriateness of the model flit? Describe the plots, tables, and/or calculations you would create to assess model fit. 
+7. How would you assess the appropriateness of the model flit? Describe the plots, tables, and/or calculations you would create to assess model fit. 
 
 ### References
 
