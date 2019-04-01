@@ -59,8 +59,6 @@ Click [**here**](https://www2.stat.duke.edu/courses/Spring19/sta210.001/hw/data/
 
 # Questions 
 
-## Computations & Concepts
-
 1. Conduct exploratory data analysis to describe the relationship between the response variable (`id`) and each of the explanatory variables (`lineup`, `weapon`, and `feature`). Include any appropriate plots and/or summary statistics.
     - Based on the exploratory data analysis, which conditions (if any) do you think affect the `id` made by a participant?
 
@@ -155,7 +153,7 @@ eye.witness %>% group_by(feature) %>%
     - Briefly describe how the predicted decision is determined for each participant. 
     - What is the misclassification rate? 
 
-##  References 
+# References 
 
 [https://www.sciencedirect.com/science/article/pii/S2211368114000229](Carlson, C. and Carlson, M., 2014, An evaluation of lineup presentation, weapon presence, and a distinctive feature using ROC analysis, *Journal of Applied Research in Memory and Cognition*, 3: 45-53.)
 
