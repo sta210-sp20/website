@@ -8,11 +8,11 @@
 /* Tufte CSS styles */
 
 html {
-  font-size: 12pt;
+  font-size: 13pt;
 }
 
 p {
-	font-size: 12pt;
+	font-size: 13pt;
 }
 
 body {
@@ -21,7 +21,7 @@ body {
 	background-color: #fefefe;
 	color: #222;
 	counter-reset: li;
-	font-size: 12pt;
+	font-size: 13pt;
 }
 
 h1.title {
@@ -119,7 +119,7 @@ pre {
 ol {
 	/* Remove the default left padding */
 	padding-left: 0;
-	font-size: 12pt;
+	font-size: 13pt;
 }
 
 ol>li {
@@ -132,7 +132,7 @@ ol>li {
 	padding-bottom: 10px;
 	padding-right: 0;
 	padding-left: 90px;
-	font-size: 12pt;
+	font-size: 13pt;
 }
 
 ol>li:before {
