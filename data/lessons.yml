@@ -193,7 +193,7 @@ lessons:
   - date: "Fri, Apr 12"
     title: "Exam review"
    # lab: "lab-10-web-scrape.html"
-   # slides: "lab-slides/10-lab-deck.html"
+    slides: "lab-slides/21-exam-02-review.html"
   - title: "Week 14"
   - date: "Mon, Apr 15"
     title: "Exam II"
