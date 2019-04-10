@@ -42,6 +42,10 @@ library(nnet)
 
 - Exam II on Monday
 
+- Lab this week - Exam help 
+
+- Extra exam help - Sunday afteroon (time TBD)
+
 ---
 
 ## Exam II Outline
@@ -97,7 +101,7 @@ $$\log\Big(\frac{\hat{p}_i}{1-\hat{p}_i}\Big) = \hat{\beta}_0 + \hat{\beta}_1 X_
 
 - <font class="vocab">Slope:</font>  As $X_j$ increases by 1 unit, the odds of $Y$ are expected to multiply by a factor of $\exp\{\beta_j\}$, holding all else constant
 
-- <font class="vocab">Intercept: </font> When $X_1 = \dots X_p =0$, odds of $Y$ are expected to be $\exp\{\beta_0\}$**
+- <font class="vocab">Intercept: </font> When $X_1 = \dots X_p =0$, odds of $Y$ are expected to be $\exp\{\beta_0\}$
 
 ---
 
@@ -113,7 +117,7 @@ $$\log\bigg(\frac{\hat{p}_{2}}{\hat{p}_{1}}\bigg) = \hat{\beta}_{02} + \hat{\bet
 
 - <font class="vocab">Slope</font>: When $X$ increases by one unit, the odds of $Y=k$ versus $Y=1$ are expected to multiply by a factor of $\exp\{\hat{\beta}_{1k}\}$, holding all else constant.
 
-- <font class="vocab">Intercept</font>: When $X_1 = \dots X_p =0$, the odds of $Y=k$ versus $Y=1$ are expected to be $\exp\{\hat{\beta}_{0k}\}$, holding all else constant.
+- <font class="vocab">Intercept</font>: When $X_1 = \dots X_p =0$, the odds of $Y=k$ versus $Y=1$ are expected to be $\exp\{\hat{\beta}_{0k}\}$
 
 ---
 
