@@ -243,7 +243,7 @@ kable(tidy(m1, exponentiate="False"),format="html",digits=3)
 .question[
 1. Write the equation for part of the model describing the odds of Hn vs. Cp species.
 2. Interpret the intercept for this part of the model.
-3. Interpret the coefficient of `Force` fort this part of the model.
+3. Interpret the coefficient of `forceCent` fort this part of the model.
 ]
 
 
