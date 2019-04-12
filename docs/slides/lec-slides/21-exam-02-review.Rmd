@@ -44,7 +44,7 @@ library(nnet)
 
 - Lab this week - Exam help 
 
-- Extra exam help - Sunday afteroon (time TBD)
+- Extra exam help - Sunday afternoon (time TBD)
 
 ---
 
@@ -196,7 +196,7 @@ kable(tidy(m2),format="html",digits=3)
 ```
 
 .question[
-- Write the equation for the odds of crab being from the Lb species.
+- Write the equation for the odds of a crab being from the Lb species.
 - Interpret the intercept in the context of the problem. 
 - Interpret `forceCent` in the context of the problem. 
 ]
@@ -241,7 +241,7 @@ kable(tidy(m1, exponentiate="False"),format="html",digits=3)
 ```
 
 .question[
-1. Write the model for part of the model describing the odds of Hn vs. Cp species.
+1. Write the equation for part of the model describing the odds of Hn vs. Cp species.
 2. Interpret the intercept for this part of the model.
 3. Interpret the coefficient of `Force` fort this part of the model.
 ]
