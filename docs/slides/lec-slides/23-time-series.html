@@ -28,6 +28,8 @@ class: center, middle, inverse, title-slide
 - Project presentations on May 1
     - Lab 01L: 2p - 3:30p
     - Lab 02L: 3:30p - 5p
+    
+- Exam 2 grades by next Monday
 
 - Exam 2 extra credit: If the response rate for the course evaluations is 90%, everyone gets +1 pt on their Exam 2 score (out of 40 pts)
 
@@ -166,7 +168,7 @@ There is evidence that the independence assumption is violated, i.e. there is **
 - We want a measure of the correlation between the observation at time `\(t\)` and the observation at time `\(t-k\)`
     + `\(k\)` is the **lag**
 
-- To do so, we will compute the correlation between the residuals at time `\(t\)` and time `\(t-k\)`
+- To do so, we will compute the correlation between the observations (or  residuals) at time `\(t\)` and time `\(t-k\)`
     - This is the **autocorrelation coefficient**
 
 - The formula for the &lt;font class="vocab"&gt;Lag &lt;i&gt;k&lt;/i&gt; autocorrelation coefficient is &lt;/font&gt;
@@ -220,7 +222,7 @@ orig_acf[2] #lag 1 autocorrelation
 
 - Common model is the &lt;font class="vocab"&gt;autoregressive (AR) model&lt;/font&gt;
 
-- If we have no predictor variables, the AR model with one lag (&lt;font class="vocab3"&gt;AR(1) model&lt;/font&gt;) is
+- If we have no predictor variables, the AR model with one lag, the &lt;font class="vocab3"&gt;AR(1) model&lt;/font&gt;, is
 
 `$$y_t = \beta_0 + \beta_1 y_{t-1} + \epsilon_t \hspace{10mm} \epsilon_t \sim N(0,\sigma^2)$$`
 
@@ -266,6 +268,7 @@ ar_1_model &lt;- lm(cnt ~ cnt_lag_1, data = bike)
 - **Slope**: For each additional bike rental on day `\(t-1\)`, we expect there to be about 0.754 bike rentals on day `\(t\)`.
 
 - **Intercept**: If there are 0 bike rentals on day `\(t-1\)`, we expect there to be about 1383 bike rentals on day `\(t\)`.
+    - Not meaningful in practice
 
 ---
 
@@ -394,9 +397,21 @@ This autocorrelation looks good!
 
 ---
 
-## Add Predictors 
+## Add `temp` and `workingday`
 
-Go to **Time Series** project on RStudio Cloud
+- Look at the data in the **Time Series** RStudio Cloud project
+
+
+---
+
+## Futher Reading
+
+- [*Time Series Analysis and Its Applications*](https://www.stat.pitt.edu/stoffer/tsa4/tsa4.pdf) by Shumway and Stoffer
+    - graduate-level text
+
+- [*Time Series: A Data Analysis Approach*](https://www.stat.pitt.edu/stoffer/tsda/) by Shumway and Stoffer 
+    - introductory text
+    - published May 2019
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({

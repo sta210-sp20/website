@@ -34,6 +34,8 @@ knitr::opts_chunk$set(
 - Project presentations on May 1
     - Lab 01L: 2p - 3:30p
     - Lab 02L: 3:30p - 5p
+    
+- Exam 2 grades by next Monday
 
 - Exam 2 extra credit: If the response rate for the course evaluations is 90%, everyone gets +1 pt on their Exam 2 score (out of 40 pts)
 
@@ -335,9 +337,21 @@ This autocorrelation looks good!
 
 ---
 
-## Add Predictors 
+## Add `temp` and `workingday`
 
-Go to **Time Series** project on RStudio Cloud
+- Look at the data in the **Time Series** RStudio Cloud project
+
+
+---
+
+## Futher Reading
+
+- [*Time Series Analysis and Its Applications*](https://www.stat.pitt.edu/stoffer/tsa4/tsa4.pdf) by Shumway and Stoffer
+    - graduate-level text
+
+- [*Time Series: A Data Analysis Approach*](https://www.stat.pitt.edu/stoffer/tsda/) by Shumway and Stoffer 
+    - introductory text
+    - published May 2019
 
 
 
