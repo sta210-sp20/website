@@ -210,7 +210,7 @@ lessons:
   - title: "Week 15"
   - date: "Mon, Apr 22"
     title: "Time Series"
-   # slides: "lec-slides/14a-bayes-inf.html"
+    slides: "lec-slides/23-time-series.html"
   - date: "Wed, Apr 24"
     title: "Modeling Longitudinal Data"
   - title: "Exam Period"
