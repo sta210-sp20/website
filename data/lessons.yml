@@ -213,6 +213,7 @@ lessons:
     slides: "lec-slides/23-time-series.html"
   - date: "Wed, Apr 24"
     title: "Modeling Longitudinal Data"
+    slides: "lec-slides/24-long-data.html"
   - title: "Exam Period"
   - date: "Wed, May 1"
     title: "Project presentations"
