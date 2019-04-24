@@ -34,7 +34,7 @@ knitr::opts_chunk$set(
     - Mon, 10a - 11:30a
     - Tues, 1p - 2:30p
 
-- All grades except project by next Monday
+- All grades (except project) by next Monday
 
 - Exam 2 extra credit: If the response rate for the course evaluations is 90%, everyone gets +1 pt on their Exam 2 score (out of 40 pts)
 
@@ -42,7 +42,7 @@ knitr::opts_chunk$set(
 
 ### Announcements cont'd
 
-- Project write up due May 1 at 2p
+- Project write up and presentation due May 1 at 2p
 
 - Project presentations on May 1
     - Lab 01L: 2p - 3:30p
@@ -59,29 +59,29 @@ library(broom)
 
 ---
 
-## US college completion rates
+## US college graduation rates
 
-**What factors most effect completion rates at US colleges?**
+**What factors most effect graduation rates at US colleges?**
 
 <font class="vocab">Response variable: </font>
 
-- **`rate`**: completion rate, i.e. number of degrees awarded per 100 students enrolled
+- **`rate`**: graduation rate, i.e. number of degrees awarded per 100 students enrolled
 
 <font class = "vocab">Predictor variables: </font>
 
-- **`year02`**: years since 2002
-precipitants (in $1000s)
+- **`year02`**: number of years since 2002
 - **`faculty`**: mean number of full-time faculty in 2002 - 2009
 - **`tuition`**: mean yearly tuition between 2002 and 2009
 
 ```{r}
 college <- read_csv("data/colleges.csv") %>%
+  filter(rate < 100) %>%
   mutate(year02 = year - 2002)
 ```
 
 ```{r echo = F}
 college <- college %>%
-  select(instname, year02, faculty, tuition, rate)
+  select(instname, year02, faculty, tuition, rate) 
 ```
 
 ---
@@ -89,37 +89,40 @@ college <- college %>%
 ## `college` data
  
 ```{r}
-college %>% filter(instname == "Duke University")
+college %>% 
+  filter(instname %in% c("Duke University", "The University of Tennessee"))
 ```
 
 ---
 
 ### What makes this model different?
 
-- The goal is to understand what factors of a college number of students per 100 who graduate
+- **Goals**:  
+    - Understand how the number of faculty and tuition of a college affects its graduation rate
+    - How the graduation rate has changed over time
 
 - There are multiple observations for each college (so multiple regression not appropriate)
 
 - The are only a few time points in the dataset (so time series model not appropriate)
 
-- We will use a **multilevel model** to model this data
+- We will use a <font class="vocab">multilevel model</font> to model the relationship between `faculty`, `tuition` and `rate`.
 
 
 ---
 
 ## Multilevel Model
 
-Our ultimate goal is to fit a model of the following form that contains two components: 
+We will fit a two-level model that includes the following model components: 
 
-- **Level One**: include time and any other predictors that can change within a college over the time period 
+- **Level One**: include time (`year02`) and any other predictors that change within a college over the time period in the data
 
-- **Level Two**: includes predictors that differ between colleges but that remain the same within a college over the time period
+- **Level Two**: includes predictors that differ between colleges but that remain the same within a college over the time period in the data (`faculty` and `tuition`)
 
 ---
 
 ### Modeling Approach 
 
-**Approach:** Start with simple, preliminary models to establish a baseline that can be used to evaluate larger models. Work toward the final model by adding predictors and checking model assumptions at each step. We can take the following steps:
+**Approach:** Start with simple, preliminary models to establish a baseline that can be used to evaluate more complex models. Work toward the final model by adding predictors and checking model assumptions at each step. We can take the following steps:
 
 1. Exploratory data analysis 
 
@@ -127,12 +130,11 @@ Our ultimate goal is to fit a model of the following form that contains two comp
 
 3. Fit unconditional growth model - add time
 
-4. Add predictors
-
+4. Fit "final" model with time and predictors
 
 ---
 
-## Exploratory Data Analysis
+### 1. Exploratory Data Analysis
 
 - Given the longitudinal structure of the data, we have observations at different time points for each college in the data set.
 
@@ -142,9 +144,9 @@ Our ultimate goal is to fit a model of the following form that contains two comp
 
 ---
 
-## Univariate analysis
+### 1. EDA: Univariate analysis
 
-```{r echo = F, fig.height = 5}
+```{r echo = F, fig.height = 7}
 p1 <- ggplot(data = college, aes(x = rate)) +
   geom_histogram() + 
   labs(title = "Rate")
@@ -157,12 +159,12 @@ p3 <- ggplot(data = college, aes(x = tuition)) +
   geom_histogram() + 
   labs(title = "Tuition")
 
-cowplot::plot_grid(p1,p2,p3, ncol = 2)
+cowplot::plot_grid(p3,p2,p1, ncol = 2)
 ```
 
 ---
 
-## Rate by Year   
+### 1. EDA: Graduation Rate by Year   
 
 - Let's look at the rate over time for 20 randomly selected colleges
 
@@ -179,28 +181,26 @@ ggplot(data = college_samp, aes(x = year02, y = rate)) +
 
 ---
 
-## Rate vs. Faculty in 2002
+### 1. EDA: Graduation Rate vs. Faculty in 2002
 
 ```{r echo = F, fig.height = 5}
 college %>% 
   filter(year02 == 0) %>%
   ggplot(aes(x = faculty, y = rate)) +
   geom_point() +
-  labs(title = "Faculty vs. Tuition", 
-       subtitle = "in 2002")
+  labs(title = "Graduation Rate vs. Faculty in 2002")
 ```
 
 ---
 
-## Rate vs. Tuition in 2002
+### 1. EDA: Graduation Rate vs. Tuition in 2002
 
 ```{r echo = F, fig.height = 5}
 college %>% 
   filter(year02 == 0) %>%
   ggplot(aes(x = tuition, y = rate)) +
   geom_point()  +
-  labs(title = "Rate vs. Tuition", 
-       subtitle = "in 2002")
+  labs(title = "Graduation Rate vs. Tuition in 2002")
 ```
 
 ---
@@ -212,15 +212,19 @@ college %>%
 - The goal of this model is to compare variability with colleges and variability between colleges 
 
 .alert[
-Let $Y_{ij}$ be the rate of college $i$ in year $j$
+Let $Y_{ij}$ be the graduation rate of college $i$ in year $j$
 
-$$Y_{ij} = \alpha_0 + u_i + \epsilon_{ij}\\
+$$Y_{ij} = \alpha_0 + u_i + \epsilon_{ij}\\[10pt]
 u_i \sim N(0, \sigma^2_u) \hspace{10mm} \epsilon_{ij} \sim N(0, \sigma^2)$$
 ]
 
+- $\sigma^2_u$: variability between colleges 
+
+- $\sigma^2$: variability within a college 
+
 ---
 
-### Rates: Unconditional Means Model
+### Unconditional Means Model
 
 We can fit a multilevel model using the <font class="vocab">`lmer`</font> function in the **lme4** package. 
 
@@ -247,27 +251,27 @@ summary(model_0)
 ## Understanding the model
 
 - <font class="vocab">Coefficients</font>
-    - $\hat{\alpha}_0 = 25.591$: mean completion rate across all colleges
+    - $\hat{\alpha}_0 = 25.49: mean graduation rate across all colleges
 
-    - $\hat{\sigma}^2_u = 63.35$: variance in the between-college deviations between the college means and the overall mean across all colleges and all years
+    - $\hat{\sigma}^2_u = 53.49$: variance in the between-college deviations between the college means and the overall mean across all colleges and all years
 
-    - $\hat{\sigma}^2 = 11.18$: variance in within-school deviations between individual rate and college mean across all years
+    - $\hat{\sigma}^2 = 9.94$: variance in within-school deviations between individual rate and college mean across all years
  
 --
 
 - <font class="vocab">Intraclass correlation</font>
-$$\hat{\rho} = \frac{\hat{\sigma}^2_u}{\hat{\sigma}_u^2 + \hat{\sigma}^2} = \frac{63.35}{63.35 + 11.18} = 0.85$$
+$$\hat{\rho} = \frac{\hat{\sigma}^2_u}{\hat{\sigma}_u^2 + \hat{\sigma}^2} = \frac{53.49}{53.49 + 9.94} = 0.843$$
 
-About 85% of the total variation in completion rates can be attributed to the difference among schools rather than the change over time within schools.
+About 84.3% of the total variation in graduation rates can be attributed to the difference among schools rather than the change over time within schools.
 
 ---
 
 ## Unconditional growth model 
 
 - In an <font class="vocab">unconditional growth model</font>, 
-there is time added to the Level One model but no predictors in the Level Two model
+time is added to the Level One model but no predictors in the Level Two model
 
-- The goal of this model is to determine how much of the within-school variability in completion rate can be attributed to changes over time
+- The goal of this model is to determine how much of the within-school variability in graduation rate can be attributed to changes over time
 
 - We can think of this as building individual models for the change in rate over time for each of the colleges. 
     - We assume the same form of the relationship between `rate` and `year` for every college
@@ -290,11 +294,11 @@ $$Y_{ij} = a_i + b_i \text{year02}_{ij} + \epsilon_{ij}\\
 \epsilon_{ij} \sim N(0, \sigma^2)$$
 ]
 
-- $a_i$: expected rate for college $i$ `year02 == 0`, i.e. 2002
+- $a_i$: expected graduation rate for college $i$ at time 0
 
-- $b_i$: slope for college $i$, i.e. the rate of change in completion rate for college $i$ over the time period
+- $b_i$: slope for college $i$, i.e. the rate of change in graduation rate for college $i$ over the time period
 
-- $\epsilon_{ij}$: deviation in college $i$'s expected and actual completion rate at time $j$
+- $\epsilon_{ij}$: deviation in college $i$'s expected and actual graduation rate at time $j$
     - $\sigma^2$ is the variability in the deviations
     
 ---
@@ -313,11 +317,11 @@ college %>%
 
 ## Unconditional growth model 
 
-- We will let $a_i$ and $b_i$ vary by college, so we will build Level Two models that incorporate school-level variables to estimate these values 
+- We will let $a_i$ and $b_i$ vary by college, so we can fit Level Two models that incorporate college-level variables to estimate these values 
 
 
 .alert[
-Let $Y_{ij}$ be the `rate` for college $i$ in year $j$
+Let $Y_{ij}$ be the graduation rate for college $i$ in year $j$
 
 **Level One**
 
@@ -352,7 +356,8 @@ $$\bigg[\begin{matrix}u \\ v  \end{matrix}\bigg] \sim N\Bigg(\bigg[\begin{matrix
 
 ```{r echo = T, eval = F}
 library(lme4)
-model_1 <- lmer(rate ~ year02 + (year02|instname), data = college)
+model_1 <- lmer(rate ~ year02 + (year02|instname), 
+                data = college)
 summary(model_1)
 ```
 
@@ -370,23 +375,23 @@ summary(model_1)
 
 What do each of the following values tell you?
 
-- $\hat{\alpha}_0 = 25.032$: 
+- $\hat{\alpha}_0 = 24.98$: 
 
-- $\hat{\beta}_0 = 0.153$: 
+- $\hat{\beta}_0 = 0.14$: 
 
-- $\hat{\sigma}^2 = 7.697$: 
+- $\hat{\sigma}^2 = 7.74$: 
 
-- $\hat{\sigma}^2_u = 62.562$: 
+- $\hat{\sigma}^2_u = 59.10$: 
 
-- $\hat{\sigma}^2_v= 0.757$: 
+- $\hat{\sigma}^2_v= 0.48$: 
 
-- $\rho_{uv} = -0.19$: 
+- $\rho_{uv} = -0.31$: 
 
 ---
 
 ## Add predictors
 
-- Do `faculty` and `tuition` affect completion rates? 
+- Do `faculty` and `tuition` affect graduation rates? 
 
 - We will add these predictor variables to the Level Two model, since they differ by college but didn't change within a college (based on how they're defined)
 
@@ -399,8 +404,8 @@ $$Y_{ij} = a_i + b_i \text{year02}_{ij} + \epsilon_{ij}$$
 
 
 **Level Two**
-$$a_i = \alpha_0 + \alpha_1 \text{faculty} + \alpha_2 \text{tuition} + u_i \\
-b_i = \beta_0 + \beta_1 \text{faculty} + \beta_2 \text{tuition} + v_i$$
+$$a_i = \alpha_0 + \alpha_1 \text{faculty}_i + \alpha_2 \text{tuition}_i + u_i \\
+b_i = \beta_0 + \beta_1 \text{faculty_}_i + \beta_2 \text{tuition}_i + v_i$$
 ]
 
 ---
@@ -417,8 +422,6 @@ summary(model_2)
 
 ---
 
-## Add predictors 
-
 ```{r echo = F, eval = T}
 model_2 <- lmer(rate ~ year02 + faculty + tuition  +
                   faculty:year02 + tuition:year02 +
@@ -428,6 +431,86 @@ summary(model_2)
 
 ---
 
+## Write out the model 
+
+---
+
+## Predicted values 
+
+We can use the `augment` function to get predicted values and residuals
+
+```{r}
+model_2_aug <- augment(model_2)
+model_2_aug %>% slice(1:5)
+```
+
+---
+
+## Check Residuals
+
+```{r echo = F, fig.height = 6}
+p1 <- ggplot(data = model_2_aug, aes(x = .fitted, y = .resid)) +
+  geom_point() + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Predicted", y = "Residuals")
+
+p2 <- ggplot(data = model_2_aug, aes(x = faculty, y = .resid)) +
+  geom_point() + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Faculty", y = "Residuals")
+
+p3 <- ggplot(data = model_2_aug, aes(x = tuition, y = .resid)) +
+  geom_point() + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Tuition", y = "Residuals")
+
+p4 <- ggplot(data = model_2_aug, aes(x = year02, y = .resid)) +
+  geom_point() + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Year since 2002", y = "Residuals")
+
+cowplot::plot_grid(p1, p2, p3, p4, ncol = 2)
+```
+
+---
+
+## Residuals 
+
+```{r echo = F, fig.height = 6, warning = F, message = F}
+p1 <- ggplot(data = model_2_aug, aes(x = .resid)) +
+  geom_histogram() + 
+  labs(title = "Distribution of Residuals")
+
+p2 <- ggplot(data = model_2_aug, aes(sample = .resid)) +
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title = "Normal QQ Plot of Residuals")
+
+cowplot::plot_grid(p1, p2, ncol = 2)
+```
+
+---
+
+## Actual vs. Predicted
+
+```{r echo = F, fig.height = 6}
+model_2_aug %>% filter(instname %in% c("Duke University", "The University of Tennessee")) %>%
+  ggplot() +
+  geom_line(aes(x = year02, y = rate)) +
+  geom_line(aes(x = year02, y = .fitted), color = "blue") +
+  facet_wrap(~instname) +
+  theme_minimal() +
+  labs(title = "Actual vs. Predicted Graduation Rates")
+```
+
+---
+
 ## References
 
 These notes were based on the chapters ["Introduction to Multilevel Models"](https://bookdown.org/roback/bookdown-bysh/ch-multilevelintro.html) and ["Two Level Longitudinal Data"](https://bookdown.org/roback/bookdown-bysh/ch-lon.html) in *Broadening Your Statistical Horizons*.
+
+---
+
+class: middle
+
+### Congrats on completing STA 210! `r emo::ji("smile")` 
