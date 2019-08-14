@@ -35,8 +35,8 @@ TAs               | TBD | TBD | TBD | Old Chem 203B
 {.table .table1 .table-condensed .table-striped .text-left}
  <span></span>     | <span></span> | <span></span> 
 -----------|---------------------------------|----------------------------------
-[Handbook of Regression Analsyis](https://www-bcf.usc.edu/~gareth/ISL/) | James, Witten, Hastie, Tibshirani | Springer, 1st edition, 2013
-[R for Data Science](http://r4ds.had.co.nz/) | Grolemund, Wickham | O'Reilly, 1st edition, 2016
+[Handbook of Regression Analsyis](http://sakai.duke.edu) | James, Witten, Hastie, Tibshirani | Springer, 1st edition, 2013 | Freely available on Sakai
+[R for Data Science](http://r4ds.had.co.nz/) | Chatterjee, Simonoff | Wiley, 1st edition, 2013 | Freely available online
 
 ### Materials
 
