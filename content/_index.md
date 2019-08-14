@@ -30,7 +30,8 @@ TAs               | TBD | TBD | TBD | Old Chem 203B
                   | TBD | TBD | TBD | Old Chem 203B
                   | TBD | TBD | TBD | Old Chem 203B
                   | [Ethan Shen](https://www.linkedin.com/in/ethan-shen-931010134/) | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/ethann-shen" title="GitHub"><i class="fa fa-github"></i></a> | Thur 4:30p - 6:30p | Old Chem 203B
-### Texts
+
+### Textbooks
 
 {.table .table1 .table-condensed .table-striped .text-left}
  <span></span>     | <span></span> | <span></span> | <span></span>
