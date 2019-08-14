@@ -3,6 +3,7 @@ title: "Course Policies"
 markup: "mmark"
 ---
 
+<!--
 ### Activities & Assessments
 The following activities and assessments will help you successfully achieve the course learning objectives. By experiencing the course content in different ways, you will not only gain a better understanding of regression analysis, but you will also get experiences that can guide you as you apply what you've learned in future academic and professional projects.
 <br> 
@@ -126,3 +127,5 @@ Requests for a regrade must be made within three days of when the assignment is 
 
 Cell phones and other electronic devices should be turned off or put on silent during class. When you use a laptop (or if you use a tablet), please ensure that the volume set to mute and the device is only used for class purposes. In general, you should focus on the class discussion/activity at hand and refrain from engaging in other work or outside activities. 
 
+
+-->
