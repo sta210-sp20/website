@@ -16,7 +16,7 @@ markup: "mmark"
 
 Lab 01 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Soc Psych 127 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Th 3:05p - 4:20p
 
-Lab 02  &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 119 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Th 4:40p - 5:55p
+Lab 02  &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 119 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Th 4:40p - 5:55p
 <br>
 <br>
 
@@ -25,7 +25,7 @@ Lab 02  &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-university"></i></fo
 {.table .table1 .table-condensed .table-striped .text-left}
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
-Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"><i class="fa fa-github"></i></a> |Tues 10:30a - 12p | Old Chem 118B
+Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"><i class="fa fa-github"></i></a> |TBD | Old Chem 118B
 TAs               | TBD | TBD | TBD | Old Chem 203B
                   | TBD | TBD | TBD | Old Chem 203B
                   | TBD | TBD | TBD | Old Chem 203B
