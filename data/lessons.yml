@@ -18,7 +18,7 @@ lessons:
     title: "CONTINUOUS RESPONSE VARIABLES"
   - date: "Wed, Sep 4"
     title: "Simple Linear Regression (SLR)"
-    #reading: "reading-01.html"
+    #reading: "readings/#reading-01"
     #slides: "lec-slides/02-slr.html"
   - date: "Thu, Sep 5"
     title: "Lab 02"
