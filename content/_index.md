@@ -8,15 +8,15 @@ markup: "mmark"
 
 #### Lectures
 
-<font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Gross Hall 103 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Mon and Wed 3:05p - 4:20p
+<font color="#00797C"><i class="fas fa-university"></i></font> &nbsp; Gross Hall 103 &nbsp;&nbsp; <font color="#00797C"><i class="fas fa-calendar"></i></font> &nbsp; Mon and Wed 3:05p - 4:20p
 <br>
 <br>
 
 #### Labs
 
-Lab 01 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Soc Psych 127 &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Th 3:05p - 4:20p
+Lab 01 &nbsp;&nbsp; <font color="#00797C"><i class="fas fa-university"></i></font> &nbsp; Soc Psych 127 &nbsp;&nbsp; <font color="#00797C"><i class="fas fa-calendar"></i></font> &nbsp; Th 3:05p - 4:20p
 
-Lab 02  &nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 119 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#1689AE"><i class="fas fa-calendar"></i></font> &nbsp; Th 4:40p - 5:55p
+Lab 02  &nbsp;&nbsp; <font color="#00797C"><i class="fas fa-university"></i></font> &nbsp; Soc Sci 119 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#00797C"><i class="fas fa-calendar"></i></font> &nbsp; Th 4:40p - 5:55p
 <br>
 <br>
 
