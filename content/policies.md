@@ -1,5 +1,5 @@
 ---
-title: "Course Policies"
+title: ""
 markup: "mmark"
 ---
 
@@ -51,7 +51,6 @@ The purpose of the project is to apply what you’ve learned throughout the seme
 This part of the final grade will consist of two components. The first component will be based on peer feedback surveys from your teammates. These teams will be constructed based on a short survey used to gauage your previous experience in programming and statistical topics. After completing the survey, you will be assigned to diverse teams of 3-4 students; these teams will stay consistent throughout the semester (barring extraordinary circumstances). You will work in these teams during class, on lab assignments, and on the final project. 
 
 The second component will be based on completion of at least 80% of the class engagement surveys given throughout the semester. These quick surveys will consist of about three questions about engagement in the day's lecture. You will receive these surveys via email or text; you will have an opportunity to indicate your preference at the beginning of the semester. 
-
 <br> 
 <br>
 
@@ -78,11 +77,12 @@ If you have a cumulative numerical average of 90 - 100, you are guaranteed at le
 ### Inclusion 
 
 In this course, we will strive to create a learning environment that is welcoming to all students and that is in alignment with [Duke’s Commitment to Diversity and Inclusion] (https://provost.duke.edu/initiatives/commitment-to-diversity-and-inclusion). If there is any aspect of the class that is not welcoming or accessible to you, please let me know immediately. Additionally, if you are experiencing something outside of class that is affecting your performance in the course, please feel free to talk with me and/or your academic dean. 
+<br>
+<br>
 
 ### Accessiblity 
 
 Duke University is committed to providing equal access to students with documented disabilities. Students with disabilities may contact the [Student Disability Access Office (SDAO)](https://access.duke.edu) to ensure your access to this course and to the program. There you can engage in a confidential conversation about the process for requesting reasonable accommodations both in the classroom and in clinical settings. Students are encouraged to register with the SDAO as soon as they begin the program. Please note that accommodations are not provided retroactively. More information can be found online at [access.duke.edu](https://access.duke.edu) or by contacting SDAO at 919-668-1267, <a href="mailto:sdao@duke.edu" title="email">SDAO@duke.edu</a>.
-
 <br> 
 <br>
 
@@ -95,8 +95,7 @@ Duke University is committed to providing equal access to students with document
 If you need help with the class that is beyond what can be provided by the teaching team. In that instance, I encourage you to visit the Academic Resource Center.  
 
 The [Academic Resource Center (ARC)](https://arc.duke.edu) offers free services to all students during their undergraduate careers at Duke.  Services include Learning Consultations, Peer Tutoring and Study Groups, ADHD/LD Coaching, Outreach Workshops, and more. Because learning is a process unique to every individual, they work with each student to discover and develop their own academic strategy for success at Duke. Contact the ARC to schedule an appointment. Undergraduates in any year, studying any discipline can benefit! Contact <a href="mailto:arc@duke.edu" title="email">ARC@duke.edu</a>, 919-684-5917, 211 Academic Advising Center Building, East Campus – behind Marketplace.
-
-<br> 
+<br>
 <br>
 
 ### Where to find course materials
