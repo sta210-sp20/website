@@ -97,13 +97,13 @@ knitr::include_graphics("img/00/fbi-fingerprint.jpg")
 .pull-left[
 Cody Coombs
 
-<i class="material-icons">mail_outline</i> &nbsp;[anna.darwish@duke.edu](mailto:anna.darwish@duke.edu)<br>
+<i class="material-icons">mail_outline</i> &nbsp;[cody.coombs@duke.edu](mailto:cody.coombs@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
 <i class="material-icons">calendar_today</i>&nbsp; TBD
 
 <br><br>
 
-[Matty Pahren](https://www.linkedin.com/in/matty-pahren-53345316a)
+Matty Pahren
 
 <i class="material-icons">mail_outline</i> &nbsp;[martha.pahren@duke.edu](mailto:martha.pahren@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
@@ -111,7 +111,7 @@ Cody Coombs
 ]
 
 .pull-right[
-[Ethan Shen](https://www.linkedin.com/in/ethan-shen-931010134/)
+Ethan Shen
 
 <i class="material-icons">mail_outline</i> &nbsp;[ethan.shen@duke.edu](mailto:ethan.shen@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
@@ -119,7 +119,7 @@ Cody Coombs
 
 <br><br>
 
-[Steven Winter](https://www.linkedin.com/in/steven-winter-3810a0109)
+Steven Winter
 
 <i class="material-icons">mail_outline</i> &nbsp;[steven.winter@duke.edu](mailto:steven.winter@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
@@ -139,7 +139,7 @@ Tong Wu
 
 <br><br>
 
-[Evan Wyse](https://www.linkedin.com/in/evan-wyse-85305426/)
+Evan Wyse
 
 <i class="material-icons">mail_outline</i> &nbsp;[evan.wyse@duke.edu](mailto:evan.wyse@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
@@ -476,7 +476,7 @@ The [Academic Resource Center (ARC)](https://arc.duke.edu) offers free services 
 
 ## Accessiblity 
 
-Please contact the [Student Disability Access Office (SDAO)](https://access.duke.edu) if there is an element of the course that is not accessbile to you. There you can engage in a confidential conversation about the process for requesting reasonable accommodations. 
+Please contact the [Student Disability Access Office (SDAO)](https://access.duke.edu) if there is an element of the course that is not accessible to you. There you can engage in a confidential conversation about the process for requesting reasonable accommodations. 
 <br><br>
 
 Please note that accommodations are not provided retroactively, so please contact them as soon as possible.  More information can be found online at [access.duke.edu](https://access.duke.edu). 
