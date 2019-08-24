@@ -505,3 +505,8 @@ class: center, middle
 - TA office hours start next week. 
     
 - Labs start Thursday. Bring fully-charged laptop to lab.
+
+- **New to R or need a referesher?**
+    - *Work with Data* primer on RStudio Cloud: [https://rstudio.cloud/learn/primers/2](https://rstudio.cloud/learn/primers/2)
+    - "Data Visualization" in *R for Data Science*:
+    [https://r4ds.had.co.nz/data-visualisation.html](https://r4ds.had.co.nz/data-visualisation.html)
