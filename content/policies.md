@@ -11,7 +11,8 @@ By the end of the semester, you will…
 
 - know methods for analyzing multivariate datasets and understand how these methods are applied in research
 - know how to check whether proposed statistical models are appropriate for given data
-- develop a proficiency in addressing complex research questions using statistical evidence
+- develop proficiency in addressing complex research questions using statistical evidence
+- develop proficiency in computing tools used to conduct reproducible statistical analyses, specifically R and Git
 - understand the process of data-based research by working on an independent research project
 
 ### Activities & Assessments
@@ -94,7 +95,7 @@ Duke University is committed to providing equal access to students with document
 - The teaching team is here to help you be successful in the course. You are encouraged to attend any of the office hours posted on the home page to ask questions as your study the course content and work through assignments. A lot of questions are most effectively answered in-person, so office hours are a valuable resource. Please use them!
 - Outside of class and office hours, any general questions about course content or assignments should be posted on Piazza since there are likely other students with the same questions. The questions you post will be visible to the entire class, so please email Professor Tackett directly with any specific questions about grades or personal matters. 
 
-If you need help with the class that is beyond what can be provided by the teaching team. In that instance, I encourage you to visit the Academic Resource Center.  
+Sometimes you may need help with the class that is beyond what can be provided by the teaching team. In that instance, I encourage you to visit the Academic Resource Center.  
 
 The [Academic Resource Center (ARC)](https://arc.duke.edu) offers free services to all students during their undergraduate careers at Duke.  Services include Learning Consultations, Peer Tutoring and Study Groups, ADHD/LD Coaching, Outreach Workshops, and more. Because learning is a process unique to every individual, they work with each student to discover and develop their own academic strategy for success at Duke. Contact the ARC to schedule an appointment. Undergraduates in any year, studying any discipline can benefit! Contact <a href="mailto:arc@duke.edu" title="email">ARC@duke.edu</a>, 919-684-5917, 211 Academic Advising Center Building, East Campus – behind Marketplace.
 <br>
