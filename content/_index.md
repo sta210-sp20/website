@@ -44,6 +44,6 @@ TAs               | Cody Coombs | <a href="mailto:cody.coombs@duke.edu" title="e
 
 ### Materials
 
-You should bring a fully-charged laptop, tablet with keyboard, or comparable device to every lecture and lab session.
+You should bring a fully-charged laptop or comparable device to every lecture and lab session.
 
 
