@@ -25,7 +25,7 @@ Lab 02  &nbsp;&nbsp; <font color="#00797C"><i class="fas fa-university"></i></fo
 {.table .table1 .table-condensed .table-striped .text-left}
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
-Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"><i class="fa fa-github"></i></a> |TBD | Old Chem 118B
+Instructor        | [Prof. Maria Tackett](http://stat.duke.edu/~mt324/) | <a href="mailto:maria.tackett@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/matackett" title="GitHub"><i class="fa fa-github"></i></a> |Tu 2:30p - 4p | Old Chem 118B
 TAs               | Cody Coombs | <a href="mailto:cody.coombs@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/coombscody" title="GitHub"><i class="fa fa-github"></i></a> | TBD | Old Chem 203B
                   | [Matty Pahren](https://www.linkedin.com/in/mattypahren) | <a href="mailto:martha.pahren@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/mpahren" title="GitHub"><i class="fa fa-github"></i></a> | Tu 10a - 12p | Old Chem 203B
                   | [Ethan Shen](https://www.linkedin.com/in/ethan-shen-931010134/) | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/ethann-shen" title="GitHub"><i class="fa fa-github"></i></a> | TBD | Old Chem 203B
