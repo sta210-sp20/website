@@ -60,7 +60,7 @@ class: center, middle
 "In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships among variables. It includes many techniques for modeling and analyzing several variables, when <font class="vocab">**the focus is on the relationship between a dependent variable and one or more independent variables (or 'predictors')**</font>. More specifically, regression analysis helps one understand how the typical value of the dependent variable (or 'criterion variable') changes when any one of the independent variables is varied, while the other independent variables are held fixed."
 
 .pull-right[
-[- Wikipedia](https://en.wikipedia.org/wiki/Regression_analysis)
+- [Wikipedia](https://en.wikipedia.org/wiki/Regression_analysis)
 ]
 
 ---
@@ -73,7 +73,7 @@ class: regular
 
 <i class="material-icons">mail_outline</i> &nbsp;[maria.tackett@duke.edu](mailto:maria.tackett@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 118B<br>
-<i class="material-icons">calendar_today</i>&nbsp; 
+<i class="material-icons">calendar_today</i>&nbsp; Tu 2:30p - 4p
 
 --
 
@@ -107,7 +107,7 @@ Matty Pahren
 
 <i class="material-icons">mail_outline</i> &nbsp;[martha.pahren@duke.edu](mailto:martha.pahren@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
-<i class="material-icons">calendar_today</i>&nbsp; TBD
+<i class="material-icons">calendar_today</i>&nbsp; Tu 10a - 12p
 ]
 
 .pull-right[
@@ -123,7 +123,7 @@ Steven Winter
 
 <i class="material-icons">mail_outline</i> &nbsp;[steven.winter@duke.edu](mailto:steven.winter@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
-<i class="material-icons">calendar_today</i>&nbsp; TBD
+<i class="material-icons">calendar_today</i>&nbsp; We 12p - 2p
 ]
 
 ---
@@ -143,7 +143,7 @@ Evan Wyse
 
 <i class="material-icons">mail_outline</i> &nbsp;[evan.wyse@duke.edu](mailto:evan.wyse@duke.edu)<br>
 <i class="material-icons">work_outline</i> &nbsp;Old Chem 203B<br>
-<i class="material-icons">calendar_today</i>&nbsp; TBD
+<i class="material-icons">calendar_today</i>&nbsp; Mo 1p - 2p
 ]
 
 
@@ -155,7 +155,7 @@ Evan Wyse
 
 - Sakai (textbook & links): [https://sakai.duke.edu](https://sakai.duke.edu)
 
-- GitHub Site: [https://github.com/STA210-Sp19](https://github.com/STA210-Sp19)
+- GitHub (assignments): [https://github.com/sta210-fa19](https://github.com/sta210-fa19)
 
 
 ---
@@ -180,7 +180,7 @@ class: middle, center
 
 ---
 
-## Fingerprint Analysis
+### Fingerprint Analysis
 
 .pull-left[
 ```{r, echo=FALSE,out.width = '100%'} 
@@ -346,9 +346,9 @@ class: middle, center
 ## Textbooks
 
 - Handbook of Regression Analysis
-    - Free PDF available on Sakai. Please **do not** post this PDF on a public website!
+    - [Free PDF](https://onlinelibrary-wiley-com.proxy.lib.duke.edu/doi/book/10.1002/9781118532843) available through Duke libraries.
     - Assigned readings about statistical concepts
-    - **NOT** used for coding 
+    - **NOT** used for coding
   
 - [R for Data Science](http://r4ds.had.co.nz/)
     - Free online version. Hard copy available for purchase.
@@ -374,7 +374,7 @@ class: middle, center
 
 --
 
-- <font class="vocab">Teamwork & /Engagement </font>: Score based on periodic peer reviews and completion of 80\% of engagement surveys throughout semester (more on this in Lab 01).
+- <font class="vocab">Teamwork & Engagement </font>: Score based on periodic peer reviews and completion of 80% of engagement surveys throughout semester (more on this in Lab 01).
 
 ---
 
@@ -447,10 +447,13 @@ Any violations will automatically result in a grade of 0 on the assignment and w
 
 - If you have a question during lecture or lab, feel free to ask it! There are likely other students with the same question, so by asking you will create a learning opportunity for everyone. 
 
-- The teaching team is here to help you be successful in the course. You are encouraged to attend any of the office hours posted on the home page to ask questions as your study the course content and work through assignments. A lot of questions are most effectively answered in-person, so office hours are a valuable resource. Please use them!
+--
 
-- Outside of class and office hours, any general questions about course content or assignments should be posted on Piazza since there are likely other students with the same questions. The questions you post will be visible to the entire class, so please email Professor Tackett directly with any specific questions about grades or personal matters. 
+- Office Hours: A lot of questions are most effectively answered in-person, so office hours are a valuable resource. Please use them!
 
+--
+
+- Piazza: Outside of class and office hours, any general questions about course content or assignments should be posted on Piazza since there are likely other students with the same questions. 
 
 ---
 
@@ -487,7 +490,10 @@ Please note that accommodations are not provided retroactively, so please contac
 
 ### Inclusion 
 
-In this course, we will strive to create a learning environment that is welcoming to all students and that is in alignment with [Duke’s Commitment to Diversity and Inclusion] (https://provost.duke.edu/initiatives/commitment-to-diversity-and-inclusion). If there is any aspect of the class that is not welcoming or accessible to you, please let me know immediately. Additionally, if you are experiencing something outside of class that is affecting your performance in the course, please feel free to talk with me and/or your academic dean. 
+In this course, we will strive to create a learning environment that is welcoming to all students and that is in alignment with [Duke’s Commitment to Diversity and Inclusion](https://provost.duke.edu/initiatives/commitment-to-diversity-and-inclusion). If there is any aspect of the class that is not welcoming or accessible to you, please let me know immediately. 
+<br><br> 
+
+Additionally, if you are experiencing something outside of class that is affecting your performance in the course, please feel free to talk with me and/or your academic dean. 
 
 ---
 
@@ -500,12 +506,11 @@ class: center, middle
 ## Announcements
 
 
-- My office hours this week: 
+- My office hours this week: We 1p - 2p or by appointment
+    - Regular office hours start next week
 
-- TA office hours start next week. 
+- TA office hours start next week
     
-- Labs start Thursday. Bring fully-charged laptop to lab.
-
 - **New to R or need a referesher?**
     - *Work with Data* primer on RStudio Cloud: [https://rstudio.cloud/learn/primers/2](https://rstudio.cloud/learn/primers/2)
     - "Data Visualization" in *R for Data Science*:
