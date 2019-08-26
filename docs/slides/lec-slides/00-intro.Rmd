@@ -268,7 +268,7 @@ Tips for creating a username from [Happy Git with R](http://happygitwithr.com/gi
 </small>
 
 .instructions[
-Raise your hands if you have any questions.
+Raise your hand if you have any questions.
 ]
 
 ---
@@ -288,10 +288,11 @@ Raise your hand if you have any questions.
 
 ## Movie Data Analysis
 
+1. In the Files pane in the bottom right corner, spot the file called `movies.Rmd`. Open it, and then click on the "Knit" button.
 
-1. Put your name in the author field at the top of the file (in the  `yaml` -- we will discuss what this is at a later date). Knit again.
+2. Put your name in the author field at the top of the file (in the  `yaml` -- we will discuss what this is at a later date). Knit again.
 
-2. Change the genre names in parts 1 and 2 to genres that interest you. The spelling and capitalization must match what's in the data, so you can use the Appendix to see the correct spelling and capitalization. Knit again.
+3. Change the genre names in parts 1 and 2 to genres that interest you. The spelling and capitalization must match what's in the data, so you can use the Appendix to see the correct spelling and capitalization. Knit again.
 
 You have made your first data visualization this semester!
 <br><br>
@@ -362,7 +363,7 @@ class: middle, center
 
 --
 
-- <font class="vocab">Labs</font>: Team assignments focusing on computational skills. Start in lab on Thursdays and due Monday. *Lowest score will be dropped.*
+- <font class="vocab">Labs</font>: Team assignments focusing on computational skills. Start in lab on Thursday and due Monday. *Lowest score will be dropped.*
 
 --
 
@@ -477,14 +478,12 @@ The [Academic Resource Center (ARC)](https://arc.duke.edu) offers free services 
 
 ---
 
-## Accessiblity 
+## Accessibility 
 
 Please contact the [Student Disability Access Office (SDAO)](https://access.duke.edu) if there is an element of the course that is not accessible to you. There you can engage in a confidential conversation about the process for requesting reasonable accommodations. 
 <br><br>
 
 Please note that accommodations are not provided retroactively, so please contact them as soon as possible.  More information can be found online at [access.duke.edu](https://access.duke.edu). 
-<br> 
-<br>
 
 ---
 
@@ -505,14 +504,14 @@ class: center, middle
 
 ## Announcements
 
-- Fill out the Getting To Know You Survey on Sakai - due 9/2 at 11:59p
+- Fill out the **Getting To Know You Survey on Sakai** - due 9/2 at 11:59p
 
 - My office hours this week: We 1p - 2p or by appointment
     - Regular office hours start next week
 
 - TA office hours start next week
 
-- **New to R or need a referesher?**
+- **New to R or need a refresher?**
     - *Work with Data* primer on RStudio Cloud: [https://rstudio.cloud/learn/primers/2](https://rstudio.cloud/learn/primers/2)
     - "Data Visualization" in *R for Data Science*:
     [https://r4ds.had.co.nz/data-visualisation.html](https://r4ds.had.co.nz/data-visualisation.html)
