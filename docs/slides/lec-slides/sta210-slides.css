@@ -190,8 +190,8 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
   padding: 1px 16px;
   margin-top: 12px;
   margin-bottom: 12px;
-  font-size: 90%;
 }
+
 .instructions li::before {
   content: ">"; 
   color: #f6e1fa;
