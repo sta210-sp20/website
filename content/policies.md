@@ -51,7 +51,7 @@ The purpose of the project is to apply what you’ve learned throughout the seme
 
 #### Teamwork & Engagement (5%)
 
-This part of the final grade will consist of two components. The first component will be based on peer feedback surveys from your teammates. These teams will be constructed based on a short survey used to gauage your previous experience in programming and statistical topics. After completing the survey, you will be assigned to diverse teams of 3-4 students; these teams will stay consistent throughout the semester (barring extraordinary circumstances). You will work in these teams during class, on lab assignments, and on the final project. 
+This part of the final grade will consist of two components. The first component will be based on peer feedback surveys from your teammates. These teams will be constructed based on a short survey used to gauge your previous experience in programming and statistical topics. After completing the survey, you will be assigned to diverse teams of 3-4 students; these teams will stay consistent throughout the semester (barring extraordinary circumstances). You will work in these teams during class, on lab assignments, and on the final project. 
 
 The second component will be based on completion of at least 80% of the class engagement surveys given throughout the semester. These quick surveys will consist of about three questions about engagement in the day's lecture. You will receive these surveys via email or text; you will have an opportunity to indicate your preference at the beginning of the semester. 
 <br> 
@@ -83,7 +83,7 @@ In this course, we will strive to create a learning environment that is welcomin
 <br>
 <br>
 
-### Accessiblity 
+### Accessibility 
 
 Duke University is committed to providing equal access to students with documented disabilities. Students with disabilities may contact the [Student Disability Access Office (SDAO)](https://access.duke.edu) to ensure your access to this course and to the program. There you can engage in a confidential conversation about the process for requesting reasonable accommodations both in the classroom and in clinical settings. Students are encouraged to register with the SDAO as soon as they begin the program. Please note that accommodations are not provided retroactively. More information can be found online at [access.duke.edu](https://access.duke.edu) or by contacting SDAO at 919-668-1267, <a href="mailto:sdao@duke.edu" title="email">SDAO@duke.edu</a>.
 <br> 
