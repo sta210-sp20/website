@@ -52,6 +52,12 @@ a, a > code {
   color: #ffffff;
   /* text-shadow: 0 0 20px #333; */
 }
+
+.inverse .remark-slide-number {
+  font-size: 12pt;
+  color: #339898;
+}
+
 .inverse h1, .inverse h2, .inverse h3 {
   color: #f3f3f3;
 }
@@ -139,6 +145,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 
 .remark-slide-number {
   font-size: 12pt;
+  color: #FFFFFF;
 }
 
 .element.style {
