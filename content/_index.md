@@ -31,7 +31,7 @@ TAs               | Cody Coombs | <a href="mailto:cody.coombs@duke.edu" title="e
                   | [Ethan Shen](https://www.linkedin.com/in/ethan-shen-931010134/) | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/ethann-shen" title="GitHub"><i class="fa fa-github"></i></a> | Thu 6p - 8p | Old Chem 203B
                    | [Steven Winter](https://www.linkedin.com/in/steven-winter-3810a0109) | <a href="mailto:steven.winter@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/szwinter" title="GitHub"><i class="fa fa-github"></i></a> | Wed 12p - 2p | Old Chem 203B
                    | Tong Wu | <a href="mailto:shitong.wu@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/TongWu352" title="GitHub"><i class="fa fa-github"></i></a> | Fri 11:30a - 1:30p | Old Chem 203B
-                   | [Evan Wyse](https://www.linkedin.com/in/evan-wyse-85305426/) | <a href="mailto:evan.wyse@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/wyseguy7" title="GitHub"><i class="fa fa-github"></i></a> | Mon 1p - 2p | Old Chem 203B
+                   | [Evan Wyse](https://www.linkedin.com/in/evan-wyse-85305426/) | <a href="mailto:evan.wyse@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/wyseguy7" title="GitHub"><i class="fa fa-github"></i></a> | Mon 12:30p - 2:30p | Old Chem 203B
                    
 
 ### Textbooks
