@@ -4,18 +4,18 @@
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
 html{
-  font-size: 14pt; 
+  font-size: 16pt; 
 }
 
 p {
-  font-size: 14pt;
+  font-size: 16pt;
 }
 
 body { 
   font-family: 'Open Sans'; sans-serif;
   font-weight: 400;
   color: #333333;
-  font-size: 14pt;
+  font-size: 16pt;
 }
 h2 {
   font-family: 'Open Sans', sans-serif;
@@ -95,7 +95,7 @@ ul {
 }
 li{
   margin: 10px 0;
-  font-size: 14pt;
+  font-size: 16pt;
 }
 .large { font-size: 130% }
 .midi { font-size: 90% }
@@ -159,19 +159,19 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 .vocab {
   color: #993399;
   font-weight: bold;
-  font-size: 14pt;
+  font-size: 16pt;
 }
 
 .vocab2 {
   color: #339898;
   font-weight: bold;
-  font-size: 14pt;
+  font-size: 16pt;
 }
 
 .vocab3 {
   color: #022CFA;
   font-weight: bold;
-  font-size: 14pt;
+  font-size: 16pt;
 }
 
 .question {

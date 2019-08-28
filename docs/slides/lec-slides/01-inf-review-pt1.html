@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Inference Review</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Inference Review
+## Hypothesis Testing
+### Dr. Maria Tackett
+### 08.28.19
+
+---
+
+
+
+
+
+
+
+
+## Announcements
+
+- Get to Know You survey - due Monday at 11:59p
+
+- Labs start tomorrow. Make sure you...
+  - can access the STA210 workspace on RStudio Cloud
+  - are a member of `sta210-fa19` organization on GitHub before
+
+- All regular office hours start Monday. See the [course homepage](https://www2.stat.duke.edu/courses/Fall19/sta210.001/index.html) for the office hour schedule.
+
+---
+
+class: middle, center
+
+### Any questions from last class? 
+
+---
+
+## Today's Agenda
+
+- Review hypothesis testing
+
+- Introduce RStudio &amp; GitHub (time permitting)
+
+---
+
+## *Sesame Street*
+
+- *Sesame Street* is a television series designed to teach children ages 3-5 skills such as reading and math.
+
+- The show originally had a particular focus on reaching economically disadvantaged children. In the early 1970s, the Educational Testing Service (ETS) conducted a study to determine the show's effectiveness in helping this group of children develop the skills needed to be successful in school. 
+
+---
+
+## *Sesame Street*
+
+- A study was conducted to test whether the show as effective in helping children improve their reading and math skills. The 240 children who participated in the student were split into two groups: 
+      + **Group 1**: Those who were encouraged to watch the show
+      + **Group 2**: Those who didn't get encouragement to watch the show
+
+- Each child was given a test before and after the study to measure their knowledge of basic math, reading, etc.
+
+- We will focus on the change in reading scores
+&lt;br&gt;&lt;br&gt;
+
+&lt;small&gt;
+- [Sesame Street Data - Full Description](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html) 
+Original Study: *Ann Bogatz, Gerry &amp; Ball, Samuel. (1971). The Second Year of Sesame Street: A Continuing Evaluation. Volume 1. vols. 1 &amp; 2.*
+&lt;/small&gt;
+
+---
+
+### Let's look at the data
+
+
+
+
+```r
+sesame_street %&gt;%
+  slice(1:10)
+```
+
+```
+##    treatment prelet postlet change
+## 1          1     23      30      7
+## 2          1     26      37     11
+## 3          2     14      46     32
+## 4          2     11      14      3
+## 5          2     47      63     16
+## 6          2     26      36     10
+## 7          2     12      45     33
+## 8          1     48      47     -1
+## 9          1     44      50      6
+## 10         1     38      52     14
+```
+
+---
+&lt;small&gt;
+
+```r
+ggplot(data = sesame_street, mapping = aes(y = change, x = treatment)) +
+  geom_boxplot(fill = "steelblue") +
+  labs(title = "Change in Reading Scores", 
+       subtitle = "Group 1: Encouraged to watch, Group 2: Not encouraged to watch") +
+  theme_minimal()
+```
+
+&lt;img src="01-inf-review-pt1_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;/small&gt;
+
+
+---
+
+
+```r
+sesame_street %&gt;%
+  group_by(treatment) %&gt;%
+  summarise(n = n(), mean = mean(change), s = sd(change))
+```
+
+```
+## # A tibble: 2 x 4
+##   treatment     n  mean     s
+##   &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 1           152 12.5   10.7
+## 2 2            88  7.88  11.4
+```
+&lt;br&gt;
+
+.question[
+Based on this, do you think there is enough evidence to conclude that *Sesame Street* is effective in helping children learn reading skills? Why or why not?
+]
+
+---
+
+## What is statistical inference?
+
+- &lt;font class = "vocab"&gt;Statistical inference&lt;/font&gt; is the process of using sample data to make conclusions about the underlying population from which the sample was taken
+
+- Types of inference: testing and estimation
+  - &lt;font class="vocab"&gt;Confidence Intervals: &lt;/font&gt; Estimate the parameter of interest
+  - &lt;font class="vocab"&gt;Hypothesis Tests: &lt;/font&gt; Test a specified claim or hypothesis
+  
+- Today, we will focus on hypothesis testing
+
+---
+
+## Hypothesis Tests
+
+- Question we want to answer: 
+
+.center[
+*Are the data consistent or inconsistent with the specified hypothesis?*
+]
+
+&lt;br&gt;
+
+- To answer that question, we will determine
+
+.center[
+*Given the collected data, is there evidence &lt;u&gt;against&lt;/u&gt; a specified hypothesis about the corresponding parameter?*
+]
+--
+
+.instructions[
+Do children who regularly watch *Sesame Street* have significantly greater improvement in reading scores on average than those who don't?
+]
+
+
+---
+
+## Hypotheses
+
+- &lt;font class="vocab"&gt;Null hypothesis, `\(H_0\)`&lt;/font&gt;: This is the baseline hypothesis, i.e. the "there is nothing going on" hypothesis. 
+    - There is no difference in the reading development between children who watch *Sesame Street* regularly and those who don't.
+&lt;br&gt;&lt;br&gt;
+
+- &lt;font class = "vocab"&gt;Alternative hypothesis, `\(H_a\)`&lt;/font&gt;: This is typically what you want to show, i.e. the "there is something going on" hypothesis 
+    - In regression, the alternative hypothesis is often "there is some relationship between the two variables"
+
+---
+
+## Outline of a Hypothesis Test
+
+- Identify the parameter of interest. 
+
+- Identify a null hypothesis, `\(H_0\)`, that represents the baseline
+
+- Set an alternative hypothesis, `\(H_a\)`, that represents the research question, i.e. what you're testing
+
+- Conduct a hypothesis test under the assumption that the null hypothesis is true and calculate a p-value
+    - The &lt;font class = "vocab"&gt;p-value&lt;/font&gt; is the probability of getting the observed outcome or a more extreme outcome given the null hypothesis is true
+
+---
+
+## Outline of a Hypothesis Test
+
+- Assess the p-value. A small p-value means...
+    
+    a. The assumed (null) hypothesis is incorrect
+    
+    b. The assumed (null) hypothesis is correct and a rare event has occured 
+    
+- State a conclusion about the hypothesis based on the assessment of the p-value
+--
+
+  - Since event (b) is by definition rare, we will conclude a &lt;font color = "red"&gt;"small" p-value&lt;/font&gt; indicates that there is &lt;font color = "red"&gt;sufficient evidence to claim that the assumed hypothesis is false&lt;/font&gt;.
+      - In other words, the data are not consistent with the assumed hypothesis 
+
+--
+
+  - When the p-value is &lt;font color = "blue"&gt; "not small"&lt;/font&gt;, we will conclude that there is &lt;font color = "blue"&gt;not sufficient evidence&lt;/font&gt; to claim the assumed hypothesis is false.
+
+---
+
+
+## *Sesame Street* Example
+
+- **Question: ** Do children who regularly watch *Sesame Street* have significantly greater improvement in reading scores on average than those who don't?
+--
+
+- **Baseline: ** There is no difference between the two groups
+--
+
+- **Claim: **The average change in reading scores for children who watch *Sesame Street* is greater than the average change of children who don't. We will use encouragement as a proxy for watching the show.
+--
+
+- **Hypotheses: ** 
+
+$$
+`\begin{aligned}
+&amp; H_0: \mu_e - \mu_{ne} = 0\\
+&amp; H_a: \mu_e - \mu_{ne} &gt; 0 
+\end{aligned}`
+$$
+---
+
+### Distribution of sample statistic under `\(H_0\)`
+
+- We conduct hypothesis testing under the assumption that the null hypothesis is true, `\(H_0: \mu_e - \mu_{ne} = 0\)`
+
+- We use sample statistics `\(\bar{x}_e\)` and `\(\bar{x}_{ne}\)` to help us understand the parameters. 
+
+- If the null hypothesis is true, we could randomly relabel the observations as Group 1 and Group 2 and recalculate the sample statistic `\(\bar{x}_e - \bar{x}_{ne}\)`
+
+- Let's do this relabeling about 1000 times and see what the distribution of `\(\bar{x}_e - \bar{x}_{ne}\)` looks like
+
+---
+
+### Simulated distribution of sample statistic under `\(H_0\)`
+
+
+
+&lt;img src="01-inf-review-pt1_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+In our actual data, we observed a difference of **12.5 - 7.875 = 4.625**
+
+&lt;img src="01-inf-review-pt1_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+.question[
+What proportion of the 1000 observations yielded values of `\(\bar{x}_e - \bar{x}_{ne}\)` as or more extreme as the value we observed in the data?
+]
+
+---
+
+&lt;img src="01-inf-review-pt1_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+.question[
+What is your conclusion about the effectiveness of *Sesame Street* in helping students improve their reading skis?
+]
+
+---
+
+class: middle, center 
+
+### Inference Using the Central Limit Theorem
+
+---
+
+## Sampling Distributions
+
+- &lt;font class = "vocab"&gt;Sampling distribution&lt;/font&gt;: the distribution of sample statistics of random samples of size n taken with replacement from a population
+
+- If we take repeated samples from a population, each sample will yield a slightly different value of the sample statistic
+
+- We can measure the variability in these sample statistics by the &lt;font class = "vocab"&gt;standard error&lt;/font&gt;
+
+---
+
+## In practice...
+
+We can't directly know what the sampling distributions looks like, because we only draw a single sample.
+
+- The whole point of statistical inference is to deal with this issue: observe only one sample, try to make inference about the entire population
+
+- One approach is to simulate the distributions as we did earlier, but we will rely on theoretical results. 
+
+--
+
+- The &lt;font class = "vocab"&gt;Central Limit Theorem &lt;/font&gt; is a theoretical result that tell us what the sampling distribution should look like (for certain sample statistics)
+
+- The Central Limit Theorem provides the foundation we need to conduct inference on parameters such as the mean, proportion, and regression coefficients (eventually)
+
+---
+
+### Central Limit Theorem 
+
+If certain conditions are met, the sampling distribution of the sample statistic will be 
+
+- approximately Normal
+- mean equal to the unknown population parameter
+- standard error proportional to the inverse of the square root of the sample size.
+
+---
+
+## Central Limit Theorem
+
+&lt;font class="vocab"&gt;One Sample: &lt;/font&gt;
+
+- **Single mean:** `\(\bar{x} \sim N\left(mean = \mu, sd = \frac{\sigma}{\sqrt{n}}\right)\)`
+- **Single proportion:** `\(\hat{p} \sim N\left(mean = p, sd = \sqrt{\frac{p (1-p)}{n}} \right)\)`
+
+&lt;br&gt;
+
+&lt;font class="vocab"&gt;Two Sample: &lt;/font&gt;
+
+- **Difference between two means:** `\((\bar{x}_1 - \bar{x}_2) \sim N\left(mean = (\mu_1 - \mu_2), sd = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \right)\)`
+
+- **Difference between two proportions:** `\((\hat{p}_1 - \hat{p}_2) \sim N\left(mean = (p_1 - p_2), sd = \sqrt{\frac{p_1 (1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}} \right)\)`
+
+---
+
+### Conditions required for the CLT
+
+- **Independence:** The sampled observations must be independent. This is difficult to check, but the following are useful guidelines:
+    - the sample must be random
+    - if sampling without replacement, sample size must be less than 10% of the population size
+    
+- **Sample size / distribution:** 
+    - numerical data: The more skewed the sample (and hence the population)
+    distribution, the larger samples we need. Usually n &gt; 30 is considered a 
+    large enough sample for population distributions that are not extremely skewed.
+    - categorical data: At least 10 successes and 10 failures.
+
+- If comparing two populations, the groups must be independent of each other,
+and all conditions should be checked for both groups.
+
+---
+
+## Standard Error
+
+The &lt;font class="vocab"&gt;standard error&lt;/font&gt; is the *standard deviation* of the *sampling distribution*, calculated using sample statistics (since we don't know the population parameters like `\(\sigma\)` or `\(p\)`).
+
+--
+
+- **Single mean:** `\(SE = \frac{s}{\sqrt{n}}\)`
+
+- **Difference between two means:** `\(SE = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}\)`
+
+- **Single proportion:** `\(SE = \sqrt{\frac{\hat{p} (1-\hat{p})}{n}}\)`
+
+- **Difference between two proportions:** `\(SE = \sqrt{\frac{\hat{p}_1 (1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}\)`
+
+--
+
+.question[
+How are standard error and sample size associated? What does that say about how the spread of the sampling distribution changes as `\(n\)` increases?
+]
+
+---
+
+## Hypothesis Tests Using the CLT 
+
+- State the null and alternative hypotheses 
+
+-  Calculate the standard error of the sample statistic of interest (sample mean, sample proportion, difference between sample means, etc.)
+
+
+- Calculate the &lt;font class = "vocab"&gt;test statistic&lt;/font&gt;, the number of standard errors the observed value is from the hypothesized null value. The appropriate test statistic is...
+$$ \frac{\text{observed value} - \text{hypothesized value}}{SE}$$
+    - *z* for proportions
+    - *t* for means, along with appropriate degrees of freedom
+  
+---
+
+## Hypothesis Tests Using the CLT 
+
+- Use the test statistic to calculate the p-value, the probability of an observed or more extreme outcome given that the null hypothesis is true
+    - Standard Normal distribution for proportions
+    - *t* distribution with appropriate degrees of freedom for means (and eventually regression coefficients)
+
+---
+
+### *Sesame Street* Example using the CLT
+
+- Sample Statistic: 
+
+```
+## [1] 4.625
+```
+
+
+- Standard Error: 
+
+
+```
+## [1] 1.49096
+```
+
+
+- Test Statistic: 
+
+```
+## # A tibble: 1 x 1
+##   statistic
+##       &lt;dbl&gt;
+## 1      3.10
+```
+
+- P-value: 
+
+```
+## [1] 0.001121931
+```
+
+
+---
+
+### Theoretical distribution under `\(H_0\)`
+
+*t* distribution with approximately 173.59 degrees of freedom. 
+
+&lt;img src="01-inf-review-pt1_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: middle, center 
+
+### Understanding the Hypothesis Test
+
+---
+
+## Calculating the p-value
+
+- &lt;font class="vocab3"&gt;p-value:&lt;/font&gt; probability of getting a test statistic as extreme or more extreme than the calculated test statistic, assuming the null hypothesis is true
+--
+
+
+- When the alternative has a `\(&gt;\)`, the p-value is calculated using the area to the right of the test statistic
+--
+
+
+- When the alternative has a `\(&lt;\)`, the p-value is calculated using the area to the left of the test statistic
+--
+
+
+- When the alternative has `\(\neq\)`, the p-value is calculated as the area to the left of `\(-|\text{test statistic}|\)` and to the right of `\(|\text{test statistic}|\)`
+
+---
+
+### Interpreting the p-value
+--
+
+**What the p-value is NOT**:
+- It is &lt;u&gt;*not*&lt;/u&gt; the probability the null hypothesis is true
+  + The null hypothesis is either true or not true
+- (1 - *p-value*) is &lt;u&gt;*not&lt;/u&gt; the probability that the alternative hypothesis is true
+  + The alternative hypothesis is either true or not true
+
+--
+
+.alert[
+Correct interpretation of the p-value: 
+
+The probability of getting a test statistic as extreme or more extreme than the calculated test statistic, *assuming the null hypothesis is true.*
+]
+
+---
+
+## Interpreting the p-value
+
+|  Magnitude of p-value |             Interpretation            |
+|:---------------------:|:-------------------------------------:|
+| p-value &lt; 0.01        | strong evidence against `\(H_0\)`         |
+| 0.01 &lt; p-value &lt; 0.05 | moderate evidence against `\(H_0\)`       |
+| 0.05 &lt; p-value &lt; 0.1  | weak evidence against `\(H_0\)`           |
+| p-value &gt; 0.1         | effectively no evidence against `\(H_0\)` |
+&lt;br&gt; 
+&lt;br&gt;
+
+**Note:** These are general guidelines. The strength of evidence depends on the context of the problem.
+---
+
+## Statistical Significance
+
+- A threshold can be used to decide whether or not to reject `\(H_0\)`. 
+
+- This threshold is called the &lt;font class="vocab3"&gt;significance level&lt;/font&gt; and is usually denoted by `\(\alpha\)`
+
+- When `\(H_0\)` is rejected, we use the term &lt;font class="vocab3"&gt; statistically significant &lt;/font&gt; to describe the outcome of the test.
+
+- *Example*: When `\(\alpha = 0.05\)`, results are statistically significance when the p-value is `\(&lt; 0.05\)`
+
+---
+
+## Statistical Significance
+
+- Do not rely strictly on the significance level to make a conclusion!
+--
+
+- Suppose the significance level is 0.05
+--
+
+  + If the p-value is 0.05001, we do not reject `\(H_0\)`
+--
+
+  + If the p-value is 0.04999, we do reject `\(H_0\)`
+--
+
+- 0.05001 and 0.04999 are practically the same, yet they led to different conclusions. 
+--
+
+- Always state the p-value when reporting results and assess their magnitude in the context of your problem. 
+---
+
+class: results 
+
+### Results that Aren't Statistically Significant
+
+- An outcome of failing to reject `\(H_0\)` is &lt;u&gt;not&lt;/u&gt; a failed study/experiment
+
+- Obtaining an outcome of "no significant effect" or "no significant difference" is still valid 
+
+- It is often just as important to learn that the `\(H_0\)` can't be refuted
+
+---
+
+class: middle, center
+
+## Introducing RStudio &amp; GitHub
+
+---
+
+---
+
+class: center, middle
+
+## Reproducible data analysis
+
+---
+
+## Reproducibility checklist
+
+.question[
+What does it mean for a data analysis to be "reproducible"?
+]
+
+--
+
+**Near-term goals:**
+
+- Are the tables and figures reproducible from the code and data?
+- Does the code actually do what you think it does?
+- In addition to what was done, is it clear **why** it was done? 
+(e.g., how were parameter settings chosen?)
+
+--
+
+**Long-term goals:**
+
+- Can the code be used for other data?
+- Can you extend the code to do other things?
+---
+
+## Toolkit
+
+&lt;img src="img/01/toolkit.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+- Scriptability `\(\rightarrow\)` R
+- Literate programming (code, narrative, output in one place) `\(\rightarrow\)` R Markdown
+- Version control `\(\rightarrow\)` Git / GitHub
+
+---
+
+class: center, middle
+
+# R and RStudio
+
+---
+
+## What is R/RStudio?
+
+- R is a statistical programming language
+- RStudio is a convenient interface for R (an integrated development environment, IDE)
+- At its simplest:&lt;sup&gt;*&lt;/sup&gt;
+    - R is like a car’s engine
+    - RStudio is like a car’s dashboard
+
+&lt;img src="img/01/engine-dashboard.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+*Source: [Modern Dive](https://moderndive.com/)
+]
+
+---
+
+## R/RStudio Tour
+
+.center[
+[DEMO]
+]
+
+Concepts introduced:
+
+- Console
+- Using R as a calculator
+- Environment
+- Loading and viewing a data frame
+- Accessing a variable in a data frame
+- R functions
+
+---
+
+### R essentials (a short list)
+
+- **Functions** are (most often) verbs, followed by what they will be applied to in parentheses:
+
+
+```r
+do_this(to_this)
+do_that(to_this, to_that, with_those)
+```
+
+--
+
+- **Columns** (variables) in data frames are accessed with `$`:
+
+
+```r
+dataframe$var_name
+```
+
+--
+
+- **Packages** are installed with the `install.packages` function and loaded with the `library` function, once per session:
+
+
+```r
+install.packages("package_name")
+library(package_name)
+```
+
+---
+
+## tidyverse
+
+.pull-left[
+![](img/01/tidyverse.png)
+]
+
+.pull-right[
+.center[
+[tidyverse.org](https://www.tidyverse.org/)
+]
+
+- The tidyverse is an opinionated collection of R packages designed for data science. 
+- All packages share an underlying philosophy and a common grammar. 
+]
+
+---
+
+class: center, middle
+
+# R Markdown
+
+---
+
+
+## R Markdown
+
+- Fully reproducible reports -- the analysis is run from the beginning each time you knit
+
+- Simple Markdown syntax for text
+
+- Code goes in chunks, defined by three backticks, narrative goes outside of chunks
+
+---
+
+## R Markdown Tour
+
+.center[
+[DEMO]
+]
+
+--
+
+Concepts introduced:
+
+- Copying a project in RStudio Cloud
+- Knitting documents
+- R Markdown and (some) R syntax
+
+---
+
+## R Markdown tips
+
+**Resources**
+- [R Markdown cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
+- Markdown Quick Reference: 
+    - `Help -&gt; Markdown Quick Reference`
+&lt;br&gt;&lt;br&gt;
+--
+
+
+**Remember**: The workspace of the R Markdown document is &lt;u&gt;separate&lt;/u&gt; from the console
+
+---
+
+## Workspace vs. console
+
+- Run the following in the console
+
+
+```r
+x &lt;- 2
+x * 3
+```
+
+--
+
+- Then, add the following chunk in your R Markdown document and knit
+
+
+```r
+x * 3
+```
+
+--
+
+.question[
+What happens? Why the error?
+]
+
+---
+
+## How will we use R Markdown?
+
+- Every assignment / lab / project / etc. is an R Markdown document
+
+- You'll always have a template R Markdown document to start with
+
+- The amount of scaffolding in the template will decrease over the semester
+
+---
+
+## Before Next Class
+
+- Fill out the **Getting To Know You Survey on Sakai** - due 9/2 at 11:59p
+
+- Accept invite to join `sta210-fa19` organization on GitHub
+
+- **New to R or need a refresher?**
+    - *Work with Data* primer on RStudio Cloud: [https://rstudio.cloud/learn/primers/2](https://rstudio.cloud/learn/primers/2)
+    - "Data Visualization" in *R for Data Science*:
+    [https://r4ds.had.co.nz/data-visualisation.html](https://r4ds.had.co.nz/data-visualisation.html)
+
+- **More on statistical inference**
+  - [OpenIntro Statistics](https://www.openintro.org/download.php?file=os3_tablet&amp;referrer=/stat/textbook.php) Chapter 5: Inference for numerical data
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
