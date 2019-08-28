@@ -7,6 +7,8 @@ lessons:
   - date: "Wed, Aug 28"
     title: "Review: Hypothesis Testing"
     slides: "lec-slides/01-inf-review-pt1.html"
+  - title: "Introducing R and GitHub"
+    slides: "lec-slides/01-intro-r-github.html"
   - date: "Thu, Aug 29"
     title: "Lab 01"
     ##slides: "lab-slides/00-lab-slides.html"
