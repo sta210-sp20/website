@@ -182,7 +182,7 @@ Based on this, do you think there is enough evidence to conclude that *Sesame St
 --
 
 .instructions[
-Is the averge improvement in reading scores significantly greater for children who regularly watch *Sesame Street* than the change for those who don't?
+Is the averagee improvement in reading scores significantly greater for children who regularly watch *Sesame Street* than the change for those who don't?
 ]
 
 
@@ -235,7 +235,7 @@ Is the averge improvement in reading scores significantly greater for children w
 
 ## *Sesame Street* Example
 
-- **Question: ** Is the averge improvement in reading scores significantly greater for children who regularly watch *Sesame Street* than the change for those who don't?
+- **Question: ** Is the averagee improvement in reading scores significantly greater for children who regularly watch *Sesame Street* than the change for those who don't?
 --
 
 - **Baseline: ** There is no difference between the two groups
@@ -309,7 +309,7 @@ visualize(null_dist) +
 ```
 
 .question[
-What is your conclusion about the effectiveness of *Sesame Street* in helping students improve their reading skis?
+What is your conclusion about the effectiveness of *Sesame Street* in helping students improve their reading skills?
 ]
 
 ---
@@ -466,6 +466,7 @@ sqrt(var1 / n1 + var2 / n2)
 obs_t <- sesame_street %>% 
   t_stat(formula = change ~ treatment, c("Encouraged", "Not Encouraged")) %>% 
   dplyr::pull(statistic)
+obs_t
 ```
 
 - P-value: 
