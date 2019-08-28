@@ -29,8 +29,6 @@ class: center, middle, inverse, title-slide
 - Get to Know You survey - due Monday at 11:59p
 
 - Labs start tomorrow. Make sure you...
-  - can access the STA210 workspace on RStudio Cloud
-  - are a member of `sta210-fa19` organization on GitHub before
 
 - All regular office hours start Monday. See the [course homepage](https://www2.stat.duke.edu/courses/Fall19/sta210.001/index.html) for the office hour schedule.
 
@@ -64,17 +62,17 @@ class: middle, center
 
 ## *Sesame Street*
 
-- A study was conducted to test whether the show as effective in helping children improve their reading and math skills. The 240 children who participated in the student were split into two groups: 
-      + **Group 1**: Those who were encouraged to watch the show
-      + **Group 2**: Those who didn't get encouragement to watch the show
+- A study was conducted to test whether the show was effective in helping children improve their reading and math skills. The 240 children who participated in the study were split into two groups: 
+      + **Group 1**: Those who were encouraged to watch the show (assumed watched regularly)
+      + **Group 2**: Those who didn't get encouragement to watch the show 
 
 - Each child was given a test before and after the study to measure their knowledge of basic math, reading, etc.
 
-- We will focus on the change in reading scores
-&lt;br&gt;&lt;br&gt;
+- We will focus on the change in reading (identifying letters) scores 
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
 
 &lt;small&gt;
-- [Sesame Street Data - Full Description](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html) 
+[Sesame Street Data - Full Description](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html) 
 Original Study: *Ann Bogatz, Gerry &amp; Ball, Samuel. (1971). The Second Year of Sesame Street: A Continuing Evaluation. Volume 1. vols. 1 &amp; 2.*
 &lt;/small&gt;
 
@@ -91,17 +89,17 @@ sesame_street %&gt;%
 ```
 
 ```
-##    treatment prelet postlet change
-## 1          1     23      30      7
-## 2          1     26      37     11
-## 3          2     14      46     32
-## 4          2     11      14      3
-## 5          2     47      63     16
-## 6          2     26      36     10
-## 7          2     12      45     33
-## 8          1     48      47     -1
-## 9          1     44      50      6
-## 10         1     38      52     14
+##         treatment prelet postlet change
+## 1      Encouraged     23      30      7
+## 2      Encouraged     26      37     11
+## 3  Not Encouraged     14      46     32
+## 4  Not Encouraged     11      14      3
+## 5  Not Encouraged     47      63     16
+## 6  Not Encouraged     26      36     10
+## 7  Not Encouraged     12      45     33
+## 8      Encouraged     48      47     -1
+## 9      Encouraged     44      50      6
+## 10     Encouraged     38      52     14
 ```
 
 ---
@@ -110,8 +108,7 @@ sesame_street %&gt;%
 ```r
 ggplot(data = sesame_street, mapping = aes(y = change, x = treatment)) +
   geom_boxplot(fill = "steelblue") +
-  labs(title = "Change in Reading Scores", 
-       subtitle = "Group 1: Encouraged to watch, Group 2: Not encouraged to watch") +
+  labs(title = "Change in Reading Scores") +
   theme_minimal()
 ```
 
@@ -125,15 +122,15 @@ ggplot(data = sesame_street, mapping = aes(y = change, x = treatment)) +
 ```r
 sesame_street %&gt;%
   group_by(treatment) %&gt;%
-  summarise(n = n(), mean = mean(change), s = sd(change))
+  summarise(n = n(), mean = mean(change), sd = sd(change))
 ```
 
 ```
 ## # A tibble: 2 x 4
-##   treatment     n  mean     s
-##   &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 1           152 12.5   10.7
-## 2 2            88  7.88  11.4
+##   treatment          n  mean    sd
+##   &lt;chr&gt;          &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Encouraged       152 12.5   10.7
+## 2 Not Encouraged    88  7.88  11.4
 ```
 &lt;br&gt;
 
@@ -162,7 +159,6 @@ Based on this, do you think there is enough evidence to conclude that *Sesame St
 .center[
 *Are the data consistent or inconsistent with the specified hypothesis?*
 ]
-
 &lt;br&gt;
 
 - To answer that question, we will determine
@@ -173,7 +169,7 @@ Based on this, do you think there is enough evidence to conclude that *Sesame St
 --
 
 .instructions[
-Do children who regularly watch *Sesame Street* have significantly greater improvement in reading scores on average than those who don't?
+Is the averge improvement in reading scores significantly greater for children who regularly watch *Sesame Street* than the change for those who don't?
 ]
 
 
@@ -186,7 +182,7 @@ Do children who regularly watch *Sesame Street* have significantly greater impro
 &lt;br&gt;&lt;br&gt;
 
 - &lt;font class = "vocab"&gt;Alternative hypothesis, `\(H_a\)`&lt;/font&gt;: This is typically what you want to show, i.e. the "there is something going on" hypothesis 
-    - In regression, the alternative hypothesis is often "there is some relationship between the two variables"
+    - Children who regularly watch *Sesame Street* have significantly greater improvement in reading scores compared to those who don't
 
 ---
 
@@ -226,13 +222,13 @@ Do children who regularly watch *Sesame Street* have significantly greater impro
 
 ## *Sesame Street* Example
 
-- **Question: ** Do children who regularly watch *Sesame Street* have significantly greater improvement in reading scores on average than those who don't?
+- **Question: ** Is the averge improvement in reading scores significantly greater for children who regularly watch *Sesame Street* than the change for those who don't?
 --
 
 - **Baseline: ** There is no difference between the two groups
 --
 
-- **Claim: **The average change in reading scores for children who watch *Sesame Street* is greater than the average change of children who don't. We will use encouragement as a proxy for watching the show.
+- **Claim: **The average improvement in reading scores for children who watch *Sesame Street* is greater than the average improvement of children who don't. We will use encouragement as a proxy for watching the show.
 --
 
 - **Hypotheses: ** 
@@ -291,7 +287,7 @@ class: middle, center
 
 ## Sampling Distributions
 
-- &lt;font class = "vocab"&gt;Sampling distribution&lt;/font&gt;: the distribution of sample statistics of random samples of size n taken with replacement from a population
+- &lt;font class = "vocab"&gt;Sampling distribution&lt;/font&gt;: the distribution of sample statistics of random samples of size `\(n\)` taken with replacement from a population
 
 - If we take repeated samples from a population, each sample will yield a slightly different value of the sample statistic
 
@@ -305,23 +301,23 @@ We can't directly know what the sampling distributions looks like, because we on
 
 - The whole point of statistical inference is to deal with this issue: observe only one sample, try to make inference about the entire population
 
-- One approach is to simulate the distributions as we did earlier, but we will rely on theoretical results. 
+- One approach is to simulate the distributions as we did earlier, but we will now rely on theoretical results. 
 
 --
 
-- The &lt;font class = "vocab"&gt;Central Limit Theorem &lt;/font&gt; is a theoretical result that tell us what the sampling distribution should look like (for certain sample statistics)
+- The &lt;font class = "vocab"&gt;Central Limit Theorem &lt;/font&gt; is a theoretical result that tells us what the sampling distribution should look like (for certain sample statistics)
 
-- The Central Limit Theorem provides the foundation we need to conduct inference on parameters such as the mean, proportion, and regression coefficients (eventually)
+- The Central Limit Theorem provides the foundation we need to conduct inference on parameters such as the mean, proportion, difference in means, and regression coefficients (coming soon!)
 
 ---
 
 ### Central Limit Theorem 
 
-If certain conditions are met, the sampling distribution of the sample statistic will be 
+If certain conditions are met, the sampling distribution of the sample statistic will..
 
-- approximately Normal
-- mean equal to the unknown population parameter
-- standard error proportional to the inverse of the square root of the sample size.
+- be approximately Normal
+- have a mean equal to the unknown population parameter
+- have a standard error proportional to the inverse of the square root of the sample size.
 
 ---
 
@@ -385,8 +381,12 @@ How are standard error and sample size associated? What does that say about how 
 
 - State the null and alternative hypotheses 
 
+--
+
+
 -  Calculate the standard error of the sample statistic of interest (sample mean, sample proportion, difference between sample means, etc.)
 
+--
 
 - Calculate the &lt;font class = "vocab"&gt;test statistic&lt;/font&gt;, the number of standard errors the observed value is from the hypothesized null value. The appropriate test statistic is...
 $$ \frac{\text{observed value} - \text{hypothesized value}}{SE}$$
@@ -397,7 +397,7 @@ $$ \frac{\text{observed value} - \text{hypothesized value}}{SE}$$
 
 ## Hypothesis Tests Using the CLT 
 
-- Use the test statistic to calculate the p-value, the probability of an observed or more extreme outcome given that the null hypothesis is true
+- Use the test statistic to calculate the p-value, the probability of the observed outcome or a more extreme outcome given that the null hypothesis is true
     - Standard Normal distribution for proportions
     - *t* distribution with appropriate degrees of freedom for means (and eventually regression coefficients)
 
@@ -405,14 +405,14 @@ $$ \frac{\text{observed value} - \text{hypothesized value}}{SE}$$
 
 ### *Sesame Street* Example using the CLT
 
-- Sample Statistic: 
+- Sample Statistic, `\(\bar{x}_e - \bar{x}_{ne}\)`: 
 
 ```
 ## [1] 4.625
 ```
 
 
-- Standard Error: 
+- Standard Error, `\(\sqrt{s_e^2/n_e + s_{ne}^2/n_{ne}}\)`: 
 
 
 ```
@@ -420,14 +420,8 @@ $$ \frac{\text{observed value} - \text{hypothesized value}}{SE}$$
 ```
 
 
-- Test Statistic: 
+- Test Statistic, `\(\frac{(\bar{x}_e - \bar{x}_{ne} - 0)}{\sqrt{s_e^2/n_e + s_{ne}^2/n_{ne}}}\)`: 
 
-```
-## # A tibble: 1 x 1
-##   statistic
-##       &lt;dbl&gt;
-## 1      3.10
-```
 
 - P-value: 
 
@@ -476,7 +470,7 @@ class: middle, center
 **What the p-value is NOT**:
 - It is &lt;u&gt;*not*&lt;/u&gt; the probability the null hypothesis is true
   + The null hypothesis is either true or not true
-- (1 - *p-value*) is &lt;u&gt;*not&lt;/u&gt; the probability that the alternative hypothesis is true
+- (1 - *p-value*) is &lt;u&gt;*not*&lt;/u&gt; the probability that the alternative hypothesis is true
   + The alternative hypothesis is either true or not true
 
 --
@@ -532,14 +526,14 @@ The probability of getting a test statistic as extreme or more extreme than the 
 - 0.05001 and 0.04999 are practically the same, yet they led to different conclusions. 
 --
 
-- Always state the p-value when reporting results and assess their magnitude in the context of your problem. 
+- Always state the p-value when reporting results and assess it's magnitude in the context of your problem. 
 ---
 
 class: results 
 
 ### Results that Aren't Statistically Significant
 
-- An outcome of failing to reject `\(H_0\)` is &lt;u&gt;not&lt;/u&gt; a failed study/experiment
+- An outcome of failing to reject `\(H_0\)` is &lt;u&gt;*not*&lt;/u&gt; a failed study/experiment
 
 - Obtaining an outcome of "no significant effect" or "no significant difference" is still valid 
 
@@ -547,11 +541,25 @@ class: results
 
 ---
 
+## Statistical Inference
+
+- We concluded that there is a statistically significant difference in the average reading improvement between children who watched *Sesame Street* regularly compared to those who didn't
+
+- From our sample data, the estimated difference is `\(\bar{x}_e - \bar{x}_{ne}\)` = 12.5 - 7.875 = 4.625
+
+- Though this may be a good estimate, we saw earlier that there is variability in statistics calculated from sample data. 
+
+- Next class, we will discuss how to account for that variability in our estimate of the parameter. 
+
+--
+
+- For now, let's discuss computing. 
+
+---
+
 class: middle, center
 
 ## Introducing RStudio &amp; GitHub
-
----
 
 ---
 
@@ -773,6 +781,9 @@ What happens? Why the error?
 - Accept invite to join `sta210-fa19` organization on GitHub
 
 - **New to R or need a refresher?**
+  - Duke Libraries Rfun - Intro to R Workshop: Data Transformations, Data Structures, and the Tidyverse
+      - September 12 1p - 3p
+      - To register: https://duke.libcal.com/event/5497129
     - *Work with Data* primer on RStudio Cloud: [https://rstudio.cloud/learn/primers/2](https://rstudio.cloud/learn/primers/2)
     - "Data Visualization" in *R for Data Science*:
     [https://r4ds.had.co.nz/data-visualisation.html](https://r4ds.had.co.nz/data-visualisation.html)
