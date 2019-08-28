@@ -302,7 +302,7 @@ bikeshare <- bikeshare %>%
 
 You can use the `glimpse` to see the new variable type and values for `season`. 
 
-We'd like to start by visualizing the differences in temperature across season. Create a side-by-side boxplot to visualize the relationship between `season` and `count`. The code below will help you get started. Be sure to include an informative title along with informative labels for the x and y axes.
+We'd like to start by visualizing the differences in the number of bike rentals across season. Create a side-by-side boxplot to visualize the relationship between `season` and `count`. The code below will help you get started. Be sure to include an informative title along with informative labels for the x and y axes.
 
 ```{r eval=FALSE}
 ggplot(data = bikeshare, mapping = aes(x = season, y = count) + 
@@ -348,7 +348,6 @@ You can also visualize the p-value using the `infer` package:
 ```{r eval = F}
 
 # Generate appropriate t distribution 
-
 t_null_theor <- bikeshare %>%
   specify(count ~ season) %>%
   hypothesize(null = "independence") %>%
