@@ -64,6 +64,10 @@ library(infer)
 
 - All regular office hours start Monday. See the [course homepage](https://www2.stat.duke.edu/courses/Fall19/sta210.001/index.html) for the office hour schedule.
 
+- Duke Libraries Rfun - Intro to R Workshop: Data Transformations, Data Structures, and the Tidyverse
+  - September 12 1p - 3p
+  - To register: https://duke.libcal.com/event/5497129
+  
 ---
 
 class: middle, center
