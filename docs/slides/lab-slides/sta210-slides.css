@@ -3,36 +3,37 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
-p { 
-  font-family: 'Open Sans'; sans-serif;
-  font-weight: 400;
-  color: #333333;
-  font-size: 14pt;
+html{
+  font-size: 16pt; 
+}
+
+p {
+  font-size: 16pt;
 }
 
 body { 
   font-family: 'Open Sans'; sans-serif;
   font-weight: 400;
   color: #333333;
-  font-size: 14pt;
+  font-size: 16pt;
 }
-
 h2 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
-  color: #1689AE;
+  color: #339898;
   font-size: 12px;
   margin: 0.25em 0 0.5em 0;
 }
 h1, h3 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
-  color: #1689AE;
+  color: #339898;
 }
 a, a > code {
   font-family: 'Open Sans', sans-serif;
-  color: #AA0061;
-  text-decoration: none;
+  color: #993399;
+  text-decoration: underline;
+  font-size: 14pt;
 }
 
 .footnote {
@@ -47,10 +48,16 @@ a, a > code {
 .remark-code-line-highlighted     { background-color: #ffff88; }
 
 .inverse {
-  background-color: #1689AE;
+  background-color: #339898;
   color: #ffffff;
   /* text-shadow: 0 0 20px #333; */
 }
+
+.inverse .remark-slide-number {
+  font-size: 12pt;
+  color: #339898;
+}
+
 .inverse h1, .inverse h2, .inverse h3 {
   color: #f3f3f3;
 }
@@ -85,16 +92,14 @@ a, a > code {
 }
 ul {
   list-style-type: square;
-  font-size: 14pt;
 }
 li{
   margin: 10px 0;
-  font-size: 14pt;
-  
+  font-size: 16pt;
 }
 .large { font-size: 130% }
 .midi { font-size: 90% }
-.small { font-size: 70% }
+.small { font-size: 40% }
 img, video, iframe {
   max-width: 100%;
 }
@@ -108,7 +113,7 @@ table {
   border-bottom: 1px solid #666;
 }
 table thead th { border-bottom: 1px solid #ddd; }
-th, td { padding: 5px; }
+th, td { padding: 5px; font-size: 12pt;}
 thead, tfoot, tr:nth-child(even) { background: #eee }
 
 @page { margin: 0; }
@@ -138,6 +143,11 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
     background-image: url("img/sta210-sticker-icon.png");
 }
 
+.remark-slide-number {
+  font-size: 12pt;
+  color: #FFFFFF;
+}
+
 .element.style {
     position: absolute;
     left: 0px;
@@ -147,51 +157,56 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 }
 
 .vocab {
-  color: #9B02BD;
+  color: #993399;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 16pt;
 }
 
 .vocab2 {
-  color: #1689AE;
+  color: #339898;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 16pt;
 }
 
 .vocab3 {
   color: #022CFA;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 16pt;
 }
 
 .question {
-  border-left: solid 5px #1E5C65;
-  background-color: #1E5C6530;
+  border-left: solid 5px #f6e1fa;
+  background-color: #f6e1fa;
   padding: 10px 16px;
   margin-top: 12px;
   margin-bottom: 12px;
   font-size: 90%;
-  color: #1E5C65;
+  /*color: #1E5C65;*/
 }
 .alert {
-  border-right: solid 5px #A7D5E8;
+  border-right: solid 5px #A7D5E830;
   background-color: #A7D5E830;
   padding: 1px 16px;
   margin-top: 12px;
   margin-bottom: 12px;
 }
 .instructions {
-  border-left: solid 5px #f6e1fa;
-  background-color: #f6e1fa;
+  border-left: solid 5px #D7E7EC;
+  background-color: #D7E7EC;
   font-size: 90%;
   padding: 1px 16px;
   margin-top: 12px;
   margin-bottom: 12px;
-  font-size: 90%;
 }
+
 .instructions li::before {
   content: ">"; 
   color: #f6e1fa;
   display: inline-block; 
   margin-left: -1.5em
 }
+
+.remark-slide-number {
+  font-size: 12pt;
+}
+
