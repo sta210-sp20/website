@@ -55,7 +55,7 @@ library(infer)
 
 class: middle, center
 
-### [Click](01-inf-review-pt1.pdf) for PDF of slides
+### [Click for PDF of slides](01-inf-review-pt1.pdf)
 
 ---
 

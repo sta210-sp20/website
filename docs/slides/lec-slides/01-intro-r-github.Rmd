@@ -1,6 +1,5 @@
 ---
 title: "Introducing RStudio and GitHub"
-subtitle: "Hypothesis Testing"
 author: "Dr. Maria Tackett"
 date: "08.28.19"
 output:
@@ -16,7 +15,7 @@ output:
       slideNumberFormat: "%current%"
 ---
 
-```{r setup, include=FALSE}
+```{r include=FALSE}
 # R options
 options(
   htmltools.dir.version = FALSE, # for blogdown
@@ -48,7 +47,7 @@ knitr::opts_chunk$set(
 
 class: middle, center
 
-### [Click](01-inf-intro-r-github.pdf) for PDF of slides
+### [Click for PDF of slides](01-intro-r-github.pdf)
 
 ---
 
@@ -72,8 +71,6 @@ What does it mean for a data analysis to be "reproducible"?
 - Does the code actually do what you think it does?
 - In addition to what was done, is it clear **why** it was done? 
 (e.g., how were parameter settings chosen?)
-
---
 
 **Long-term goals:**
 
@@ -118,23 +115,6 @@ knitr::include_graphics("img/01/engine-dashboard.png")
 
 ---
 
-## R/RStudio Tour
-
-.center[
-[DEMO]
-]
-
-Concepts introduced:
-
-- Console
-- Using R as a calculator
-- Environment
-- Loading and viewing a data frame
-- Accessing a variable in a data frame
-- R functions
-
----
-
 ### R essentials (a short list)
 
 - **Functions** are (most often) verbs, followed by what they will be applied to in parentheses:
@@ -144,15 +124,11 @@ do_this(to_this)
 do_that(to_this, to_that, with_those)
 ```
 
---
-
 - **Columns** (variables) in data frames are accessed with `$`:
 
 ```{r eval=FALSE}
 dataframe$var_name
 ```
-
---
 
 - **Packages** are installed with the `install.packages` function and loaded with the `library` function, once per session:
 
@@ -197,22 +173,6 @@ class: center, middle
 
 ---
 
-## R Markdown Tour
-
-.center[
-[DEMO]
-]
-
---
-
-Concepts introduced:
-
-- Copying a project in RStudio Cloud
-- Knitting documents
-- R Markdown and (some) R syntax
-
----
-
 ## R Markdown tips
 
 **Resources**
@@ -220,8 +180,6 @@ Concepts introduced:
 - Markdown Quick Reference: 
     - `Help -> Markdown Quick Reference`
 <br><br>
---
-
 
 **Remember**: The workspace of the R Markdown document is <u>separate</u> from the console
 
@@ -229,22 +187,18 @@ Concepts introduced:
 
 ## Workspace vs. console
 
-- Run the following in the console
+- Run the following in the console.
 
 ```{r eval = FALSE}
 x <- 2
 x * 3
 ```
 
---
-
-- Then, add the following chunk in your R Markdown document and knit
+- Then, open a new R Markdown document. Add the following chunk in your R Markdown document and knit.
 
 ```{r eval = FALSE}
 x * 3
 ```
-
---
 
 .question[
 What happens? Why the error?
