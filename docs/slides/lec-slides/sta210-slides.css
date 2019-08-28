@@ -17,6 +17,7 @@ body {
   color: #333333;
   font-size: 16pt;
 }
+
 h2 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
@@ -24,6 +25,7 @@ h2 {
   font-size: 12px;
   margin: 0.25em 0 0.5em 0;
 }
+
 h1, h3 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
@@ -34,6 +36,12 @@ a, a > code {
   color: #993399;
   text-decoration: underline;
   font-size: 14pt;
+}
+
+h3 a {
+  font-family: 'Open-Sans', sans-serif;
+  font-weight: bold;
+  font-size: 115%;
 }
 
 .footnote {
