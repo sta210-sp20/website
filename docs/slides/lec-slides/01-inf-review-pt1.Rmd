@@ -88,6 +88,9 @@ class: middle, center
 
 - The show originally had a particular focus on reaching economically disadvantaged children. In the early 1970s, the Educational Testing Service (ETS) conducted a study to determine the show's effectiveness in helping this group of children develop the skills needed to be successful in school. 
 
+```{r fig.align="center",out.width="50%",echo=FALSE}
+knitr::include_graphics("img/01/sesame_street.jpg")
+```
 ---
 
 ## *Sesame Street*
