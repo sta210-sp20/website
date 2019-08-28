@@ -53,14 +53,20 @@ library(STA210)
 library(infer)
 ```
 
+class: middle, center
 
+### [Click](01-inf-review-pt1.pdf) for PDF of slides
+
+---
 
 ## Announcements
 
 - Get to Know You survey - due Monday at 11:59p
 
 - Labs start tomorrow. Make sure you...
-
+    - Are a member of the `sta210-fa19` organization on GitHub
+    - Can access the STA 210 course workspace on RStudio Cloud
+    
 - All regular office hours start Monday. See the [course homepage](https://www2.stat.duke.edu/courses/Fall19/sta210.001/index.html) for the office hour schedule.
 
 - Duke Libraries Rfun - Intro to R Workshop: Data Transformations, Data Structures, and the Tidyverse
@@ -78,8 +84,6 @@ class: middle, center
 ## Today's Agenda
 
 - Review hypothesis testing
-
-- Introduce RStudio & GitHub (time permitting)
 
 ---
 
@@ -609,227 +613,6 @@ class: results
 - Though this may be a good estimate, we saw earlier that there is variability in statistics calculated from sample data. 
 
 - Next class, we will discuss how to account for that variability in our estimate of the parameter. 
-
---
-
-- For now, let's discuss computing. 
-
----
-
-class: middle, center
-
-## Introducing RStudio & GitHub
-
----
-
-class: center, middle
-
-## Reproducible data analysis
-
----
-
-## Reproducibility checklist
-
-.question[
-What does it mean for a data analysis to be "reproducible"?
-]
-
---
-
-**Near-term goals:**
-
-- Are the tables and figures reproducible from the code and data?
-- Does the code actually do what you think it does?
-- In addition to what was done, is it clear **why** it was done? 
-(e.g., how were parameter settings chosen?)
-
---
-
-**Long-term goals:**
-
-- Can the code be used for other data?
-- Can you extend the code to do other things?
----
-
-## Toolkit
-
-```{r fig.align="center",out.width="70%",echo=FALSE}
-knitr::include_graphics("img/01/toolkit.png")
-```
-
-
-- Scriptability $\rightarrow$ R
-- Literate programming (code, narrative, output in one place) $\rightarrow$ R Markdown
-- Version control $\rightarrow$ Git / GitHub
-
----
-
-class: center, middle
-
-# R and RStudio
-
----
-
-## What is R/RStudio?
-
-- R is a statistical programming language
-- RStudio is a convenient interface for R (an integrated development environment, IDE)
-- At its simplest:<sup>*</sup>
-    - R is like a car’s engine
-    - RStudio is like a car’s dashboard
-
-```{r fig.align="center",out.width="70%",echo=FALSE}
-knitr::include_graphics("img/01/engine-dashboard.png")
-```
-
-.footnote[
-*Source: [Modern Dive](https://moderndive.com/)
-]
-
----
-
-## R/RStudio Tour
-
-.center[
-[DEMO]
-]
-
-Concepts introduced:
-
-- Console
-- Using R as a calculator
-- Environment
-- Loading and viewing a data frame
-- Accessing a variable in a data frame
-- R functions
-
----
-
-### R essentials (a short list)
-
-- **Functions** are (most often) verbs, followed by what they will be applied to in parentheses:
-
-```{r eval=FALSE}
-do_this(to_this)
-do_that(to_this, to_that, with_those)
-```
-
---
-
-- **Columns** (variables) in data frames are accessed with `$`:
-
-```{r eval=FALSE}
-dataframe$var_name
-```
-
---
-
-- **Packages** are installed with the `install.packages` function and loaded with the `library` function, once per session:
-
-```{r eval=FALSE}
-install.packages("package_name")
-library(package_name)
-```
-
----
-
-## tidyverse
-
-.pull-left[
-![](img/01/tidyverse.png)
-]
-
-.pull-right[
-.center[
-[tidyverse.org](https://www.tidyverse.org/)
-]
-
-- The tidyverse is an opinionated collection of R packages designed for data science. 
-- All packages share an underlying philosophy and a common grammar. 
-]
-
----
-
-class: center, middle
-
-# R Markdown
-
----
-
-
-## R Markdown
-
-- Fully reproducible reports -- the analysis is run from the beginning each time you knit
-
-- Simple Markdown syntax for text
-
-- Code goes in chunks, defined by three backticks, narrative goes outside of chunks
-
----
-
-## R Markdown Tour
-
-.center[
-[DEMO]
-]
-
---
-
-Concepts introduced:
-
-- Copying a project in RStudio Cloud
-- Knitting documents
-- R Markdown and (some) R syntax
-
----
-
-## R Markdown tips
-
-**Resources**
-- [R Markdown cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
-- Markdown Quick Reference: 
-    - `Help -> Markdown Quick Reference`
-<br><br>
---
-
-
-**Remember**: The workspace of the R Markdown document is <u>separate</u> from the console
-
----
-
-## Workspace vs. console
-
-- Run the following in the console
-
-```{r eval = FALSE}
-x <- 2
-x * 3
-```
-
---
-
-- Then, add the following chunk in your R Markdown document and knit
-
-```{r eval = FALSE}
-x * 3
-```
-
---
-
-.question[
-What happens? Why the error?
-]
-
----
-
-## How will we use R Markdown?
-
-- Every assignment / lab / project / etc. is an R Markdown document
-
-- You'll always have a template R Markdown document to start with
-
-- The amount of scaffolding in the template will decrease over the semester
-
 ---
 
 ## Before Next Class
