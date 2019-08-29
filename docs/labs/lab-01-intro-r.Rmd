@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE,
 R is the name of the programming language itself and RStudio is a convenient interface.
 ```
 
-The main goal of this lab is to introduce you to R and RStudio, which we will be using throughout the course both to learn the statistical concepts discussed in the course and to analyze real data and come to informed conclusions.
+The main goal of this lab is to introduce you to R and RStudio, which we will be using throughout the course both to learn the statistical concepts discussed in the course and to derive conclusions from the analysis of real-world data.
 
 ```{marginfigure}
 git is a version control system (like "Track Changes" features from Microsoft Word but more powerful) and GitHub is the home for your Git-based projects on the internet (like DropBox but much better).
@@ -43,7 +43,7 @@ To make versioning simpler, today's lab is individual. This will give you a chan
 
 # Getting Started
 
-Each of your assignments will begin with the following steps. You saw your TA demonstrate these steps, and they're outlined in detail here again. Going forward each lab will start with a "Getting started" section but details will be a bit more sparse than this. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
+Each of your assignments will begin with steps in this section. You saw your TA demonstrate these steps, and they're outlined in detail below. Going forward, each lab will begin with a "Getting started" section but details will be a bit more sparse than this. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
 
 ## Clone Assignment Repo
 
@@ -71,14 +71,14 @@ knitr::include_graphics("img/01-intro-r/paste-gh-repo-url.png")
 
 ## Configure git
 
-There is one more piece of housekeeping we need to take care of before we get started. Specifically,  we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your email address and your name.
+There is one more piece of housekeeping we need to take care of before we get started. Specifically,  we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your name and email address.
 
 To do so, you will use the `use_git_config()` function from the `usethis` package. 
 
 Type the following lines of code in the **console** in RStudio filling in your name and email address.
 
 ```{marginfigure}
-Your email address is the address tied to your GitHub account and your name should be first and last name.
+Use your first and last name. The email address is the one tied to your GitHub account. 
 ```
 
 ```{r eval=FALSE}
@@ -114,13 +114,14 @@ We will use the following packages in today's lab.
 ```{r load-packages}
 library(tidyverse)
 library(skimr)
+library(infer)
 ```
 
 If you need to install any of the packages, you can run the code below in the **console**.
 ```{r,eval=F}
 install.packages("tidyverse") 
-install.packages("readr")
 install.packages("skimr")
+install.packages("infer")
 ```
 
 # Warm up
@@ -129,7 +130,7 @@ Before we introduce the data, let's warm up with some simple exercises.
 
 ## Project name: 
 
-Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 01 - Intro R".
+Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 01 - Intro R". You should write an informative project name for each new project in RStudio Cloud.
 
 ```{r untitled-project, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/untitled-project.png")
@@ -147,11 +148,11 @@ Open the R Markdown (Rmd) file in your project, change the author name to your n
 knitr::include_graphics("img/01-intro-r/yaml-raw-to-rendered.png")
 ```
 
-## Commiting changes:
+## Committing changes:
 
 Then go to the Git pane in your RStudio.
 
-If you have made changes to your Rmd file, you should see it listed here. Click on it to select it in this list and then click on **Diff**. This shows you the *diff*erence between the last committed state of the document and its current state that includes your changes. If you're happy with these changes, write "Update author name" in the **Commit message** box and click **Commit**.
+If you have made changes to your Rmd file, you should see it listed here. Click on it to select it in this list and then click on **Diff**. This shows you the difference between the last committed state of the document and its current state with your changes. If you're happy with these changes, write "Update author name" in the **Commit message** box and click **Commit**.
 
 ```{r update-author-name-commit, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/update-author-name-commit.png")
@@ -175,7 +176,13 @@ Today's data comes from the Capital Bikeshare in Washington D.C. The Capital Bik
 bikeshare <- read_csv("data/bikeshare.csv")
 ```
 
-This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012. 
+This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012. In this lab, we will focus on the following variables: 
+
+|  |  |
+|----------|-------|
+| `season` |1: Winter, 2: Spring, 3: Summer, 4: Fall |
+| `temp` | Temperature (in $^{\circ}C$) &divide; 41 |
+| `count` | total number of bike rentals |
 
 # Exercises 
 
@@ -190,7 +197,7 @@ It is sometimes more useful to view a summary of the data structure rather than 
 You can  type `??glimpse` in the console to learn more about the function and its syntax.
 ```
 
-1. Use the code below `glimpse(bikeshare)` to see an overview of the `bikeshare` dataset.
+1. Use the `glimpse()` function to get an overview of `bikeshare`. 
 
 ```{r eval = F}
 glimpse(bikeshare)
@@ -198,17 +205,9 @@ glimpse(bikeshare)
 
 How many observations (rows) are in the `bikeshare` dataset? How many variables (columns)?
 
-2. In this lab, we will focus the analysis on the following variables: 
+2. Before conducting statistical inference (or eventually fitting regression models),  we want to do an exploratory data analysis (EDA) to get a sense of the main characteristics of the data. Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. It is good practice to examine any variable that may be relevant to the analysis in the EDA. To keep today's lab manageable, we will only examine the three variables `season`, `temp`, and `count`.
 
-|  |  |
-|----------|-------|
-| `season` |1: Winter, 2: Spring, 3: Summer, 4: Fall |
-| `temp` | Temperature (in $^{\circ}C$) &divide; 41 |
-| `count` | total number of bike rentals |
-
-Before fitting any regression models, we want to do an exploratory data analysis (EDA) to summarize the main characteristics of the data. Much of the EDA is visual, which we'll get to in the next exercise. The EDA also consists of calculating summary statistics for the variables in our dataset. It is good practice to examine any variable that may be relevant to the analysis in the EDA, since there may be variables that aren't directly included in the regression model but are still affecting the results. To keep today's lab manageable, we will only examine the three variables `season`, `temp`, and `count`.
-
-There are many ways to calculate summary statistics for each variable, and we will use a few of them throughout the semester. For now, let's use the `skim()` function to calculate basic measures of center and spread along with get a sketch of the distribution. 
+There are many ways to calculate summary statistics for each variable, and we will use a few of them throughout the semester. For now, let's use the `skim()` function to calculate basic measures of center and spread.
 
 ```{r eval=FALSE}
 bikeshare %>%
@@ -228,7 +227,7 @@ Check your lab-01 repo on the GitHub website (you may need to refresh the page i
 
 ## Visualizing Your Data
 
-4. One important part of EDA is visualizing the data to get a better idea of the shape of the distribution of each variable along with the relationship between variables. There are a lot of ways to make plots in R; we will use the functions available in the `ggplot2` package.
+4. One important part of EDA is visualizing the data to get a better idea of the shape of the distribution for each variable. Data visualizations are also useful for examining the relationship between multiple variables.  There are a lot of ways to make plots in R; we will use the functions available in the `ggplot2` package.
 
 The code below is used to create a histogram to visualize the distribution of `count`. Modify the code by writing an informative title and label for the x-axis.
 
@@ -239,13 +238,13 @@ ggplot(data=bikeshare, mapping=aes(x=count)) +
 ```
 
 
-5. Sometimes you may want to customize a plot by changing different features such as the color, marker types, etc. When plotting a histogram, one easy way to customize it is by changing the color the bars. We'll look at two different ways to do this. 
+5. Sometimes you want to customize a plot by changing different features such as the color, marker types, etc. When plotting a histogram, one easy way to customize it is by changing its color. We'll look at two different ways to do this. 
 
-First, using a color of your choice, include the option `color="_____"` inside of `geom_histogram()` function. Your code will look similar this. Be sure to also include an informative title and label for the x-axis.
+First, using a color of your choice, include the option `color="_____"` inside of `geom_histogram()` function. Your code will look similar to the code below. Be sure to also include an informative title and label for the x-axis.
 
 ```{r eval=FALSE}
 ggplot(data=bikeshare, mapping=aes(x=count)) + 
-  geom_histogram(color="_______") +
+  geom_histogram(______) +
   labs(title="______", x="______")
 ```
 
@@ -253,41 +252,21 @@ ggplot(data=bikeshare, mapping=aes(x=count)) +
 This [ggplot2 quick reference](http://sape.inf.usi.ch/quick-reference/ggplot2/colour) has a long list of color options. You can also use [HTML color codes](https://htmlcolorcodes.com/).
 ```
 
-Next, instead of `color="_____"`, use `fill="______"` inside of the `geom_histogram()` function and put the color of your choice inside the blank. You can use the same color as before or use a new one. 
+Next, instead of `color="_____"`, include the `fill="______"` option inside of the `geom_histogram()` function using the color of your choice. It can be the same color as before or a new one.
 
 What is the difference in the two plots? In other words, what is the difference in the way color is implemented when using `color` versus `fill`?
 
-6. Describe the distribution of `count`. Your description should include comments about the shape, center, spread, and any potential outliers. You should use the histogram and the summary statistics from Exercise 2 in your description. 
+6. Describe the distribution of `count`. Your description should include comments about the shape, center, spread, and any potential outliers. You should use the histogram and summary statistics in your description. 
 
-*This is a another good place to pause, knit, and commit changes with the commit message "Added data visualization of count (Ex 3 - 6)", and push.*
+*This is a another good place to pause, knit, commit changes with the commit message "Added data visualization of count (Ex 3 - 6)", and push.*
 
-7. Now that we've examined the variables individually, let's begin to examine the relationship between the variables. To make interpretation easier, we will use the `mutate()` function to create a new variable called `temp_c` that is the temperature in degrees Celsius. We will calculate `temp_c` as  `temp * 41` and use this new variable for the remainder of the analysis, so the temperature can be discussed in terms of degrees Celsius. 
-
-Fill in the code below to create the new variable `temp_c` an add it to the bikeshare data frame.
-
-```{r eval=FALSE}
-bikeshare <- bikeshare %>%
-  mutate(_____ = _____)
-```
-
-Then, complete the code below to make a scatterplot of the number of bike rentals versus the temperature. Be sure to include an informative title along with informative titles for the x and y axes.
-
-```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=temp_c,y=count)) +
-  ___________________
-```
-
-
-```{marginfigure}
-[https://ggplot2.tidyverse.org/](https://ggplot2.tidyverse.org/) is a great resource as you learn `ggplot()`. Click **Reference** in the top right corner to see a list of the various plot types available in the ggplot2 package.
-```
 
 Describe the relationship between the temperature and the number of bike rentals. 
 
 
-8. We might the number of bike rentals to vary season-to-season. Over the next few questions, we will explore these differences. Let's being by exploring differences in temperature by season. 
+7. We might expect the number of bike rentals to vary season-to-season. In the remainder of the lab, we will examine the relationship between `count` and `season`.
 
-Recall from Exercise 2 that the variable `season` is currently stored as an integer. The integer labels are not very informative, so let's replace the current values with the actual season names. Fill in the code below to update the variable `season`. 
+Recall from Exercise 2 that the variable `season` is currently stored in a numeric format. The numeric labels (1,2,3,4) are not very informative, so let's replace these values with the actual season names. Fill in the code below to update the variable `season`. 
 
 ```{r eval=FALSE}
 bikeshare <- bikeshare %>%
@@ -300,68 +279,66 @@ bikeshare <- bikeshare %>%
          ))
 ```
 
-You can use the `glimpse` to see the new variable type and values for `season`. 
-D
-We'd like to start by visualizing the differences in the number of bike rentals across season. Create a side-by-side boxplot to visualize the relationship between `season` and `count`. The code below will help you get started. Be sure to include an informative title along with informative labels for the x and y axes.
+You can use the `glimpse()` to check that `season` updated correctly.
 
-We'd like to start by visualizing the differences in temperature across season. Create a side-by-side boxplot to visualize the relationship between `season` and `count`. The code below will help you get started. Be sure to include an informative title along with informative labels for the x and y axes.
 
+8. Let's visualize the differences in the number of bike rentals across seasons. Create a side-by-side boxplot to visualize the relationship between `season` and `count`. The code below will help you get started. Be sure to include an informative title along with informative labels for the x and y axes.
+
+```{marginfigure}
+[https://ggplot2.tidyverse.org/](https://ggplot2.tidyverse.org/) is a great resource as you learn `ggplot()`. Click **Reference** in the top right corner to see a list of the various plot types available in the ggplot2 package.
+```
 
 ```{r eval=FALSE}
-ggplot(data = bikeshare, mapping = aes(x = season, y = count) + 
+ggplot(data = bikeshare, mapping = aes(x = season, y = count)) + 
          ______() +
          labs(_______)
 ```
 
-Describe the relationship between `season` and number of bike rentals. In your description, include similarities and differences in the center and spread of temperature across seasons. 
+Describe the relationship the two variables. In your description, include similarities and differences in the center and spread of the number of bike rentals across seasons. 
 
 *This is a another good place to pause, knit, and commit changes with the commit message "Refactored season and visualized bike rentals vs. season (Ex 7 - 8)", and push.*
 
 ## Statistical Inference
 
-9. While you may have observed differences in the typical number of bike rentals across season, we’d like to assess whether those differences are statistically significant or just due to random variation. For now, let’s conduct a hypothesis test to determine if there is a significant difference in the mean number of bike rentals between Spring and Fall.
+9. While you may have observed differences in the typical number of bike rentals across season, we’d like to assess whether those differences are statistically significant or just due to random day-to-day variation. For now, let's focus on two season. Over the next few questions, we will conduct a hypothesis test to determine if there is a statistically significant difference in the mean number of bike rentals between Spring and Fall.
       
       -  State the null and alternative hypotheses in words.
-      -  Now write the hypotheses from part (a) in statistical notation. You can use "mu" to represent the mean parameter.
+      -  Now write the hypotheses in statistical notation. You can use "mu" to represent the mean parameter.
 
-10. Fill in the code below from the `infer` package to calculate the test statistic and p-value. 
+10. Next, we will calculate the test statistic and p-value using `infer` package. Fill in the value for `alternative = _____` in the `t_test()` function to calculate the p-value. The choices are `less`, `greater`, and `two_sided`. 
  
 ```{marginfigure}
 Learn more about the `infer` package: https://infer.netlify.com/index.html
 ```
 
 ```{r eval = F}
-# Calculate the test statistic
+# Calculate the test statistic and store it as obs_t
 obs_t <- bikeshare %>% 
-  t_stat(formula = count ~ season, order = c("Spring", "Fall""))
-obs_t #display the test statistic
+  t_stat(formula = count ~ season, 
+         order = c("Spring", "Fall")) %>% 
+pull(statistic)
 ```
+
+```{r eval = F}
+#display the test statistic
+obs_t 
+```
+
 
 ```{r eval = F}
 # Calculate the p-value
 bikeshare %>% 
   t_test(formula = count ~ season,
-         alternative = "_____",  ## Fill in the value based on your alternative hypothesis: less, greater, two_sided
+         alternative = "_____",  ## less, greater, or two_sided
          order = c("Spring", "Fall")) %>% 
-  dplyr::pull(p_value) #extract the p-value from the result
-```
-
-You can also visualize the p-value using the `infer` package: 
-
-```{r eval = F}
-# Generate appropriate t distribution 
-t_null_theor <- bikeshare %>%
-  specify(count ~ season) %>%
-  hypothesize(null = "independence") %>%
-  calculate(stat = "t", order = c("Spring", "Fall"))
-
-# Visualize the distribution and the area included in the p-value caluclation
-visualize(t_null_theor, method = "theoretical") +
-  shade_p_value(obs_stat = obs_t, direction = "_____") ## Fill in the value based on your alternative hypothesis: less, greater, two_sided
+  pull(p_value) #extract the p-value from the result
 ```
 
 *This is a another good place to pause, knit, and commit changes with the commit message "Completed hypothesis test calculations in Ex 10", and push.*
 
-11. Use the p-value to state your conclusion in the context of the problem.
+
+11. Interpret the p-value in the context of the question. 
+
+12. Use the p-value to state the conclusion in the context of the problem. *You can use [this table](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/01-inf-review-pt1.html#51) to help assess the p-value.*
 
 *You're done! Knit and commit all remaining changes, use the commit message "Done with Lab 1!", and push. Before you wrap up the assignment, make sure <u>all</u> documents are updated on your GitHub repo.*
