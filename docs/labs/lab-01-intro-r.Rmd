@@ -320,7 +320,7 @@ pull(statistic)
 ```
 
 ```{r eval = F}
-#display the test statistic
+# Display the test statistic
 obs_t 
 ```
 
