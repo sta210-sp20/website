@@ -12,6 +12,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
 ---
 
 ```{r setup, include=FALSE}
@@ -75,7 +76,7 @@ library(rvest)
 
 - **Contact**: Grey Reavis, Program Coordinator for Research and Development in Duke Learning Innovation,  [grey.reavis@duke.edu](mailto:grey.reavis@duke.edu)
 
-- **Survey & Consent**: You should see a link to the survey & consent form in Sakai. If you do not see the link, please let your TA know.
+- **Survey & Consent**: Please take a minute to fill out the "Pre-Course Survey" and "Consent Form" on Sakai.
 
 ---
 

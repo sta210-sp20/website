@@ -275,8 +275,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ol start="6" style="list-style-type: decimal">
 <li>Describe the distribution of <code>count</code>. Your description should include comments about the shape, center, spread, and any potential outliers. You should use the histogram and summary statistics in your description.</li>
 </ol>
-<p><em>This is a another good place to pause, knit, commit changes with the commit message “Added data visualization of count (Ex 3 - 6)”, and push.</em></p>
-<p>Describe the relationship between the temperature and the number of bike rentals.</p>
+<p><em>This is a another good place to pause, knit, commit changes with the commit message “Added data visualization of count (Ex 4 - 6)”, and push.</em></p>
 <ol start="7" style="list-style-type: decimal">
 <li>We might expect the number of bike rentals to vary season-to-season. In the remainder of the lab, we will examine the relationship between <code>count</code> and <code>season</code>.</li>
 </ol>
@@ -308,22 +307,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>State the null and alternative hypotheses in words.</li>
 <li>Now write the hypotheses in statistical notation. You can use “mu” to represent the mean parameter.</li>
 </ul></li>
-<li><p>Next, we will calculate the test statistic and p-value using <code>infer</code> package. Fill in the value for <code>alternative = _____</code> in the <code>t_test()</code> function to calculate the p-value. The choices are <code>less</code>, <code>greater</code>, and <code>two_sided</code>.</p></li>
+<li><p>Next, we will calculate the test statistic and p-value using <code>infer</code> package. Fill in the value for <code>alternative = _____</code> in the <code>t_test()</code> function to calculate the test statistic and p-value. The choices are <code>less</code>, <code>greater</code>, and <code>two_sided</code>.</p></li>
 </ol>
 <p><label for="tufte-mn-9" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-9" class="margin-toggle"><span class="marginnote"><span style="display: block;">Learn more about the <code>infer</code> package: <a href="https://infer.netlify.com/index.html" class="uri">https://infer.netlify.com/index.html</a></span></span></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate the test statistic and store it as obs_t</span>
-obs_t &lt;-<span class="st"> </span>bikeshare <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">t_stat</span>(<span class="dt">formula =</span> count <span class="op">~</span><span class="st"> </span>season, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate the test statistic </span>
+bikeshare <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">t_test</span>(<span class="dt">formula =</span> count <span class="op">~</span><span class="st"> </span>season,
+         <span class="dt">alternative =</span> <span class="st">&quot;_____&quot;</span>,  ## less, greater, or two_sided
          <span class="dt">order =</span> <span class="kw">c</span>(<span class="st">&quot;Spring&quot;</span>, <span class="st">&quot;Fall&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="kw">pull</span>(statistic)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Display the test statistic</span>
-obs_t </code></pre></div>
+<span class="st">  </span><span class="kw">pull</span>(statistic) <span class="co">#get the test statistic</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate the p-value</span>
 bikeshare <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">t_test</span>(<span class="dt">formula =</span> count <span class="op">~</span><span class="st"> </span>season,
          <span class="dt">alternative =</span> <span class="st">&quot;_____&quot;</span>,  ## less, greater, or two_sided
          <span class="dt">order =</span> <span class="kw">c</span>(<span class="st">&quot;Spring&quot;</span>, <span class="st">&quot;Fall&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">pull</span>(p_value) <span class="co">#extract the p-value from the result</span></code></pre></div>
+<span class="st">  </span><span class="kw">pull</span>(p_value) <span class="co">#get the p-value</span></code></pre></div>
 <p><em>This is a another good place to pause, knit, and commit changes with the commit message “Completed hypothesis test calculations in Ex 10”, and push.</em></p>
 <ol start="11" style="list-style-type: decimal">
 <li><p>Interpret the p-value in the context of the question.</p></li>

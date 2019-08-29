@@ -258,11 +258,7 @@ What is the difference in the two plots? In other words, what is the difference 
 
 6. Describe the distribution of `count`. Your description should include comments about the shape, center, spread, and any potential outliers. You should use the histogram and summary statistics in your description. 
 
-*This is a another good place to pause, knit, commit changes with the commit message "Added data visualization of count (Ex 3 - 6)", and push.*
-
-
-Describe the relationship between the temperature and the number of bike rentals. 
-
+*This is a another good place to pause, knit, commit changes with the commit message "Added data visualization of count (Ex 4 - 6)", and push.*
 
 7. We might expect the number of bike rentals to vary season-to-season. In the remainder of the lab, we will examine the relationship between `count` and `season`.
 
@@ -305,25 +301,20 @@ Describe the relationship the two variables. In your description, include simila
       -  State the null and alternative hypotheses in words.
       -  Now write the hypotheses in statistical notation. You can use "mu" to represent the mean parameter.
 
-10. Next, we will calculate the test statistic and p-value using `infer` package. Fill in the value for `alternative = _____` in the `t_test()` function to calculate the p-value. The choices are `less`, `greater`, and `two_sided`. 
+10. Next, we will calculate the test statistic and p-value using `infer` package. Fill in the value for `alternative = _____` in the `t_test()` function to calculate the test statistic and p-value. The choices are `less`, `greater`, and `two_sided`. 
  
 ```{marginfigure}
 Learn more about the `infer` package: https://infer.netlify.com/index.html
 ```
 
 ```{r eval = F}
-# Calculate the test statistic and store it as obs_t
-obs_t <- bikeshare %>% 
-  t_stat(formula = count ~ season, 
+# Calculate the test statistic 
+bikeshare %>% 
+  t_test(formula = count ~ season,
+         alternative = "_____",  ## less, greater, or two_sided
          order = c("Spring", "Fall")) %>% 
-pull(statistic)
+  pull(statistic) #get the test statistic
 ```
-
-```{r eval = F}
-# Display the test statistic
-obs_t 
-```
-
 
 ```{r eval = F}
 # Calculate the p-value
@@ -331,7 +322,7 @@ bikeshare %>%
   t_test(formula = count ~ season,
          alternative = "_____",  ## less, greater, or two_sided
          order = c("Spring", "Fall")) %>% 
-  pull(p_value) #extract the p-value from the result
+  pull(p_value) #get the p-value
 ```
 
 *This is a another good place to pause, knit, and commit changes with the commit message "Completed hypothesis test calculations in Ex 10", and push.*
