@@ -16,7 +16,7 @@ lessons:
   - title: "Week 02"
   - date: "Mon, Sep 2"
     title: "Review: Confidence Intervals"
-    #slides: "lec-slides/01-regression-intro.html"
+    slides: "lec-slides/02-inf-review-pt2.html"
     #appex: "01-advertising.html"
   - date: "UNIT 1"
     title: "CONTINUOUS RESPONSE VARIABLES"

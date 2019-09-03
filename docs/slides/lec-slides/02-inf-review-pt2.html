@@ -3,7 +3,7 @@
   <head>
     <title>Inference Review</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dr. Maria Tackett" />
+    <meta name="author" content="Dr. Maria Tackett &amp; Becky Tang" />
     <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
   </head>
   <body>
@@ -12,8 +12,8 @@ class: center, middle, inverse, title-slide
 
 # Inference Review
 ## Confidence Intervals
-### Dr. Maria Tackett
-### 08.28.19
+### Dr. Maria Tackett &amp; Becky Tang
+### 09.02.19
 
 ---
 
@@ -25,6 +25,14 @@ class: center, middle, inverse, title-slide
 class: middle, center
 
 ### [Click for PDF of slides](02-inf-review-pt2.pdf)
+
+---
+
+## Announcements
+
+- Fill out the **Getting To Know You Survey on Sakai** - due TODAY at 11:59p
+
+- Lab 01 due **Wednesday at 11:59p**
 
 ---
 
@@ -117,15 +125,14 @@ sesame_street %&gt;%
 ## 1 Encouraged       152 12.5   10.7
 ## 2 Not Encouraged    88  7.88  11.4
 ```
-&lt;br&gt;
 
 - **Parameter**: `\(\mu_{e} - \mu_{ne}\)`
 - **Statistic**: `\(\bar{x}_{e} - \bar{x}_{ne}\)`
 
-- In the last class, we conducted a hypothesis test and concluded that children who watched *Sesame Street* regularly had a significantly greater improvement in reading scores, on average, than children who didn't want the show regularly. 
+- In the last class, we conducted a hypothesis test and came to the conclusion that children who watched *Sesame Street* regularly showed greater improvement in reading scores, on average, than children who didn't want the show regularly.  
 
-.instruction[
-Today we will estimate how large the difference in average improvement really is. 
+.alert[
+Today we will estimate the difference in average improvement between the two groups, i.e. estimate `\(\mu_{e} - \mu_{ne}\)`. 
 ]
 
 ---
@@ -148,33 +155,34 @@ Today we will estimate how large the difference in average improvement really is
 - Developed by Jerzy Neyman (in the 1930s)
 
 - &lt;font class="vocab"&gt;**What**&lt;/font&gt;: Plausible range of values for a population parameter
-  + Assuming sample data is a simple random sample
+  + Assuming sample data is a random sample from the population
   
 - &lt;font class="vocab"&gt;**Why**&lt;/font&gt;: Because the statistic is a random variable, its value is subject to chance error, i.e. random variability
-  + We want to take that variability into account by reporting a range of plausible values rather than the single statistic  
+  + We want to take that variability into account by reporting a range of plausible values the parameter can take rather than solely relying on a single statistic
 
 ---
 
 ### Recall: Central Limit Theorem 
 
-- Using the &lt;font class = "vocab"&gt;Central Limit Theorem (CLT)&lt;/font&gt; we know the form of the the sampling distribution for certain statistics such as the mean, proportion, difference in means, etc.
-    - It does not apply to all statistics. For example, it does not apply to order statistics like the median.
+- Using the &lt;font class = "vocab"&gt;Central Limit Theorem (CLT)&lt;/font&gt; we know the form of the sampling distribution for certain statistics such as the mean, proportion, difference in means, etc.
+    - CLT does not apply to all statistics (e.g. the median)
 
-By the Central Limit Theorem, when the conditions are met, we know the sampling distribution of the sample statistic will..
-
-- be approximately Normal
-- have a mean equal to the unknown population parameter
-- have a standard error proportional to the inverse of the square root of the sample size.
+- By the Central Limit Theorem, when the conditions are met, we know the sampling distribution of the sample statistic will..
+  - be approximately Normal
+  - have a mean equal to the unknown population parameter
+  - have a standard error proportional to the inverse of the square root of the sample size.
 
 ---
 
 ### Deriving the confidence interval
 
-- In the *Sesame Street* scenario, the parameter of interest is the difference in means, `\(\mu_{1} - \mu_{2}\)`
+- In the *Sesame Street* example, the parameter of interest is the difference in means, `\(\mu_{1} - \mu_{2}\)`. Let's look at the confidence interval for `\(\mu_{1} - \mu_{2}\)` based on the CLT
+
+--
 
 - The statistic is the difference in sample means `\(\bar{x}_1 - \bar{x}_2\)`
 
-- Assuming the conditions for the CLT are met ($n$ large), the sampling distribution for `\(\bar{x}_1 - \bar{x}_2\)` is 
+- Assuming the conditions for the CLT are met (independent observations and large `\(n\)`), the sampling distribution for `\(\bar{x}_1 - \bar{x}_2\)` is 
 
 `$$\bar{x}_1 - \bar{x}_2 \sim N \Bigg(\mu_1 - \mu_2, \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}\Bigg)$$`
 ---
@@ -183,38 +191,49 @@ By the Central Limit Theorem, when the conditions are met, we know the sampling 
 
 - By the CLT and properties of the Normal distribution, in 95% of random samples, 
 
-
 &lt;small&gt;
 `$$(\mu_1 - \mu_2) - 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \leq \bar{x}_1 - \bar{x}_2 \leq (\mu_1 - \mu_2) + 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$$`
 &lt;/small&gt;
 
-- Let's center the inequality around the parameter `\(\mu_1 - \mu_2\)`
+--
+
+
+- Now, let's center the inequality around the parameter `\(\mu_1 - \mu_2\)`
 
 &lt;small&gt;
 `$$(\bar{x}_1 - \bar{x}_2) - 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \leq \mu_1 - \mu_2 \leq (\bar{x}_1 - \bar{x}_2) + 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$$`
 &lt;/small&gt;
+
+--
+.alert[
+Range of plausible values for `\(\mu_1 - \mu_2\)` (using 95% confidence)
+`$$(\bar{x}_1 - \bar{x}_2) \pm 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$$`
+]
 ---
+
 
 ## General form of the CI
 
-&lt;font class="vocab"&gt;*SE:*&lt;/font&gt; standard error of the statistic
-&lt;br&gt;
+- Generalizing the equations on the previous slide, all confidence intervals take the form `\([LB, UB]\)`
 
-`$$\text{Lower Bound} = \text{ Estimate} - \text{ (critical value) } \times SE$$`
-`$$\text{Upper Bound} = \text{ Estimate} + \text{ (critical value) } \times SE$$`
-&lt;br&gt; 
+`$$\text{Lower Bound (LB)} = \text{ Estimate} - \text{ (critical value) } \times SE$$`
+`$$\text{Upper Bound (UB)} = \text{ Estimate} + \text{ (critical value) } \times SE$$`
+--
 
-Let's talk about the SE and the critical value
+- Let's talk about the &lt;font class="vocab"&gt;*SE*&lt;/font&gt; and the critical value
 ---
 
 ## Standard Error of `\(\bar{x}_1 - \bar{x}_2\)`
---
 
 - In practice, we don't know the population standard deviations `\(\sigma_1\)` and `\(\sigma_2\)`
 
-- We will use the sample standard deviations `\(s_1\)` and `\(s_2\)` instead
+--
 
-- The &lt;font class="vocab"&gt;**standard error of `\(\mathbf{\bar{x}_1 = \bar{x}_2}\)`**&lt;/font&gt; is
+- We will use the sample standard deviations `\(s_1\)` and `\(s_2\)` to estimate `\(\sigma_1\)` and `\(\sigma_2\)`
+
+--
+
+- Thus, the &lt;font class="vocab"&gt;**standard error of `\(\mathbf{\bar{x}_1 - \bar{x}_2}\)`**&lt;/font&gt; is
 
 `$$\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$`
 
@@ -222,10 +241,7 @@ Let's talk about the SE and the critical value
 
 ## t-distribution vs. Normal 
 
-- The critical value is determined based on the parameter being estimated and the confidence interval. 
-
-- In our context, we will use the `\(t\)` distribution to calculate the critical value to adjust for the extra uncertainty that arises from using `\(s_1\)` and `\(s_2\)` instead of `\(\sigma_1\)` and `\(\sigma_2\)`
-
+- We need to account for the extra variability that comes from using `\(s_1\)` and `\(s_2\)` (instead of `\(\sigma_1\)` and `\(\sigma_2\)`). Therefore, we will use the *t* distribution for sampling distribution of `\(\bar{x}_1 - \bar{x}_2\)` 
 
 &lt;img src="img/02/tdistribution.png" width="70%" style="display: block; margin: auto;" /&gt;
 
@@ -237,8 +253,8 @@ Let's talk about the SE and the critical value
 
 The `\(C%\)` confidence interval to estimate `\(\bar{\mu}_1 - \bar{\mu}_2\)` is 
 
-`$$(\bar{x}_1 - \bar{x}_2) \pm t^* \times \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$`
-where `\(t^*\)` is the critical value 
+`$$(\bar{x}_1 - \bar{x}_2) \pm t_{df}^* \times \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$`
+where `\(t_{df}^*\)` is the critical value calculated from the *t* distribution with *df* degrees of freedom
 
 ---
 
@@ -251,21 +267,21 @@ The critical value, `\(t^*\)`, follows a `\(t\)` distribution with degrees of fr
 `$$df = \frac{\Big(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\Big)^2}{\frac{1}{n_1-1}\Big(\frac{s_1^2}{n_1}\Big)^2 + \frac{1}{n_2-1}\Big(\frac{s_2^2}{n_2}\Big)^2} \approx min\{n_1-1,n_2-1\}$$`
 &lt;br&gt;
 &lt;br&gt;
-In practice, we will use RStudio to determine the degrees of freedom.
+In practice, we will use R to calculate the degrees of freedom.
 
 ---
 
-### Interpreting the 95% Confidence Interval
+### Understanding a 95% Confidence Interval
 
 &lt;div align="center"&gt;
-&lt;img src="img/02/confidence_intervals.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/02/confidence_intervals.png" width="50%" style="display: block; margin: auto;" /&gt;
 &lt;/div&gt;
 
-- It's a procedure to produce an interval for the parameter of interest
+- The goal is to produce an interval for the parameter of interest using statistics calculated from a random sample
 
-- Intervals contain the parameter of interest 95% of the time
+- If we repeated this process thousands of times, we would expect about 95% of the intervals to contain the true parameter of interest
 
-- It is &lt;u&gt;**not**&lt;/u&gt; interpreted as the probability the parameter of interest is in a given interval
+- Note this is &lt;u&gt;**not**&lt;/u&gt; the same as saying there's a 95% probability that the parameter is in a given interval 
 
 ---
 
@@ -283,7 +299,7 @@ The 95% confidence interval to estimate the mean difference in reading score imp
 &lt;br&gt;&lt;br&gt;
 
 .question[
-1. Interpret this interval in the context of the problem. 
+1. Interpret this interval in context. 
 
 2. Based on this interval, what do you conclude about the effectiveness of *Sesame Street*?
 ]
@@ -355,7 +371,7 @@ The 95% confidence interval for the difference in the mean income between Clevel
 &lt;br&gt; 
 
 .question[
-1. Interpret the interval in the context of the question. 
+1. Interpret the interval iin context. 
 
 2. How would the interval change if we increased the confidence level to 99%?
 
@@ -366,13 +382,13 @@ The 95% confidence interval for the difference in the mean income between Clevel
 
 ### Confidence intervals and hypothesis tests
 
-- Confidence intervals can be used instead of hypothesis tests to assess a claim
+- Confidence intervals can be used to assess a hypothesis or claim about a population parameter
 
 - Suppose `\(\mu\)` is the parameter of interest and you calculate a 95\% confidence interval  
 
 - Let's also suppose that the hypotheses are `\(H_0: \mu = 1\)` vs. `\(H_a: \mu \neq 1\)`
-    - If the 95% confidence interval contains the hypothesized value, 1, then this two-sided hypothesis test will result in a p-value that is greater than 0.05
-    - If the 95% confidence interval does not contain the hypothesized value, 1, then this two-sided hypothesis test will result in a p-value that is less than 0.05
+    - If the 95% confidence interval contains 1, then this two-sided hypothesis test will result in a p-value that is greater than 0.05
+    - If the 95% confidence interval does not contain 1, then this two-sided hypothesis test will result in a p-value that is less than 0.05
 
 ---
 
@@ -382,13 +398,15 @@ The 95% confidence interval for the difference in the mean income between Clevel
 Determine if each state is true or false. If it is false, rewrite the statement so it is true.
 ]
 
-1. The statement, "the p-value is .003", is equivalent to the statement, "there is a 0.3% probability that the null hypothesis is true".
+1. If you increase sample size, the width of confidence intervals will increase.
 
-2. A p-value of .04 is more evidence against the null hypothesis than a p-value of .08.
+2. For a given standard error, higher confidence levels (e.g. 99% vs. 95%) result in wider confidence intervals.
 
-3. If you increase sample size, the width of confidence intervals will increase.
 
-4. For a given standard error, higher confidence levels (e.g. 99% vs. 95%) produce wider confidence intervals.
+3. The statement, "the p-value is .003", is equivalent to the statement, "there is a 0.3% probability that the null hypothesis is true".
+
+4. A p-value of .04 is more evidence against the null hypothesis than a p-value of .08.
+
 
 
 ---
@@ -430,7 +448,7 @@ class: middle, center
 --
 
 .alert[
-Correct interpretation of the p-value: 
+The p-value **IS**
 
 The probability of getting a test statistic as extreme or more extreme than the calculated test statistic, *assuming the null hypothesis is true.*
 ]
@@ -477,7 +495,7 @@ The probability of getting a test statistic as extreme or more extreme than the 
   + If the p-value is 0.04999, we do reject `\(H_0\)`
 --
 
-- 0.05001 and 0.04999 are practically the same, yet they led to different conclusions. 
+- p-values of 0.05001 and 0.04999 are practically the same, yet they lead to different conclusions. 
 --
 
 - Always state the p-value when reporting results and assess it's magnitude in the context of your problem. 
@@ -501,6 +519,7 @@ class: results
 &lt;img src="img/02/errors.png" width="80%" style="display: block; margin: auto;" /&gt;
 &lt;small&gt;Image: &lt;i&gt;The Basic Practice of Statistics (7th Ed.)&lt;/i&gt;&lt;/small&gt;
 &lt;/center&gt;
+&lt;br&gt; 
 
 - &lt;font class="vocab3"&gt;Type I Error&lt;/font&gt;: Reject `\(H_0\)` when `\(H_0\)` is true
 - &lt;font class="vocab3"&gt;Type II Error&lt;/font&gt;: Fail to reject `\(H_0\)` when `\(H_1\)` is true
@@ -514,22 +533,23 @@ class: results
 
 - Probability of Type I error is the significance level, i.e the threshold for rejecting `\(H_0\)`
 
-- Probability of Type II error decreases as the sample size increases--
+- Probability of Type II error decreases as the sample size increases
     - When designing a study, it is good practice to conduct a power analyses to determine the sample size required to minimize the chance of Type II error
 
 ---
 
-## Practice (OpenIntro #5.29)
+## Practice (OpenIntro 5.29)
 
 A food safety inspector is called upon to investigate a restaurant with a few customer reports of poor sanitation practices. The food safety inspector uses a hypothesis testing framework to evaluate whether regulations are not being met. If he decides the restaurant is in gross violation, its license to serve food will be revoked.
 
 
 .question[
+
+a. What are the null and alternative hypotheses (in words)?
+
 a. What is a Type 1 Error in this context?
 
 b. What is a Type 2 Error in this context?
-
-c. Which error is more problematic for the restaurant owner? Why?
 
 d. Which error is more problematic for the diners? Why?
 ]
@@ -539,8 +559,6 @@ d. Which error is more problematic for the diners? Why?
 ## Before Next Class
 
 - Fill out the **Getting To Know You Survey on Sakai** - due TODAY at 11:59p
-
-- Lab 01 due **tomorrow at 11:59p**
 
 - **New to R or need a refresher?**
   - Duke Libraries Rfun - Intro to R Workshop: Data Transformations, Data Structures, and the Tidyverse
