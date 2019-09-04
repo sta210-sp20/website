@@ -1,49 +1,26 @@
----
-title: "Lab 02"
-subtitle: "Simple Linear Regression"
-author: ""
-date: "09.05.19"
-output:
-  xaringan::moon_reader:
-    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
-    css: "sta210-slides.css"
-    logo: img/sta210-sticker-icon.png
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
-      slideNumberFormat: "%current%"
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Lab 02</title>
+    <meta charset="utf-8" />
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Lab 02
+## Simple Linear Regression
+### 09.05.19
+
 ---
 
-```{r setup, include=FALSE}
-# R options
-options(
-  htmltools.dir.version = FALSE, # for blogdown
-  show.signif.stars = FALSE,     # for regression output
-  warm = 1
-  )
-# Set dpi and height for images
-library(knitr)
-opts_chunk$set(fig.height = 2.65, dpi = 300) 
-# ggplot2 color palette with gray
-color_palette <- list(gray = "#999999", 
-                      salmon = "#E69F00", 
-                      lightblue = "#56B4E9", 
-                      green = "#009E73", 
-                      yellow = "#F0E442", 
-                      darkblue = "#0072B2", 
-                      red = "#D55E00", 
-                      purple = "#CC79A7")
-# For nonsese...
-library(emo)
-htmltools::tagList(rmarkdown::html_dependency_font_awesome())
-```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(tidyverse)
-library(rvest)
-```
+
+
+
 
 class: center, middle
 
@@ -55,7 +32,7 @@ class: center, middle
 
 1. **Teams:** Find teammates.
 
-2. **Tips:** Working in RStudio & GitHub
+2. **Tips:** Working in RStudio &amp; GitHub
 
 3. **Starting a new project:** Clone the repo into a new RStudio Cloud project.
 
@@ -104,7 +81,8 @@ class: center, middle
 
 - Type the following lines of code in the console in RStudio filling in your name and email address.
 
-```{r eval=FALSE}
+
+```r
 library(usethis)
 use_git_config(user.name="your name", user.email="your email")
 ```
@@ -119,8 +97,8 @@ use_git_config(user.name="your name", user.email="your email")
 
 - You and your teammates are working from the same lab-02 GitHub repo. This means you are all contributing to the same R Markdown document!
 
-- For today's lab, **<i>only one person should be typing the code/narrative in the R Markdown document at at time</i>**. 
-    - Rotate who updates the document. **<i>Each team member should have at least one commit in the lab.</i>**
+- For today's lab, **&lt;i&gt;only one person should be typing the code/narrative in the R Markdown document at at time&lt;/i&gt;**. 
+    - Rotate who updates the document. **&lt;i&gt;Each team member should have at least one commit in the lab.&lt;/i&gt;**
     - When you're not typing, you should still be contributing to the discussion but do not actually touch the files on your computer.
 
 ---
@@ -131,10 +109,10 @@ I will now demonstrate the steps for updating the lab documents and sharing the 
 
 - **Every team member**: Click the **Pull** button in the Git pane. This brings the most updated files from GitHub to your RStudio project. 
 
-- **<u>ONE</u> team member**:
+- **&lt;u&gt;ONE&lt;/u&gt; team member**:
   - Update the .Rmd file.
   - Knit the .Rmd file. 
-  - Click the box next to <u>every</u> file in the Git pane.
+  - Click the box next to &lt;u&gt;every&lt;/u&gt; file in the Git pane.
   - Write a short and informative commit message. 
   - Push the changes to GitHub.
 
@@ -164,4 +142,95 @@ I will now demonstrate the steps for updating the lab documents and sharing the 
 - Remember that your R Markdown file is not aware of your project's global environment and can only make use of variables, functions, etc. that you have loaded or defined in the document.
 
 - If you're unsure how a function works or what its arguments are, simply type `?` in front of it and hit enter (`?read_csv` for instance). The "Help" tab will open and provide a summary of the function as well as some examples.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
 
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
