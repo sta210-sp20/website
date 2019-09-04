@@ -1,6 +1,6 @@
 ---
 title: "Lab 02: Simple Linear Regression"
-date: "due Wed, Jan 30 at 11:59p"
+date: "due Tuesday, September 10 at 11:59p"
 output: 
   tufte::tufte_html:
     css: "./sta210-labs.css"
@@ -87,7 +87,7 @@ Open the R Markdown (Rmd) file in your project, change the author name to your *
 
 Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
 
-## Data 
+# Data 
 
 In today's lab, we will analyze the `scorecard` dataset from the rcfss package. This dataset contains information about 1849 colleges obtained from the Department of Education's College Scorecard. Load the rcfss library into the global R environment and type `?scorecard` in the **console** to learn more about the dataset and variable definitions. Today's analysis will focus on the following variables: 
 
