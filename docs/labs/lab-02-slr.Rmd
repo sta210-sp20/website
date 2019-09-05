@@ -60,7 +60,6 @@ We will use the following packages in today's lab.
 library(tidyverse)
 library(skimr)
 library(knitr)
-library(broom)
 library(rcfss) #package containing dataset
 ```
 
