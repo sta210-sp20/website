@@ -95,6 +95,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Lab 02: Simple Linear Regression</h1>
+<h3 class="subtitle">Total: 70 points</h3>
 <h4 class="date">due Tuesday, September 10 at 11:59p</h4>
 
 
@@ -127,6 +128,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>We will use the following packages in today’s lab.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(skimr)
+<span class="kw">library</span>(knitr)
 <span class="kw">library</span>(broom)
 <span class="kw">library</span>(rcfss) <span class="co">#package containing dataset</span></code></pre></div>
 </div>
@@ -203,7 +205,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">Learn more about the <code>filter</code> function in [Section 5.2 of R for Data Science] (<a href="https://r4ds.had.co.nz/transform.html#filter-rows-with-filter" class="uri">https://r4ds.had.co.nz/transform.html#filter-rows-with-filter</a>)</span></span></p>
 <p>You will use <code>scorecard_new</code> for the rest of the lab.</p>
 <ol start="6" style="list-style-type: decimal">
-<li><p>Create a scatterplot to display the relationship between <code>cost</code> (response variable) and <code>admrate</code> (explanatory variable). Use the scatterplot to describe the relationship between the two variables.</p></li>
+<li><p>Create a scatterplot to display the relationship between <code>cost</code> (response variable) and <code>admrate</code> (predictor variable). Use the scatterplot to describe the relationship between the two variables.</p></li>
 <li><p>The data contains information about the type of college, and we would like to incorporate this information into the scatterplot. One way to do this is to use a different color marker for each type of college. Fill in the code below the scatterplot from the previous exercise with the marker colors based on the variable <code>type</code>. Describe two new observations from this scatterplot that you didn’t see in the previous plot.</p></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>scorecard_new, <span class="dt">mapping=</span><span class="kw">aes</span>(<span class="dt">x=</span>admrate, <span class="dt">y=</span>cost, <span class="dt">color=</span>type)) <span class="op">+</span><span class="st"> </span>
@@ -212,20 +214,46 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="simple-linear-regression" class="section level2">
 <h2>Simple Linear Regression</h2>
 <ol start="8" style="list-style-type: decimal">
-<li><p>Fit a regression model to describe the relationship between a college’s admission rate and cost. Use the <code>tidy</code> function to display the model.</p></li>
-<li><p>Interpret the slope in the context of the problem. Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful.</p></li>
-<li><p>While the <code>tidy</code> function is used to display the model, we can obtain a one-row summary of the model using the <code>glance</code> function. Use the <code>glance</code> function to get a summary of the model fit in the previous exercise. See the <a href="https://rdrr.io/cran/broom/man/glance.lm.html">documentation for <code>glance</code></a> for the syntax and a list of values output from the function.</p></li>
-<li><p>What is the value of <span class="math inline">\(R^2\)</span>? Interpret this value in the context of the problem. Do you think this is a “good” value of <span class="math inline">\(R^2\)</span>? Explain.</p></li>
-<li><p>What is the value of <span class="math inline">\(\hat{\sigma}\)</span>, the residual standard error.</p></li>
-<li><p>What is the 95% confidence interval for the coefficient of <code>admrate</code>, i.e. the slope? Interpret the interval in the context of the data.</p></li>
-<li><p>We want to test the following hypotheses about the population slope <span class="math inline">\(\beta_1\)</span>:</p></li>
+<li>Use the <code>lm()</code> function to fit a simple linear regression model to describe the relationship between a college’s admission rate and cost. Use the code below to assign your model a name, and use the <code>tidy()</code> and <code>kable()</code> functions to neatly display the model output. <em>Replace X and Y with the appropriate variable names.</em></li>
 </ol>
-<p><span class="math display">\[H_0: \beta_1 = 0 \hspace{5mm} \text{versus} \hspace{5mm} H_a: \beta_1 \neq 0\]</span></p>
-<p>State what the null and alternative hypotheses mean in terms of the linear relationship between <code>admrate</code> and <code>cost</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">_____ &lt;-<span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> _____)
+<span class="kw">tidy</span>(_____) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># output model</span>
+<span class="st">  </span><span class="kw">kable</span>(<span class="dt">format =</span> <span class="st">&quot;markdown&quot;</span>, <span class="dt">digits =</span> <span class="dv">3</span>) <span class="co"># format model output</span></code></pre></div>
+<ol start="9" style="list-style-type: decimal">
+<li><p>Interpret the slope in the context of the problem.</p></li>
+<li><p>Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful.</p></li>
+<li><p>When we fit a linear regression model, we make some inherent assumptions about the relationship between the response and predictor variables. We can check that the assumptions hold by analyzing the residuals. Over the next few questions, we will examine plots of the residuals to determine if the assumptions are met.(<em>We will talk more about these assumptions in the next lecture.</em>)</p></li>
+</ol>
+<p>Let’s begin by calculating the residuals and adding them to the dataset. Fill in the model name in the code below to add residuals to the original dataset using the <code>resid()</code> and <code>mutate()</code> functions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scorecard_new &lt;-<span class="st"> </span>scorecard_new <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">resid =</span> <span class="kw">residuals</span>(_____))</code></pre></div>
+<ol start="12" style="list-style-type: decimal">
+<li>One of the assumptions for regression is that there is a linear relationship between the predictor and response variables. To check this assumption, we will examine a scatterplot of the residuals versus the predictor variable.</li>
+</ol>
+<p>Create a scatterplot with the predictor variable on the <em>x</em> axis and residuals on the <em>y</em> axis. Be sure to include an informative title and properly label the axes.</p>
+<ol start="13" style="list-style-type: decimal">
+<li>Examine the plot from the previous question to assess the linearity condition.<br />
+</li>
+</ol>
+<ul>
+<li><em>Ideally, there would be no discernible shape in the plot. This is an indication that the linear model adequately describes the relationship between the response and predictor, and all that is left is the irredicubile error that can’t be accounted for in the model.</em></li>
+<li><em>If there is an obvious shape in the plot (e.g. a parabola or fan shape), this means that the linear model does not adequately describe the relationship between the response and predictor variables.</em></li>
+</ul>
+<p>Based on this, does it appear that the linearity condition is satisfied? Briefly explain your reasoning.</p>
+<ol start="14" style="list-style-type: decimal">
+<li>Recall that when we fit a regression model, we assume for any given value of <span class="math inline">\(x\)</span>, the <span class="math inline">\(y\)</span> values follow the Normal distribution with mean <span class="math inline">\(\beta_0 + \beta_1 x\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. We will look at two sets of plots to check that this holds.</li>
+</ol>
+<p>We begin by assessing whether or not the distribution of the <span class="math inline">\(y\)</span> values is Normal (the Normality assumption). To do so, we can check if the residuals are Normally distributed.</p>
+<p>Create a histogram of the residuals. Be sure to include an informative title and axis labels.</p>
+<p>Based on the histogram, does it appear the Normality assumption is satisfied? Briefly explain.</p>
 <ol start="15" style="list-style-type: decimal">
-<li>Consider the confidence interval from Exercise 13 and the hypotheses in Exercise 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.</li>
+<li>Note from the previous exercise that we assume the variance is <span class="math inline">\(\sigma^2\)</span> for every value of <span class="math inline">\(x\)</span> (the constant variance assumption). We can use the scatterplot of the residuals versus predicted values to determine if the constant variance assumption holds.</li>
 </ol>
-<p><em>You’re done! Commit all remaining changes, use the commit message “Done with Lab 2!”, and push. Before you wrap up the assignment, make sure the .Rmd, .html, and .md documents are all updated on your GitHub repo.</em></p>
+<p>Using the scatterplot in Exercise 12, does it appear the constant variance is satisfied? Briefly explain your reasoning. <em>Note: You don’t need to know the value of <span class="math inline">\(\sigma^2\)</span> to answer this question. We’ll talk more about <span class="math inline">\(\sigma^2\)</span> next week.</em></p>
+<ol start="16" style="list-style-type: decimal">
+<li>The final assumption is that the observations are independent, i.e. one observation does not affect another. We can typically make an assessment about this assumption using a description of the data. Do you think the independence assumption is satisifed? Briefly explain your reasoning.</li>
+</ol>
+<p><em>You’re done! Commit all remaining changes, use the commit message “Done with Lab 2!”, and push. Before you wrap up the assignment, make sure the .Rmd and .md documents are all updated on your GitHub repo. There is a 10% penality if the .md file is not updated on GitHub.</em></p>
 </div>
 </div>
 

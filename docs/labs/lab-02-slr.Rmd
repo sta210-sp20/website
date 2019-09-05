@@ -1,5 +1,6 @@
 ---
 title: "Lab 02: Simple Linear Regression"
+subtitle: "Total: 70 points"
 date: "due Tuesday, September 10 at 11:59p"
 output: 
   tufte::tufte_html:
@@ -58,6 +59,7 @@ We will use the following packages in today's lab.
 ```{r load-packages}
 library(tidyverse)
 library(skimr)
+library(knitr)
 library(broom)
 library(rcfss) #package containing dataset
 ```
@@ -130,7 +132,7 @@ Learn more about the `filter` function in [Section 5.2 of R for Data Science] (h
 
 You will use `scorecard_new` for the rest of the lab. 
 
-6. Create a scatterplot to display the relationship between `cost` (response variable) and `admrate` (explanatory variable). Use the scatterplot to describe the relationship between the two variables.
+6. Create a scatterplot to display the relationship between `cost` (response variable) and `admrate` (predictor variable). Use the scatterplot to describe the relationship between the two variables.
 
 7. The data contains information about the type of college, and we would like to incorporate this information into the scatterplot. One way to do this is to use a different color marker for each type of college. Fill in the code below the scatterplot from the previous exercise with the marker colors based on the variable `type`. Describe two new observations from this scatterplot that you didn't see in the previous plot.
 
@@ -141,25 +143,51 @@ ggplot(data=scorecard_new, mapping=aes(x=admrate, y=cost, color=type)) +
 
 ## Simple Linear Regression
 
-8. Fit a regression model to describe the relationship between a college's admission rate and cost. Use the `tidy` function to display the model.
+8. Use the `lm()` function to fit a simple linear regression model to describe the relationship between a college's admission rate and cost. Use the code below to assign your model a name, and use the `tidy()` and `kable()` functions to neatly display the model output. *Replace X and Y with the appropriate variable names.*
 
-9. Interpret the slope in the context of the problem. Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful. 
+```{r eval=FALSE}
+_____ <- lm(Y ~ X, data = _____)
+tidy(_____) %>% # output model
+  kable(format = "markdown", digits = 3) # format model output
+```
 
-10. While the `tidy` function is used to display the model, we can obtain a one-row summary of the model using the `glance` function. Use the `glance` function to get a summary of the model fit in the previous exercise. See the [documentation for `glance`](https://rdrr.io/cran/broom/man/glance.lm.html) for the syntax and a list of values output from the function.
+9. Interpret the slope in the context of the problem.
 
-11. What is the value of $R^2$? Interpret this value in the context of the problem. Do you think this is a "good" value of $R^2$? Explain.
-
-12. What is the value of $\hat{\sigma}$, the residual standard error.
-
-13. What is the 95% confidence interval for the coefficient of `admrate`, i.e. the slope? Interpret the interval in the context of the data. 
-
-14. We want to test the following hypotheses about the population slope $\beta_1$:
-
-$$H_0: \beta_1 = 0 \hspace{5mm} \text{versus} \hspace{5mm} H_a: \beta_1 \neq 0$$
-
-State what the null and alternative hypotheses mean in terms of the linear relationship between `admrate` and `cost`.
-
-15. Consider the confidence interval from Exercise 13 and the hypotheses in Exercise 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.  
+10. Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful. 
 
 
-*You're done! Commit all remaining changes, use the commit message "Done with Lab 2!", and push. Before you wrap up the assignment, make sure the .Rmd, .html, and .md documents are all updated on your GitHub repo.*
+
+11. When we fit a linear regression model, we make some inherent assumptions about the relationship between the response and predictor variables. We can check that the assumptions hold by analyzing the residuals. Over the next few questions, we will examine plots of the residuals to determine if the assumptions are met.(*We will talk more about these assumptions in the next lecture.*)
+
+Let's begin by calculating the residuals and adding them to the dataset. Fill in the model name in the code below to add residuals to the original dataset using the `resid()` and `mutate()` functions.  
+
+```{r eval=FALSE}
+scorecard_new <- scorecard_new %>%
+  mutate(resid = residuals(_____))
+```
+
+12. One of the assumptions for regression is that there is a linear relationship between the predictor and response variables. To check this assumption, we will examine a scatterplot of the residuals versus the predictor variable. 
+
+Create a scatterplot with the predictor variable on the *x* axis and residuals on the *y* axis. Be sure to include an informative title and properly label the axes. 
+
+13. Examine the plot from the previous question to assess the linearity condition.  
+- *Ideally, there would be no discernible shape in the plot. This is an indication that the linear model adequately describes the relationship between the response and predictor, and all that is left is the irredicubile error that can't be accounted for in the model.*
+- *If there is an obvious shape in the plot (e.g. a parabola or fan shape), this means that the linear model does not adequately describe the relationship between the response and predictor variables.*
+
+Based on this, does it appear that the linearity condition is satisfied? Briefly explain your reasoning. 
+
+14. Recall that when we fit a regression model, we assume for any given value of $x$, the $y$ values follow the Normal distribution with mean $\beta_0 + \beta_1 x$ and variance $\sigma^2$. We will look at two sets of plots to check that this holds. 
+
+We begin by assessing whether or not the distribution of the $y$ values is Normal (the Normality assumption). To do so, we can check if the residuals are Normally distributed. 
+
+Create a histogram of the residuals. Be sure to include an informative title and axis labels. 
+
+Based on the histogram, does it appear the Normality assumption is satisfied? Briefly explain. 
+
+15. Note from the previous exercise that we assume the variance is $\sigma^2$ for every value of $x$ (the constant variance assumption). We can use the scatterplot of the residuals versus predicted values to determine if the constant variance assumption holds. 
+
+Using the scatterplot in Exercise 12, does it appear the constant variance is satisfied? Briefly explain your reasoning. *Note: You don't need to know the value of $\sigma^2$ to answer this question. We'll talk more about $\sigma^2$ next week.*
+
+16. The final assumption is that the observations are independent, i.e. one observation does not affect another. We can typically make an assessment about this assumption using a description of the data. Do you think the independence assumption is satisifed? Briefly explain your reasoning. 
+
+*You're done! Commit all remaining changes, use the commit message "Done with Lab 2!", and push. Before you wrap up the assignment, make sure the .Rmd and .md documents are all updated on your GitHub repo. There is a 10% penality if the .md file is not updated on GitHub.*
