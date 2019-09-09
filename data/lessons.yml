@@ -31,7 +31,7 @@ lessons:
   - date: "Mon, Sep 9"
     title: "SLR: Inference & Prediction"
    # #reading: "reading-01.html"
-  # #slides: "lec-slides/02a-fund-data-viz.html"
+    slides: "lec-slides/04-slr-inf.html"
   - date: "Wed, Sep 11"
     title: "ANOVA, Part 1"
     #reading: "reading-02.html"
