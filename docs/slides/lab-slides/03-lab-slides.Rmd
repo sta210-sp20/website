@@ -1,7 +1,8 @@
 ---
-title: "Lab 03: ANOVA"
+title: "Lab 03"
+subtitle: "Merge Conflicts & SLR Inference"
 author: ""
-date: "02.01.19"
+date: "09.12.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -51,21 +52,70 @@ class: center, middle
 
 ## Agenda
 
-1. Team Name
+1. What are merge conflicts?
 
-2. Tips for collaborating 
+2. Practice dealing with merge conflicts
 
-3. Lab Introduction
+3. Lab introduction
 
-4. Starting a new project & configure git
+4. Starting a new project & lab tips
 
 ---
 
-## Team Name
+class: middle, center
 
-.middle[
-If you haven't already, please give me your team name by the end of today's lab.
-]
+## Merge Conflicts
+ 
+---
+
+### What are merge conflicts?
+
+When two collaborators make changes to a file and push the file to their repo, 
+git merges these two files.
+
+```{r echo=FALSE, out.width=300, fig.align="center"}
+knitr::include_graphics("img/03/merge-no-conflict.png")
+```
+
+If these two files have conflicting content on the same line, git will produce a <font class="vocab">merge conflict</font>.
+
+```{r echo=FALSE, out.width=300, fig.align="center"}
+knitr::include_graphics("img/03/merge-conflict.png")
+```
+
+---
+
+## Resolving merge conflicts
+
+- Merge conflicts need to be resolved manually, as they require a human intervention
+
+```{r echo=FALSE, out.width=800, fig.align="center"}
+knitr::include_graphics("img/03/merge-conflict-identifiers.png")
+```
+
+- To resolve the merge conflict
+  - decide if you want to keep only your text or the text on GitHub or 
+  incorporate changes from both texts
+  - delete the conflict markers `<<<<<<<`, `=======`, `>>>>>>>` and make the 
+  changes you want in the final merge
+
+---
+
+### Practce dealing with merge conflicts
+
+- **Everyone**: Clone the repo starting with **merge-** in RStudio Cloud (`merge-conflicts-TEAMNAME`), 
+and open the R Markdown file.
+
+- Assign the numbers 1, 2, 3, and 4 to each of the team members.
+    - If you have 3 team members, make one person **Member 2** and **Member 4**.
+
+- Follow the [application exercise instructions](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/lab-03-merge-conflicts.html) **<u>exactly</u>**.
+
+- Raise your hand if you have any questions during the exercise. 
+
+- Completing the exercise will be part of the Lab 03 grade.
+
+- Once you've completed the merge conflict exercise, read the rest of the slides and start working on Lab 03. Use the repo with the prefix **lab-03-slr-inf-** to complete the lab.
 
 ---
 
@@ -79,17 +129,14 @@ If you haven't already, please give me your team name by the end of today's lab.
 
 ---
 
-## Lab introduction 
+## Lab Introduction
 
-- <font class="vocab">Goal: </font> Use ANOVA to compare group means 
+- Focus on inference for simple linear regression 
 
-- <font class="vocab">Data:</font> `diamonds` data set in the ggplot2 package  
+- Checking assumptions 
 
+- comparing groups means
 
-- Learn about attributes of diamonds: 
-    - [https://www.gia.edu/diamond-quality-factor](https://www.gia.edu/diamond-quality-factor)
-
-- Today's lab will focus on color and carat weight
 ---
 
 ## Starting a new project
@@ -113,5 +160,16 @@ library(usethis)
 use_git_config(user.name="your name", user.email="your email")
 ```
 
-- Update the name of your RStudio project to "Lab 03 - ANOVA"
+- Update the name of your RStudio project to "Lab 03"
+
+---
+
+## Tips for Lab
+
+- Each group member should commit and push to GitHub at least once
+
+- It is good practice to name your R code chunks. Do not put spaces in the code chunk names.
+
+- Check the .md file on GitHub to make sure it has all of your work, including output and graphs. 
+
 
