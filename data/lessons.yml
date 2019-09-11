@@ -35,7 +35,7 @@ lessons:
     slides: "lec-slides/04-slr-inf.html"
   - date: "Wed, Sep 11"
     title: "ANOVA, Part 1"
-    #reading: "reading-02.html"
+    reading: "reading-01.html"
     #slides: "lec-slides/03-slr-inference.html"
   - date: "Thu, Sep 12"
     title: "Lab 03"

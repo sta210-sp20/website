@@ -52,20 +52,14 @@ n <- nrow(beer)
 
 5. Interpret the test statistic in the context of the data. 
 
-The estimated slope of 28.6 is 27.78 standard errors above the hypothesized mean of 0, given there is no linear relationship between percent alcohol and calories in domestic beers.
-
-
-
-
 6. How was the p-value calculated? Fill in the code below to calculate the p-value. The code below is a guide; uncomment and complete the lines of code to calculate and display the pvalue.
 
 ```{r}
 #test_statistic <- _______
 
-#prob <- 1 - pt(abs(test_statistic),df)
+#prob <- 1 - pt(abs(test_statistic),df) #prob is the proportion of area to the right of the test statistic.
 
-#p_value <- 2 * prob
-#p_value
+
 ```
 
 7. Fill in the code below to calculate the predicted calories and corresponding 90% interval for a single beer with alcohol content of 4.3%. 

@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -69,9 +70,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -85,7 +84,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -96,22 +94,80 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -125,31 +181,17 @@ $(document).ready(function () {
 </div>
 
 
-<div id="due-wed-jan-16" class="section level3">
-<h3>due Wed, Jan 16</h3>
-</div>
-<div id="required" class="section level3">
-<h3>Required:</h3>
+<div id="due-wed-september-11" class="section level3">
+<h3>due Wed, September 11</h3>
 <ul>
-<li><a href="http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf">An Introduction to Statistical Learning</a>
+<li><a href="http://sakai.duke.edu">Handbook of Regression Analysis</a> (Available for download on Sakai)
 <ul>
-<li>2.1 Introduction</li>
-<li>2.1.1 Why estimate <em>f</em>?</li>
-<li>2.1.2 How do we estimate <em>f</em>?</li>
+<li>Section 6.1: Analysis of Variance Introduction</li>
+<li>Section 6.2.1: One Way ANOVA</li>
+<li>Section 6.3.1: Codings for Categorical Predictors</li>
+<li>Section 6.3.2: Multiple Comparisons</li>
 </ul></li>
 </ul>
-</div>
-<div id="optional-ggplot2-review" class="section level3">
-<h3>Optional (ggplot2 review):</h3>
-<ul>
-<li><em>R for Data Science</em> <a href="https://r4ds.had.co.nz/data-visualisation.html">Data Visualization</a> (for Jan 18 lab)</li>
-<li>RStudio Cloud Tutorials
-<ul>
-<li><a href="https://rstudio.cloud/learn/primers/3.5">Visualize Data: Scatterplots</a></li>
-<li><a href="https://rstudio.cloud/learn/primers/3.8">Visualize Data: Customize plots</a> <br> <br></li>
-</ul></li>
-</ul>
-<p><a href="https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html">All STA 210 Readings</a></p>
 </div>
 
 
@@ -169,6 +211,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

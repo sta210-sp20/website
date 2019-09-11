@@ -11,7 +11,7 @@
 
 
 
-<meta name="date" content="2019-09-08" />
+<meta name="date" content="2019-09-09" />
 
 <title>Calories vs. Alcohol in Beer</title>
 
@@ -178,7 +178,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Calories vs. Alcohol in Beer</h1>
-<h4 class="date">2019-09-08</h4>
+<h4 class="date">2019-09-09</h4>
 
 </div>
 
@@ -206,18 +206,12 @@ library(broom)</code></pre>
 #crit_val &lt;- qt(_____,df)
 #crit_val</code></pre>
 <ol start="5" style="list-style-type: decimal">
-<li>Interpret the test statistic in the context of the data.</li>
-</ol>
-<p>The estimated slope of 28.6 is 27.78 standard errors above the hypothesized mean of 0, given there is no linear relationship between percent alcohol and calories in domestic beers.</p>
-<ol start="6" style="list-style-type: decimal">
-<li>How was the p-value calculated? Fill in the code below to calculate the p-value. The code below is a guide; uncomment and complete the lines of code to calculate and display the pvalue.</li>
+<li><p>Interpret the test statistic in the context of the data.</p></li>
+<li><p>How was the p-value calculated? Fill in the code below to calculate the p-value. The code below is a guide; uncomment and complete the lines of code to calculate and display the pvalue.</p></li>
 </ol>
 <pre class="r"><code>#test_statistic &lt;- _______
 
-#prob &lt;- 1 - pt(abs(test_statistic),df)
-
-#p_value &lt;- 2 * prob
-#p_value</code></pre>
+#prob &lt;- 1 - pt(abs(test_statistic),df) #prob is the proportion of area to the right of the test statistic.</code></pre>
 <ol start="7" style="list-style-type: decimal">
 <li>Fill in the code below to calculate the predicted calories and corresponding 90% interval for a single beer with alcohol content of 4.3%.</li>
 </ol>

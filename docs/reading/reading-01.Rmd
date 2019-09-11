@@ -9,20 +9,10 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### due Wed, Jan 16
+### due Wed, September 11
 
-### Required: 
-- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf)
-    - 2.1 Introduction
-    - 2.1.1 Why estimate *f*?
-    - 2.1.2 How do we estimate *f*?
-  
-### Optional (ggplot2 review):
-- *R for Data Science* [Data Visualization](https://r4ds.had.co.nz/data-visualisation.html) (for Jan 18 lab)
-- RStudio Cloud Tutorials
-    - [Visualize Data: Scatterplots](https://rstudio.cloud/learn/primers/3.5)
-    - [Visualize Data: Customize plots](https://rstudio.cloud/learn/primers/3.8)
-<br>
-<br>
-
-[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
+- [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
+    - Section 6.1: Analysis of Variance Introduction
+    - Section 6.2.1: One Way ANOVA
+    - Section 6.3.1: Codings for Categorical Predictors
+    - Section 6.3.2: Multiple Comparisons
