@@ -9,7 +9,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### due Wed, September 11
+### due Mon, September 16
 
 - [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
     - Section 6.1: Analysis of Variance Introduction
