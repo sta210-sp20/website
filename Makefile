@@ -1,5 +1,5 @@
 REMOTEUSER ?= mt324
-HOST ?= saxon.stat.duke.edu
+HOST ?= monster.stat.duke.edu
 DIR ?= /web/isds/docs/courses/Fall19/sta210.001
 REMOTE ?= $(REMOTEUSER)@$(HOST):$(DIR)
 
