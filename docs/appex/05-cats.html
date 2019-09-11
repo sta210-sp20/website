@@ -442,16 +442,16 @@ tidy(bwt_hwt_model, conf.int = TRUE, level = 0.95) %&gt;%
   labs(x = &quot;_____&quot;, y = &quot;______&quot;, 
        title = &quot;________&quot;)</code></pre>
 <ul>
-<li>What assumption(s) can you assess from this scatterplot? Are these assumptions satisifed? Briefly explain.</li>
+<li>What assumption(s) can you assess from this scatterplot? Are these assumptions satisfied? Briefly explain.</li>
 </ul>
 <ol start="5" style="list-style-type: decimal">
 <li>Plot a histogram and Normal QQ plot of the residuals. Refer to <a href="https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/04-slr-inf.html#27">this slide</a> for code to make a Normal QQ plot.</li>
 </ol>
 <ul>
-<li>What assumption(s) can you assess from the histogram and Normal QQ-Plot? Are these assumptions satisifed? Briefly explain.</li>
+<li>What assumption(s) can you assess from the histogram and Normal QQ-Plot? Are these assumptions satisfied? Briefly explain.</li>
 </ul>
 <ol start="6" style="list-style-type: decimal">
-<li>Comment on any other assumptions that haven’t been addressed and whether they are satisifed.</li>
+<li>Comment on any other assumptions that haven’t been addressed and whether they are satisfied.</li>
 </ol>
 </div>
 <div id="part-3-statistical-inference" class="section level2">
@@ -476,7 +476,7 @@ tidy(bwt_hwt_model, conf.int = TRUE, level = 0.95) %&gt;%
 <div id="part-4-prediction" class="section level2">
 <h2>Part 4: Prediction</h2>
 <ol start="13" style="list-style-type: decimal">
-<li>Calculate the 95% confidence interval for the predicted heart weight of an indiviudal cat that weighs 3.18 kg. Interpret the interval in context.</li>
+<li>Calculate the 95% confidence interval for the predicted heart weight of an individual cat that weighs 3.18 kg. Interpret the interval in context.</li>
 </ol>
 <pre class="r"><code>x0 &lt;- data.frame(Bwt = c(3.18))
 predict.lm(bwt_hwt_model, x0, interval = &quot;confidence&quot;, 

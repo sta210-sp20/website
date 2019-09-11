@@ -105,7 +105,7 @@ ggplot(data = cats, aes(x = Bwt, y = resid)) +
        title = "________")
 ```
 
-- What assumption(s) can you assess from this scatterplot? Are these assumptions satisifed? Briefly explain. 
+- What assumption(s) can you assess from this scatterplot? Are these assumptions satisfied? Briefly explain. 
 
 
 5. Plot a histogram and Normal QQ plot of the residuals. Refer to [this slide](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/04-slr-inf.html#27) for code to make a Normal QQ plot. 
@@ -119,9 +119,9 @@ ggplot(data = cats, aes(x = Bwt, y = resid)) +
 
 ```
 
-- What assumption(s) can you assess from the histogram and Normal QQ-Plot? Are these assumptions satisifed? Briefly explain. 
+- What assumption(s) can you assess from the histogram and Normal QQ-Plot? Are these assumptions satisfied? Briefly explain. 
 
-6. Comment on any other assumptions that haven't been addressed and whether they are satisifed. 
+6. Comment on any other assumptions that haven't been addressed and whether they are satisfied. 
 
 
 ## Part 3: Statistical Inference
@@ -147,7 +147,7 @@ ggplot(data = cats, aes(x = Bwt, y = resid)) +
 
 ## Part 4: Prediction 
 
-13. Calculate the 95% confidence interval for the predicted heart weight of an indiviudal cat that weighs 3.18 kg. Interpret the interval in context.
+13. Calculate the 95% confidence interval for the predicted heart weight of an individual cat that weighs 3.18 kg. Interpret the interval in context.
 
 ```{r}
 x0 <- data.frame(Bwt = c(3.18))
