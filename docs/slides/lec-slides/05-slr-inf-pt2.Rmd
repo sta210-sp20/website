@@ -364,7 +364,7 @@ $$SE(\hat{y}) = \hat{\sigma}\sqrt{1 + \frac{1}{n} + \frac{(x-\bar{x})^2}{\sum\li
 
 ---
 
-### Predicting Mindy's heart weight
+### CI for predicted heart weight
 
 - Calculate a 95% confidence interval for Mindy's predicted heart weight. 
 
@@ -374,8 +374,8 @@ bwt_hwt_model <- lm(Hwt ~ Bwt, data = cats)
 
 ```{r}
 x0 <- data.frame(Bwt = c(3.18))
-predict.lm(bwt_hwt_model, x0, interval = "confidence", 
-           conf.level = 0.95) #<<
+predict.lm(bwt_hwt_model, x0, interval = "prediction", #<<
+           conf.level = 0.95) 
 ```
 
 --
@@ -385,8 +385,8 @@ predict.lm(bwt_hwt_model, x0, interval = "confidence",
 
 ```{r}
 x0 <- data.frame(Bwt = c(3.18))
-predict.lm(bwt_hwt_model, x0, interval = "prediction", 
-           conf.level = 0.95) #<<
+predict.lm(bwt_hwt_model, x0, interval = "confidence", #<<
+           conf.level = 0.95) 
 ```
 
 
@@ -407,7 +407,7 @@ class: middle, center
 
 ---
 
-## Caution: Extrapolation
+### Caution: Extrapolation
 
 .pull-left[
 My cat Andy weighs about 8.60 kg (10 lbs). 
