@@ -104,7 +104,7 @@ knitr::include_graphics("img/03/merge-conflict-identifiers.png")
 ### Practce dealing with merge conflicts
 
 - **Everyone**: Clone the repo starting with **merge-** in RStudio Cloud (`merge-conflicts-TEAMNAME`), 
-and open the R Markdown file.
+and open the R Markdown file. Remember to configure git! 
 
 - Assign the numbers 1, 2, 3, and 4 to each of the team members.
     - If you have 3 team members, make one person **Member 2** and **Member 4**.
@@ -157,7 +157,7 @@ and open the R Markdown file.
 
 ```{r eval=FALSE}
 library(usethis)
-use_git_config(user.name="your name", user.email="your email")
+use_git_config(user.name="GITHUB USERNAME!!!", user.email="your email")
 ```
 
 - Update the name of your RStudio project to "Lab 03"

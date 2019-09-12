@@ -1,0 +1,163 @@
+---
+title: "Lab 02: Inference for Simple Linear Regression"
+subtitle: "Total: 70 points"
+date: "due Tuesday, September 17 at 11:59p"
+output: 
+  tufte::tufte_html:
+    css: "./sta210-labs.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+    fig_height: 10
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE, 
+                      eval = FALSE)
+```
+
+The primary goal of todays' lab is to conduct inference for simple linear regression. Additionally, you will explore more plotting and data wrangling options in the exploratory data analysis. 
+
+# Getting Started
+
+Each of your assignments will begin with the following steps.
+
+## Clone Assignment Repo
+
+- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **lab-03-**. It contains the starter documents you need to complete the lab.
+
+- Click on the green **Clone or download** button, select **Use HTTPS** (this might already be selected by default, and if it is, you'll see the text **Clone with HTTPS** as in the image below). Click on the clipboard icon to copy the repo URL.
+
+- Go to RStudio Cloud and into the STA 210 course workspace. Create a **New Project from Git Repo**. You will need to click on the down arrow next to the **New Project** button to see this option.
+
+- Copy and paste the URL of your assignment repo into the dialog box.  Be sure "Add packages from the base project" is checked. 
+
+- Click OK, and you should see the contents from your GitHub repo in the **Files** pane in RStudio. 
+
+## Configure git
+
+There is one more piece of housekeeping we need to take care of before we get started. Specifically,  we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your email address and your name.
+
+To do so, you will use the `use_git_config()` function from the `usethis` package. 
+
+Type the following lines of code in the **console** in RStudio filling in your name and email address.
+
+```{marginfigure}
+Your email address is the address tied to your GitHub account and your name should be your GitHub username.
+```
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="GITHUB USERNAME", user.email="your email")
+```
+
+## Packages
+
+We will use the following packages in today's lab. 
+
+```{r load-packages}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(openintro) 
+
+#fill in any other packages you use in the lab
+```
+
+## Project name: 
+
+Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 03 - Inference for SLR".
+
+# Warm up
+
+Complete the [Lab 03: Dealing with Merge Conflicts](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/lab-03-merge-conflicts.html) exercise before starting this lab. 
+
+# Data 
+
+In today's lab, we will analyze the `starbucks` dataset in the openintro package. This dataset contains nutritional information about food items sold at Starbucks. The data was originally obtained from the Starbucks menu in 2011. The following variables are in the dataset. 
+
+
+| Variable 	| Description 	|
+|------------	|----------------------------------------------------	|
+| `item` 	| Name of food item 	|
+| `calories` 	| Total number of calories 	|
+| `fat` 	| Total fat (in grams) 	|
+| `carb` 	| Total carbohydrate (in grams) 	|
+| `fiber` 	| Total fiber (in grams) 	|
+| `protein` 	| Total protein (in grams) 	|
+| `type` 	| Food category (e.g. bakery, sandwich, salad, etc.) 	|
+
+# Exercises 
+
+Starbucks often shows the number of calories in the food displays, but we'd like to know more about the nutritional content in food items. Therefore, we'd like to fit a regression model that can be used to predict other nutritional values using the number of calories in a food item. In this lab, we'll focus on the total carbohydrates (`carb`).
+
+## Exploratory Data Analysis
+
+1. Which variable is the response variable? 
+
+2. We begin by examining the distribution of the response variable. Create a histogram to display the distribution of the response variable. Describe the shape of the distribution. 
+
+3. In previous labs, we have used the `skim` function to calculate summary statistics. We can also use the `summarise` function to calculate summary statistics from the data. Use the `summarise` function to calculate appropriate measures of center and spread for the response variable. 
+
+```{marginfigure}
+See the [dplyr reference page](https://dplyr.tidyverse.org/reference/summarise.html) for more information about the `summarise` function. 
+```
+
+As an example of the syntax, below is an psuedocode that could be used to find the minimum value of the response. 
+
+```{r}
+starbucks %>%
+  summarise(min_val = min(response))
+```
+
+4. Next, we want to examine the distribution of the predictor variable. So far, we've primarily used histograms to show the distribution of a quantitative variable. There are, however, various plots that can be used to display the distribution of quantitative data. 
+Plot the distribution of the predictor variable using an appropriate plot that is **not** a histogra. You can use the [ggplot reference page](https://ggplot2.tidyverse.org/reference/index.html) to get ideas and see example code for different types of plots.
+
+5. Briefly describe the type of plot you chose and what features of the distribution are visible using that plot.
+
+Example: If you chose a histogram, the description may be 
+*A histogram divides the range of the variable into bins and shows the number of observations in each bin. From a histogram, one can see the shape, approximate center, and the spread of the data.*
+
+6. Compare the plot you chose to a histogram. What is one way your plot is similar to a histogram? What is one way it is different? 
+
+7. Make a scatterplot of the response versus predictor variable. Describe the relationship between the two variables.  
+
+8. From the scatterplot, what assumption is potentially violated? Briefly explain your reasoning. *Note: We still need to examine the residuals before making a final determination about the model assumptions; however, we can start to get intiution using during the exploratory data analysis. 
+
+## Regression
+
+9. Fit the regression model and display the output including the 95% confidence interval. Write the model equation. *Use words/variable names when you write the equation (not "x" and "y").*
+
+10. Recall the assumption you mentioned in Exercise 8. Make the appropriate residual plot(s) to assess the assumption. What do you conclude about whether the model assumption is satifised? Briefly explain your reasoning. 
+
+*Note: To keep the lab manageable, we will not check the remaining assumptions. In practice, however, you should always check all assumptions for before using the model for inference.*
+
+11. Regardless of your answer to Exercise 10, we will proceed as if all assumptions are met. The estimated regression variance, $\hat{\sigma}^2$ is used to calculuate the the standard error for the slope and intervals for predictions. Fill in the code below with the model name to find $\hat{\sigma}^2$. 
+
+```{r}
+glance(_____)$sigma
+```
+
+What is the meaning of this value? 
+
+12. What is the 95% confidence interval for the slope? Interpret the interval in the context of the data.
+
+13. Suppose we want to test the following hypotheses: 
+
+$$\begin{aligned}&H_0: \beta_1 = 0 \\
+&H_a: \beta_1 \neq 0
+\end{aligned}$$
+
+State the null and alternative hypothses in words in the context of the data. 
+
+14. What is the conclusion of the hypothesis test? State your conclusion in the context of the data. 
+
+15. Consider the confidence interval from Exercise 13 and the hypotheses in Exercise 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.
+
+## Prediction 
+
+16. You'd like to get a piece of pumpkin bread from Starbucks in honor of the Fall season. According to [Starbuck's website](https://www.starbucks.com/menu/food/bakery/pumpkin-bread-lb?foodZone=9999), pumpkin bread has 410 calories. Calculate the predicted mean carbohydrates for all pumpkin bread sold by Starbucks. Inlude the estimate and appropriate interval. 
+
+*You're done! Commit all remaining changes, use the commit message "Done with Lab 3!", and push. Before you wrap up the assignment, make sure the .Rmd and .md documents are all updated on your GitHub repo. There is a 10% penality if the .md file is not updated on GitHub.*
