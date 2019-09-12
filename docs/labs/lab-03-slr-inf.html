@@ -508,7 +508,7 @@ font-size: 10pt;
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p>Though Starbucks is most famous for it’s ever-growing selection of coffee drinks, it has quite the <a href="https://www.starbucks.com/promo/food">selection of food</a> as well. In today’s lab, we will analyze the nutritional data of 77 food items sold at Starbucks. The data was originally obtained from the Starbucks menu in 2011; however, many of the items are still available today (and haven’t had much change in their nutritional values!).</p>
+<p>Though Starbucks is most famous for it’s ever-growing selection of coffee drinks, it has quite the <a href="https://www.starbucks.com/promo/food">selection of food</a> as well. In today’s lab, we will analyze the nutritional data of 77 food items sold at Starbucks. The data was originally obtained from the Starbucks menu in 2011; however, many of the items are still available today.</p>
 <p>The data is available in the <code>starbucks</code> dataset from the openintro package. It contains the following variables:</p>
 <table>
 <thead>
@@ -532,7 +532,7 @@ font-size: 10pt;
 </tr>
 <tr class="even">
 <td><code>carb</code></td>
-<td>Total carbohydrate (in grams)</td>
+<td>Total carbohydrates (in grams)</td>
 </tr>
 <tr class="odd">
 <td><code>fiber</code></td>
@@ -551,25 +551,30 @@ font-size: 10pt;
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>When you walk to the counter at Starbucks, you’ll notice the large display of its most popular food items. Often, the number of calories is shown in the display case but no other nutritional information is visible. Therefore, we’d like to fit a regression model so we can use the number of calories in a food item to estimate its other nutritional values. In this lab, we’ll focus on the total carbohydrates (<code>carb</code>).</p>
+<p>When you walk to the counter at Starbucks, you’ll notice the large display of its most popular food items. Often, the number of calories is shown in the display but no other nutritional information is visible. Therefore, we’d like to the total calories to estimate other nutritional values for a food item. Today we will focus onu using calories to estimae the total carbohydarates (<code>carb</code>).</p>
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory Data Analysis</h2>
 <ol style="list-style-type: decimal">
 <li><p>What is the predictor variable? What is the response variable?</p></li>
-<li><p>Let’s begin by examining the distribution of the <strong><i>response variable</i></strong>. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution.</p></li>
+<li><p>Let’s begin by examining the distribution of the <strong><i>predictor variable</i></strong>. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution.</p></li>
 </ol>
 <p><em>Note: Inlcude an informative title and informative labels for the x and y axes. This applies to all plots in the lab.</em></p>
 <ol start="3" style="list-style-type: decimal">
-<li>Previously, we have used the <code>skim</code> function to quickly generate summary statistics for the variables in the dataset. We can also use the <code>summarise</code> function to calculate summary statistics from the data. By using the <code>summarise</code> function, you can choose which summary statistics you’d like to include.</li>
+<li>Previously, we used the <code>skim</code> function to quickly generate summary statistics for the variables in the dataset. We can also use the <code>summarise</code> function to calculate summary statistics which gives us more flexibility around the statistics we want to include.</li>
 </ol>
-<p>Use the <code>summarise</code> function to calculate measures of center and spread for the <strong><i>response variable</i></strong>. Only include the measures of center and spread that are appropriate for describing the distribution of the response.</p>
+<p>Use the <code>summarise</code> function to calculate measures of center and spread for the <strong><i>predictor variable</i></strong>. Only include the measures of center and spread that are appropriate for describing the distribution of the variable.</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://dplyr.tidyverse.org/reference/summarise.html">dplyr reference page</a> for more information about the <code>summarise</code> function.</span></span></p>
 <p>Below is example code for finding the minimum value of the response.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>starbucks <span class="op">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">min_val =</span> <span class="kw">min</span>(response))</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">min_val =</span> <span class="kw">min</span>(predictor))</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Next, we want to examine the distribution of the predictor variable. We’ve primarily used histograms to visualize quantitative data, but let’s try something new! Plot the distribution of the <strong><i>predictor variable</i></strong> using an appropriate plot that is <strong>not</strong> a histogram. You can use the <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot reference page</a> to help generate ideas and see example code.</p></li>
-<li><p>Briefly describe the type of plot you chose and what features of the distribution are visible using that plot. For example, the description of the histogram may be, <em>A histogram divides the range of the variable into bins with equal width and displays the number of observations in each bin. From a histogram, one can clearly see the shape of the data. One can also get an idea of the approximate center and spread of the data.</em></p></li>
+<li><p>Next, we want to examine the distribution of the response variable. We’ve primarily used histograms to visualize quantitative data, but let’s try something new! Plot the distribution of the <strong><i>response variable</i></strong> using an appropriate plot that is <strong>not</strong> a histogram. You can use the <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot reference page</a> to help generate ideas and see example code.</p></li>
+<li><p>Briefly describe the type of plot you chose and what features of the distribution are visible using that plot. For example, the description of a histogram may be,</p></li>
+</ol>
+<blockquote>
+<p>On a histogram, the range of values are divided into bins of equal width, and the number of observations in each bin is shown. From a histogram, one can see the shape of the data. One can also get an idea of the approximate center and spread of the data.</p>
+</blockquote>
+<ol start="6" style="list-style-type: decimal">
 <li><p>Compare the features of the distribution that are visible from your plot versus a histogram. Which type of plot do you think is more effective for visualizing the distribution of a quantitative variable? Briefly explain your choice.</p></li>
 <li><p>Make a plot displaying the relationship between the response and predictor variables. Describe the relationship between the two variables.</p></li>
 <li><p>From the plot in the previous question, what assumption is potentially violated? Briefly explain your reasoning. *Note: We still need to examine the residuals before making a final determination about the model assumptions; however, we can start to get intuition using during the exploratory data analysis.</p></li>
