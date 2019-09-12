@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       eval = FALSE)
 ```
 
-The primary goal of todays' lab is to conduct inference for simple linear regression. Additionally, you will explore more plotting and data wrangling options in the exploratory data analysis. 
+The primary goal of todays' lab is to practice statistical inference for simple linear regression. Additionally, we will explore more data visualization and wrangling options as we conduct the exploratory data analysis. 
 
 # Getting Started
 
@@ -76,7 +76,7 @@ Complete the [Lab 03: Dealing with Merge Conflicts](https://www2.stat.duke.edu/c
 
 # Data 
 
-Though Starbucks is most famous for it's ever-growing selection of coffee drinks, it has quite the [selection of food](https://www.starbucks.com/promo/food) as well. In today's lab, we will analyze the nutritional data of 77 food items sold at Starbucks. The data was orginally obtained from the Starbucks menu in 2011; however, many of the items are still available today (and haven't had much change in their nutritional values!). 
+Though Starbucks is most famous for it's ever-growing selection of coffee drinks, it has quite the [selection of food](https://www.starbucks.com/promo/food) as well. In today's lab, we will analyze the nutritional data of 77 food items sold at Starbucks. The data was originally obtained from the Starbucks menu in 2011; however, many of the items are still available today (and haven't had much change in their nutritional values!). 
 
 The data is available in the `starbucks` dataset from the openintro package. It contains the following variables:  
 
@@ -99,13 +99,13 @@ When you walk to the counter at Starbucks, you'll notice the large display of it
 
 1. What is the predictor variable? What is the response variable? 
 
-2. Let's begin by examining the distribution of the response variable. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution. 
+2. Let's begin by examining the distribution of the **<i>response variable</i>**. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution. 
 
 *Note: Inlcude an informative title and informative labels for the x and y axes. This applies to all plots in the lab.*
 
 3. Previously, we have used the `skim` function to quickly generate summary statistics for the variables in the dataset. We can also use the `summarise` function to calculate summary statistics from the data. By using the `summarise` function, you can choose which summary statistics you'd like to include.
 
-Use the `summarise` function to calculate measures of center and spread for the response variable. Only include the measures of center and spread that are appropriate for describing the distribution of the response.
+Use the `summarise` function to calculate measures of center and spread for the **<i>response variable</i>**. Only include the measures of center and spread that are appropriate for describing the distribution of the response.
 
 ```{marginfigure}
 See the [dplyr reference page](https://dplyr.tidyverse.org/reference/summarise.html) for more information about the `summarise` function. 
@@ -118,37 +118,34 @@ starbucks %>%
   summarise(min_val = min(response))
 ```
 
-4. Next, we want to examine the distribution of the predictor variable. So far, we've primarily used histograms to show the distribution of a quantitative variable. There are, however, various plots that can be used to display the distribution of quantitative data. 
-Plot the distribution of the predictor variable using an appropriate plot that is **not** a histogram. You can use the [ggplot reference page](https://ggplot2.tidyverse.org/reference/index.html) to get ideas and see example code for different types of plots.
+4. Next, we want to examine the distribution of the predictor variable. We've primarily used histograms to visualize quantitative data, but let's try something new! Plot the distribution of the **<i>predictor variable</i>** using an appropriate plot that is **not** a histogram. You can use the [ggplot reference page](https://ggplot2.tidyverse.org/reference/index.html) to help generate ideas and see example code.
 
-5. Briefly describe the type of plot you chose and what features of the distribution are visible using that plot.
+5. Briefly describe the type of plot you chose and what features of the distribution are visible using that plot. For example, the description of the histogram may be, *A histogram divides the range of the variable into bins with equal width and displays the number of observations in each bin. From a histogram, one can clearly see the shape of the data. One can also get an idea of the approximate center and spread of the data.*
 
-Example: If you chose a histogram, the description may be 
-*A histogram divides the range of the variable into bins and shows the number of observations in each bin. From a histogram, one can see the shape, approximate center, and the spread of the data.*
+6. Compare the features of the distribution that are visible from your plot versus a histogram. Which type of plot do you think is more effective for visualizing the distribution of a quantitative variable? Briefly explain your choice.
 
-6. Compare the plot you chose to a histogram. What is one way your plot is similar to a histogram? What is one way it is different? 
+7. Make a plot displaying the relationship between the response and predictor variables. Describe the relationship between the two variables.  
 
-7. Make a scatterplot of the response versus predictor variable. Describe the relationship between the two variables.  
-
-8. From the scatterplot, what assumption is potentially violated? Briefly explain your reasoning. *Note: We still need to examine the residuals before making a final determination about the model assumptions; however, we can start to get intiution using during the exploratory data analysis. 
+8. From the plot in the previous question, what assumption is potentially violated? Briefly explain your reasoning. *Note: We still need to examine the residuals before making a final determination about the model assumptions; however, we can start to get intuition using during the exploratory data analysis. 
 
 ## Regression
 
-9. Fit the regression model and display the output including the 95% confidence interval. Write the model equation. *Use words/variable names when you write the equation (not "x" and "y").*
+9. Fit the regression model and display the output including the 95% confidence interval for the slope. Write the model equation. *Use words/variable names when you write the equation (not "x" and "y").* 
 
-10. Recall the assumption you mentioned in Exercise 8. Make the appropriate residual plot(s) to assess the assumption. What do you conclude about whether the model assumption is satifised? Briefly explain your reasoning. 
+10. Recall the assumption you mentioned in Exercise 8. Make the appropriate residual plot(s) to assess that assumption. What do you conclude about whether this model assumption is satisfied? Briefly explain your reasoning. 
 
-*Note: To keep the lab manageable, we will not check the remaining assumptions. In practice, however, you should always check all assumptions for before using the model for inference.*
+*Note: To keep the lab manageable, we will not check the remaining assumptions. In practice, however, you should check <u>all</u> assumptions for before using the model for statistical inference.*
 
-11. Regardless of your answer to Exercise 10, we will proceed as if all assumptions are met. The estimated regression variance, $\hat{\sigma}^2$ is used to calculuate the the standard error for the slope and intervals for predictions. Fill in the code below with the model name to find $\hat{\sigma}^2$. 
+11. Regardless of your answer to Exercise 10, we will proceed as if all assumptions are met. The estimated regression variance, $\hat{\sigma}^2$ is used to calculate the the standard error for the slope and intervals for predictions (recall the formulas for standard error in your notes). Fill in the name of your model to find $\hat{\sigma}^2$ using the `glance` function.  
 
 ```{r}
 glance(_____)$sigma
 ```
 
-What is the meaning of this value? 
+Briefly describe what is being measured by  $\hat{\sigma}^2$ measures. *Hint: It may help to recall the [visual representation of simple linear regression](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/03-slr.html#45). What takes the value $\sigma^2$ in the diagram?
 
-12. What is the 95% confidence interval for the slope? Interpret the interval in the context of the data.
+## Statistical Inference
+12. What is the 95% confidence interval for the slope? Interpret this interval in the context of the data.
 
 13. Suppose we want to test the following hypotheses: 
 
@@ -156,14 +153,14 @@ $$\begin{aligned}&H_0: \beta_1 = 0 \\
 &H_a: \beta_1 \neq 0
 \end{aligned}$$
 
-State the null and alternative hypothses in words in the context of the data. 
+State the null and alternative hypotheses using words in the context of the data.
 
-14. What is the conclusion of the hypothesis test? State your conclusion in the context of the data. 
+14. What is the p-value of the hypothesis test from the previous exercise? Use the p-value to state your conclusion from the test in the context of the data.
 
-15. Consider the confidence interval from Exercise 13 and the hypotheses in Exercise 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.
+15. Consider the confidence interval from Exercise 12 and the hypotheses in Exercise 13. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.
 
 ## Prediction 
 
-16. You'd like to get a piece of pumpkin bread from Starbucks in honor of the Fall season. According to [Starbuck's website](https://www.starbucks.com/menu/food/bakery/pumpkin-bread-lb?foodZone=9999), pumpkin bread has 410 calories. Calculate the predicted mean carbohydrates for all pumpkin bread sold by Starbucks. Inlude the estimate and appropriate interval. 
+16. You'd like to purchase a piece of pumpkin bread from Starbucks to celebrate fall! According to [Starbuck's website](https://www.starbucks.com/menu/food/bakery/pumpkin-bread-lb?foodZone=9999), pumpkin bread has 410 calories. Calculate the predicted mean carbohydrates for all pumpkin bread sold by Starbucks. Include the estimate and appropriate interval. 
 
 *You're done! Commit all remaining changes, use the commit message "Done with Lab 3!", and push. Before you wrap up the assignment, make sure the .Rmd and .md documents are all updated on your GitHub repo. There is a 10% penality if the .md file is not updated on GitHub.*

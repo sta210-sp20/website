@@ -464,7 +464,7 @@ font-size: 10pt;
 
 
 
-<p>The primary goal of todays’ lab is to conduct inference for simple linear regression. Additionally, you will explore more plotting and data wrangling options in the exploratory data analysis.</p>
+<p>The primary goal of todays’ lab is to practice statistical inference for simple linear regression. Additionally, we will explore more data visualization and wrangling options as we conduct the exploratory data analysis.</p>
 <div id="getting-started" class="section level1">
 <h1>Getting Started</h1>
 <p>Each of your assignments will begin with the following steps.</p>
@@ -508,7 +508,7 @@ font-size: 10pt;
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p>Though Starbucks is most famous for it’s ever-growing selection of coffee drinks, it has quite the <a href="https://www.starbucks.com/promo/food">selection of food</a> as well. In today’s lab, we will analyze the nutritional data of 77 food items sold at Starbucks. The data was orginally obtained from the Starbucks menu in 2011; however, many of the items are still available today (and haven’t had much change in their nutritional values!).</p>
+<p>Though Starbucks is most famous for it’s ever-growing selection of coffee drinks, it has quite the <a href="https://www.starbucks.com/promo/food">selection of food</a> as well. In today’s lab, we will analyze the nutritional data of 77 food items sold at Starbucks. The data was originally obtained from the Starbucks menu in 2011; however, many of the items are still available today (and haven’t had much change in their nutritional values!).</p>
 <p>The data is available in the <code>starbucks</code> dataset from the openintro package. It contains the following variables:</p>
 <table>
 <thead>
@@ -556,57 +556,57 @@ font-size: 10pt;
 <h2>Exploratory Data Analysis</h2>
 <ol style="list-style-type: decimal">
 <li><p>What is the predictor variable? What is the response variable?</p></li>
-<li><p>Let’s begin by examining the distribution of the response variable. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution.</p></li>
+<li><p>Let’s begin by examining the distribution of the <strong><i>response variable</i></strong>. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution.</p></li>
 </ol>
 <p><em>Note: Inlcude an informative title and informative labels for the x and y axes. This applies to all plots in the lab.</em></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Previously, we have used the <code>skim</code> function to quickly generate summary statistics for the variables in the dataset. We can also use the <code>summarise</code> function to calculate summary statistics from the data. By using the <code>summarise</code> function, you can choose which summary statistics you’d like to include.</li>
 </ol>
-<p>Use the <code>summarise</code> function to calculate measures of center and spread for the response variable. Only include the measures of center and spread that are appropriate for describing the distribution of the response.</p>
+<p>Use the <code>summarise</code> function to calculate measures of center and spread for the <strong><i>response variable</i></strong>. Only include the measures of center and spread that are appropriate for describing the distribution of the response.</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://dplyr.tidyverse.org/reference/summarise.html">dplyr reference page</a> for more information about the <code>summarise</code> function.</span></span></p>
 <p>Below is example code for finding the minimum value of the response.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>starbucks <span class="op">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">min_val =</span> <span class="kw">min</span>(response))</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Next, we want to examine the distribution of the predictor variable. So far, we’ve primarily used histograms to show the distribution of a quantitative variable. There are, however, various plots that can be used to display the distribution of quantitative data. Plot the distribution of the predictor variable using an appropriate plot that is <strong>not</strong> a histogra. You can use the <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot reference page</a> to get ideas and see example code for different types of plots.</p></li>
-<li><p>Briefly describe the type of plot you chose and what features of the distribution are visible using that plot.</p></li>
-</ol>
-<p>Example: If you chose a histogram, the description may be <em>A histogram divides the range of the variable into bins and shows the number of observations in each bin. From a histogram, one can see the shape, approximate center, and the spread of the data.</em></p>
-<ol start="6" style="list-style-type: decimal">
-<li><p>Compare the plot you chose to a histogram. What is one way your plot is similar to a histogram? What is one way it is different?</p></li>
-<li><p>Make a scatterplot of the response versus predictor variable. Describe the relationship between the two variables.</p></li>
-<li><p>From the scatterplot, what assumption is potentially violated? Briefly explain your reasoning. *Note: We still need to examine the residuals before making a final determination about the model assumptions; however, we can start to get intiution using during the exploratory data analysis.</p></li>
+<li><p>Next, we want to examine the distribution of the predictor variable. We’ve primarily used histograms to visualize quantitative data, but let’s try something new! Plot the distribution of the <strong><i>predictor variable</i></strong> using an appropriate plot that is <strong>not</strong> a histogram. You can use the <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot reference page</a> to help generate ideas and see example code.</p></li>
+<li><p>Briefly describe the type of plot you chose and what features of the distribution are visible using that plot. For example, the description of the histogram may be, <em>A histogram divides the range of the variable into bins with equal width and displays the number of observations in each bin. From a histogram, one can clearly see the shape of the data. One can also get an idea of the approximate center and spread of the data.</em></p></li>
+<li><p>Compare the features of the distribution that are visible from your plot versus a histogram. Which type of plot do you think is more effective for visualizing the distribution of a quantitative variable? Briefly explain your choice.</p></li>
+<li><p>Make a plot displaying the relationship between the response and predictor variables. Describe the relationship between the two variables.</p></li>
+<li><p>From the plot in the previous question, what assumption is potentially violated? Briefly explain your reasoning. *Note: We still need to examine the residuals before making a final determination about the model assumptions; however, we can start to get intuition using during the exploratory data analysis.</p></li>
 </ol>
 </div>
 <div id="regression" class="section level2">
 <h2>Regression</h2>
 <ol start="9" style="list-style-type: decimal">
-<li><p>Fit the regression model and display the output including the 95% confidence interval. Write the model equation. <em>Use words/variable names when you write the equation (not “x” and “y”).</em></p></li>
-<li><p>Recall the assumption you mentioned in Exercise 8. Make the appropriate residual plot(s) to assess the assumption. What do you conclude about whether the model assumption is satifised? Briefly explain your reasoning.</p></li>
+<li><p>Fit the regression model and display the output including the 95% confidence interval for the slope. Write the model equation. <em>Use words/variable names when you write the equation (not “x” and “y”).</em></p></li>
+<li><p>Recall the assumption you mentioned in Exercise 8. Make the appropriate residual plot(s) to assess that assumption. What do you conclude about whether this model assumption is satisfied? Briefly explain your reasoning.</p></li>
 </ol>
-<p><em>Note: To keep the lab manageable, we will not check the remaining assumptions. In practice, however, you should always check all assumptions for before using the model for inference.</em></p>
+<p><em>Note: To keep the lab manageable, we will not check the remaining assumptions. In practice, however, you should check <u>all</u> assumptions for before using the model for statistical inference.</em></p>
 <ol start="11" style="list-style-type: decimal">
-<li>Regardless of your answer to Exercise 10, we will proceed as if all assumptions are met. The estimated regression variance, <span class="math inline">\(\hat{\sigma}^2\)</span> is used to calculuate the the standard error for the slope and intervals for predictions. Fill in the code below with the model name to find <span class="math inline">\(\hat{\sigma}^2\)</span>.</li>
+<li>Regardless of your answer to Exercise 10, we will proceed as if all assumptions are met. The estimated regression variance, <span class="math inline">\(\hat{\sigma}^2\)</span> is used to calculate the the standard error for the slope and intervals for predictions (recall the formulas for standard error in your notes). Fill in the name of your model to find <span class="math inline">\(\hat{\sigma}^2\)</span> using the <code>glance</code> function.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">glance</span>(_____)<span class="op">$</span>sigma</span></code></pre></div>
-<p>What is the meaning of this value?</p>
+<p>Briefly describe what is being measured by <span class="math inline">\(\hat{\sigma}^2\)</span> measures. *Hint: It may help to recall the <a href="https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/03-slr.html#45">visual representation of simple linear regression</a>. What takes the value <span class="math inline">\(\sigma^2\)</span> in the diagram?</p>
+</div>
+<div id="statistical-inference" class="section level2">
+<h2>Statistical Inference</h2>
 <ol start="12" style="list-style-type: decimal">
-<li><p>What is the 95% confidence interval for the slope? Interpret the interval in the context of the data.</p></li>
+<li><p>What is the 95% confidence interval for the slope? Interpret this interval in the context of the data.</p></li>
 <li><p>Suppose we want to test the following hypotheses:</p></li>
 </ol>
 <p><span class="math display">\[\begin{aligned}&amp;H_0: \beta_1 = 0 \\
 &amp;H_a: \beta_1 \neq 0
 \end{aligned}\]</span></p>
-<p>State the null and alternative hypothses in words in the context of the data.</p>
+<p>State the null and alternative hypotheses using words in the context of the data.</p>
 <ol start="14" style="list-style-type: decimal">
-<li><p>What is the conclusion of the hypothesis test? State your conclusion in the context of the data.</p></li>
-<li><p>Consider the confidence interval from Exercise 13 and the hypotheses in Exercise 14. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.</p></li>
+<li><p>What is the p-value of the hypothesis test from the previous exercise? Use the p-value to state your conclusion from the test in the context of the data.</p></li>
+<li><p>Consider the confidence interval from Exercise 12 and the hypotheses in Exercise 13. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.</p></li>
 </ol>
 </div>
 <div id="prediction" class="section level2">
 <h2>Prediction</h2>
 <ol start="16" style="list-style-type: decimal">
-<li>You’d like to get a piece of pumpkin bread from Starbucks in honor of the Fall season. According to <a href="https://www.starbucks.com/menu/food/bakery/pumpkin-bread-lb?foodZone=9999">Starbuck’s website</a>, pumpkin bread has 410 calories. Calculate the predicted mean carbohydrates for all pumpkin bread sold by Starbucks. Inlude the estimate and appropriate interval.</li>
+<li>You’d like to purchase a piece of pumpkin bread from Starbucks to celebrate fall! According to <a href="https://www.starbucks.com/menu/food/bakery/pumpkin-bread-lb?foodZone=9999">Starbuck’s website</a>, pumpkin bread has 410 calories. Calculate the predicted mean carbohydrates for all pumpkin bread sold by Starbucks. Include the estimate and appropriate interval.</li>
 </ol>
 <p><em>You’re done! Commit all remaining changes, use the commit message “Done with Lab 3!”, and push. Before you wrap up the assignment, make sure the .Rmd and .md documents are all updated on your GitHub repo. There is a 10% penality if the .md file is not updated on GitHub.</em></p>
 </div>
