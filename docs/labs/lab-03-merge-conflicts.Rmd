@@ -42,11 +42,12 @@ use_git_config(user.name="GITHUB USERNAME", user.email="your email")
 
   - Pull and review the document with the merge conflict. Show the error to your teammates.
   - A merge conflict occurred because you edited the same part of the document as Member 1. Resolve the conflict with whichever name you want to keep. 
-  - Knit, commit and push.
+  - Knit, commit, and push.
 
 - **<i>Member 3</i>**: Use the **diamonds** dataset to create a plot displaying the relationship between `price` and `carat`, controlling for `cut` of the diamonds dataset (see below for the plot). *Note: You can control fro the cut by using the "color" option in the `aes()`.*
 
-  - Knit, commit, push. You will get an error, read it, and pull.  Show the error to your teammates.
+  - Knit, commit, push. You will get an error. 
+  - Read it and pull. Show the error your teammates.
   - No merge conflicts should occur, since you edited a different part of the document from Members 1 and 2.
   - Knit, commit, and push. 
 
