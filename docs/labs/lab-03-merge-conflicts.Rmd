@@ -8,41 +8,50 @@ output:
     fig_width: 9
 ---
 
+<style>
+ul{
+  padding: 10pt;
+}
+
+ol{
+padding: 15pt;
+}
+</style>
+
 ```{r load-packages, include=FALSE}
 library(tidyverse)
 ```
 
-<font size="3">
-1. **Everyone**: Clone your assignment repo in RStudio Cloud (`merge-conflicts-TEAMNAME`), 
+<font color = "blue">**Step 1**</font>: **Everyone**: Clone your assignment repo in RStudio Cloud (`merge-conflicts-TEAMNAME`), 
 and open the R Markdown file. Don't forget to configure git! 
 
-```{r eval = F}
-configureation
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="GITHUB USERNAME", user.email="your email")
 ```
+<br>
 
-2. Assign the numbers 1, 2, 3, and 4 to each of the team members.
-    - If you have 3 team members, make one person *Member 2* and *Member 4*.
+<font color = "blue">**Step 2**</font>: Assign the numbers 1, 2, 3, and 4 to each of the team members. **<i>Member 4</i>** should look at the group's repo on GitHub.com to ensure that the other members' files are pushed to GitHub after every step. 
 
-3. Take turns in completing the steps below exactly as written, only <u>one member</u> at a time:
 
-    - **Member 1**: Change the team name to your team name, knit, commit, push.
-    
-    - **Member 2**: Change the team name something different than your team name. Knit, commit, push. You 
-will get an error. 
-    - Pull.
-    - Review the document with the merge conflict. 
-    - Resolve the conflict with whichever name you want to keep. 
-    - Knit, commit and push.
+<font color = "blue">**Step 3**</font>: Take turns in completing the steps below exactly as written, only <u>**one member**</u> at a time:
 
-    - **Member 3**: Use the **diamonds** dataset to create a plot displaying the relationship between `price` and `carat`, controlling for `cut` of the diamonds dataset (see below for the plot). *Note: You can control fro the cut by using including "color" in the `aes()`.*
-    - Knit, commit, push. 
-    - You will get an error, read it, and pull. 
-    - No merge conflicts should occur, since you edited a different part of the document from Members 1 and 2.
-    - Now push.
+- **<i>Member 1</i>**: Change the team name to your team name. Knit, commit, and push.
 
-4.  **All members:** Pull, and observe the changes in your document.
+- **<i>Member 2</i>**: Change the team name something different, i.e. not your team name. Knit, commit, push. You will get an error. 
 
-</font>
+  - Pull and review the document with the merge conflict. Show the error to your teammates.
+  - A merge conflict occurred because you edited the same part of the document as Member 1. Resolve the conflict with whichever name you want to keep. 
+  - Knit, commit and push.
+
+- **<i>Member 3</i>**: Use the **diamonds** dataset to create a plot displaying the relationship between `price` and `carat`, controlling for `cut` of the diamonds dataset (see below for the plot). *Note: You can control fro the cut by using the "color" option in the `aes()`.*
+
+  - Knit, commit, push. You will get an error, read it, and pull.  Show the error to your teammates.
+  - No merge conflicts should occur, since you edited a different part of the document from Members 1 and 2.
+  - Knit, commit, and push. 
+
+
+<font color = "blue">**Step 4**</font>: **<i>All members</i>:** Pull, and observe the changes in your document.
 <br><br>
 
 ### Plot for Member 3 to create
