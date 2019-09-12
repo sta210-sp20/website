@@ -1,6 +1,6 @@
 ---
 title: "Lab 03: Inference for Simple Linear Regression"
-subtitle: "Total: 70 points"
+subtitle: "Total: 75 points"
 date: "due Tuesday, September 17 at 11:59p"
 output: 
   tufte::tufte_html:
