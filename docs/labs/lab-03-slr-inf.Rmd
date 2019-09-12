@@ -1,5 +1,5 @@
 ---
-title: "Lab 02: Inference for Simple Linear Regression"
+title: "Lab 03: Inference for Simple Linear Regression"
 subtitle: "Total: 70 points"
 date: "due Tuesday, September 17 at 11:59p"
 output: 
@@ -76,7 +76,9 @@ Complete the [Lab 03: Dealing with Merge Conflicts](https://www2.stat.duke.edu/c
 
 # Data 
 
-In today's lab, we will analyze the `starbucks` dataset in the openintro package. This dataset contains nutritional information about food items sold at Starbucks. The data was originally obtained from the Starbucks menu in 2011. The following variables are in the dataset. 
+Though Starbucks is most famous for it's ever-growing selection of coffee drinks, it has quite the [selection of food](https://www.starbucks.com/promo/food) as well. In today's lab, we will analyze the nutritional data of 77 food items sold at Starbucks. The data was orginally obtained from the Starbucks menu in 2011; however, many of the items are still available today (and haven't had much change in their nutritional values!). 
+
+The data is available in the `starbucks` dataset from the openintro package. It contains the following variables:  
 
 
 | Variable 	| Description 	|
@@ -91,21 +93,25 @@ In today's lab, we will analyze the `starbucks` dataset in the openintro package
 
 # Exercises 
 
-Starbucks often shows the number of calories in the food displays, but we'd like to know more about the nutritional content in food items. Therefore, we'd like to fit a regression model that can be used to predict other nutritional values using the number of calories in a food item. In this lab, we'll focus on the total carbohydrates (`carb`).
+When you walk to the counter at Starbucks, you'll notice the large display of its most popular food items. Often, the number of calories is shown in the display case but no other nutritional information is visible. Therefore, we'd like to fit a regression model so we can use the number of calories in a food item to estimate its other nutritional values. In this lab, we'll focus on the total carbohydrates (`carb`).
 
 ## Exploratory Data Analysis
 
-1. Which variable is the response variable? 
+1. What is the predictor variable? What is the response variable? 
 
-2. We begin by examining the distribution of the response variable. Create a histogram to display the distribution of the response variable. Describe the shape of the distribution. 
+2. Let's begin by examining the distribution of the response variable. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution. 
 
-3. In previous labs, we have used the `skim` function to calculate summary statistics. We can also use the `summarise` function to calculate summary statistics from the data. Use the `summarise` function to calculate appropriate measures of center and spread for the response variable. 
+*Note: Inlcude an informative title and informative labels for the x and y axes. This applies to all plots in the lab.*
+
+3. Previously, we have used the `skim` function to quickly generate summary statistics for the variables in the dataset. We can also use the `summarise` function to calculate summary statistics from the data. By using the `summarise` function, you can choose which summary statistics you'd like to include.
+
+Use the `summarise` function to calculate measures of center and spread for the response variable. Only include the measures of center and spread that are appropriate for describing the distribution of the response.
 
 ```{marginfigure}
 See the [dplyr reference page](https://dplyr.tidyverse.org/reference/summarise.html) for more information about the `summarise` function. 
 ```
 
-As an example of the syntax, below is an psuedocode that could be used to find the minimum value of the response. 
+Below is example code for finding the minimum value of the response.
 
 ```{r}
 starbucks %>%
@@ -113,7 +119,7 @@ starbucks %>%
 ```
 
 4. Next, we want to examine the distribution of the predictor variable. So far, we've primarily used histograms to show the distribution of a quantitative variable. There are, however, various plots that can be used to display the distribution of quantitative data. 
-Plot the distribution of the predictor variable using an appropriate plot that is **not** a histogra. You can use the [ggplot reference page](https://ggplot2.tidyverse.org/reference/index.html) to get ideas and see example code for different types of plots.
+Plot the distribution of the predictor variable using an appropriate plot that is **not** a histogram. You can use the [ggplot reference page](https://ggplot2.tidyverse.org/reference/index.html) to get ideas and see example code for different types of plots.
 
 5. Briefly describe the type of plot you chose and what features of the distribution are visible using that plot.
 

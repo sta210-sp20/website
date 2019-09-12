@@ -13,7 +13,7 @@
 
 
 
-<title>Lab 02: Inference for Simple Linear Regression</title>
+<title>Lab 03: Inference for Simple Linear Regression</title>
 
 <style type="text/css">
 @charset "UTF-8";
@@ -458,7 +458,7 @@ font-size: 10pt;
 
 
 
-<h1 class="title toc-ignore">Lab 02: Inference for Simple Linear Regression</h1>
+<h1 class="title toc-ignore">Lab 03: Inference for Simple Linear Regression</h1>
 <h3 class="subtitle">Total: 70 points</h3>
 <h4 class="date">due Tuesday, September 17 at 11:59p</h4>
 
@@ -508,7 +508,8 @@ font-size: 10pt;
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p>In today’s lab, we will analyze the <code>starbucks</code> dataset in the openintro package. This dataset contains nutritional information about food items sold at Starbucks. The data was originally obtained from the Starbucks menu in 2011. The following variables are in the dataset.</p>
+<p>Though Starbucks is most famous for it’s ever-growing selection of coffee drinks, it has quite the <a href="https://www.starbucks.com/promo/food">selection of food</a> as well. In today’s lab, we will analyze the nutritional data of 77 food items sold at Starbucks. The data was orginally obtained from the Starbucks menu in 2011; however, many of the items are still available today (and haven’t had much change in their nutritional values!).</p>
+<p>The data is available in the <code>starbucks</code> dataset from the openintro package. It contains the following variables:</p>
 <table>
 <thead>
 <tr class="header">
@@ -550,16 +551,20 @@ font-size: 10pt;
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>Starbucks often shows the number of calories in the food displays, but we’d like to know more about the nutritional content in food items. Therefore, we’d like to fit a regression model that can be used to predict other nutritional values using the number of calories in a food item. In this lab, we’ll focus on the total carbohydrates (<code>carb</code>).</p>
+<p>When you walk to the counter at Starbucks, you’ll notice the large display of its most popular food items. Often, the number of calories is shown in the display case but no other nutritional information is visible. Therefore, we’d like to fit a regression model so we can use the number of calories in a food item to estimate its other nutritional values. In this lab, we’ll focus on the total carbohydrates (<code>carb</code>).</p>
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory Data Analysis</h2>
 <ol style="list-style-type: decimal">
-<li><p>Which variable is the response variable?</p></li>
-<li><p>We begin by examining the distribution of the response variable. Create a histogram to display the distribution of the response variable. Describe the shape of the distribution.</p></li>
-<li><p>In previous labs, we have used the <code>skim</code> function to calculate summary statistics. We can also use the <code>summarise</code> function to calculate summary statistics from the data. Use the <code>summarise</code> function to calculate appropriate measures of center and spread for the response variable.</p></li>
+<li><p>What is the predictor variable? What is the response variable?</p></li>
+<li><p>Let’s begin by examining the distribution of the response variable. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution.</p></li>
 </ol>
+<p><em>Note: Inlcude an informative title and informative labels for the x and y axes. This applies to all plots in the lab.</em></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Previously, we have used the <code>skim</code> function to quickly generate summary statistics for the variables in the dataset. We can also use the <code>summarise</code> function to calculate summary statistics from the data. By using the <code>summarise</code> function, you can choose which summary statistics you’d like to include.</li>
+</ol>
+<p>Use the <code>summarise</code> function to calculate measures of center and spread for the response variable. Only include the measures of center and spread that are appropriate for describing the distribution of the response.</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://dplyr.tidyverse.org/reference/summarise.html">dplyr reference page</a> for more information about the <code>summarise</code> function.</span></span></p>
-<p>As an example of the syntax, below is an psuedocode that could be used to find the minimum value of the response.</p>
+<p>Below is example code for finding the minimum value of the response.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>starbucks <span class="op">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">min_val =</span> <span class="kw">min</span>(response))</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
