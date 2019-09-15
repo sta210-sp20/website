@@ -464,7 +464,7 @@ font-size: 10pt;
 
 
 
-<p>The primary goal of todays’ lab is to practice statistical inference for simple linear regression. Additionally, we will explore more data visualization and wrangling options as we conduct the exploratory data analysis.</p>
+<p>The primary goal of today’s’ lab is to practice statistical inference for simple linear regression. Additionally, we will explore more data visualization and wrangling options as we conduct the exploratory data analysis.</p>
 <div id="getting-started" class="section level1">
 <h1>Getting Started</h1>
 <p>Each of your assignments will begin with the following steps.</p>
@@ -551,12 +551,12 @@ font-size: 10pt;
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>When you walk to the counter at Starbucks, you’ll notice the large display of its most popular food items. Often, the number of calories is shown in the display but no other nutritional information is visible. Therefore, we’d like to the total calories to estimate other nutritional values for a food item. Today we will focus onu using calories to estimae the total carbohydarates (<code>carb</code>).</p>
+<p>When you walk to the counter at Starbucks, you’ll notice the large display of its most popular food items. Often, the number of calories is shown in the display but no other nutritional information is visible. Therefore, we’d like to the total calories to estimate other nutritional values for a food item. Today we will focus on using calories to estimate the total carbohydrates (<code>carb</code>).</p>
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory Data Analysis</h2>
 <ol style="list-style-type: decimal">
 <li><p>What is the predictor variable? What is the response variable?</p></li>
-<li><p>Let’s begin by examining the distribution of the <strong><i>predictor variable</i></strong>. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution.</p></li>
+<li><p>Let’s begin by examining the distribution of the <strong><i>predictor variable</i></strong>. Make a histogram to display the distribution of the predictor variable. Describe the shape of the distribution.</p></li>
 </ol>
 <p><em>Note: Inlcude an informative title and informative labels for the x and y axes. This applies to all plots in the lab.</em></p>
 <ol start="3" style="list-style-type: decimal">
@@ -572,11 +572,11 @@ font-size: 10pt;
 <li><p>Briefly describe the type of plot you chose and what features of the distribution are visible using that plot. For example, the description of a histogram may be,</p></li>
 </ol>
 <blockquote>
-<p>On a histogram, the range of values are divided into bins of equal width, and the number of observations in each bin is shown. From a histogram, one can see the shape of the data. One can also get an idea of the approximate center and spread of the data.</p>
+<p><em>On a histogram, the range of values are divided into bins of equal width, and the number of observations in each bin is shown. From a histogram, one can see the shape of the data. One can also get an idea of the approximate center and spread of the data.</em></p>
 </blockquote>
 <ol start="6" style="list-style-type: decimal">
-<li><p>Compare the features of the distribution that are visible from your plot versus a histogram. Which type of plot do you think is more effective for visualizing the distribution of a quantitative variable? Briefly explain your choice.</p></li>
-<li><p>Make a plot displaying the relationship between the response and predictor variables. Describe the relationship between the two variables.</p></li>
+<li><p>Compare the features of the distribution that are visible on the plot you chose versus a histogram. Which plot do you think is more effective for visualizing the distribution of a quantitative variable? Briefly explain your choice.</p></li>
+<li><p>Make a plot displaying the relationship between the response variable and predictor variable. Describe the relationship between the two variables.</p></li>
 <li><p>From the plot in the previous question, what assumption is potentially violated? Briefly explain your reasoning. *Note: We still need to examine the residuals before making a final determination about the model assumptions; however, we can start to get intuition using during the exploratory data analysis.</p></li>
 </ol>
 </div>
@@ -588,10 +588,10 @@ font-size: 10pt;
 </ol>
 <p><em>Note: To keep the lab manageable, we will not check the remaining assumptions. In practice, however, you should check <u>all</u> assumptions for before using the model for statistical inference.</em></p>
 <ol start="11" style="list-style-type: decimal">
-<li>Regardless of your answer to Exercise 10, we will proceed as if all assumptions are met. The estimated regression variance, <span class="math inline">\(\hat{\sigma}^2\)</span> is used to calculate the the standard error for the slope and intervals for predictions (recall the formulas for standard error in your notes). Fill in the name of your model to find <span class="math inline">\(\hat{\sigma}^2\)</span> using the <code>glance</code> function.</li>
+<li>Regardless of your answer to Exercise 10, we will proceed as if all assumptions are met. The estimated regression variance, <span class="math inline">\(\hat{\sigma}^2\)</span> is used to calculate the standard error for the slope and the predicted values (recall the formulas for standard error in your notes). Fill in the name of your model to find <span class="math inline">\(\hat{\sigma}^2\)</span> using the <code>glance</code> function.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">glance</span>(_____)<span class="op">$</span>sigma</span></code></pre></div>
-<p>Briefly describe what is being measured by <span class="math inline">\(\hat{\sigma}^2\)</span> measures. *Hint: It may help to recall the <a href="https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/03-slr.html#45">visual representation of simple linear regression</a>. What takes the value <span class="math inline">\(\sigma^2\)</span> in the diagram?</p>
+<p>Briefly describe what <span class="math inline">\(\hat{\sigma}^2\)</span> measures. *Hint: It may help to recall the <a href="https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/03-slr.html#45">visual representation of simple linear regression</a>. Use this picture to help describe what is quantified by <span class="math inline">\(\hat{\sigma}^2\)</span>.</p>
 </div>
 <div id="statistical-inference" class="section level2">
 <h2>Statistical Inference</h2>
@@ -604,14 +604,14 @@ font-size: 10pt;
 \end{aligned}\]</span></p>
 <p>State the null and alternative hypotheses using words in the context of the data.</p>
 <ol start="14" style="list-style-type: decimal">
-<li><p>What is the p-value of the hypothesis test from the previous exercise? Use the p-value to state your conclusion from the test in the context of the data.</p></li>
+<li><p>What is the p-value of this hypothesis test? Use the p-value to state your conclusion from the test in the context of the data.</p></li>
 <li><p>Consider the confidence interval from Exercise 12 and the hypotheses in Exercise 13. Is the confidence interval consistent with the null or alternative hypothesis? Briefly explain.</p></li>
 </ol>
 </div>
 <div id="prediction" class="section level2">
 <h2>Prediction</h2>
 <ol start="16" style="list-style-type: decimal">
-<li>You’d like to purchase a piece of pumpkin bread from Starbucks to celebrate fall! According to <a href="https://www.starbucks.com/menu/food/bakery/pumpkin-bread-lb?foodZone=9999">Starbuck’s website</a>, pumpkin bread has 410 calories. Calculate the predicted mean carbohydrates for all pumpkin bread sold by Starbucks. Include the estimate and appropriate interval.</li>
+<li>You’d like to purchase a piece of pumpkin bread from Starbucks to celebrate fall! According to <a href="https://www.starbucks.com/menu/food/bakery/pumpkin-bread-lb?foodZone=9999">the Starbucks menu</a>, pumpkin bread has 410 calories. Predict the average carbohydrates for all pumpkin bread sold by Starbucks. Include the estimate and appropriate interval.</li>
 </ol>
 <p><em>You’re done! Commit all remaining changes, use the commit message “Done with Lab 3!”, and push. Before you wrap up the assignment, make sure the .Rmd and .md documents are all updated on your GitHub repo. There is a 10% penality if the .md file is not updated on GitHub.</em></p>
 </div>

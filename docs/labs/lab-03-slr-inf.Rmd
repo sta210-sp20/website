@@ -99,7 +99,7 @@ When you walk to the counter at Starbucks, you'll notice the large display of it
 
 1. What is the predictor variable? What is the response variable? 
 
-2. Let's begin by examining the distribution of the **<i>predictor variable</i>**. Make a histogram to display the distribution of the response variable. Describe the shape of the distribution. 
+2. Let's begin by examining the distribution of the **<i>predictor variable</i>**. Make a histogram to display the distribution of the predictor variable. Describe the shape of the distribution. 
 
 *Note: Inlcude an informative title and informative labels for the x and y axes. This applies to all plots in the lab.*
 
