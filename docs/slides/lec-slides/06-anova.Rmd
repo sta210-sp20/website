@@ -56,12 +56,10 @@ class: middle, center
 - Lab 03 - **due Tuesday, 9/17 at 11:59p**
 
 - HW 01 - **due Wednesday, 9/18 at 11:59p**
+
+- Reading 02: Multiple Linear Regression - for Wednesday's class
     
-- Use Piazza for questions instead of email
-    - access it through Sakai
-    - feel free to reply if you know the answer to question
-    - let me know if you're not on Piazza
-    
+   
 ---
 
 ### Check in
@@ -75,13 +73,13 @@ class: middle, center
 
 - Analysis of Variance to compare group means
 
-- Multiple comparisons
+- Accounting for multiple comparisons
 
 ---
 
 
 
-### Packages and Data
+### Packages
 
 ```{r packages}
 library(tidyverse)
@@ -93,11 +91,11 @@ library(knitr)
 
 ### Population densities in the Midwest
 
-- Data is in the `midwest` dataset in the ggplot2 package
+- Today's data is from the `midwest` dataset in the ggplot2 package
 
 - The data contains demographic information for all counties in each of the states in the Midwest: 
 Illinois (IL), Indiana (IN), Michigan (MI), Ohio (OH), and Wisconsin (WI)
-    - We will focus on the population density, **`popdensity`**
+    - We will focus on `state` and `popdensity` (population density)
 
 ```{r}
 glimpse(midwest)
@@ -106,6 +104,8 @@ glimpse(midwest)
 ---
 
 ### Exploratory Data Analysis 
+
+- **Question**: Is there a significant difference in the mean county population densities across states in the Midwest?
 
 ```{r echo = F}
 ggplot(data = midwest, aes(x = state, y = popdensity)) +
@@ -118,7 +118,7 @@ ggplot(data = midwest, aes(x = state, y = popdensity)) +
 
 ---
 
-The distributions are very skewed by outliers, so let's look at the log of population density (more on log transformations in a few weeks)
+The distributions are very skewed by outliers, so let's look at the log of population density (more on log transformations next week)
 
 ```{r}
 midwest <- midwest %>% mutate(log_popdensity = log(popdensity))
@@ -151,7 +151,8 @@ ggplot(data = midwest, aes(x = log_popdensity, fill = state)) +
 ```{r}
 midwest %>%
   group_by(state) %>%
-  summarise(mean = mean(log_popdensity), var = var(log_popdensity))
+  summarise(n_counties = n(), mean = mean(log_popdensity), 
+            var = var(log_popdensity))
 ```
 
 ---
@@ -286,7 +287,7 @@ $$\color{green}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}- \bar{y})^2}=\color{blue}{
 
 The ANOVA test statistic follows an $F$ distribution
 
-```{r, echo=F}
+```{r, echo=F, fig.height = 4.2}
 x <- seq(from =0, to = 5, length = 100)
 
 # Evaluate the densities
@@ -368,7 +369,7 @@ $$MSW = \frac{SSW}{DFW} = \frac{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_i)
 ### Population densities in the Midwest
 
 ```{r}
-pop_anova <- aov(log(popdensity) ~ state, data = midwest)
+pop_anova <- aov(log_popdensity ~ state, data = midwest)
 tidy(pop_anova) %>% kable(format = "markdown", digits = 3)
 ```
 
@@ -393,6 +394,10 @@ tidy(pop_anova) %>% kable(format = "markdown", digits = 3)
     - This applies to observation within and between groups
 
 - We can typically check these assumptions in the exploratory data analysis
+
+.question[
+Are the assumptions satisfied in the Midwest analysis?
+]
 
 ---
 
@@ -433,11 +438,13 @@ class: middle, center
 
 - One way to answer this question is to compare the estimated means for each group, accounting for the random variability we'd naturally expect
 
+--
+
 - Since we've assumed the variance is the same for all groups, we can use a pooled standard error with $n-K$ degrees of freedom to calculate the confidence
 
 .alert[
 $$\bar{y}_i \pm t^* \times \frac{s_P}{\sqrt{n_i}}$$
-where $s_P$ is the pooled standard error
+where $s_P$ is the pooled standard deviation
 ]
 
 ---
@@ -449,7 +456,7 @@ where $s_P$ is the pooled standard error
 
 .alert[
 $$(\bar{y}_1-\bar{y}_2) \pm t^* \times s_P\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}$$
-where $s_P$ is the pooled standard error
+where $s_P$ is the pooled standard deviation
 ]
 
 - If we have $K$ groups, we will make ${K \choose 2} = K(K-1)/2$ such comparisons
@@ -497,7 +504,7 @@ where $s_P$ is the pooled standard error
 --
 
 - Calculate each of the $k$ confidence intervals at a $100(1-\frac{\alpha}{\mathcal{C}})$% confidence level
-    - When there are $K$ groups, there are $\mathcal{C}=\frac{K(K-1)}{2}$ pairs of means that can be compared 
+    - When there are $K$ groups, there are $\mathcal{C}=\frac{K(K-1)}{2}$ pairs of means being compared
 --
 
 - **Notes**: 
@@ -519,9 +526,29 @@ where $s_P$ is the pooled standard error
 .small[
 ```{r}
 library(pairwiseCI)
-pairwiseCI(log_popdensity ~ state, data = midwest, method = "Param.diff", conf.level = 0.995, var.equal = TRUE) %>% 
-  kable(format = "markdown")
+pairwiseCI(log_popdensity ~ state, data = midwest, 
+           method = "Param.diff", conf.level = 0.995, var.equal = TRUE)
 ```
 ]
 
+---
+
+### Pairwise CI 
+
+.question[
+State 2 conclusions you can draw from the pairwise comparisons.
+]
+
+```{r echo = F}
+library(pairwiseCI)
+pairwiseCI(log_popdensity ~ state, data = midwest, 
+           method = "Param.diff", conf.level = 0.995, var.equal = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+---
+
+### For next class
+
+- [Reading 02: Multiple Linear Regression](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-02.html)
 

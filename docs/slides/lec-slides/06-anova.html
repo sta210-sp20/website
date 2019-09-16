@@ -31,12 +31,10 @@ class: middle, center
 - Lab 03 - **due Tuesday, 9/17 at 11:59p**
 
 - HW 01 - **due Wednesday, 9/18 at 11:59p**
+
+- Reading 02: Multiple Linear Regression - for Wednesday's class
     
-- Use Piazza for questions instead of email
-    - access it through Sakai
-    - feel free to reply if you know the answer to question
-    - let me know if you're not on Piazza
-    
+   
 ---
 
 ### Check in
@@ -50,13 +48,13 @@ class: middle, center
 
 - Analysis of Variance to compare group means
 
-- Multiple comparisons
+- Accounting for multiple comparisons
 
 ---
 
 
 
-### Packages and Data
+### Packages
 
 
 ```r
@@ -69,11 +67,11 @@ library(knitr)
 
 ### Population densities in the Midwest
 
-- Data is in the `midwest` dataset in the ggplot2 package
+- Today's data is from the `midwest` dataset in the ggplot2 package
 
 - The data contains demographic information for all counties in each of the states in the Midwest: 
 Illinois (IL), Indiana (IN), Michigan (MI), Ohio (OH), and Wisconsin (WI)
-    - We will focus on the population density, **`popdensity`**
+    - We will focus on `state` and `popdensity` (population density)
 
 
 ```r
@@ -117,11 +115,13 @@ glimpse(midwest)
 
 ### Exploratory Data Analysis 
 
+- **Question**: Is there a significant difference in the mean county population densities across states in the Midwest?
+
 &lt;img src="06-anova_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-The distributions are very skewed by outliers, so let's look at the log of population density (more on log transformations in a few weeks)
+The distributions are very skewed by outliers, so let's look at the log of population density (more on log transformations next week)
 
 
 ```r
@@ -152,18 +152,19 @@ ggplot(data = midwest, aes(x = log_popdensity, fill = state)) +
 ```r
 midwest %&gt;%
   group_by(state) %&gt;%
-  summarise(mean = mean(log_popdensity), var = var(log_popdensity))
+  summarise(n_counties = n(), mean = mean(log_popdensity), 
+            var = var(log_popdensity))
 ```
 
 ```
-## # A tibble: 5 x 3
-##   state  mean   var
-##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 IL     6.97 1.07 
-## 2 IN     7.37 0.719
-## 3 MI     7.00 1.70 
-## 4 OH     7.79 0.982
-## 5 WI     6.77 1.38
+## # A tibble: 5 x 4
+##   state n_counties  mean   var
+##   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 IL           102  6.97 1.07 
+## 2 IN            92  7.37 0.719
+## 3 MI            83  7.00 1.70 
+## 4 OH            88  7.79 0.982
+## 5 WI            72  6.77 1.38
 ```
 
 ---
@@ -362,7 +363,7 @@ The ANOVA test statistic follows an `\(F\)` distribution
 
 
 ```r
-pop_anova &lt;- aov(log(popdensity) ~ state, data = midwest)
+pop_anova &lt;- aov(log_popdensity ~ state, data = midwest)
 tidy(pop_anova) %&gt;% kable(format = "markdown", digits = 3)
 ```
 
@@ -394,6 +395,10 @@ tidy(pop_anova) %&gt;% kable(format = "markdown", digits = 3)
     - This applies to observation within and between groups
 
 - We can typically check these assumptions in the exploratory data analysis
+
+.question[
+Are the assumptions satisfied in the Midwest analysis?
+]
 
 ---
 
@@ -434,11 +439,13 @@ class: middle, center
 
 - One way to answer this question is to compare the estimated means for each group, accounting for the random variability we'd naturally expect
 
+--
+
 - Since we've assumed the variance is the same for all groups, we can use a pooled standard error with `\(n-K\)` degrees of freedom to calculate the confidence
 
 .alert[
 `$$\bar{y}_i \pm t^* \times \frac{s_P}{\sqrt{n_i}}$$`
-where `\(s_P\)` is the pooled standard error
+where `\(s_P\)` is the pooled standard deviation
 ]
 
 ---
@@ -450,7 +457,7 @@ where `\(s_P\)` is the pooled standard error
 
 .alert[
 `$$(\bar{y}_1-\bar{y}_2) \pm t^* \times s_P\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}$$`
-where `\(s_P\)` is the pooled standard error
+where `\(s_P\)` is the pooled standard deviation
 ]
 
 - If we have `\(K\)` groups, we will make `\({K \choose 2} = K(K-1)/2\)` such comparisons
@@ -498,7 +505,7 @@ where `\(s_P\)` is the pooled standard error
 --
 
 - Calculate each of the `\(k\)` confidence intervals at a `\(100(1-\frac{\alpha}{\mathcal{C}})\)`% confidence level
-    - When there are `\(K\)` groups, there are `\(\mathcal{C}=\frac{K(K-1)}{2}\)` pairs of means that can be compared 
+    - When there are `\(K\)` groups, there are `\(\mathcal{C}=\frac{K(K-1)}{2}\)` pairs of means being compared
 --
 
 - **Notes**: 
@@ -521,25 +528,59 @@ where `\(s_P\)` is the pooled standard error
 
 ```r
 library(pairwiseCI)
-pairwiseCI(log_popdensity ~ state, data = midwest, method = "Param.diff", conf.level = 0.995, var.equal = TRUE) %&gt;% 
-  kable(format = "markdown")
+pairwiseCI(log_popdensity ~ state, data = midwest, 
+           method = "Param.diff", conf.level = 0.995, var.equal = TRUE)
 ```
 
-
-
-|   estimate|      lower|      upper|comparison |
-|----------:|----------:|----------:|:----------|
-|  0.4089452|  0.0212811|  0.7966093|IN-IL      |
-|  0.0315392| -0.4563571|  0.5194355|MI-IL      |
-|  0.8237068|  0.4049660|  1.2424476|OH-IL      |
-| -0.1959042| -0.6744822|  0.2826737|WI-IL      |
-| -0.3774060| -0.8457153|  0.0909032|MI-IN      |
-|  0.4147616|  0.0245751|  0.8049481|OH-IN      |
-| -0.6048494| -1.0546829| -0.1550160|WI-IN      |
-|  0.7921676|  0.2903355|  1.2939997|OH-MI      |
-| -0.2274434| -0.7987309|  0.3438440|WI-MI      |
-| -1.0196110| -1.5070486| -0.5321735|WI-OH      |
+```
+##   
+## 99.5 %-confidence intervals 
+##  Method:  Difference of means assuming Normal distribution and equal variances 
+##   
+##   
+##       estimate   lower   upper
+## IN-IL   0.4089  0.0213  0.7966
+## MI-IL   0.0315 -0.4564  0.5194
+## OH-IL   0.8237  0.4050  1.2424
+## WI-IL  -0.1959 -0.6745  0.2827
+## MI-IN  -0.3774 -0.8457  0.0909
+## OH-IN   0.4148  0.0246  0.8049
+## WI-IN  -0.6048 -1.0547 -0.1550
+## OH-MI   0.7922  0.2903  1.2940
+## WI-MI  -0.2274 -0.7987  0.3438
+## WI-OH  -1.0196 -1.5070 -0.5322
+##   
+## 
+```
 ]
+
+---
+
+### Pairwise CI 
+
+.question[
+State 2 conclusions you can draw from the pairwise comparisons.
+]
+
+
+| estimate|  lower|  upper|comparison |
+|--------:|------:|------:|:----------|
+|    0.409|  0.021|  0.797|IN-IL      |
+|    0.032| -0.456|  0.519|MI-IL      |
+|    0.824|  0.405|  1.242|OH-IL      |
+|   -0.196| -0.674|  0.283|WI-IL      |
+|   -0.377| -0.846|  0.091|MI-IN      |
+|    0.415|  0.025|  0.805|OH-IN      |
+|   -0.605| -1.055| -0.155|WI-IN      |
+|    0.792|  0.290|  1.294|OH-MI      |
+|   -0.227| -0.799|  0.344|WI-MI      |
+|   -1.020| -1.507| -0.532|WI-OH      |
+
+---
+
+### For next class
+
+- [Reading 02: Multiple Linear Regression](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-02.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
