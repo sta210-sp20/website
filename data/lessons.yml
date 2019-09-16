@@ -45,7 +45,7 @@ lessons:
   - date: "Mon, Sep 16"
     title: "ANOVA"
     reading: "reading-01.html"
-    #slides: "lec-slides/04-slr-inference-pt2.html"
+    slides: "lec-slides/06-anova.html"
     #appex: "02-beer-data.html"
    # #slides: "lec-slides/03a2-tips-for-effective-dataviz.pdf"
   - date: "Wed, Sep 18"
