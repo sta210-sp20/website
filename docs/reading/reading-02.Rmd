@@ -1,5 +1,5 @@
 ---
-title: "Reading 02: Multiple LInear Regression"
+title: "Reading 02: Multiple Linear Regression"
 output: 
   html_document: 
     theme: yeti
