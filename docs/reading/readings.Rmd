@@ -5,19 +5,20 @@ output:
     theme: yeti
 ---
 
-- [Reading 01: Introduction](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-01.html)
+- [Reading 01: Analysis of Variance](reading-01.html)
 
-- [Reading 02: Simple Linear Regression](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-02.html)
+- [Reading 02: Multiple Linear Regression](reading-02.html)
 
-- [Reading 03: Multiple Linear Regression](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-03.html)
+- [Reading 03: Special Predictors](reading-03.html)
 
-- [Reading 04: Special Predictors](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-04.html)
+- [Reading 04: Transformations](reading-04.html)
 
-- [Reading 05: Model Assessment ](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-05.html)
+- [Reading 05: Model Selection](reading-05.html)
 
-- [Reading 06: Model Selection](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-06.html)
+- [Reading 06: Model Diagnostics](reading-06.html)
 
-- [Reading 07: Logistic Regression](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-07.html)
+
+<!-- [Reading 07: Logistic Regression](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-07.html) -->
 
 <!--- [Reading 08: Logistic Regression](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-08.html) -->
 <br>

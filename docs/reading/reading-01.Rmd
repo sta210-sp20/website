@@ -1,5 +1,5 @@
 ---
-title: "Reading 01: Introduction"
+title: "Reading 01: Analysis of Variance"
 output: 
   html_document: 
     theme: yeti

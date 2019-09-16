@@ -1,5 +1,5 @@
 ---
-title: "Reading 05: Model Assessment"
+title: "Reading 05: Model Selection"
 output: 
   html_document: 
     theme: yeti
@@ -9,13 +9,14 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Due Wed, Feb 13
+### Due Mon, September 30
 
 ### Required:
 
-- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
-    - 3.3.3 Potential problems 
-<br>
-<br>
+- [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
+    - Section 2.1: Introduction
+    - Secton 2.2: Concepts and Background Material
+    - Section 2.3: Methodology
+<br><br>
 
-[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
+[All STA 210 Readings](readings.html)

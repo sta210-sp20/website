@@ -1,5 +1,5 @@
 ---
-title: "Reading 03: Multiple Linear Regression"
+title: "Reading 03: Special Predictors"
 output: 
   html_document: 
     theme: yeti
@@ -9,13 +9,12 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Due Mon, Feb 4
+### Due Mon, September 23
 
 ### Required:
 
-- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
-    - 3.2 Multiple Linear Regression
-<br>
-<br>
+- [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
+    - Section 2.4: Indicator Variables and Modeling Interactions
+<br><br>
 
-[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
+[All STA 210 Readings](readings.html)

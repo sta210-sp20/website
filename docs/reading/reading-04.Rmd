@@ -1,5 +1,5 @@
 ---
-title: "Reading 04: Special Predictors"
+title: "Reading 04: Transformations"
 output: 
   html_document: 
     theme: yeti
@@ -9,14 +9,15 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Due Wed, Feb 6
+### Due Wed, September 25
 
 ### Required:
 
-- [An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf):
-    - 3.3.1 Qualitative predictors
-    - 3.3.2 Extensions of the linear model
-<br>
-<br>
+- [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
+    - Section 4.1: Introduction
+    - Section 4.2: Concepts and Background Material -The Log-Log Model
+    - Section 4.3: Concepts and Background Material - Semilog Models
+    - Section 4.4: Example - Predicing Movie Grosses After One Week
+<br><br>
 
-[All STA 210 Readings](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/readings.html)
+[All STA 210 Readings](readings.html)
