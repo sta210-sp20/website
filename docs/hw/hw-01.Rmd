@@ -100,7 +100,7 @@ The *Data Analysis* section of homework contains open-ended data analysis questi
 
 9. Fit a regression model that could be used to predict the number of bike rentals based on the temperature during the **summer season**. Use your model to answer the following: 
     - Describe the relationship between the two variables including discussion about whether the relationship is statistically significant. 
-    - In Washington D.C., the average temperature in the summer (June, July, August) is about 30 degrees Celsius (about 87 degrees Fahrenheit). Use your model to predict (1) the average number of bike rentals for the days in the summer that are 30 degrees Celsius and (2) the number of bike rentals we can expect if it's 30 degrees on a single day in June. 
+    - In Washington D.C., the average temperature in the summer is about 30 degrees Celsius (about 87 degrees Fahrenheit). Use your model to predict (1) the average number of bike rentals for the days in the summer that are 30 degrees Celsius and (2) the number of bike rentals we can expect if it's 30 degrees on a single day in the summer.
     
 *Notes:* 
 *- Be sure to include all relevant code and resulting output.*
