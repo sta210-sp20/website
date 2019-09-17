@@ -464,8 +464,6 @@ where $s_P$ is the pooled standard deviation
 
 ---
 
- 
-
 ### Multiple Comparisons
 
 - When making multiple comparisons, there is a higher chance that a Type I error will occur, e.g. conclude that there is a significant difference between two groups even when there is not
