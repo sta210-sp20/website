@@ -366,7 +366,7 @@ $$SE(\hat{y}) = \hat{\sigma}\sqrt{1 + \frac{1}{n} + \frac{(x-\bar{x})^2}{\sum\li
 
 ### CI for predicted heart weight
 
-- Calculate a 95% confidence interval for Mindy's predicted heart weight. 
+- Calculate a 95% prediction interval for Mindy's predicted heart weight. 
 
 ```{r echo = F}
 bwt_hwt_model <- lm(Hwt ~ Bwt, data = cats)
@@ -381,7 +381,7 @@ predict.lm(bwt_hwt_model, x0, interval = "prediction", #<<
 --
 
 
-- Calculate a 95% prediction interval for the predicted mean heart weight for the subset of cats who weigh 3.18 kg. 
+- Calculate a 95% confidence interval for the predicted mean heart weight for the subset of cats who weigh 3.18 kg. 
 
 ```{r}
 x0 <- data.frame(Bwt = c(3.18))

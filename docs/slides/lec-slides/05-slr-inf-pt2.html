@@ -133,11 +133,11 @@ cats %&gt;% slice(1:10)
 ##  n obs: 144 
 ##  n variables: 3 
 ## 
-## ── Variable type:factor ────────────────────────────────────────────────────────────────
+## ── Variable type:factor ─────────────────────────────────────────────
 ##  variable missing complete   n n_unique          top_counts ordered
 ##       Sex       0      144 144        2 M: 97, F: 47, NA: 0   FALSE
 ## 
-## ── Variable type:numeric ───────────────────────────────────────────────────────────────
+## ── Variable type:numeric ────────────────────────────────────────────
 ##  variable missing complete   n  mean   sd  p0  p25  p50   p75 p100
 ##       Bwt       0      144 144  2.72 0.49 2   2.3   2.7  3.02  3.9
 ##       Hwt       0      144 144 10.63 2.43 6.3 8.95 10.1 12.12 20.5
@@ -338,7 +338,7 @@ class: regular
 
 ### CI for predicted heart weight
 
-- Calculate a 95% confidence interval for Mindy's predicted heart weight. 
+- Calculate a 95% prediction interval for Mindy's predicted heart weight. 
 
 
 
@@ -357,7 +357,7 @@ x0 &lt;- data.frame(Bwt = c(3.18))
 --
 
 
-- Calculate a 95% prediction interval for the predicted mean heart weight for the subset of cats who weigh 3.18 kg. 
+- Calculate a 95% confidence interval for the predicted mean heart weight for the subset of cats who weigh 3.18 kg. 
 
 
 ```r
