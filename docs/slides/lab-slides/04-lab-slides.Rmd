@@ -1,7 +1,8 @@
 ---
-title: "Lab 04: Multiple Linear Regression"
+title: "Lab 04"
+subtitle: "Analysis of Variance"
 author: ""
-date: "02.08.19"
+date: "09.19.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -43,34 +44,49 @@ library(tidyverse)
 library(rvest)
 ```
 
+class: center, middle
 
-## Agenda
-
-1. Lab introduction
-
-2. Getting started 
-
-3. Password caching 
+# Welcome to lab
 
 ---
 
-## Lab introduction 
+### Agenda
 
-.pull-left[
-- <font class="vocab">Goal: </font> Use multiple linear regression to explore the relationship between a response variable and several quantitative and categorical predictors
-<br><br> 
+1. Tips for collaborating 
 
-- <font class="vocab">Data:</font> Selling price and other characteristics of over 20,000 houses in sold in King County, Washington (includes Seattle) in 2014 and 2015
-]
+2. Lab Introduction
 
-.pull-right[
-![](img/04/seattle-home.jpg)
-![](img/04/seattle-home-3.jpg)
-]
+3. Starting a new project & configure git
+
+4. Password caching
+
 
 ---
 
-## Starting a new project
+### Tips for collaborating via GitHub
+
+- Always pull first before you start working.
+
+- Knit, commit, and push often to minimize merge conflicts and/or to make merge conflicts easier to resolve.
+
+- If you find yourself in a situation that is difficult to resolve, ask questions asap, don't let it linger and get bigger.
+
+---
+
+### Lab introduction 
+
+- <font class="vocab">Goal: </font> Use ANOVA to compare group means 
+
+- <font class="vocab">Data:</font> `diamonds` data set in the ggplot2 package  
+
+
+- Learn about attributes of diamonds: 
+    - [https://www.gia.edu/diamond-quality-factor](https://www.gia.edu/diamond-quality-factor)
+
+- Today's lab will focus on color and carat weight
+---
+
+### Starting a new project
 
 - Go to the course GitHub organization and find the **lab-04** repo that has your team name on it.
 
@@ -80,12 +96,9 @@ library(rvest)
 
 - Copy and paste the URL of your assignment repo into the dialog box and click OK. 
 
-- **Update the name of your RStudio project to "Lab 04 - Multiple linear regression"**
-
-
 ---
 
-## Configure Git
+### Configure Git
 
 - Type the following lines of code in the console in RStudio filling in your name and email address.
 
@@ -94,13 +107,17 @@ library(usethis)
 use_git_config(user.name="your name", user.email="your email")
 ```
 
+- **Update the name of your RStudio project to "Lab 04 - ANOVA"**
+
+
 ---
 
-## Caching your password
+### Caching your password
 
 You need to cache your password on a per-project basis: 
 
-- Go to the **Terminal** within a project (the most recent lab?)
+- Go to the **Terminal** within a project 
+
 - Type the following to cache your password for $60 * 60 * 24 * 7 = 604800$ seconds
 
 ```{bash eval=FALSE}
@@ -108,6 +125,4 @@ git config --global credential.helper 'cache --timeout 604800'
 ```
 
 You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
-
-
 
