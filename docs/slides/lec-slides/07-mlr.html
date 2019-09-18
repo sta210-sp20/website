@@ -137,7 +137,8 @@ glimpse(wages)
 
 
 ```r
-pairs(Bsal ~ Senior + Age + Educ + Exper, data=wages)
+pairs(Bsal ~ Senior + Age + Educ + Exper, data=wages, 
+      lower.panel = NULL)
 ```
 
 &lt;img src="07-mlr_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
@@ -571,7 +572,7 @@ The confidence intervals and hypothesis tests are reliable only when the regress
 
 - **Plot the residuals vs. each of the predictors**
     - Can expose issues between the response and a predictor variable that didn't show in the exploratory data analysis
-    - Use boxplots to plot residuals versus categorical predictor variables
+    - Use box plots to plot residuals versus categorical predictor variables
 
 --
 
@@ -585,7 +586,8 @@ The confidence intervals and hypothesis tests are reliable only when the regress
 
 
 ```r
-pairs(Bsal ~ Senior + Age + Educ + Exper, data = wages, lower.panel = NULL)
+pairs(Bsal ~ Senior + Age + Educ + Exper, data = wages, 
+      lower.panel = NULL)
 ```
 
 &lt;img src="07-mlr_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;

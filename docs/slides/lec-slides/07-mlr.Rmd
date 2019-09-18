@@ -137,7 +137,8 @@ kable(tidy(anova),format="markdown",digits=3)
 ### Salary vs. Other Variables
 
 ```{r}
-pairs(Bsal ~ Senior + Age + Educ + Exper, data=wages)
+pairs(Bsal ~ Senior + Age + Educ + Exper, data=wages, 
+      lower.panel = NULL)
 ```
 
 ---
@@ -390,7 +391,8 @@ The confidence intervals and hypothesis tests are reliable only when the regress
 ### Scatterplots
 
 ```{r}
-pairs(Bsal ~ Senior + Age + Educ + Exper, data = wages, lower.panel = NULL)
+pairs(Bsal ~ Senior + Age + Educ + Exper, data = wages, 
+      lower.panel = NULL)
 ```
 
 - Only include a few variables in a single pairs plot; otherwise, the scatterplots are too small to be readable.
