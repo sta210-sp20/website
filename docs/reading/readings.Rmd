@@ -18,10 +18,4 @@ output:
 - [Reading 06: Model Diagnostics](reading-06.html)
 
 
-<!-- [Reading 07: Logistic Regression](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-07.html) -->
-
-<!--- [Reading 08: Logistic Regression](https://www2.stat.duke.edu/courses/Spring19/sta210.001/reading/reading-08.html) -->
-<br>
-<br>
-
 *This list will be udpated as the semester progresses*
