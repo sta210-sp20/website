@@ -63,6 +63,8 @@ lessons:
   - date: "Mon, Sep 23"
     title: "MLR: Special Predictors"
     reading: "reading-03.html"
+    slides: "lec-slides/08-mlr-special-predictors.html"
+    appex: "08-wages.html"
     #slides: "lec-slides/06-mlr.html"
   - date: "Wed, Sep 25"
     title: "MLR: Transformations"
