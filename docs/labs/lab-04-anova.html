@@ -459,7 +459,7 @@ font-size: 10pt;
 
 
 <h1 class="title toc-ignore">Lab 04: Comparing group means using ANOVA</h1>
-<h3 class="subtitle">Total:</h3>
+<h3 class="subtitle">Total: 70 points</h3>
 <h4 class="date">due Tuesday, September 24 at 11:59p</h4>
 
 
@@ -477,7 +477,7 @@ font-size: 10pt;
 <li><p>Configure git by typing the following in the <strong>console</strong>.</p></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(usethis)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">use_git_config</span>(<span class="dt">user.name=</span><span class="st">&quot;your name&quot;</span>, <span class="dt">user.email=</span><span class="st">&quot;your email&quot;</span>)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">use_git_config</span>(<span class="dt">user.name=</span><span class="st">&quot;github username&quot;</span>, <span class="dt">user.email=</span><span class="st">&quot;your email&quot;</span>)</span></code></pre></div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
 <p>We will use the following packages in today’s lab.</p>
@@ -513,19 +513,11 @@ font-size: 10pt;
 <li>Create a dataframe called <code>diamonds_low</code> that is the subset of diamonds priced $1200 or less. How many observations are in <code>diamonds_low</code>?</li>
 </ol>
 <p>When using Analysis of Variance (ANOVA) to compare group means, it is ideal to have approximately the same number of observations in each group. Therefore, we will combine the worst two color groups, I and J, and create a new color category called “I/J”. Since <code>color</code> is an ordinal (<code>&lt;ord&gt;</code>) variable, we need to use the <code>recode_factor</code> function in the dplyr package to create the new category.</p>
-<p>Use the <code>count</code> function before and after making the new color category to ensure the recoding worked as expected.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># number of observations at each color level </span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>diamonds_low <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">count</span>(color)</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#create a new vector of the recoded values</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>color_recoded &lt;-<span class="st">  </span><span class="kw">recode_factor</span>(diamonds_low<span class="op">$</span>color,</span>
-<span id="cb4-3"><a href="#cb4-3"></a>                                <span class="st">`</span><span class="dt">I</span><span class="st">`</span> =<span class="st"> &quot;I/J&quot;</span>, <span class="st">`</span><span class="dt">J</span><span class="st">`</span> =<span class="st"> &quot;I/J&quot;</span>,</span>
-<span id="cb4-4"><a href="#cb4-4"></a>                                <span class="dt">.default =</span> <span class="kw">levels</span>(diamonds_low<span class="op">$</span>color))</span>
-<span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#replace the color variable with the recoded data</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>diamonds_low &lt;-<span class="st"> </span>diamonds_low <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">color =</span> color_recoded)</span></code></pre></div>
-<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">Refer to the <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">ggplot2 Cheat Sheet</a> and <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot2 reference</a> for plot ideas and help with code.</span></span></p>
+<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">Refer to the <a href="https://dplyr.tidyverse.org/reference/recode.html">dplyr Reference page</a> for more information about the <code>recode_factor</code> function.</span></span></p>
+<p>Fill in the code below to refactor <code>color</code> with the new combined category.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#create a new vector of the recoded values</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>diamonds_low &lt;-<span class="st"> </span>diamonds_low <span class="op">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">color =</span> <span class="kw">recode_factor</span>(diamonds_low<span class="op">$</span>color, <span class="st">&quot;I&quot;</span> =<span class="st"> &quot;I/J&quot;</span>, _____))</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>We begin by plotting the relationship between <code>color</code> and <code>carat</code>. As a group, brainstorm ways to plot the relationship between the two variables, then make one of the plots. Be sure to include informative axes labels and an informative title.</p></li>
 <li><p>For each level of <code>color</code>, calculate the the number of observations at that level, the mean value of <code>carat</code> and and the variance of <code>carat</code>.</p></li>
@@ -538,10 +530,10 @@ font-size: 10pt;
 <li><strong>Constant Variance</strong>: The distribution of the response within each category of predictor, <span class="math inline">\(x\)</span> has a common variance, <span class="math inline">\(\sigma^2\)</span>.</li>
 </ul>
 <p>Are the assumptions for ANOVA met? Comment on each assumption using the summary statistics and/or plots from previous exercises to support your conclusion. You may also calculate any additional summary statistics or make additional plots as needed.</p>
-<p><em>Regardless of your answer to Excerise 4, We will proceed with the analysis in the remainder of this lab as if the assumptions are met.</em></p>
+<p><em>Regardless of your answer to Exercise 5, we will proceed with the remaining o f lab as if the assumptions are met.</em></p>
 <ol start="6" style="list-style-type: decimal">
 <li><p>Use R to calculate and display the ANOVA table that can be used to assess if there is a statistically significant relationship the color and carat of diamonds.</p></li>
-<li><p>Use the ANOVA table to calculate the total mean square, i.e. the sample variance of <code>carat</code>. Show your calculations. You can put the calculations in a code chunk to use R like a calculator.</p></li>
+<li><p>Use the ANOVA table to calculate the “mean square total”, i.e. the sample variance of <code>carat</code>. Show your calculations. You can put the calculations in a code chunk to use R like a calculator.</p></li>
 <li><p>What is <span class="math inline">\(\hat{\sigma}^2\)</span>, the estimated variance of <code>carat</code> within each level of <code>color</code>.</p></li>
 <li><p>We can use ANOVA to test if the true mean value of <code>carat</code> is equal for all levels of <code>color</code>, i.e. </p></li>
 </ol>
@@ -549,27 +541,28 @@ font-size: 10pt;
 <p>State the alternative hypothesis is the context of the data. You may use “mu” to represent <span class="math inline">\(\mu\)</span>.</p>
 <ol start="10" style="list-style-type: decimal">
 <li><p>Based on the ANOVA table, what is your conclusion from the test of the hypotheses in the previous question? State the conclusion in the context of the data.</p></li>
-<li><p>Use the code below to plot a 95% confidence interval for the mean carat weight at each level of color. Calculate the value of <code>sigma</code> by filling in the estimated variance from Exercise 7.</p></li>
+<li><p>Let’s examine the data further by calculating confidence intervals to estimate the mean value of carat for each level of color. Below is code to calculate the individual confidence intervals and plot them for easy comparison. Fill in the values for <span class="math inline">\(\hat{\sigma}\)</span> and the probability needed to calculate the critical value <span class="math inline">\(t^*\)</span>. We would like a 95% familywise confidence level.</p></li>
 </ol>
-<p>The formula for the confidence interval for the mean of group <span class="math inline">\(k\)</span> is</p>
+<p><em>Recall: The probability in the <code>qt()</code> function should be the <u>cumulative</u> probability. For example, to find the critical value for a 90% confidence interval, we should input 0.95 for the probability.</em></p>
+<p>The formula for the confidence interval for the mean of group <span class="math inline">\(i\)</span> is</p>
 <p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">The critical value <span class="math inline"><span class="math inline">\(t^*\)</span></span> is calculated using the <em>t</em> distribution with <span class="math inline"><span class="math inline">\(n-K\)</span></span> degrees of freedom.</span></span></p>
-<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">The standard error of the mean is calculated using <span class="math inline"><span class="math inline">\(\hat{\sigma}\)</span></span>, the square root of the variance within each group calculated from the ANOVA table.</span></span></p>
-<p><span class="math display">\[\bar{y}_k \pm t^* \frac{\hat{\sigma}}{\sqrt{n_k}}\]</span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>n.groups &lt;-<span class="st"> </span>diamonds_low <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(color) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()</span>
-<span id="cb5-2"><a href="#cb5-2"></a>crit.val &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.975</span>, (<span class="kw">nrow</span>(diamonds_low)<span class="op">-</span>n.groups<span class="op">$</span>n))</span>
-<span id="cb5-3"><a href="#cb5-3"></a>sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(_________)</span>
-<span id="cb5-4"><a href="#cb5-4"></a></span>
-<span id="cb5-5"><a href="#cb5-5"></a>conf.intervals &lt;-<span class="st"> </span>diamonds_low <span class="op">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">group_by</span>(color) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_carat =</span> <span class="kw">mean</span>(carat), <span class="dt">n =</span> <span class="kw">n</span>(), </span>
-<span id="cb5-8"><a href="#cb5-8"></a>            <span class="dt">lower =</span> mean_carat <span class="op">-</span><span class="st"> </span>crit.val <span class="op">*</span><span class="st"> </span>sigma<span class="op">/</span><span class="kw">sqrt</span>(n),</span>
-<span id="cb5-9"><a href="#cb5-9"></a>            <span class="dt">upper =</span> mean_carat <span class="op">+</span><span class="st"> </span>crit.val <span class="op">*</span><span class="st"> </span>sigma<span class="op">/</span><span class="kw">sqrt</span>(n))</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>conf.intervals,<span class="kw">aes</span>(<span class="dt">x=</span>color,<span class="dt">y=</span>mean_carat)) <span class="op">+</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> lower, <span class="dt">ymax =</span> upper), <span class="dt">width =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;95% confidence interval for the mean value of carat&quot;</span>,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>       <span class="dt">subtitle=</span><span class="st">&quot;by Color&quot;</span>) <span class="op">+</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
+<p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">The standard error of the mean is calculated using <span class="math inline"><span class="math inline">\(\hat{\sigma}\)</span></span>, the square root of the variance within each group calculated from the ANOVA table. This is the pooled standard deviation.</span></span></p>
+<p><span class="math display">\[\bar{y}_i \pm t^* \frac{\hat{\sigma}}{\sqrt{n_i}}\]</span></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>n.groups &lt;-<span class="st"> </span>diamonds_low <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(color) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()</span>
+<span id="cb4-2"><a href="#cb4-2"></a>crit.val &lt;-<span class="st"> </span><span class="kw">qt</span>(_______, (<span class="kw">nrow</span>(diamonds_low)<span class="op">-</span>n.groups<span class="op">$</span>n))</span>
+<span id="cb4-3"><a href="#cb4-3"></a>sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(_____)</span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a>conf.intervals &lt;-<span class="st"> </span>diamonds_low <span class="op">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="st">  </span><span class="kw">group_by</span>(color) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_carat =</span> <span class="kw">mean</span>(carat), <span class="dt">n =</span> <span class="kw">n</span>(), </span>
+<span id="cb4-8"><a href="#cb4-8"></a>            <span class="dt">lower =</span> mean_carat <span class="op">-</span><span class="st"> </span>crit.val <span class="op">*</span><span class="st"> </span>sigma<span class="op">/</span><span class="kw">sqrt</span>(n),</span>
+<span id="cb4-9"><a href="#cb4-9"></a>            <span class="dt">upper =</span> mean_carat <span class="op">+</span><span class="st"> </span>crit.val <span class="op">*</span><span class="st"> </span>sigma<span class="op">/</span><span class="kw">sqrt</span>(n))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>conf.intervals,<span class="kw">aes</span>(<span class="dt">x=</span>color,<span class="dt">y=</span>mean_carat)) <span class="op">+</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> lower, <span class="dt">ymax =</span> upper), <span class="dt">width =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">&quot;99% confidence interval for the mean value of carat&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>       <span class="dt">subtitle=</span><span class="st">&quot;by color&quot;</span>) <span class="op">+</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
 <ol start="12" style="list-style-type: decimal">
 <li>Based on this analysis, describe the relationship between the color and the mean carat weight in diamonds that cost $1200 or less. <em>Refer to the diamond documentation to recall what the color scale means.</em></li>
 </ol>
