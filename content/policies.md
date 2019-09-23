@@ -3,7 +3,7 @@ title: "Policies"
 markup: "mmark"
 ---
 
-<a href = "policies_pdf.pdf"><i class="material-icons">dashboard</i></a> Click the icon to download a PDF copy of the course policies. 
+<a href = "policies.pdf"><i class="material-icons">dashboard</i></a> Click the icon to download a PDF copy of the course policies. 
 
 ### Course Learning Objectives
 
@@ -141,7 +141,9 @@ By enrolling in this course, you have agreed to abide by and uphold the provisio
 
 ### Regrade Requests
 
-Requests for a regrade must be made within three days of when the assignment is returned. The request should be submitted through the [online form](https://forms.office.com/Pages/ResponsePage.aspx?id=TsVyyzFKnk2xSh6jbfrJTBw0r2_bKCVMs9lST1_-2sxUMjFPWEpGTzlaMTcwRlhGSU02RUJSSlY0RC4u). Regrade requests will be honored if there is an error in the grade calculation or a correct answer was mistakenly marked as incorrect. No grades will be changed after the final project presentations.
+Regrade requests should be submitted through the regrade request from on Gradescope. **Requests for a regrade must be made within a week of when the assignment is returned.** Due to the time consuming nature of regrades, requests submitted later will not be regraded. Requests will be honored if there is an error in the grade calculation or a correct answer was mistakenly marked as incorrect. Please note that by submitting a regrade request, your entire assignment may be regraded and you may potentially lose points. Therefore, you should attend office hours to ask a member of the teaching team about your grading feedback before submitting a regrade request.  
+
+No grades will be changed after the final project presentations.
 
 *Note: Grades can only be changed by the Professor Tackett. Teaching Assistants cannot change grades on returned assignments.*
 <br> 
