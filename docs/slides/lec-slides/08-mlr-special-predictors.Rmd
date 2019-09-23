@@ -40,7 +40,7 @@ class: middle, center
 - HW 02 **due Wednesday, 9/25 at 11:59p**
 
 - Team Feedback #1 **due Wednesday, 9/25 at 11:59p**
-    - This team feedback will be ungraded. 
+    - Please provide honest and constructive feedback. This team feedback will be graded for completion.
 
 ---
 
