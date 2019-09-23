@@ -202,7 +202,7 @@ class: middle, center
 ]
 ---
 
-## Estimating `\(\sigma^2\)`
+### Estimating `\(\sigma^2\)`
 
 - For a given observation `\((x_{i1}, x_{i2}, \ldots,x_{ip}, y_i)\)` the residual is 
 
@@ -220,7 +220,7 @@ class: middle, center
 
 ---
 
-# Estimating Coefficients 
+### Estimating Coefficients 
 
 - One way to estimate the coefficients is by taking partial derivatives of the formula
 
@@ -453,7 +453,9 @@ wages &lt;- wages %&gt;%
 
 
 .question[
-Calculate the regression model using the mean-centered variables. How did the model change?
+**Application Exercise**: Fit the regression model using the mean-centered variables. 
+- How did the model stay the same? 
+- How did the model change?
 ]
 
 ---
@@ -572,28 +574,28 @@ Which variables (if any) appear to have a quadratic relationship with `Bsal`?
 &lt;/table&gt;
 
 .question[
-- What is the intercept of the model for males? 
+- Write the model equation used to predict the starting salary for males.
 
-- What is the intercept of the model for females?
+- Write the model equation used to predict the starting salary for males.
 ]
 
 ---
 
 ### Indicator variables when `\(k &gt; 2\)`
 
-Build a regression model with Education treated as a categorical variable. 
+**Application Exercise**: Fit a regression model with Education treated as a categorical variable. 
 
 .question[
 - What is the baseline for Education?
 
 - Interpret the coefficient for `EducCat16`.
 
-- What is your conclusion from the p-value of `EducCat12`?
+- What is your conclusion from the p-value of `EducCat16`?
 
-- What is your conclusion from the p-value of `EducCat15`?
+- Write the model equation for those with 8 years of education. 
+
+- Write the model equation for those with 16 years of education. 
 ]
- 
- 
 ---
 
 ### Interaction Terms
