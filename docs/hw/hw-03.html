@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="due Wednesday, October 2 at 11:59p" />
+<meta name="author" content="due Wed, October 2 at 11:59p" />
 
 
 <title>HW 03: Multiple Linear Regression</title>
@@ -1668,7 +1668,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">HW 03: Multiple Linear Regression</h1>
 <h3 class="subtitle">Total: 70 points</h3>
-<h4 class="author">due Wednesday, October 2 at 11:59p</h4>
+<h4 class="author">due Wed, October 2 at 11:59p</h4>
 
 </div>
 
@@ -1708,7 +1708,7 @@ library(knitr) </code></pre>
 <li><code>speed</code>: average speed of the winner (in feet per second)</li>
 </ul>
 <p>Below is a regression model using <code>year</code>, <code>condition</code>, and <code>starters</code>, and <code>year * condition</code> to explain variation in <code>speed</code>. The model is shown in mathetmatical notation as well as in the output from R. Use the model to answer Questions 1 - 7.</p>
-<p><span class="math display">\[\hat{\text{speed}} = \beta_0 + \beta_1 \text{year} + \beta_2 \text{starters} + \beta_3 \text{good} + \beta_4 \text{slow} + \beta_5 (\text{year} \times \text{good}) + \beta_6 (\text{year} \times \text{slow})\]</span></p>
+<p><span class="math display">\[\hat{\text{speed}} = \hat{\beta}_0 + \hat{\beta}_1 \text{year} + \hat{\beta}_2 \text{starters} + \hat{\beta}_3 \text{good} + \hat{\beta}_4 \text{slow} + \hat{\beta}_5 (\text{year} \times \text{good}) + \hat{\beta}_6 (\text{year} \times \text{slow})\]</span></p>
 <table>
 <thead>
 <tr class="header">
@@ -1722,67 +1722,74 @@ library(knitr) </code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">52.3865418</td>
-<td align="right">0.1996821</td>
-<td align="right">262.349680</td>
-<td align="right">0.0000000</td>
+<td align="right">52.387</td>
+<td align="right">0.200</td>
+<td align="right">262.350</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left">year</td>
-<td align="right">0.0195533</td>
-<td align="right">0.0025811</td>
-<td align="right">7.575536</td>
-<td align="right">0.0000000</td>
+<td align="right">0.020</td>
+<td align="right">0.003</td>
+<td align="right">7.576</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left">starters</td>
-<td align="right">-0.0030462</td>
-<td align="right">0.0161077</td>
-<td align="right">-0.189113</td>
-<td align="right">0.8503376</td>
+<td align="right">-0.003</td>
+<td align="right">0.016</td>
+<td align="right">-0.189</td>
+<td align="right">0.850</td>
 </tr>
 <tr class="even">
 <td align="left">conditiongood</td>
-<td align="right">-1.0695406</td>
-<td align="right">0.4233001</td>
-<td align="right">-2.526672</td>
-<td align="right">0.0128741</td>
+<td align="right">-1.070</td>
+<td align="right">0.423</td>
+<td align="right">-2.527</td>
+<td align="right">0.013</td>
 </tr>
 <tr class="odd">
 <td align="left">conditionslow</td>
-<td align="right">-2.1827826</td>
-<td align="right">0.2695654</td>
-<td align="right">-8.097414</td>
-<td align="right">0.0000000</td>
+<td align="right">-2.183</td>
+<td align="right">0.270</td>
+<td align="right">-8.097</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left">year:conditiongood</td>
-<td align="right">0.0121714</td>
-<td align="right">0.0076171</td>
-<td align="right">1.597909</td>
-<td align="right">0.1128074</td>
+<td align="right">0.012</td>
+<td align="right">0.008</td>
+<td align="right">1.598</td>
+<td align="right">0.113</td>
 </tr>
 <tr class="odd">
 <td align="left">year:conditionslow</td>
-<td align="right">0.0119453</td>
-<td align="right">0.0041678</td>
-<td align="right">2.866092</td>
-<td align="right">0.0049431</td>
+<td align="right">0.012</td>
+<td align="right">0.004</td>
+<td align="right">2.866</td>
+<td align="right">0.005</td>
 </tr>
 </tbody>
 </table>
 <ol style="list-style-type: decimal">
-<li><p>Write the model describing the relationship between <code>speed</code>, <code>year</code>, <code>starters</code> and <code>condition</code> for fast track conditions.</p></li>
-<li><p>Write the model describing the relationship between <code>speed</code>, <code>year</code>, <code>starters</code> and <code>condition</code> for slow track conditions.</p></li>
+<li><p>Write the equation of the model that can used to estimate <code>speed</code> for fast track conditions. Write the equation using the estimated coefficients from R and the variable names.</p></li>
+<li><p>Write the equation of the model that can used to estimate <code>speed</code> for slow track conditions. Write the equation using the estimated coefficients from R and the variable names.</p></li>
 <li><p>What subset is described by the intercept? In other words, 52.387 feet per second is the average speed for the winner in what race(s)? Is the intercept meaningful? Explain.</p></li>
-<li><p>What is the p-value for the test that the mean winning speed is the same for fast track conditions and good track conditions, given <em>year</em> and <em>starters</em> both equal 0?</p></li>
-<li><p>What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions (holding year and starters constant)?</p></li>
-<li><p>What is the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions?</p></li>
-<li><p>Let’s conduct the nested F test to test whether the slope of year is the same for all three condition types. In other words, we wish to test the hypotheses</p></li>
+<li><p>Suppose we want to test if the mean winning speed is the same for fast track and good track conditions when the number of starters is held constant and <code>year = 0</code>. What is the p-value assoicated with the test?</p></li>
+<li><p>Interpret the coefficient of <code>conditionslow</code>. Assume <code>year = 0</code>.</p></li>
+<li><p>What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions, holding year and starters constant)?</p></li>
+<li><p>Use the information from the table to calculate the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions. <em>Hint: You can caluclate t* using the <code>qt()</code> function.</em></p></li>
 </ol>
-<p><span class="math display">\[ \begin{aligned} &amp;H_0: \beta_5 = \beta_6 = 0 \\
-&amp;H_a: \text{ at least one }\beta_j \text{ is not 0}\end{aligned}\]</span></p>
-<p>The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F test statistic and p-value for this test. What is your conclusion?</p>
+<!--
+
+7. Let's conduct the nested F test to test whether the slope of year is the same for all three condition types. In other words, we wish to test the hypotheses
+
+$$ \begin{aligned} &H_0: \beta_5 = \beta_6 = 0 \\
+&H_a: \text{ at least one }\beta_j \text{ is not 0}\end{aligned}$$
+
+The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F test statistic and p-value for this test. What is your conclusion? 
+
+-->
 </div>
 <div id="part-2-data-analysis" class="section level2">
 <h2>Part 2: Data Analysis</h2>

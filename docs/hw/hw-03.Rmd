@@ -1,7 +1,7 @@
 ---
 title: "HW 03: Multiple Linear Regression"
 subtitle: "Total: 70 points "
-author: "due Wednesday, October 2 at 11:59p"
+author: "due Wed, October 2 at 11:59p"
 date: ""
 output: 
   html_document:
@@ -60,24 +60,29 @@ For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017.
 Below is a regression model using `year`, `condition`, and `starters`, and `year * condition` to explain variation in `speed`. The model is shown in mathetmatical notation as well as in the output from R. Use the model to answer Questions 1 - 7. 
 
 
-$$\hat{\text{speed}} = \beta_0 + \beta_1 \text{year} + \beta_2 \text{starters} + \beta_3 \text{good} + \beta_4 \text{slow} + \beta_5 (\text{year} \times \text{good}) + \beta_6 (\text{year} \times \text{slow})$$  
+$$\hat{\text{speed}} = \hat{\beta}_0 + \hat{\beta}_1 \text{year} + \hat{\beta}_2 \text{starters} + \hat{\beta}_3 \text{good} + \hat{\beta}_4 \text{slow} + \hat{\beta}_5 (\text{year} \times \text{good}) + \hat{\beta}_6 (\text{year} \times \text{slow})$$  
 
 ```{r echo=F}
 model <- lm(speed ~ year + starters + condition + year*condition, data=derby)
-kable(tidy(model),format="markdown")
+kable(tidy(model),format="markdown", digits = 3)
 ```
 
-1. Write the model describing the relationship between `speed`, `year`, `starters` and `condition` for fast track conditions. 
+1. Write the equation of the model that can used to estimate  `speed` for fast track conditions. Write the equation using the estimated coefficients from R and the variable names. 
 
-2. Write the model describing the relationship between `speed`, `year`, `starters` and `condition` for slow track conditions. 
+2.  Write the equation of the model that can used to estimate  `speed` for slow track conditions. Write the equation using the estimated coefficients from R and the variable names. 
 
 3. What subset is described by the intercept? In other words, 52.387 feet per second is the average speed for the winner in what race(s)? Is the intercept meaningful? Explain.
 
-4. What is the p-value for the test that the mean winning speed is the same for fast track conditions and good track conditions, given *year* and *starters* both equal 0? 
+4. Suppose we want to test if the mean winning speed is the same for fast track and good track conditions when the number of starters is held constant and  `year = 0`. What is the p-value assoicated with the test? 
 
-5. What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions (holding year and starters constant)? 
+5. Interpret the coefficient of `conditionslow`. Assume `year = 0`. 
 
-6. What is the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions?
+6. What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions, holding year and starters constant)? 
+
+6. Use the information from the table to calculate the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions. *Hint: You can caluclate t\* using the `qt()` function.*
+
+
+<!--
 
 7. Let's conduct the nested F test to test whether the slope of year is the same for all three condition types. In other words, we wish to test the hypotheses
 
@@ -86,6 +91,7 @@ $$ \begin{aligned} &H_0: \beta_5 = \beta_6 = 0 \\
 
 The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F test statistic and p-value for this test. What is your conclusion? 
 
+-->
 
 ## Part 2: Data Analysis
 
