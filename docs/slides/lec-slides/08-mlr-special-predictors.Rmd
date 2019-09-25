@@ -41,7 +41,7 @@ class: middle, center
 
 - Team Feedback #1 **due Wednesday, 9/25 at 11:59p**
     - Please provide honest and constructive feedback. This team feedback will be graded for completion.
-
+    
 ---
 
 ### Today's agenda 
@@ -438,7 +438,7 @@ kable(tidy(bsal_modelCent,conf.int=TRUE),format="html",digits=3)
 .question[
 - Write the model equation used to predict the starting salary for males.
 
-- Write the model equation used to predict the starting salary for males.
+- Write the model equation used to predict the starting salary for females.
 ]
 
 ---
