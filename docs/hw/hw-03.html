@@ -1707,7 +1707,7 @@ library(knitr) </code></pre>
 <li><code>starters</code>: number of horses who raced</li>
 <li><code>speed</code>: average speed of the winner (in feet per second)</li>
 </ul>
-<p>Below is a regression model using <code>year</code>, <code>condition</code>, and <code>starters</code>, and <code>year * condition</code> to explain variation in <code>speed</code>. The model is shown in mathetmatical notation as well as in the output from R. Use the model to answer Questions 1 - 7.</p>
+<p>Below is a regression model using <code>year</code>, <code>condition</code>, and <code>starters</code>, and <code>year * condition</code> to explain variation in <code>speed</code>. The model is shown in mathematical notation as well as in the output from R. Use the model to answer Questions 1 - 7.</p>
 <p><span class="math display">\[\hat{\text{speed}} = \hat{\beta}_0 + \hat{\beta}_1 \text{year} + \hat{\beta}_2 \text{starters} + \hat{\beta}_3 \text{good} + \hat{\beta}_4 \text{slow} + \hat{\beta}_5 (\text{year} \times \text{good}) + \hat{\beta}_6 (\text{year} \times \text{slow})\]</span></p>
 <table>
 <thead>
@@ -1775,10 +1775,10 @@ library(knitr) </code></pre>
 <li><p>Write the equation of the model that can used to estimate <code>speed</code> for fast track conditions. Write the equation using the estimated coefficients from R and the variable names.</p></li>
 <li><p>Write the equation of the model that can used to estimate <code>speed</code> for slow track conditions. Write the equation using the estimated coefficients from R and the variable names.</p></li>
 <li><p>What subset is described by the intercept? In other words, 52.387 feet per second is the average speed for the winner in what race(s)? Is the intercept meaningful? Explain.</p></li>
-<li><p>Suppose we want to test if the mean winning speed is the same for fast track and good track conditions when the number of starters is held constant and <code>year = 0</code>. What is the p-value assoicated with the test?</p></li>
-<li><p>Interpret the coefficient of <code>conditionslow</code>. Assume <code>year = 0</code>.</p></li>
-<li><p>What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions, holding year and starters constant)?</p></li>
-<li><p>Use the information from the table to calculate the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions. <em>Hint: You can caluclate t* using the <code>qt()</code> function.</em></p></li>
+<li><p>Suppose we want to test if the mean winning speed is the same for fast track and good track conditions when the number of starters is held constant and <code>year = 0</code>. What is the p-value associated with the test?</p></li>
+<li><p>Interpret the coefficient of <code>conditionslow</code> in the context of the data. Assume <code>year = 0</code>.</p></li>
+<li><p>What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions, holding year and starters constant?</p></li>
+<li><p>Use the information from the table to calculate the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions. <em>Hint: You can calculate t* using the <code>qt()</code> function.</em></p></li>
 </ol>
 <!--
 
