@@ -23,7 +23,7 @@ class: center, middle, inverse, title-slide
 
 class: middle, center
 
-### [Click for PDF of slides](08-mlr-special-predictors.pdf)
+### [Click for PDF of slides](09-transformations.pdf)
 
 ---
 
@@ -43,6 +43,8 @@ class: middle, center
 
 ### Today's Agenda
 
+- Categorical Predictors with `\(K &gt; 2\)` categories 
+
 - Interactions 
 
 - Log Transformations 
@@ -60,6 +62,74 @@ library(broom)
 library(cowplot) # use plot_grid function
 library(Sleuth3) 
 ```
+---
+
+class: middle, center
+
+## Categorical Predictors 
+
+---
+
+### Starting wages data
+
+**Explanatory**
+- &lt;font class="vocab"&gt;`Educ`: &lt;/font&gt;years of Education
+- &lt;font class="vocab"&gt;`Exper`: &lt;/font&gt;months of previous work Experience (before hire at bank)
+- &lt;font class="vocab"&gt;`Female`: &lt;/font&gt;1 if female, 0 if male
+- &lt;font class="vocab"&gt;`Senior`: &lt;/font&gt;months worked at bank since hire
+- &lt;font class="vocab"&gt;`Age`: &lt;/font&gt;Age in months
+
+**Response**
+- &lt;font class="vocab"&gt;`Bsal`: &lt;/font&gt;annual salary at time of hire
+
+---
+
+### Starting wages: Education categorical 
+
+
+
+
+
+
+|term        | estimate| std.error| statistic| p.value|
+|:-----------|--------:|---------:|---------:|-------:|
+|(Intercept) | 5637.224|   183.730|    30.682|   0.000|
+|SeniorCent  |  -21.710|     5.320|    -4.081|   0.000|
+|AgeCent     |    0.645|     0.735|     0.877|   0.383|
+|ExperCent   |    0.339|     1.069|     0.317|   0.752|
+|EducCat10   | -665.340|   535.844|    -1.242|   0.218|
+|EducCat12   |  182.567|   169.589|     1.077|   0.285|
+|EducCat15   |  540.858|   187.389|     2.886|   0.005|
+|EducCat16   |  766.746|   298.375|     2.570|   0.012|
+|Female1     | -756.105|   129.586|    -5.835|   0.000|
+
+---
+### EducCat Behind the scenes
+
+- The categorical variable `EducCat` has 5 levels, so there are 4 indicator variables for Education in the model. 
+
+- For a given observation, a value is assigned for each of thr 4 indicator variables based on the following scheme: 
+
+&lt;table style="border-collapse:collapse;border-spacing:0" class="tg"&gt;&lt;tr&gt;&lt;th style="font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top"&gt;&lt;/th&gt;&lt;th style="font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top" colspan="4"&gt;&lt;span style="font-weight:bold"&gt;Indicator Variables &lt;/span&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:left;vertical-align:top"&gt;Observations&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top"&gt;EducCat10&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top"&gt;EducCat12&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top"&gt;EducCat15&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top"&gt;EducCat16&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top"&gt;Education = 8 (baseline)&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top"&gt;Education = 10&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;1&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top"&gt;Education = 12&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;1&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top"&gt;Education = 15&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;1&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top"&gt;Education = 16&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;0&lt;/td&gt;&lt;td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top"&gt;1&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+---
+
+### Application Exercise
+
+- Go to the **Wages** application exercise in RStudio Cloud. 
+- Fit a regression model with Education treated as a categorical variable. 
+
+.question[
+- What is the baseline for Education?
+
+- Interpret the coefficient for `EducCat16`.
+
+- What is your conclusion from the p-value of `EducCat16`?
+
+- Write the model equation for those with 8 years of education. 
+
+- Write the model equation for those with 16 years of education. 
+]
 
 ---
 
@@ -69,6 +139,52 @@ class: middle, center
 ## Interactions 
 
 ---
+
+### Checking for interactions
+
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+.question[
+Do you think there is a significant interaction effect between `Female` and `Senior`? Why or why not?
+]
+
+---
+
+### Checking for interactions
+
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+.question[
+Do you think there is a significant interaction effect between `Female` and `Exper`? Why or why not?
+]
+---
+
+### Model with interactions 
+
+
+```r
+int_model &lt;- lm(Bsal ~SeniorCent + AgeCent + ExperCent + EducCat + Female + ExperCent*Female, data = wages )
+kable(tidy(int_model), format = "markdown", digits = 3)
+```
+
+
+
+|term              | estimate| std.error| statistic| p.value|
+|:-----------------|--------:|---------:|---------:|-------:|
+|(Intercept)       | 5641.379|   184.550|    30.568|   0.000|
+|SeniorCent        |  -21.406|     5.363|    -3.991|   0.000|
+|AgeCent           |    0.583|     0.745|     0.783|   0.436|
+|ExperCent         |   -0.008|     1.215|    -0.007|   0.995|
+|EducCat10         | -648.335|   538.592|    -1.204|   0.232|
+|EducCat12         |  180.877|   170.251|     1.062|   0.291|
+|EducCat15         |  531.351|   188.744|     2.815|   0.006|
+|EducCat16         |  738.594|   303.058|     2.437|   0.017|
+|Female1           | -754.483|   130.102|    -5.799|   0.000|
+|ExperCent:Female1 |    0.741|     1.219|     0.608|   0.545|
+
+
+---
+
 
 class: middle, center
 
@@ -98,7 +214,7 @@ ggplot(data=respiratory, aes(x=Age, y=Rate)) +
   labs("Respiratory Rate vs. Age")
 ```
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -138,7 +254,7 @@ ggplot(data=respiratory, aes(x=Age, y=Rate)) +
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -188,63 +304,71 @@ class: middle, center
 
 - The mean of the logged values is **not** equal to the log of the mean value. Therefore at a given value of `\(x\)`
 
-`$$\color{blue}{\begin{aligned}\exp\{\text{Mean}(\log(y))\} \neq \text{Mean}(y) \\[5pt]
-\Rightarrow \exp\{\beta_0 + \beta_1 x\} \neq \text{Mean}(y) \end{aligned}}$$`
+.alert[
+`$$\begin{aligned}\exp\{\text{Mean}(\log(y))\} \neq \text{Mean}(y) \\[5pt]
+\Rightarrow \exp\{\beta_0 + \beta_1 x\} \neq \text{Mean}(y) \end{aligned}$$`
+]
 
---
+---
 
-- However, the median of the logged values **is** equal to the log of the median value. Therefore, 
-`$$\color{blue}{\exp\{\text{Median}(\log(y))\} = \text{Median}(y)}$$`
+### Mean and median of `\(\log(y)\)`
+
+- However, the median of the logged values **is** equal to the log of the median value. Therefore,
+
+.alert[
+`$$\exp\{\text{Median}(\log(y))\} = \text{Median}(y)$$`
+]
 
 --
 
 - If the distribution of `\(\log(y)\)` is symmetric about the regression line, for a given value `\(x_i\)`,
-`$$\color{blue}{\text{Median}(\log(y)) = \text{Mean}(\log(y))}$$`
-
+.alert[
+`$$\text{Median}(\log(y)) = \text{Mean}(\log(y))$$`
+]
 ---
 
 ### Interpretation with log-transformed `\(y\)`
 
 - Given the previous facts, if `\(\log(y) = \beta_0 + \beta_1 x\)`, then 
+.alert[
+`$$\text{Median}(y) = \exp\{\beta_0\}\exp\{\beta_1 x\}$$`
+]
 
-`$$\mathbf{\text{Median}(y) = \boldsymbol{\exp\{\beta_0\}\exp\{\beta_1 x\}}}$$`
+&lt;br&gt;&lt;br&gt;
 
-&lt;br&gt;
-
---
 
 - &lt;font class="vocab"&gt;Intercept:&lt;/font&gt; When `\(x=0\)`, the median of `\(y\)` is expected to be `\(\exp\{\beta_0\}\)`
+&lt;br&gt;
 
---
 
 - &lt;font class="vocab"&gt;Slope: &lt;/font&gt;For every one unit increase in `\(x\)`, the median of `\(y\)` is expected to multiply by a factor of `\(\exp\{\beta_1\}\)`
 
 
 ---
 
-## log(Rate) vs. Age
+### log(Rate) vs. Age
 
 
 ```r
 respiratory &lt;- respiratory %&gt;% mutate(log_rate = log(Rate))
 ```
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## log(Rate) vs. Age
+### log(Rate) vs. Age
 
 
 ```r
 log_model &lt;- lm(log_rate ~ Age, data = respiratory)
 ```
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## log(Rate) vs. Age
+### log(Rate) vs. Age
 
 
 ```r
@@ -352,7 +476,7 @@ kable(tidy(log_model, conf.int=TRUE),format="html", digits=3)
 &lt;/table&gt;
 
 .question[
-Interpret the 95% confidence interval for the coefficient of `Age` in terms of `Rate`.
+Interpret the 95% confidence interval for the coefficient of `Age` in terms of *rate*.
 ]
 
 ---
@@ -360,11 +484,11 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of `
 ### Log Transformation on `\(x\)`
 
 .pull-left[
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 - Try a transformation on `\(X\)` if the scatterplot shows some curvature but the variance is constant for all values of `\(X\)`
@@ -391,11 +515,11 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of `
 
 ### Rate vs. log(Age)
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Respiratory Rate vs. Age
+### Rate vs. Age
 
 &lt;table&gt;
  &lt;thead&gt;
@@ -453,6 +577,8 @@ See [Log Transformations in Linear Regression](https://github.com/sta210-fa19/su
 ---
 
 ### Before Next Class
+
+- [Reading 05](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-05.html) for Monday
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

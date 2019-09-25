@@ -49,6 +49,8 @@ class: middle, center
 
 ### Today's Agenda
 
+- Categorical Predictors with $K > 2$ categories 
+
 - Interactions 
 
 - Log Transformations 
@@ -65,6 +67,76 @@ library(broom)
 library(cowplot) # use plot_grid function
 library(Sleuth3) 
 ```
+---
+
+class: middle, center
+
+## Categorical Predictors 
+
+---
+
+### Starting wages data
+
+**Explanatory**
+- <font class="vocab">`Educ`: </font>years of Education
+- <font class="vocab">`Exper`: </font>months of previous work Experience (before hire at bank)
+- <font class="vocab">`Female`: </font>1 if female, 0 if male
+- <font class="vocab">`Senior`: </font>months worked at bank since hire
+- <font class="vocab">`Age`: </font>Age in months
+
+**Response**
+- <font class="vocab">`Bsal`: </font>annual salary at time of hire
+
+---
+
+### Starting wages: Education categorical 
+
+```{r echo = F}
+wages <- case1202 %>% 
+  mutate(Female = as.factor(ifelse(Sex=="Female",1,0))) %>%
+  select(-Sal77,-Sex)
+```
+
+```{r echo = F}
+wages <- wages %>%
+  mutate(SeniorCent = Senior - mean(Senior), 
+         AgeCent = Age-mean(Age), 
+         EducCat = as.factor(Educ), 
+         ExperCent = Exper - mean(Exper))
+```
+
+```{r echo = F}
+model <- lm(Bsal ~ SeniorCent + AgeCent + ExperCent + EducCat + Female, data = wages)
+kable(tidy(model), format = "markdown", digits = 3)
+```
+
+---
+### EducCat Behind the scenes
+
+- The categorical variable `EducCat` has 5 levels, so there are 4 indicator variables for Education in the model. 
+
+- For a given observation, a value is assigned for each of thr 4 indicator variables based on the following scheme: 
+
+<table style="border-collapse:collapse;border-spacing:0" class="tg"><tr><th style="font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top"></th><th style="font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top" colspan="4"><span style="font-weight:bold">Indicator Variables </span></th></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:left;vertical-align:top">Observations</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top">EducCat10</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top">EducCat12</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top">EducCat15</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top">EducCat16</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 8 (baseline)</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 10</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">1</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 12</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">1</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 15</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">1</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 16</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">1</td></tr></table>
+
+---
+
+### Application Exercise
+
+- Go to the **Wages** application exercise in RStudio Cloud. 
+- Fit a regression model with Education treated as a categorical variable. 
+
+.question[
+- What is the baseline for Education?
+
+- Interpret the coefficient for `EducCat16`.
+
+- What is your conclusion from the p-value of `EducCat16`?
+
+- Write the model equation for those with 8 years of education. 
+
+- Write the model equation for those with 16 years of education. 
+]
 
 ---
 
@@ -74,6 +146,54 @@ class: middle, center
 ## Interactions 
 
 ---
+
+### Checking for interactions
+
+```{r,echo=F, fig.height = 3.5}
+ggplot(data=wages, aes(x=Senior,y=Bsal,color = Female)) +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE) + 
+  labs(title = "Starting Salary vs. Seniority",
+       subtitle = "Male vs. Female employees",
+       x = "Months at Company", 
+       y = "Starting Salary", 
+       color = "Female")
+```
+
+.question[
+Do you think there is a significant interaction effect between `Female` and `Senior`? Why or why not?
+]
+
+---
+
+### Checking for interactions
+
+```{r,echo=F, fig.height = 3.5}
+ggplot(data=wages, aes(x=Exper,y=Bsal,color = Female)) +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE) + 
+  labs(title = "Starting Salary vs. Experience",
+       subtitle = "Male vs. Female employees",
+       x = "Months at Company", 
+       y = "Starting Salary", 
+       color = "Female")
+```
+
+.question[
+Do you think there is a significant interaction effect between `Female` and `Exper`? Why or why not?
+]
+---
+
+### Model with interactions 
+
+```{r}
+int_model <- lm(Bsal ~SeniorCent + AgeCent + ExperCent + EducCat + Female + ExperCent*Female, data = wages )
+kable(tidy(int_model), format = "markdown", digits = 3)
+```
+
+
+---
+
 
 class: middle, center
 
@@ -172,11 +292,15 @@ $$y = \exp\{\beta_0 + \beta_1 x\} = \exp\{\beta_0\}\exp\{\beta_1x\}$$
 $$\begin{aligned}\exp\{\text{Mean}(\log(y))\} \neq \text{Mean}(y) \\[5pt]
 \Rightarrow \exp\{\beta_0 + \beta_1 x\} \neq \text{Mean}(y) \end{aligned}$$
 ]
---
 
-- However, the median of the logged values **is** equal to the log of the median value. Therefore, 
+---
+
+### Mean and median of $\log(y)$
+
+- However, the median of the logged values **is** equal to the log of the median value. Therefore,
+
 .alert[
-$$exp\{\text{Median}(\log(y))\} = \text{Median}(y)$$
+$$\exp\{\text{Median}(\log(y))\} = \text{Median}(y)$$
 ]
 
 --
@@ -190,17 +314,16 @@ $$\text{Median}(\log(y)) = \text{Mean}(\log(y))$$
 ### Interpretation with log-transformed $y$
 
 - Given the previous facts, if $\log(y) = \beta_0 + \beta_1 x$, then 
-
 .alert[
 $$\text{Median}(y) = \exp\{\beta_0\}\exp\{\beta_1 x\}$$
 ]
-<br>
 
---
+<br><br>
+
 
 - <font class="vocab">Intercept:</font> When $x=0$, the median of $y$ is expected to be $\exp\{\beta_0\}$
+<br>
 
---
 
 - <font class="vocab">Slope: </font>For every one unit increase in $x$, the median of $y$ is expected to multiply by a factor of $\exp\{\beta_1\}$
 
@@ -276,7 +399,7 @@ kable(tidy(log_model, conf.int=TRUE),format="html", digits=3)
 ```
 
 .question[
-Interpret the 95% confidence interval for the coefficient of `Age` in terms of `Rate`.
+Interpret the 95% confidence interval for the coefficient of `Age` in terms of *rate*.
 ]
 
 ---
