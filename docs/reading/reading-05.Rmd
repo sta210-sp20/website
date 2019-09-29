@@ -1,5 +1,5 @@
 ---
-title: "Reading 05: Model Selection"
+title: "Reading 05: Model Assessment & Selection"
 output: 
   html_document: 
     theme: yeti

@@ -13,7 +13,7 @@ output:
 
 - [Reading 04: Transformations](reading-04.html)
 
-- [Reading 05: Model Selection](reading-05.html)
+- [Reading 05: Model Assessment & Selection](reading-05.html)
 
 - [Reading 06: Model Diagnostics](reading-06.html)
 
