@@ -97,7 +97,19 @@ The residual sum of squares for the model shown above is 50.076 with 115 degrees
 
 The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as "mini-projects".
 
-8. For this portion, you will use the `housing` data you started analyzing in [Lab 04](https://www2.stat.duke.edu/courses/Spring19/sta210.001/labs/lab-04-mlr.html). Use the code below to load the data and prepare the data.
+8. `KingCountyHouses.csv` contains the price and other characteristics of over 20,000 houses sold in King County, Washington (the county that includes Seattle). The dataset includes the following variables:
+
+- `price`: selling price of the house
+- `date`: date house was sold, measured in days since January 1, 2014
+- `bedrooms`: number of bedrooms
+- `bathrooms`: number of bathrooms
+- `sqft`: interior square footage
+- `floors`: number of floors
+- `waterfront`: 1 if the house has a view of the waterfront, 0 otherwise
+- `yr_built`: year the house was built
+- `yr_renovated`: 0 if the house was never renovated, the year the house was renovated if else
+
+Use the code below to load the data and prepare the data.
 
 ```{r}
 houses <- read_csv("data/KingCountyHouses.csv")
