@@ -1,7 +1,8 @@
 ---
-title: "Lab 05: Data wrangling & regression"
+title: "Lab 05"
+subtitle: "Data wrangling & regression"
 author: ""
-date: "02.15.19"
+date: "09.26.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -66,6 +67,7 @@ library(rvest)
 - <font class="vocab">Tips: </font>
     - Use the links in the lab instructions to see documentation for some of the functions needed for today's lab. 
     - Use [Chapter 5 in *R for Data Science*](https://r4ds.had.co.nz/transform.html) as a resource for the data wrangling functions
+    - Use the lecture notes and textbook a reference for the concepts in multiple regression.
     
 ---
 
@@ -87,11 +89,13 @@ library(rvest)
 
 - Type the following lines of code in the console in RStudio filling in your name and email address.
 
+.small[
 ```{r eval=FALSE}
 library(usethis)
-use_git_config(user.name="your name", user.email="your email")
+use_git_config(user.name="github username", 
+               user.email="your email")
 ```
-
+]
 ---
 
 ## Caching your password
