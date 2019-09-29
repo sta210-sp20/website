@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
     - Section 2.1: Introduction
-    - Secton 2.2: Concepts and Background Material
+    - Section 2.2: Concepts and Background Material
     - Section 2.3: Methodology
 <br><br>
 
