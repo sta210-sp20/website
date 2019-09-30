@@ -90,9 +90,9 @@ log_model <- lm(log_rate ~ Age, data = respiratory)
 $$\hat{\text{log rate}} = 3.845 - 0.019 \times \text{Age}$$
 ]
 
-- <font class = "vocab">Slope: </font> For every one month incraese in Age, we expect the median respiratory rate to be multiplied by a factor of $\exp\{-0.019\} = 1.019$ breaths per minute.
+- <font class = "vocab">Slope: </font> For every one month increase in Age, we expect the median respiratory rate to be multiplied by a factor of $\exp\{-0.019\} = 1.019$ breaths per minute.
 
-- <font class = "vocab">Intercept: </font> The expected respiratory rate for a child who is 0 months old (a newborn) is $\exp\{3.845\} = 46.76$ beats per minute.
+- <font class = "vocab">Intercept: </font> The expected respiratory rate for a child who is 0 months old (a newborn) is $\exp\{3.845\} = 46.76$ breaths per minute.
 
 ---
 
@@ -239,10 +239,43 @@ What affects the amount customers tip at a restaurant?
     - <font class="vocab">`Meal`</font>:  time of day (Lunch, Dinner, Late Night) 
     - <font class="vocab">`Age`</font>: age category of person paying the bill (Yadult, Middle, SenCit)
 
-```{r}
+```{r echo = F}
 tips <- read_csv("data/tip-data.csv") %>%
   filter(!is.na(Party))
 ```
+
+---
+
+### Examining the Response Variable
+
+```{r echo = F}
+ggplot(data = tips, aes(x = Tip)) +
+  geom_histogram() +
+  labs("Distribution of Tips")
+```
+
+---
+
+### Response vs. Predictors
+
+```{r echo = F}
+p1 <- ggplot(data = tips, aes(x = Party, y = Tip)) +
+  geom_point() +
+  labs(title = "Tips vs. Number of People in the Party")
+
+p2 <- ggplot(data = tips, aes(x = Meal, y = Tip)) +
+  geom_boxplot() +
+  labs(title = "Tips vs. Time of the Meal", 
+       x = "Time of Day")
+
+p3 <- ggplot(data = tips, aes(x = Age, y = Tip)) +
+  geom_boxplot() +
+  labs(title = "Tips vs. Age of Person who Pays", 
+       x = "Age")
+
+plot_grid(p1, p2, p3, ncol = 2)
+```
+
 
 
 ---
@@ -278,7 +311,19 @@ The estimate of the regression variance, $\hat{\sigma}^2 = RMS$
 
 - If we only use $R^2$ to choose a best fit model, we will be prone to choose the model with the most predictor variables
 
+---
 
+### Restaurant tips: model
+
+```{r}
+model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
+kable(tidy(model1),format="html",digits=3)
+```
+<br><br>
+
+<center>
+**Is this the best model to explain variation in Tips?**
+</font>
 ---
 
 ## Adjusted $R^2$
@@ -313,14 +358,6 @@ $$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text
 
 - Use $R^2$ when describing the relationship between the response and predictor variables
 
----
-
-### Restaurant tips: model
-
-```{r}
-model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
-kable(tidy(model1),format="html",digits=3)
-```
 
 ---
 
@@ -328,8 +365,8 @@ kable(tidy(model1),format="html",digits=3)
 
 - <font class="vocab">R output</font>
 
-```{r echo=F}
-kable(anova(model1),format="html",digits=3)
+```{r}
+kable(anova(model1), format = "markdown", digits = 3)
 ```
 
 --
@@ -355,8 +392,9 @@ kable(anova(model1),format="html",digits=3)
 
 ```{r}
 #r-squared
-tss <- 1188.63588 + 88.46005 + 13.03236 + 622.97932	
+mss <- 1290.12829
 rss <- 622.97932	
+tss <- mss + rss
 (r_sq <- (tss - rss)/tss)
 ```
 
@@ -364,8 +402,8 @@ rss <- 622.97932
 
 ```{r}
 #adj r-squared
-tms <- tss/(nrow(tips)-1)
 rms <- 3.821959	
+tms <- tss/(nrow(tips)-1)
 (adj_r_sq <- (tms - rms)/tms)
 ```
 
@@ -378,7 +416,7 @@ glance(model1)
 ```
 <br>
 
-- Close values of $R^2$ and Adjusted $R^2$ indicate that the variables in the model are significant in understanding variation in tips
+- Close values of $R^2$ and Adjusted $R^2$ indicate that the variables in the model are significant in understanding variation in the response, i.e. that there aren't a lot of unnecessary variables in the model
 
 ---
 
@@ -402,7 +440,7 @@ $$\begin{aligned}&H_0: \beta_{1} =  \beta_{2} = \dots = \beta_p = 0 \\
 ## ANOVA F Test in R
 
 ```{r}
-model0 <- lm(Tip ~ 1, data=tips)
+model0 <- lm(Tip ~ 1, data = tips)
 ```
 
 --
@@ -414,7 +452,7 @@ model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
 --
 
 ```{r}
-kable(anova(model0,model1),format="html")
+kable(anova(model0, model1), format="markdown", digits = 3)
 ```
 
 **At least one coefficient is non-zero, i.e. at least one predictor in the model is significant**
@@ -490,7 +528,7 @@ full <- lm(Tip ~ Party + Age + Meal, data = tips)
 --
 
 ```{r}
-kable(anova(full,reduced),format="html")
+kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
 --
@@ -502,7 +540,9 @@ kable(anova(full,reduced),format="html")
 class: middle
 
 .question[
-Why is it not good practice to use the individual p-values to determine a categorical variable with $k > 2$ levels) is significant? *Hint*: What does it actually mean if none of the $k-1$ p-values are significant?
+Why is it not good practice to use the individual p-values to determine a categorical variable with $k > 2$ levels) is significant? 
+
+*Hint*: What does it actually mean if none of the $k-1$ p-values are significant?
 ]
 
 ---
@@ -515,16 +555,15 @@ kable(tidy(full),format="html")
 ```
 
 .question[
-1. Write the general form of the model. 
-2. Write the model for `Meal == "Late Night"`. 
-3. How does the mean change when `Meal == "Late Night"`? 
-4. How does the slope of `Party` change when `Meal == "Late Night"`?
+1. What is the baseline level for `Meal`?
+2. How do we expect the mean tips to change when `Meal == "Late Night"`, holding Age and Party constant? 
+4. How does the slope of `Party` change when `Meal == "Late Night"`, holding Age and Party constant?
 ]
 ---
 
 ### Nested F test for interactions
 
-**Is the interaction between `Party` and `Meal` significant?**
+**Are there any significant interaction effects with Party in the model?**
 
 ```{r}
 reduced <- lm(Tip ~ Party + Age + Meal, data = tips)
@@ -533,11 +572,24 @@ reduced <- lm(Tip ~ Party + Age + Meal, data = tips)
 --
 
 ```{r}
-full <- lm(Tip ~ Party + Age + Meal + Meal*Party, data = tips)
+full <- lm(Tip ~ Party + Age + Meal + Age* Party + Meal * Party, 
+           data = tips)
 ```
 
 --
 
 ```{r}
-kable(anova(full,reduced),format="html")
+kable(anova(reduced, full ), format="markdown", digits = 3)
+```
+
+---
+
+### Final model for now
+
+We conclude that there are no significant interactions with `Party` in the model. Therefore, we will use the original model that only included main effects. 
+
+
+```{r echo  =F}
+model.tips <- lm(Tip ~ Party + Age + Meal,data=tips)
+kable(tidy(model.tips),format="html", digits=3)
 ```

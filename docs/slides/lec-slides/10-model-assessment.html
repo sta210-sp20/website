@@ -88,9 +88,9 @@ log_model &lt;- lm(log_rate ~ Age, data = respiratory)
 `$$\hat{\text{log rate}} = 3.845 - 0.019 \times \text{Age}$$`
 ]
 
-- &lt;font class = "vocab"&gt;Slope: &lt;/font&gt; For every one month incraese in Age, we expect the median respiratory rate to be multiplied by a factor of `\(\exp\{-0.019\} = 1.019\)` breaths per minute.
+- &lt;font class = "vocab"&gt;Slope: &lt;/font&gt; For every one month increase in Age, we expect the median respiratory rate to be multiplied by a factor of `\(\exp\{-0.019\} = 1.019\)` breaths per minute.
 
-- &lt;font class = "vocab"&gt;Intercept: &lt;/font&gt; The expected respiratory rate for a child who is 0 months old (a newborn) is `\(\exp\{3.845\} = 46.76\)` beats per minute.
+- &lt;font class = "vocab"&gt;Intercept: &lt;/font&gt; The expected respiratory rate for a child who is 0 months old (a newborn) is `\(\exp\{3.845\} = 46.76\)` breaths per minute.
 
 ---
 
@@ -271,10 +271,19 @@ What affects the amount customers tip at a restaurant?
     - &lt;font class="vocab"&gt;`Age`&lt;/font&gt;: age category of person paying the bill (Yadult, Middle, SenCit)
 
 
-```r
-tips &lt;- read_csv("data/tip-data.csv") %&gt;%
-  filter(!is.na(Party))
-```
+
+---
+
+### Examining the Response Variable
+
+&lt;img src="10-model-assessment_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Response vs. Predictors
+
+&lt;img src="10-model-assessment_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
 
 
 ---
@@ -309,41 +318,6 @@ The estimate of the regression variance, `\(\hat{\sigma}^2 = RMS\)`
 --
 
 - If we only use `\(R^2\)` to choose a best fit model, we will be prone to choose the model with the most predictor variables
-
-
----
-
-## Adjusted `\(R^2\)`
-
-- &lt;font class="vocab"&gt;Adjusted `\(R^2\)`&lt;/font&gt;: a version of `\(R^2\)` that penalizes for unnecessary predictor variables
-&lt;br&gt; 
-
-- Similar to `\(R^2\)`, it measures the proportion of variation in the response that is explained by the regression model 
-&lt;br&gt;
-
-- Differs from `\(R^2\)` by using the mean squares rather than sums of squares and therefore adjusting for the number of predictor variables
-
----
-
-## `\(R^2\)` and Adjusted `\(R^2\)`
-
-`$$R^2 = \frac{\text{Total Sum of Squares} - \text{Residual Sum of Squares}}{\text{Total Sum of Squares}}$$`
-&lt;br&gt;
-
---
-
-.alert[
-`$$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text{Total Mean Square}}$$`
-]
-&lt;br&gt;
-
---
-
-- `\(Adj. R^2\)` can be used as a quick assessment to compare the fit of multiple models; however, it should not be the only assessment!
-
---
-
-- Use `\(R^2\)` when describing the relationship between the response and predictor variables
 
 ---
 
@@ -410,6 +384,45 @@ kable(tidy(model1),format="html",digits=3)
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;br&gt;&lt;br&gt;
+
+&lt;center&gt;
+**Is this the best model to explain variation in Tips?**
+&lt;/font&gt;
+---
+
+## Adjusted `\(R^2\)`
+
+- &lt;font class="vocab"&gt;Adjusted `\(R^2\)`&lt;/font&gt;: a version of `\(R^2\)` that penalizes for unnecessary predictor variables
+&lt;br&gt; 
+
+- Similar to `\(R^2\)`, it measures the proportion of variation in the response that is explained by the regression model 
+&lt;br&gt;
+
+- Differs from `\(R^2\)` by using the mean squares rather than sums of squares and therefore adjusting for the number of predictor variables
+
+---
+
+## `\(R^2\)` and Adjusted `\(R^2\)`
+
+`$$R^2 = \frac{\text{Total Sum of Squares} - \text{Residual Sum of Squares}}{\text{Total Sum of Squares}}$$`
+&lt;br&gt;
+
+--
+
+.alert[
+`$$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text{Total Mean Square}}$$`
+]
+&lt;br&gt;
+
+--
+
+- `\(Adj. R^2\)` can be used as a quick assessment to compare the fit of multiple models; however, it should not be the only assessment!
+
+--
+
+- Use `\(R^2\)` when describing the relationship between the response and predictor variables
+
 
 ---
 
@@ -417,52 +430,19 @@ kable(tidy(model1),format="html",digits=3)
 
 - &lt;font class="vocab"&gt;R output&lt;/font&gt;
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Sum Sq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Mean Sq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; F value &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Party &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1188.636 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1188.636 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 311.002 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Meal &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 88.460 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 44.230 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11.573 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Age &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 13.032 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 6.516 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.705 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.185 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Residuals &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 622.979 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.822 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+
+```r
+kable(anova(model1), format = "markdown", digits = 3)
+```
+
+
+
+|          |  Df|   Sum Sq|  Mean Sq| F value| Pr(&gt;F)|
+|:---------|---:|--------:|--------:|-------:|------:|
+|Party     |   1| 1188.636| 1188.636| 311.002|  0.000|
+|Meal      |   2|   88.460|   44.230|  11.573|  0.000|
+|Age       |   2|   13.032|    6.516|   1.705|  0.185|
+|Residuals | 163|  622.979|    3.822|      NA|     NA|
 
 --
 
@@ -488,8 +468,9 @@ kable(tidy(model1),format="html",digits=3)
 
 ```r
 #r-squared
-tss &lt;- 1188.63588 + 88.46005 + 13.03236 + 622.97932	
+mss &lt;- 1290.12829
 rss &lt;- 622.97932	
+tss &lt;- mss + rss
 (r_sq &lt;- (tss - rss)/tss)
 ```
 
@@ -502,8 +483,8 @@ rss &lt;- 622.97932
 
 ```r
 #adj r-squared
-tms &lt;- tss/(nrow(tips)-1)
 rms &lt;- 3.821959	
+tms &lt;- tss/(nrow(tips)-1)
 (adj_r_sq &lt;- (tms - rms)/tms)
 ```
 
@@ -529,7 +510,7 @@ glance(model1)
 ```
 &lt;br&gt;
 
-- Close values of `\(R^2\)` and Adjusted `\(R^2\)` indicate that the variables in the model are significant in understanding variation in tips
+- Close values of `\(R^2\)` and Adjusted `\(R^2\)` indicate that the variables in the model are significant in understanding variation in the response, i.e. that there aren't a lot of unnecessary variables in the model
 
 ---
 
@@ -554,7 +535,7 @@ glance(model1)
 
 
 ```r
-model0 &lt;- lm(Tip ~ 1, data=tips)
+model0 &lt;- lm(Tip ~ 1, data = tips)
 ```
 
 --
@@ -568,39 +549,15 @@ model1 &lt;- lm(Tip ~ Party + Meal + Age , data = tips)
 
 
 ```r
-kable(anova(model0,model1),format="html")
+kable(anova(model0, model1), format="markdown", digits = 3)
 ```
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:right;"&gt; Res.Df &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; RSS &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Sum of Sq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; F &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 168 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1913.1076 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 622.9793 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1290.128 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 67.51136 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+
+
+| Res.Df|      RSS| Df| Sum of Sq|      F| Pr(&gt;F)|
+|------:|--------:|--:|---------:|------:|------:|
+|    168| 1913.108| NA|        NA|     NA|     NA|
+|    163|  622.979|  5|  1290.128| 67.511|      0|
 
 **At least one coefficient is non-zero, i.e. at least one predictor in the model is significant**
 ---
@@ -729,39 +686,15 @@ full &lt;- lm(Tip ~ Party + Age + Meal, data = tips)
 
 
 ```r
-kable(anova(full,reduced),format="html")
+kable(anova(reduced, full), format="markdown", digits = 3)
 ```
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:right;"&gt; Res.Df &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; RSS &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Sum of Sq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; F &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 622.9793 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 165 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 686.4439 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -63.46457 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.302623 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0003684 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+
+
+| Res.Df|     RSS| Df| Sum of Sq|     F| Pr(&gt;F)|
+|------:|-------:|--:|---------:|-----:|------:|
+|    165| 686.444| NA|        NA|    NA|     NA|
+|    163| 622.979|  2|    63.465| 8.303|      0|
 
 --
 
@@ -772,7 +705,9 @@ kable(anova(full,reduced),format="html")
 class: middle
 
 .question[
-Why is it not good practice to use the individual p-values to determine a categorical variable with `\(k &gt; 2\)` levels) is significant? *Hint*: What does it actually mean if none of the `\(k-1\)` p-values are significant?
+Why is it not good practice to use the individual p-values to determine a categorical variable with `\(k &gt; 2\)` levels) is significant? 
+
+*Hint*: What does it actually mean if none of the `\(k-1\)` p-values are significant?
 ]
 
 ---
@@ -850,16 +785,15 @@ Why is it not good practice to use the individual p-values to determine a catego
 &lt;/table&gt;
 
 .question[
-1. Write the general form of the model. 
-2. Write the model for `Meal == "Late Night"`. 
-3. How does the mean change when `Meal == "Late Night"`? 
-4. How does the slope of `Party` change when `Meal == "Late Night"`?
+1. What is the baseline level for `Meal`?
+2. How do we expect the mean tips to change when `Meal == "Late Night"`, holding Age and Party constant? 
+4. How does the slope of `Party` change when `Meal == "Late Night"`, holding Age and Party constant?
 ]
 ---
 
 ### Nested F test for interactions
 
-**Is the interaction between `Party` and `Meal` significant?**
+**Are there any significant interaction effects with Party in the model?**
 
 
 ```r
@@ -870,43 +804,83 @@ reduced &lt;- lm(Tip ~ Party + Age + Meal, data = tips)
 
 
 ```r
-full &lt;- lm(Tip ~ Party + Age + Meal + Meal*Party, data = tips)
+full &lt;- lm(Tip ~ Party + Age + Meal + Age* Party + Meal * Party, 
+           data = tips)
 ```
 
 --
 
 
 ```r
-kable(anova(full,reduced),format="html")
+kable(anova(reduced, full ), format="markdown", digits = 3)
 ```
+
+
+
+| Res.Df|     RSS| Df| Sum of Sq|     F| Pr(&gt;F)|
+|------:|-------:|--:|---------:|-----:|------:|
+|    163| 622.979| NA|        NA|    NA|     NA|
+|    159| 615.380|  4|       7.6| 0.491|  0.742|
+
+---
+
+### Final model for now
+
+We conclude that there are no significant interactions with `Party` in the model. Therefore, we will use the original model that only included main effects. 
+
 
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:right;"&gt; Res.Df &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; RSS &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Sum of Sq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; F &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 161 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 621.9651 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.254 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.182 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.002 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 163 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 622.9793 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -1.014261 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1312743 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.877071 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Party &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.808 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.121 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.909 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeSenCit &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.390 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.990 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.324 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AgeYadult &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.505 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.412 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.227 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.222 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLate Night &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.632 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.407 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.013 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MealLunch &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.612 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.402 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.523 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.130 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
