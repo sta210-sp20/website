@@ -276,6 +276,19 @@ p3 <- ggplot(data = tips, aes(x = Age, y = Tip)) +
 plot_grid(p1, p2, p3, ncol = 2)
 ```
 
+---
+
+### Restaurant tips: model
+
+```{r}
+model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
+kable(tidy(model1),format="html",digits=3)
+```
+<br><br>
+
+<center>
+**Is this the best model to explain variation in Tips?**
+</font>
 
 
 ---
@@ -313,18 +326,6 @@ The estimate of the regression variance, $\hat{\sigma}^2 = RMS$
 
 ---
 
-### Restaurant tips: model
-
-```{r}
-model1 <- lm(Tip ~ Party + Meal + Age , data = tips)
-kable(tidy(model1),format="html",digits=3)
-```
-<br><br>
-
-<center>
-**Is this the best model to explain variation in Tips?**
-</font>
----
 
 ## Adjusted $R^2$
 
@@ -456,6 +457,7 @@ kable(anova(model0, model1), format="markdown", digits = 3)
 ```
 
 **At least one coefficient is non-zero, i.e. at least one predictor in the model is significant**
+
 ---
 
 ### Testing subset of coefficients

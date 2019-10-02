@@ -284,41 +284,6 @@ What affects the amount customers tip at a restaurant?
 
 &lt;img src="10-model-assessment_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
-
-
----
-
-## ANOVA table for regression
-
-We can use the Analysis of Variance (ANOVA) table to decompose the variability in our response variable
-
-
-|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
-|------------------|----------------|--------------------|-------------|-------------|--------------------|
-| Regression (Model) | `$$\sum\limits_{i=1}^{n}(\hat{y}_i - \bar{y})^2$$` | `$$p$$` | `$$\frac{MSS}{p}$$` | `$$\frac{MMS}{RMS}$$` | `$$P(F &gt; \text{F-Stat})$$` |
-| Residual | `$$\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2$$` | `$$n-p-1$$` | `$$\frac{RSS}{n-p-1}$$` |  |  |
-| Total | `$$\sum\limits_{i=1}^{n}(y_i - \bar{y})^2$$` | `$$n-1$$` | `$$\frac{TSS}{n-1}$$` |  |  |
-
-
-The estimate of the regression variance, `\(\hat{\sigma}^2 = RMS\)`
-
----
-
-## `\(R^2\)` 
-
-- **Recall**: `\(R^2\)` is the proportion of the variation in the response variable explained by the regression model
-&lt;br&gt;
-
---
-
-- `\(R^2\)` will always increase as we add more variables to the model 
-  + If we add enough variables, we can always achieve `\(R^2=100\%\)`
-&lt;br&gt;
-
---
-
-- If we only use `\(R^2\)` to choose a best fit model, we will be prone to choose the model with the most predictor variables
-
 ---
 
 ### Restaurant tips: model
@@ -389,7 +354,43 @@ kable(tidy(model1),format="html",digits=3)
 &lt;center&gt;
 **Is this the best model to explain variation in Tips?**
 &lt;/font&gt;
+
+
 ---
+
+## ANOVA table for regression
+
+We can use the Analysis of Variance (ANOVA) table to decompose the variability in our response variable
+
+
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Regression (Model) | `$$\sum\limits_{i=1}^{n}(\hat{y}_i - \bar{y})^2$$` | `$$p$$` | `$$\frac{MSS}{p}$$` | `$$\frac{MMS}{RMS}$$` | `$$P(F &gt; \text{F-Stat})$$` |
+| Residual | `$$\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2$$` | `$$n-p-1$$` | `$$\frac{RSS}{n-p-1}$$` |  |  |
+| Total | `$$\sum\limits_{i=1}^{n}(y_i - \bar{y})^2$$` | `$$n-1$$` | `$$\frac{TSS}{n-1}$$` |  |  |
+
+
+The estimate of the regression variance, `\(\hat{\sigma}^2 = RMS\)`
+
+---
+
+## `\(R^2\)` 
+
+- **Recall**: `\(R^2\)` is the proportion of the variation in the response variable explained by the regression model
+&lt;br&gt;
+
+--
+
+- `\(R^2\)` will always increase as we add more variables to the model 
+  + If we add enough variables, we can always achieve `\(R^2=100\%\)`
+&lt;br&gt;
+
+--
+
+- If we only use `\(R^2\)` to choose a best fit model, we will be prone to choose the model with the most predictor variables
+
+---
+
 
 ## Adjusted `\(R^2\)`
 
@@ -560,6 +561,7 @@ kable(anova(model0, model1), format="markdown", digits = 3)
 |    163|  622.979|  5|  1290.128| 67.511|      0|
 
 **At least one coefficient is non-zero, i.e. at least one predictor in the model is significant**
+
 ---
 
 ### Testing subset of coefficients
