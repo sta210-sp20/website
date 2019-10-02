@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 class: middle, center
 
-### [Click for PDF of slides](10-model-assessment.pdf)
+### [Click for PDF of slides](11-model-diagnostics.pdf)
 
 ---
 
