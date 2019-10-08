@@ -1,7 +1,7 @@
 ---
 title: "Exam 01 Review"
 author: "Dr. Maria Tackett"
-date: "02.20.19"
+date: "10.09.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -25,18 +25,18 @@ knitr::opts_chunk$set(
 )
 ```
 
+class: middle, center
+
+### [Click for PDF of slides](13-exam-01-review.pdf)
+
+---
 
 ## Announcements
 
-- Lab 05 due today at 11:59p 
+- HW 04 **due Thursday at 11:59p**
 
-- Team Feedback 1 due Friday at 11:59p 
-    - will get an email from Teammates around noon
+- Thursday's Lab: Exam help hours
     
-- Exam OH for Friday's lab
-    
-- HW 04 due Mon, Feb 25 at 11:59p
-
 ---
 
 ```{r,echo=F}
@@ -51,12 +51,13 @@ library(tidyverse)
 
 - Short answer questions
 
-- Permitted to bring one sheet of handwritten notes (front and back)
+- Permitted to bring one sheet of <u>handwritten notes</u> (front and back)
   + Must turn in notes with exam 
+  + You will <u>not</u> be permitted to use your notes if they are not handwritten
 
 - Calculator **not** permitted on exam
 
-- Please use pencil!
+- Please use pencil!! 
 
 ---
 
@@ -70,15 +71,12 @@ library(tidyverse)
   + Predicted values and the appropriate interval
   + Regression assumptions
 
+- ANOVA to compare group means
 
---
-
-- ANOVA for regression & comparing means
+- ANOVA for regression
 
 
 ---
-
- 
 
 ## Topics 
 
@@ -86,13 +84,8 @@ library(tidyverse)
   + Determining if transformation is required
   + Interpreting coefficients on transformed and original scales
   + Calculating predicted values on transformed and original scales
-  
-  
---
 
 - $R^2$ versus  Adjusted $R^2$
-
---
 
 - Special predictors: indicator variables and interaction terms
 
@@ -101,14 +94,11 @@ library(tidyverse)
 ## Topics 
 
 - Interaction terms
---
 
 - Nested F Test
---
 
-- Influential points
+- High leverage, outliers, and influential points
   + Basic ideas - no calculations
---
 
 - Multicollinearity 
   + Basic ideas - no calculations
@@ -121,9 +111,16 @@ class: middle, center
 
 ---
 
-## Diamonds Analysis 
+class: middle, center
 
-- Sit with your lab team 
+## Practice 
 
-- Copy the **Diamonds - Exam 01 Review** project on RStudio Cloud.
+---
 
+## Cars analysis 
+
+- Sit with your lab group. 
+
+- Copy the **Exam 01 Review** project on RStudio Cloud to type your responses in the R Markdown file.
+
+- You can also find the application exericse on the course schedule.
