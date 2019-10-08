@@ -46,6 +46,7 @@ class: middle, center
     - Practice exam on Sakai 
     - Can bring 1 page of notes
     - Exam review on Oct 9
+    - Lecture notes, past assignments, and textbook to study
 ---
 
 ## R packages
@@ -125,7 +126,7 @@ kable(anova(reduced, full), format="markdown", digits = 3)
 class: middle
 
 .question[
-Why is it not good practice to use the individual p-values to determine a categorical variable with $k > 2$ levels) is significant? 
+Why can we not rely on the individual p-values to determine if a categorical variable with $k > 2$ levels) is significant? 
 
 *Hint*: What does it actually mean if none of the $k-1$ p-values are significant?
 ]
@@ -237,9 +238,9 @@ plot_grid(p1,p2,ncol=2)
 
 ### Leverage
 
-- <font class="vocab3">Leverage: </font> measure of the distance between an observation's explanatory variable values and the average explanatory variables for the whole data set
+- <font class="vocab3">Leverage: </font> measure of the distance between an observation's values of the predictor variables and the average values of the predictor variables for the whole data set
   
-- An observation has high leverage if its combination of values for the explanatory variables is very far from the typical combinations in the data 
+- An observation has high leverage if its combination of values for the predictor variables is very far from the typical combinations in the data 
   + It is **<u>potentially</u>** an influential point, i.e. may have a large impact on the coefficient estimates and standard errors
 
 
@@ -266,8 +267,8 @@ $$\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$$
 
 - The average leverage for all observations in the data set is $\frac{(p+1)}{n}$
 
-- Determination of **high leverage** is relatively arbitrary 
-  + one threshold is $\frac{2(p+1)}{n}$
+- There are different thresholds for determining when an observation has **high leverage**
+  + We will use the threshold  $h_i > \frac{2(p+1)}{n}$
 
 - Observations with high leverage tend to have small residuals
 
@@ -326,7 +327,7 @@ $$std.res_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}$$
 
 - Values with very large standardized residuals are outliers, since they don't fit the pattern determined by the regression model 
 
-- Observations with standardized residuals with magnitude $ > 2$ should be more closely examined
+- Observations with standardized residuals of magnitude $> 2$ should be examined more closely
 
 - Observations with large standardized residuals are outliers but may not have an impact on the regression line
 
@@ -569,6 +570,13 @@ ggplot(data = tips_output, aes(x = obs_num, y = .cooksd)) +
 
 ---
 
+class: middle
+
+See the supplemental notes [Details on Model Diagnostics](https://github.com/sta210-fa19/supplemental-notes/blob/master/model-diagnostics-matrix.pdf) for more details about standardized residuals, leverage points, and Cook's distance.
+
+
+---
+
 class: middle, center
 
 ## Multicollinearity
@@ -586,18 +594,18 @@ class: middle, center
 
 ### Why multicollinearity is a problem
 
-- Ex. Suppose the true population regression equation is $\mu\{Y|X\} = 3 + 4X$
+- Ex. Suppose the true population regression equation is $y = 3 + 4x$
 
 --
 
-- Suppose we try estimating that regression model using the variables $X$ and $Z = X/10$
-$$\begin{aligned}\hat{\mu}\{Y|X\} &= \hat{\beta}_0 + \hat{\beta}_1X  + \hat{\beta}_2\frac{X}{10}\\
-&= \hat{\beta}_0 + \bigg(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10}\bigg)X\end{aligned}$$
+- Suppose we try estimating that regression model using the variables $x$ and $z = x/10$
+$$\begin{aligned}\hat{y}&= \hat{\beta}_0 + \hat{\beta}_1x  + \hat{\beta}_2\frac{x}{10}\\
+&= \hat{\beta}_0 + \bigg(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10}\bigg)x\end{aligned}$$
 
 --
 
 - We can set $\hat{\beta}_1$ and $\hat{\beta}_2$ to any two numbers such that $\hat{\beta}_1 + \frac{\hat{\beta}_2}{10} = 4$
-  + The data then is unable to choose the "best" combination of $\hat{\beta}_1$ and $\hat{\beta}_2$
+  + We are unable then to choose the "best" combination of $\hat{\beta}_1$ and $\hat{\beta}_2$
   
 ---
 
@@ -632,10 +640,10 @@ Multicollinearity may occur when...
 
 ### Detecting Multicollinearity 
 
-- Look at a correlation matrix of the explanatory variables, including all dummy variables 
+- Look at a correlation matrix of the predictor variables, including all indicator variables 
   + Look out for values close to 1 or -1
 
-- If you think one explanatory variable is an almost perfect linear combination of other explanatory variables, you can run a regression of that explanatory variable vs. the others and see if $R^2$ is close to 1
+- If you think one predictor variable is an almost perfect linear combination of other predictor variables, you can run a regression of that predictor variable vs. the others and see if $R^2$ is close to 1
 
 ---
 
@@ -647,7 +655,7 @@ Multicollinearity may occur when...
 $$VIF(\hat{\beta}_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}$$
 ]
 
-where $R^2_X$ is the proportion of variation $X$ that is explained by the linear combination of the other explanatory variables in the model.
+where $R^2_{X_j|X_{-j}}$ is the proportion of variation $X$ that is explained by the linear combination of the other explanatory variables in the model.
 
 
 - Typically $VIF > 10$ indicates concerning multicollinearity
@@ -692,12 +700,6 @@ late_night_model <- lm(late_night ~ lunch + Party + Age, data=tips)
 r.sq <- glance(late_night_model)$r.squared
 (vif <- 1/(1-r.sq))
 ```
-
----
-
-class: middle
-
-See the supplemental notes [Details on Model Diagnostics](https://github.com/sta210-fa19/supplemental-notes/blob/master/model-diagnostics-matrix.pdf) for more details about standardized residuals, leverage points, and Cook's distance.
 
 
 
