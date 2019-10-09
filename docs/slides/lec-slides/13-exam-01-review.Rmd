@@ -52,18 +52,16 @@ library(tidyverse)
 - Short answer questions
 
 - Permitted to bring one sheet of <u>handwritten notes</u> (front and back)
-  + Must turn in notes with exam 
+  + Must turn in notes with exam. Put your name at the top of your notes.
   + You will <u>not</u> be permitted to use your notes if they are not handwritten
 
 - Calculator **not** permitted on exam
 
-- Please use pencil!! 
+- Please use blue or black ink pen!
 
 ---
 
 ## Topics 
-
---
 
 - Regression Basics
   + Interpreting coefficients

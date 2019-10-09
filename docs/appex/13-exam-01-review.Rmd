@@ -54,7 +54,7 @@ kable(tidy(anova),digits = 3)
 
 4. Briefly explain how the test statistic, 8.933, is calculated. 
 
-5. State your conclusion in the context of the data. 
+5. State your conclusion for the test in (3) in the context of the data. 
 
 6. Briefly describe the next steps you would take in the analysis. 
 
@@ -114,7 +114,7 @@ m1 <- lm(logprice ~ horsepowerCent + highwayCent + lengthCent + body_style + fue
 kable(tidy(m1, conf.int = TRUE), digits = 3)
 ```
 
-1. Describe the subset of cars that are expected to have a median price of exp(9.9575) = $21,110.11.
+1. Describe the subset of cars that are expected to have a median price of exp(9.958) = $21,110.51.
 
 
 2. Interpret the estimated coefficient of `lengthCent` in terms of the **price**.
