@@ -37,7 +37,7 @@ The Data Visualization Services team (located in Bostock library) has written a 
 
 Other sources that may be helpful: 
 
-- [www.kaggle.com](www.kaggle.com)
+- [Kaggle](https://www.kaggle.com/datasets)
 - [FiveThirtyEight datasets](https://data.fivethirtyeight.com/)
 - ["TidyTuesday" datasets](https://github.com/rfordatascience/tidytuesday)
 
@@ -70,6 +70,7 @@ In this section, you will describe your data set, including the data source. Thi
 #### Section 3 - Regression Analysis Plan
 
 Description of the approach you will use to model the data. This includes 
+
   - Interactions you will consider
   - Model selection procedure
   - Regression modeling technique you will use and an explanation about why that method was chosen.
