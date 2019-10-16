@@ -1,7 +1,8 @@
 ---
-title: "Lab 06: Model selection"
+title: "Lab 06" 
+subtitle: "Model selection"
 author: ""
-date: "03.01.19"
+date: "10.17.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -63,7 +64,7 @@ library(rvest)
     - Part II: Performance characteristics and salaries of Major League Baseball players
 
 - <font class="vocab">Tips: </font>
-    - Use the [Model Selection notes](https://www2.stat.duke.edu/courses/Spring19/sta210.001/slides/lec-slides/12-model-selection.html#1) to help you complete the lab
+    - Use the [Model Selection notes](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/14-model-selection.html) to help you complete the lab
   
 ---
 
@@ -81,7 +82,7 @@ library(rvest)
 
 ```{r eval=FALSE}
 library(usethis)
-use_git_config(user.name="your name", user.email="your email")
+use_git_config(user.name="github username", user.email="your email")
 ```
 
 - **Use the email address associated with your GitHub account**
