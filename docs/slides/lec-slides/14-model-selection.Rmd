@@ -279,7 +279,7 @@ $$BIC = n\log(RSS) - n\log(n) + log(n)\times(p+1)$$
 <br>
 <br>
 
-See the [supplemental note](https://github.com/STA210-Sp19/supplemental-notes/blob/master/models-selection-criteria.pdf) on AIC & BIC for derivations.
+See the [supplemental note](https://github.com/sta210-fa19/supplemental-notes/blob/master/model-selection-criteria.pdf) on AIC & BIC for derivations.
 
 ---
 
