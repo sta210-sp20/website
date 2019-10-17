@@ -43,8 +43,75 @@ class: center, middle, inverse, title-slide
     - Part II: Performance characteristics and salaries of Major League Baseball players
 
 - &lt;font class="vocab"&gt;Tips: &lt;/font&gt;
-    - Use the [Model Selection notes](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/14-model-selection.html) to help you complete the lab
-  
+    - Use the [Model Selection notes](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/14-model-selection.html) to help you complete the lab. Some of the primary functions you'll use are on the next two slides.
+    
+---
+
+### `step` function (AIC)
+
+
+```r
+null_model &lt;- lm(Y ~ 1, data = my_data)
+full_model &lt;- lm(Y ~ ., data = my_data)
+```
+
+- Forward selection 
+
+
+```r
+regfit_forward &lt;- step(null_model, scope = formula(full_model), 
+                       direction = "forward")
+```
+
+
+- Backward selection
+
+```r
+regfit_backward &lt;- step(full_model, direction = "backward")
+```
+
+
+- Stepwise (hybrid) selection
+
+
+```r
+regfit_hybrid &lt;- step(null_model, scope = formula(full_model), 
+                      direction = "both")
+```
+
+
+---
+
+### `regsubsets` function (BIC, Adj. `\(R^2\)`)
+
+- Forward selection
+
+
+```r
+regfit_forward &lt;- regsubsets(Y ~ ., data = my_data, 
+                             method="forward")
+```
+
+- Backward selection 
+
+
+```r
+regfit_backward &lt;- regsubsets(Y ~ ., data = my_data, 
+                              method="backward")
+```
+
+- Choose the best model:
+    - Code shown for forward selection; use similar code for backward selection
+
+
+```r
+sel_summary &lt;- summary(regfit_forward)
+coef(regfit_forward, which.max(sel_summary$adjr2)) # Adj R-sq 
+coef(regfit_forward, which.min(sel_summary$bic)) # BIC 
+```
+
+
+
 ---
 
 ## Getting started with the lab
