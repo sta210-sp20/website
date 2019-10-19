@@ -138,7 +138,7 @@ m5 <- lm(SAT ~ Takers + Income + Years + Public + Rank, data = sat_scores)
 m6 <- lm(SAT ~ Takers + Income + Years + Public + Expend, data = sat_scores)
 ```
 
-2. What is the "best" model based on the model selection procedure in Exercise 1? 
+2. What is the "best" 5-variable model based on the model selection procedure in Exercise 1? 
 
 3. Use the `regsubsets` function to perform backward selection. What is the final model when $Adj. R^2$ is the selection criterion? Display the coefficients and the $Adj. R^2$ of the final model. *This should be the same result you got in Exercise 1.*
 
