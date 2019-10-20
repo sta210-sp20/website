@@ -126,7 +126,7 @@ lessons:
   - title: "Week 09"
   - date: "Mon, Oct 21"
     title: "Comparing proportions & odds"
-    #slides: "lec-slides/13-proportions-odds.html"
+    slides: "lec-slides/15-proportions-odds.html"
   - date: "Wed, Oct 23"
     title: "Logistic Regression, Part 1"
     reading: "reading-07.html"
