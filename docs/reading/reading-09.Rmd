@@ -1,5 +1,5 @@
 ---
-title: "Reading 08: Logistic Regression, Part 2"
+title: "Reading 09: Logistic Regression, Part 3"
 output: 
   html_document: 
     theme: yeti
@@ -9,14 +9,15 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Due Mon, Oct 28
+### Due Wed, Oct 30
 
 ### Required:
 
 - [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
-    - Section 8.3.1: Maximum Likelihood Estimation
-    - Section 8.3.2: Inference, Model Comparison, and Model Selection 
-    - Section 8.3.3: Goodness-of-Fit
+    - Section 8.3.4: Measures of Association and Classification Accuracy
+    - Section 8.3.5: Diagnostics
+    - Section 8.4: Example - Smoking and Mortality
+    - Section 8.5: Modeling Bankruptcy
 <br><br>
 
 [All STA 210 Readings](readings.html)    
