@@ -38,10 +38,7 @@ class: middle, center
 
 - [Reading 07](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-07.html) for Wednesday
 
-- Project Proposal **due Wed, Oct 30 at 11:59p**
-
-- Datathon **November 2 - 3**
-
+- Project Proposal **due Wed, Oct 30 at 11:59p**s
 
 ---
 
@@ -231,7 +228,7 @@ where $z^*$ is the critical value calculated from the $N(0,1)$ distribution
 
 ### Opinions about reclining by age
 
-```{r}
+```{r echo = F}
 flying %>% 
   filter(age %in% c("18-29", "30-44")) %>%
   group_by(age, rude) %>%
@@ -266,7 +263,7 @@ flying %>%
 
 class: middle, center
 
-**What are some potential difficulties with reporting results using the difference in proportions? or proportions/percentages in general?**
+**What are some potential difficulties with reporting results using the difference in proportions? Or proportions/percentages in general?**
 
 ---
 
@@ -307,12 +304,12 @@ p_hat <- flying %>%
 
 - Suppose we have two populations with proportions $p_1$ and $p_2$ and odds $\omega_1$ and $\omega_2$
 
-- The <font class="vocab3">odds ratio</font> is $\phi = \frac{\omega_1}{\omega_2}$
+- The <font class="vocab">odds ratio</font> is $\phi = \frac{\omega_1}{\omega_2}$
   + *Estimate*: $\hat{\phi} = \frac{\hat{\omega}_1}{\hat{\omega}_2}$
 
 - Good alternative to the difference in proportions
 
-- **Intepretation**: The odds of "yes" in group 1 is $\phi$ times the odds of "yes" in group 2
+- .vocab[Intepretation]: The odds of "yes" in group 1 is $\phi$ times the odds of "yes" in group 2
 
 ---
 
@@ -444,3 +441,19 @@ $$\begin{aligned}&H_0: \log(\phi) = 0\\
 1. Calculate the test statistic. 
 2. Calculate p-value and make a conclusion.
 ]
+
+---
+
+### Exam 01: 
+
+- Grades will be released after class
+
+- Notes will be returned in this week's lab
+
+- Solutions available in the Resources folder on Sakai
+
+- Attend office hours to ask about the solutions and any feedback 
+
+- Topics: 
+    - Variance of $y$ from ANOVA
+    - Violation of assumption vs. robustness
