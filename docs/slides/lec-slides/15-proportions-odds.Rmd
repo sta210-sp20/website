@@ -38,8 +38,11 @@ class: middle, center
 
 - [Reading 07](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-07.html) for Wednesday
 
-- Project Proposal **due Wed, Oct 30 at 11:59p**s
+- Project Proposal **due Wed, Oct 30 at 11:59p**
 
+- Evan's Office hours: 
+    - Complete the poll: [https://doodle.com/poll/e4teb3d38cgvshwc](https://doodle.com/poll/e4teb3d38cgvshwc)
+    - Ignore the specific dates. This is for your general availability during each time slot. 
 ---
 
 ### Packages
