@@ -130,7 +130,7 @@ lessons:
   - date: "Wed, Oct 23"
     title: "Logistic Regression, Part 1"
     reading: "reading-07.html"
-    #slides: "lec-slides/14-logistic.html"
+    slides: "lec-slides/16-logistic.html"
   - date: "Thu, Oct 24"
     title: "Lab 08"
    # #lab: "lab-08-bootstrap.html"
