@@ -1,6 +1,6 @@
 ---
 title: "Lab 07:"
-subtitle: "Logistic Regression"
+subtitle: "Logistic Regression, Part 1"
 author: ""
 date: "10.23.19"
 output:
@@ -45,28 +45,32 @@ library(rvest)
 ```
 
 
-## Agenda
+### Agenda
 
 
 1. Lab introduction
 
 2. Getting started
 
+3. Project
+
 ---
 
 ### Lab 07: Logistic Regression
 
 <font class="vocab">Goal: </font> Fit a logistic regression model to predict the probability a Spotify user will like a song
+- This week will focus on exploratory data analysis and model fit. Next week, you will assess the fit of the model and use it to predict if a user likes selected songs
 
 <font class="vocab">Data: </font> Song characteristics from Spotify.com and like/dislike from a Spotify user
 - You will download the data from the lab instructions and upload it into the data folder of your project. 
-- Links to the datasets are in the Data section of the instructions.
+- Links to the dataset are in the Data section of the instructions.
 
 **Use the lecture notes on logistic regression for help with coding and interpretations.**
 
+
 ---
 
-## Getting started with the lab
+### Getting started with the lab
 
 - Go to the course GitHub organization and find the **lab-07** repo that has your team name on it.
 
@@ -88,7 +92,7 @@ use_git_config(user.name="github username",
 
 ---
 
-## Caching your password
+### Caching your password
 
 You need to cache your password on a per-project basis: 
 
@@ -101,5 +105,14 @@ git config --global credential.helper 'cache --timeout 604800'
 
 You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
 
+---
+
+### Project
+
+- If you finish the lab early, you should use the remaining time to work on the project proposal 
+
+- Details about the proposal may be found in the [project instructions](https://www2.stat.duke.edu/courses/Fall19/sta210.001/project/project.html)
+
+- Please let your TA know if you have any questions about the proposal or finding data
 
 
