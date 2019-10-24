@@ -212,7 +212,7 @@ $$SE_0[\log(\hat{\phi})] =SE_0\bigg[\log\bigg(\frac{\hat{\omega}_1}{\hat{\omega}
 ```{r echo=F}
 p_c <- flying %>% 
   filter(age %in% c("18-29", "30-44")) %>%
-  summarise(p_c = round(sum(as.numeric(rude))/n(),3)) %>% pull()
+  summarise(p_c = round(sum(as.numeric(rude)-1)/n(),3)) %>% pull()
 ```
 
 ```{r echo=F}
@@ -224,7 +224,7 @@ n <- flying %>%
 odds <- flying %>% 
   filter(age %in% c("18-29", "30-44")) %>%
   group_by(age) %>%
-  summarise(n = n(), p_hat = round(sum(as.numeric(rude))/n,3),
+  summarise(n = n(), p_hat = round(sum(as.numeric(rude)-1)/n,3),
             odds = round(p_hat/(1-p_hat),3)) %>% pull()
 ```
 
@@ -366,7 +366,7 @@ If $x$ is a <u>quantitative</u> predictor
 If $x$ is a <u>categorical</u> predictor
 
 - The difference in the log-odds between group $x$ and the baseline is $\beta_1$
-- **The odds of $y$ for group $y$ are expected to be $\exp\{\beta_1\}$ times the odds of $y$ for the baseline group.**
+- **The odds of $y$ for group $k$ are expected to be $\exp\{\beta_1\}$ times the odds of $y$ for the baseline group.**
 
 ---
 
