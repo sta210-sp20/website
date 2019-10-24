@@ -1,6 +1,6 @@
 ---
-title: "Lab 07: Logistic Regression"
-subtitle: " points"
+title: "Lab 07: Logistic Regression, Part 1"
+subtitle: "50 points"
 date: "due Tuesday, October 29 at 11:59p"
 output: 
   tufte::tufte_html:
@@ -29,7 +29,7 @@ Over the past ten years, recommendation systems have become increasingly popular
 See ["How Does Spotify Know You So Well?"](https://medium.com/s/story/spotifys-discover-weekly-how-machine-learning-finds-your-new-music-19a41ab76efe) for more information about Spotify's recommendation algorithms.
 ```
 
-In today's lab, we will focus on using the characteristics of songs a user previously played to determine whether or not a user will like a new song. We will use logistic regression to build a model that predicts the probability a user likes a song using the relevant characteristics of that song.
+In today's lab, we will focus on using the characteristics of songs a user previously played to determine whether or not a user will like a new song. We will use logistic regression to fit a model that predicts the probability a user likes a song using the relevant characteristics of that song.
 
 # Getting Started 
 
@@ -87,12 +87,14 @@ Before we introduce the data, let's warm up with a simple exercise.
 
 The data in this lab is from the [Spotify Song Attributes](https://www.kaggle.com/geomack/spotifyclassification) data set in Kaggle. This data set contains song characteristics of 2017 songs played by a single user and whether or not he liked the song. Since this dataset contains the song preferences of a single user, the scope of the analysis is limited to this particular user.
 
-You will use data `spotify.csv` to build the logistic regression model and test the performance of the model using the songs in `test_songs.csv`. 
-Click [**here**](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/data/spotify.csv) to download the dataset  `spotify.csv`, and click [**here**](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/data/test_songs.csv) to download the dataset `test_songs.csv`. Upload both files to the to the `data` folder in your `lab-07` project. 
+You will use data `spotify.csv` to fit the logistic regression model.
+Click [**here**](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/data/spotify.csv) to download the dataset  `spotify.csv`. Upload the file to the `data` folder in your `lab-07` project. 
 
 The  [Spotify documentation page](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/) contains a description of the variables included in this dataset.
 
 # Exercises
+
+In this lab, we will conduct a condensed exploratory data analysis and fit a logistic regression model. In next week's lab, we will assess the quality of the model fit and use it to predict whether a user will like a song on spotify. 
 
 ## Exploratory Data Analysis
     
@@ -110,13 +112,13 @@ Part of the code to make `x` a factor.
 
 3. Choose a categorical predictor variable. Make the appropriate plot of the response versus this predictor variable. Describe the relationship between the two variables.
 
-4. Let's consider a potential interaction effect between the variables you choose in Exercises 2 and 3. Make the appropriate plots to examine the potential interaction effect. Do these plots suggest there is a significant interaction effect? Briefly explain.
+4. Let's consider a potential interaction effect between the variables you choose in Exercises 2 and 3. Make appropriate plot (or plots) to examine if there is a potential interaction effect. Do these plots suggest there is a significant interaction effect? Briefly explain.
 
-*In practice, you should do exploratory data analysis for all potential explanatory variables. We did an abbreviated exploratory data analysis to make the assignment more manageable.*
+*In practice, you should do exploratory data analysis for all potential predictor variables. We did an abbreviated exploratory data analysis to make the assignment more manageable.*
 
 ## Part II: Logistic Regression Model
 
-5. Fit the full model and display the model output. The main objective for the model is to predict whether the user will like a song. Should we use this model for this objective? Briefly explain.  
+5. Fit the full model and display the model output. The main objective for the model is to predict whether the user will like a song. Is it wise to use this model for this objective? Briefly explain.  
 
 6. Use the `step` function to perform backward selection. Display the output for the selected model.
 
@@ -132,7 +134,8 @@ For the remainder of this lab, you will use the model chosen by model selection 
 9. Interpret `mode` and its 95% confidence interval in terms of the odds of the user liking a song. 
 
     - Based on this model, is there evidence of a significant difference in the user's preference between songs in a major key versus those in a minor key? 
-    
+   
+<!-- 
 ## Part III: Model Assessment
 
 In the next few questions, we will do an abbreviated analysis of the residuals. 
@@ -168,3 +171,8 @@ The data for the songs can be found in *test_songs.csv*.
 
       - If they were good recommendations, explain how the model and threshold helped you distinguish between songs the user would like and those he wouldn't. 
       - If they were not good recommendations, explain the limitations in your model and/or threshold.
+-->
+
+<br><br>
+
+*You now have a model that can be used to predict whether a user will like a song. Next week, you will assess the model fit and use it for prediction.*
