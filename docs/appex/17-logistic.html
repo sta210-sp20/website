@@ -400,9 +400,7 @@ library(rms)
     education == 3 ~ &quot;Some College&quot;, 
     education == 4 ~ &quot;College&quot;
   ),
-  currentSmoker = if_else(currentSmoker == 0, &quot;nonsmoker&quot;, &quot;smoker&quot;),
-  diabetes = if_else(diabetes == 0,&quot;No&quot;, &quot;Yes&quot;),
-  male = factor(male)
+  TenYearCHD = as.factor(TenYearCHD)
   )</code></pre>
 <ul>
 <li><p>Fit a full model (main effects only) with <code>TenYearCHD</code> as the response. Display the model output.</p></li>
@@ -417,7 +415,7 @@ library(rms)
 <div id="references" class="section level2">
 <h2>References</h2>
 <ul>
-<li>Data obtained from <a href="https://www.kaggle.com/neisha/heart-disease-prediction-using-logistic-regression/data">https://www.kaggle.com/neisha/heart-disease-prediction-using-logistic-regression/data</a></li>
+<li>Data obtained from <a href="https://www.kaggle.com/amanajmera1/framingham-heart-study-dataset">https://www.kaggle.com/amanajmera1/framingham-heart-study-dataset</a></li>
 </ul>
 </div>
 
