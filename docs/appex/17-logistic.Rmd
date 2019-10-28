@@ -26,8 +26,8 @@ This data is from an ongoing cardiovascular study on residents of the town of Fr
 - `currentSmoker`: 0 = nonsmoker; 1 = smoker
 - `cigsPerDay`: number of cigarettes smoked per day (estimated average)
 - `BPMeds`: 0 = Not on Blood Pressure medications; 1 = Is on Blood Pressure medications
-- `prevalentStroke`
-- `prevalentHyp`
+- `prevalentStroke`: 0 = Stroke not prevalent in family history; 1 = Stroke prevalent in family history
+- `prevalentHyp`: 0 = Hypertension not prevalent in family history; 1 = Hypertension prevalent in family history
 - `diabetes`: 0 = No; 1 = Yes
 - `totChol`: total cholesterol (mg/dL)
 - `sysBP`: systolic blood pressure (mmHg)
@@ -35,7 +35,7 @@ This data is from an ongoing cardiovascular study on residents of the town of Fr
 - `BMI`: BodyMass Index calculated as: Weight (kg) / Height(meter-squared)
 - `heartRate` Beats/Min (Ventricular)
 - `glucose`: total glucose mg/dL
-- `TenYearCHD`: 0 = Patient doesn't have 10-year risk of future coronary heart disease; 1 = Patient has 10-year risk of future coronary heart disease;
+- `TenYearCHD`: 0 = Patient doesn't have 10-year risk of future coronary heart disease; 1 = Patient has 10-year risk of future coronary heart disease
 
 
 ```{r load-data}
@@ -47,9 +47,7 @@ fram_data <- read_csv("data/framingham.csv") %>%
     education == 3 ~ "Some College", 
     education == 4 ~ "College"
   ),
-  currentSmoker = if_else(currentSmoker == 0, "nonsmoker", "smoker"),
-  diabetes = if_else(diabetes == 0,"No", "Yes"),
-  male = factor(male)
+  TenYearCHD = as.factor(TenYearCHD)
   )
 ```
 
@@ -60,15 +58,7 @@ fram_data <- read_csv("data/framingham.csv") %>%
 - Use the `step` function to conduct backward model selection. What is selection criteria used by the `step` function? 
     - Display the final model.
 
-- There is reason to believe that the factors related to coronary heart disease may have different effects for men and women. We would like to include this information in the model. Use the drop-in-deviance test to test at least three interactions with `male`. 
-    - Which interactions did you choose? Why?
-    - Include the output from the tests. 
-    
-- Use the results from model selection and the drop-in-deviance test to select a final model. Display the model below. 
-
-- Plot and analyze the binned residuals for the final model. Include all appropriate plots. What is your assessment on the model fit based on these plots? 
-
-- Plot and analyze the ROC curve. Based on the ROC curve, does the model fit the data well? 
+- Plot and analyze the ROC curve. Based on the ROC curve, does the model fit the data well?  Explain. 
 
 - A doctor plans to use the results from your model to help select patients for a new heart disease prevention program. She asks you which threshold would be best to select patients for this program. What threshold would you recommend to the doctor? Why?
     
