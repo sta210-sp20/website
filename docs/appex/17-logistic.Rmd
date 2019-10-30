@@ -58,9 +58,18 @@ fram_data <- read_csv("data/framingham.csv") %>%
 - Use the `step` function to conduct backward model selection. What is selection criteria used by the `step` function? 
     - Display the final model.
 
-- Plot and analyze the ROC curve. Based on the ROC curve, does the model fit the data well?  Explain. 
+- There is reason to believe that the factors related to coronary heart disease may have different effects for men and women. We would like to include this information in the model. Use the drop-in-deviance test to test at least three interactions with `male`. 
+    - Which interactions did you choose? Why?
+    - Include the output from the tests. 
+    
+- Use the results from model selection and the drop-in-deviance test to select a final model. Display the model below. 
+
+- Plot and analyze the binned residuals for the final model. Include all appropriate plots. What is your assessment on the model fit based on these plots? 
+
+- Plot and analyze the ROC curve. Based on the ROC curve, does the model fit the data well? 
 
 - A doctor plans to use the results from your model to help select patients for a new heart disease prevention program. She asks you which threshold would be best to select patients for this program. What threshold would you recommend to the doctor? Why?
+
     
 
 ## References

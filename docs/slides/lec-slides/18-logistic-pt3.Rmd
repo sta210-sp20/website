@@ -38,6 +38,8 @@ class: middle, center
 
 - Project Proposal **due TODAY at 11:59p**
 
+- [Electronic Undergraduate Research Conference](https://www2.stat.duke.edu/courses/Fall19/sta199.001/slides/lec-slides/eusr_ad.pdf)
+
 ---
 
 ### Packages

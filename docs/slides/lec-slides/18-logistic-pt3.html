@@ -31,6 +31,8 @@ class: middle, center
 
 - Project Proposal **due TODAY at 11:59p**
 
+- [Electronic Undergraduate Research Conference](https://www2.stat.duke.edu/courses/Fall19/sta199.001/slides/lec-slides/eusr_ad.pdf)
+
 ---
 
 ### Packages
@@ -441,7 +443,8 @@ the &lt;font class="vocab"&gt; drop-in-deviance statistic &lt;/font&gt; is `\(D_
 ```r
 model1 &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totChol, 
               data = heart_data, family = binomial)
-model2 &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totChol + as.factor(education), 
+model2 &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totChol + 
+                as.factor(education), 
               data = heart_data, family = binomial)
 ```
 ]
