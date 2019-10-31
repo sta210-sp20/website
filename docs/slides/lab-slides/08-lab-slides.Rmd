@@ -1,7 +1,8 @@
 ---
-title: "Lab 08: Multinomial Logistic Regression"
+title: "Lab 08"
+subtitle: "Logistic Regression, Part 2"
 author: ""
-date: "03.29.19"
+date: "Halloween 2019 `r emo::ji('jack_o_lantern')`"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -44,44 +45,32 @@ library(rvest)
 ```
 
 
-## Agenda
+### Agenda
+
 
 1. Lab introduction
 
-2. Working with large data
-
-3. Getting started
+2. Getting started
 
 ---
 
-### Lab 08: Multinomial Logistic Regression 
+### Lab 07: Logistic Regression Part 2
 
-- <font class="vocab">Goal</font>: Create a multinomial logistic regression model to understand the relationship between a person's political views and their attitude towards government spending on mass transportation
+<font class="vocab">Goal: </font> Fit a logistic regression model to predict the probability a Spotify user will like a song
+- This week's focus is on assessing the model fit and using it to predict whether a user likes a few selected songs. 
 
-- <font class="vocab">Data</font>: General Social Survey, a survey conducted since 1972 that tracks trends in attitudes towards various societal issues along with behavioral trends. You will use results from the 2016 survey. 
+<font class="vocab">Data: </font> Song characteristics from Spotify.com and like/dislike from a Spotify user
+- You will download the datasets `spotify.csv` and `test_songs.csv` from the lab instructions and upload them into the data folder of your project. 
+- Link to the data dictionary are on the [Spotify documentation page](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/)
 
-- Use the [lecture notes](https://www2.stat.duke.edu/courses/Spring19/sta210.001/slides/lec-slides/18-multinomial-logistic-pt2.html#1) for help with concepts and code.
+**Use the lecture notes on logistic regression for help with coding and interpretations.**
+
 
 ---
 
-## Working with large data 
+### Getting started with the lab
 
-- GitHub will warn you when pushing files larger than 50 MB, and you will not be allowed to push files larger than 100 MB.
-
-- The size of the data file we're working with it 34.3 MB.  Compare that to the Spotify dataset from last weeks' lab which was 149 KB (0.149 MB)!
-
-- While our file is smaller than these limits, it's still large enough to not push to GitHub.
-
-- `gitignore`: Contains a list of the files you don't want to to commit to Git or push to GitHub.
-    -  If you open the `.gitignore` file in your project, you'll see that our data file, `gss2016.csv`, is already listed there.
-    - You won't be pushing the data to GitHub, but since each team member will have the data in their projects, you can still all work with it.
-    - **Don't touch the data file though!** Git isn't tracking it, so you nobody will be able to tell if you modify it. Just read it in, and work with it in R.
-    
----
-
-## Getting started with the lab
-
-- Go to the course GitHub organization and find the **lab-06** repo that has your team name on it.
+- Go to the course GitHub organization and find the **lab-08** repo that has your team name on it.
 
 - On GitHub, click on the green Clone or download button, select Use HTTPS (this might already be selected by default, and if it is, you’ll see the text Clone with HTTPS). Click on the clipboard icon to copy the repo URL.
 
@@ -93,14 +82,15 @@ library(rvest)
 
 ```{r eval=FALSE}
 library(usethis)
-use_git_config(user.name="your name", user.email="your email")
+use_git_config(user.name="github username", 
+               user.email="your email")
 ```
 
 - **Use the email address associated with your GitHub account**
 
 ---
 
-## Caching your password
+### Caching your password
 
 You need to cache your password on a per-project basis: 
 
@@ -112,6 +102,5 @@ git config --global credential.helper 'cache --timeout 604800'
 ```
 
 You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
-
 
 

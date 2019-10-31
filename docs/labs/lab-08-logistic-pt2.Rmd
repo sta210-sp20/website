@@ -1,0 +1,153 @@
+---
+title: "Lab 08: Logistic Regression, Part 2"
+subtitle: "70 points"
+date: "due Tuesday, November 5 at 11:59p"
+output: 
+  tufte::tufte_html:
+    css: "./sta210-labs.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+    fig_height: 10
+link-citations: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE, 
+                      eval=FALSE)
+```
+
+```{r echo=FALSE, eval=T, fig.align="right",out.width="50%", out.extra='style="float:right; padding:1px"'}
+knitr::include_graphics("img/07-logistic/headphones.png")
+```
+
+Over the past ten years, recommendation systems have become increasingly popular as more companies strive to offer customized user experiences. Amazon recommends products you may like based on your browse and purchase history, Netflix recommends movies and TV shows based on your viewing history, and music platforms like Spotify recommend songs you may like based on your listening history. While these recommendation systems are built using a variety of algorithms, they are all trying to achieve the same goal: use the characteristics of the products/movies/music a user is known to like to figure out the products/movies/music the user may like but hasn't discovered yet. 
+
+```{marginfigure}
+See ["How Does Spotify Know You So Well?"](https://medium.com/s/story/spotifys-discover-weekly-how-machine-learning-finds-your-new-music-19a41ab76efe) for more information about Spotify's recommendation algorithms.
+```
+
+Today, we will continue form last week's lab and predict which songs a Spotify user will like. Before using the model for prediction, we will check the model assumptions and assess how well the model fits the data.
+
+# Getting Started 
+
+- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **lab-08-**. It contains the starter documents you need to complete the warmup exercise. 
+
+- Clone the repo and create a new project in RStudio Cloud. 
+
+- Configure git by typing the following in the **console**.
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="github username", user.email="your email")
+```
+
+```{marginfigure}
+When configuring Git, be sure to use the email address that is associated with your GitHub account.
+```
+
+## Password caching
+
+If you would like your git password cached for a week for this project, type the following in the **Terminal**:
+
+```{bash eval=FALSE}
+git config --global credential.helper 'cache --timeout 604800'
+```
+
+You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
+
+
+## Packages
+
+You will need the following packages for today's lab: 
+
+```{r load-packages}
+library(tidyverse)
+library(broom)
+library(pROC)
+# Fill in other packages as needed
+```
+
+## Project name: 
+
+Currently your project is called *Untitled Project*. Update the name of your project to the title of today's lab.
+
+# Warm up
+
+Before we introduce the data, let's warm up with a simple exercise.
+
+## YAML: 
+
+- Pick one team member to update the *author* and *date* fields at the top of the R Markdown file. Knit, commit, and push all the updated documents to Github.
+
+- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
+
+## Data
+
+The data in this lab is from the [Spotify Song Attributes](https://www.kaggle.com/geomack/spotifyclassification) data set in Kaggle. This data set contains song characteristics of 2017 songs played by a single user and whether or not he liked the song. Since this dataset contains the song preferences of a single user, the scope of the analysis is limited to this particular user.
+
+You will use data `spotify.csv` to build the logistic regression model and test the performance of the model using the songs in `test_songs.csv`. 
+Click [**here**](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/data/spotify.csv) to download the dataset  `spotify.csv`, and click [**here**](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/data/test_songs.csv) to download the dataset `test_songs.csv`. Upload both files to the to the `data` folder in your `lab-08` project.  
+
+The  [Spotify documentation page](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/) contains a description of the variables included in this dataset.
+
+# Exercises
+
+We will pick up where we left last week, assess how well our model fits the data and use it to predict whether a user will like a song on Spotify. 
+
+## Part I: The Model 
+
+1. Let's begin by preparing the data for modeling. 
+
+    - Refactor `key` so that it is categorical.
+    - Refactor the variable `time_signature` so that it is categorical with three levels: "3", "4", "other".
+  
+
+2. Fit a model with the following variables: `acousticness`, `danceability`, `duration_ms`, `instrumentalness`, `loudness`, `speechiness`, and `valence`. Display the model output.
+
+3. We consider adding `key` to the model. Conduct the appropriate test to determine if `key` should be included in the model. Display the output from the test and write your conclusion in the context of the data.
+
+4. Use the model chosen from Exercise 3. If appropriate, interpret the coefficient for `key2` in the context of the data. Otherwise, state why it's not appropriate to interpret this coefficient.
+
+**Use the model from chosen in Exercise 3 for the remainder of the lab.**
+
+## Part II: Model Assessment
+
+In the next few questions, we will do an abbreviated analysis of the residuals. 
+
+5. Use the `augment` function to obtain the predicted probabilities and corresponding residuals. 
+
+6. Create a binned plot of the residuals versus the predicted probabilities.
+
+7. Choose a quantitative predictor in the final model. Make the appropriate table or plot to examine the residuals versus this predictor variable.
+
+8. Choose a different quantitative predictor from the one chosen in the previous question. Make the appropriate table or plot to examine the residuals versus this predictor variable.
+
+9. Choose a categorical predictor in the final model. Make the appropriate table or plot to examine the residuals versus this predictor variable.
+
+*In practice, you should examine plots of residuals versus <u>every</u> predictor variable to make a complete assessment of the model fit. For the sake of time on the lab, you will use these three plots to help make the assessment about the model fit.*
+
+10. Based on the residuals plots from Exercises 6 - 9, is the model an appropriate fit for the data? Briefly explain your reasoning. 
+
+11. Plot the ROC curve and find the area under the curve. Be sure to display at least 5 cut-off points on the ROC curve. 
+
+12. Does this model effectively differentiate between the song the user likes versus those he doesn't like? 
+
+## Part III: Prediction
+
+13. You are part of the data science team at Spotify, and your model will be used to make song recommendations to users. The goal is to recommend songs the user has a high probability of liking. 
+
+As a group, choose a threshold value to distinguish between songs the user will like and those the user won't like. What is your threshold value? Use the ROC curve to help justify your choice. 
+
+14. Now let's put your model and decision threshold to the test! Use your model to calculate the predicted probability that the user will like the following two songs:
+ 
+    - "Sign of the Times" by Harry Styles
+    - "Hotline Bling" by Drake
+    
+The data for the songs can be found in *test_songs.csv*. 
+
+15. Using your decision threshold from Question 13, would you recommend "Sign of the Times" to this user? Would your recommend "Hotline Bling" to this user? Briefly explain your decision.
+
+16. The user likes "Hotline Bling" but doesn't like "Sign of the Times". How well did your model identify the song the user would like? Briefly explain why your model performed well, or the limitations in the model or threshold that resulted in a poor performance.
