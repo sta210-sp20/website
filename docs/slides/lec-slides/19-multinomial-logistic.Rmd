@@ -13,14 +13,15 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
 	fig.align = "center",
-	fig.height = 4,
-	fig.width = 7,
+	fig.height = 5.5,
+	fig.width = 10,
 	message = FALSE,
 	warning = FALSE
 )
@@ -35,11 +36,9 @@ class: middle, center
 
 - [Reading 11](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-11.html) for Monday
 
-- Project Proposal **due TODAY at 11:59p**
-
-- [Electronic Undergraduate Research Conference](https://www2.stat.duke.edu/courses/Fall19/sta199.001/slides/lec-slides/eusr_ad.pdf)
-
 - HW 05 **due Wed, Nov 6 at 11:59p**
+
+- [Extra credit](https://www2.stat.duke.edu/courses/Fall19/sta210.001/ec/ec.html)
 
 
 
@@ -51,11 +50,8 @@ library(broom)
 
 ---
 
-## Framingham Study
+## HW 03 data analysis
 
-- Take about 5 minutes to wrap up your analysis on the Framingham Study
-
-- Make sure at least one person has the final results saved in their RStudio Cloud project
 
 ---
 
@@ -79,21 +75,18 @@ class: middle, center
 - See [*Generalized Linear Models: A Unifying Theory*](https://bookdown.org/roback/bookdown-bysh/ch-glms.html) for more details about GLMs
 
 
-
-
-
 ---
 
 ### Binary Response (Logistic)
 
-- Given $P(Y_i=1|X_i)=p_i\hspace{5mm} \text{ and } \hspace{5mm}P(Y_i=0|X_i) = 1-p_i$
+- Given $P(y_i=1|x_i)=p_i\hspace{5mm} \text{ and } \hspace{5mm}P(y_i=0|x_i) = 1-p_i$
 
-$$\log\Big(\frac{p_i}{1-p_i}\Big) = \beta_0 + \beta_1 X_i$$
+$$\log\Big(\frac{p_i}{1-p_i}\Big) = \beta_0 + \beta_1 x_i$$
 <br> 
 
 - We can calculate $p_i$ by solving the logit equation: 
 
-$$p_i = \frac{\exp\{\beta_0 + \beta_1 X_i\}}{1 + \exp\{\beta_0 + \beta_1 X_i\}}$$
+$$p_i = \frac{\exp\{\beta_0 + \beta_1 x_i\}}{1 + \exp\{\beta_0 + \beta_1 x_i\}}$$
 
 ---
 
@@ -101,62 +94,60 @@ $$p_i = \frac{\exp\{\beta_0 + \beta_1 X_i\}}{1 + \exp\{\beta_0 + \beta_1 X_i\}}$
 
 ### Binary Response (Logistic)
 
-- Suppose we consider $Y=0$ the *<font color="blue">baseline category</font>* such that 
+- Suppose we consider $y=0$ the *<font color="blue">baseline category</font>* such that 
 
-$$P(Y_i=0|X_i) = p_{i0} \text{ and } P(Y_i=1|X_i) = p_{i1}$$
+$$P(y_i=0|x_i) = p_{i0} \text{ and } P(y_i=1|x_i) = p_{i1}$$
 
 --
 
 - Then the logit model is 
 
-$$\log\bigg(\frac{p_{i1}}{p_{i0}}\bigg) = \beta_0 + \beta_1 X_i$$
+$$\log\bigg(\frac{p_{i1}}{p_{i0}}\bigg) = \beta_0 + \beta_1 x_i$$
 
 --
 
-- <font class="vocab">Slope, $\beta_1$</font>: When $X$ increases by one unit, the odds of $Y=1$ versus the baseline $Y=0$ are expected to multiply by a factor of $\exp\{\beta_1\}$
+- <font class="vocab">Slope, $\beta_1$</font>: When $x$ increases by one unit, the odds of $Y=1$ versus the baseline $Y=0$ are expected to multiply by a factor of $\exp\{\beta_1\}$
 
-- <font class="vocab3">Intercept, $\beta_0$</font>: When $X=0$, the odds of $Y=1$ versus the baseline $Y=0$ are expected to be $\exp\{\beta_0\}$
+- <font class="vocab3">Intercept, $\beta_0$</font>: When $x=0$, the odds of $y=1$ versus the baseline $y=0$ are expected to be $\exp\{\beta_0\}$
 
 ---
 
- 
+### Multinomial response variable
 
-### Multinomial Logistic Regression 
+- Suppose the response variable $y$ is categorical and can take values $1, 2, \ldots, k$ such that $(k > 2)$
 
 - <font class="vocab">Multinomial Distribution: </font>
 
 $$P(Y=1) = p_1, P(Y=2) = p_2, \ldots, P(Y=k) = p_k$$
 
 such that $\sum\limits_{j=1}^{k} p_j = 1$
-<br> 
-<br> 
-
-- Suppose we have no explanatory variables. What would be the best estimate of $p_j$?
 
 ---
 
- 
-
 ### Multinomial Logistic Regression
 
-- If we have an explanatory variable $X$, then we want $p_j$ to be a function of $X$
+- If we have an explanatory variable $x$, then we want $P(y = j) = p_j$ to be a function of $x$
 
-- Choose a baseline category. Let's choose $Y=1$.  Then, 
-
-$$\log\bigg(\frac{p_{ij}}{p_{i1}}\bigg) = \beta_{0j} + \beta_{1j} X_i$$
-<br>
 --
 
-- We have a separate model for each category of the response
+- Choose a baseline category. Let's choose $y=1$.  Then, 
+
+$$\log\bigg(\frac{p_{ij}}{p_{i1}}\bigg) = \beta_{0j} + \beta_{1j} x_i$$
+<br>
+
+--
+
+- In the multinomial logistc model, we have a separate equation for each category of the response relative to the baseline cateogry
+    - If the response has $k$ possible categories, there will be $k-1$ equations as part of the multinomial logistic model
 
 
 ---
 
 ### Multinomial Logistic Regression 
 
-- Suppose we have a response variable $Y$ that can take three possible outcomes that are coded as 1,2,3
+- Suppose we have a response variable $Y$ that can take three possible outcomes that are coded as "1", "2", "3"
 
-- Let 1 be the baseline category. Then 
+- Let "1" be the baseline category. Then 
 
 $$\log\bigg(\frac{p_{i2}}{p_{i1}}\bigg) = \beta_{02} + \beta_{12} X_i \\[10pt]
 \log\bigg(\frac{p_{i3}}{p_{i1}}\bigg) = \beta_{03} + \beta_{13} X_i$$
@@ -169,7 +160,7 @@ $$\log\bigg(\frac{p_{i2}}{p_{i1}}\bigg) = \beta_{02} + \beta_{12} X_i \\[10pt]
 
 ```{r eval=F}
 library(nnet)
-my.model <- multinom(Y ~ X1 + X2 + ... + XP,data=my.data)
+my.model <- multinom(Y ~ X1 + X2 + ... + XP, data=my.data)
 tidy(my.model, exponentiate = FALSE) #display log-odds model
 ```
 <br> 
@@ -181,86 +172,137 @@ pred.probs <- predict(my.model, type = "probs")
 
 ---
 
-### Iris Data
+### NHANES Data
 
-- To illustrate multinomial logistic regression, we will use the <font class="vocab">`iris`</font> data set. 
+- [National Health and Nutrition Examination Survey](https://www.cdc.gov/nchs/nhanes/index.htm) is conducted by the National Center for Health Statistics (NCHS) 
 
-- **Response:**
-  + <font class="vocab">Species: </font>versicolor, setosa, virginica (baseline category)
-  
-- **Explanatory** (all measured in centimeters):
-  + <font class="vocab">Sepal.Length</font>
-  + <font class="vocab">Sepal.Width</font>
-  + <font class="vocab">Petal.Length</font>
-  + <font class="vocab">Petal.Width</font>
+- The goal is to *"assess the health and nutritional status of adults and children in the United States"*
+
+- This survey includes an interview and a physical examination
 
 ---
 
-### Iris Data
+### NHANES Data
+
+- We will use the data from the <font class="vocab">`NHANES`</font> R package
+
+- Contains 75 variables for the 2009 - 2010 and 2011 - 2012 sample years
+
+- The data in this package is modified for educational purposes and should **not** be used for research
+
+- Original data can be obtained from the [NCHS website](https://www.cdc.gov/nchs/data_access/index.htm) for research purposes
+
+- Type <font class="vocab">`?NHANES`</font> in console to see list of variables and definitions
+
+---
+
+### NHANES: Health Rating vs. Age & Physical Activity
+
+- **Question**: Can we use a person's age and whether they do regular physical activity to predict their self-reported health rating?
+
+- We will analyze the following variables: 
+
+  + <font class="vocab">`HealthGen`: </font>Self-reported rating of participant's health in general.  Excellent, Vgood, Good, Fair, or Poor.
+  
+    + <font class="vocab">`Age`: </font>Age at time of screening (in years). Participants 80 or older were recorded as 80.
+    
+  + <font class="vocab">`PhysActive`: </font>Participant does moderate to vigorous-intensity sports, fitness or recreational activities
+
+ 
+---
+
+### The data
 
 ```{r}
-glimpse(iris)
+library(NHANES)
+
+nhanes_adult <- NHANES %>%
+  filter(Age >= 18) %>%
+  select(HealthGen, Age, PhysActive) %>%
+  drop_na() %>%
+  mutate(obs_num = 1:n())
+```
+
+```{r}
+glimpse(nhanes_adult)
 ```
 
 ---
 
-### Iris Data
+### Exploratory data analysis
 
-<center>
-```{r, echo=FALSE,out.width = '70%'}
-knitr::include_graphics("img/17/iris_parts.png")
+```{r echo = F}
+library(cowplot)
+p1 <- ggplot(data = nhanes_adult, aes(x = Age)) + 
+  geom_histogram() +
+  labs(title = "Distribution of Age")
+
+p2 <- ggplot(data = nhanes_adult, aes(x = PhysActive)) + 
+  geom_bar() +
+  labs(title = "Moderate or vigorous sport or exercise")
+
+p3 <- ggplot(data = nhanes_adult, aes(x = HealthGen)) + 
+  geom_bar() +
+  labs(title = "Self-reported rating of overall health")
+
+top_row <- plot_grid(p1, p2, ncol = 2)
+plot_grid(top_row, p3, ncol = 1)
 ```
-</center>
 
 ---
 
-### Iris Data
+### Exploratory data analysis
 
-- <font class="vocab">Goal: </font> Use characteristics of the petals and sepal to distinguish between the three species
+```{r echo = F}
+p1 <- ggplot(data = nhanes_adult, aes(x = HealthGen, y = Age)) +
+  geom_boxplot(fill = "steelblue") + 
+  labs(title = "Age vs. Health Rating")
 
-<center>
-```{r, echo=FALSE,out.width = '80%'}
-knitr::include_graphics("img/17/iris_type.jpg")
+p2 <- ggplot(data = nhanes_adult, aes(x = HealthGen, fill = PhysActive)) +
+  geom_bar(position = "fill") +
+  labs(y = "Proportion", 
+       title = "Physical Activity vs. Health Rating") +
+  coord_flip()
+
+plot_grid(p1, p2, ncol = 2)
 ```
-</center>
 
 ---
 
-### Iris: Model 
-
-**Suppose we have already done exploratory data analysis.**
-<br>
+### `HealthGen` vs. `Age` and `PhysActive`
 
 ```{r, results = "hide"}
 library(nnet)
-model1 <- multinom(Species ~ Sepal.Length + Sepal.Width + 
-                     Petal.Length + Petal.Width, data = iris)
+health_m <- multinom(HealthGen ~ Age + PhysActive, 
+                     data = nhanes_adult)
 ```
+
+- Put `results = "hide"` in the code chunk header to suppress convergence output 
 
 ---
 
-### Iris: Model 
+### `HealthGen` vs. `Age` and `PhysActive`
 
 ```{r}
-kable(tidy(model1, exponentiate = FALSE), format = "markdown", 
-      digits = 3)
+tidy(health_m, exponentiate = FALSE, conf.int = TRUE) %>%
+  kable(digits = 3, format = "markdown")
 ```
 
 ---
 
-### Iris: Interpreting Coefficients
+### Interpreting coefficients
 
 .question[
-1. What is the baseline category? 
+1. What is the model baseline category? 
 
-2. Write the model for the odds than an iris is a `versicolor` versus the baseline species.
+2. Write the model for the odds that a person rates themselves as having "Fair" health versus the model baseline category.
 
-3. Interpret the coefficient for `Sepal.Length` in terms of the odds that an iris is a `versicolor` versus the baseline species.
+3. Interpret the coefficient for `Age` in terms of the odds that a person rates themselves has having "Poor" heath versus the model's baseline category
 ]
 
 ---
 
-## Calculating Probabilities
+## Calculating probabilities
 
 - For $j=2,\ldots,k$, we calculate the probabilities, $p_{ij}$ as 
 
@@ -272,7 +314,7 @@ $$p_{ij} = \frac{\exp\{\beta_{0j} + \beta_{1j}X_i\}}{1 + \sum\limits_{j=2}^k \ex
 $$p_{i1} = 1- \sum\limits_{j=2}^k p_{ij}$$
 ---
 
-### Model Diagnostics
+### Model assessment
 
 For each category of the response, $j$:
 
@@ -284,113 +326,175 @@ For each category of the response, $j$:
 
 - For each categorical predictor variable, examine the average residuals for each category of the response variable
 
----
-
-### Drop-in-deviance Test
-
-- Suppose there are two models: 
-    - Model 1 includes predictors $x_1, \ldots, x_q$
-    - Model 2 includes predictors $x_1, \ldots, x_q, x_{q+1}, \ldots, x_p$
-
-- We want to test the hypotheses
-$$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
-& H_a: \text{ at least 1 }\beta_j \text{ is not} 0\end{aligned}$$
-
-- Use the **drop-in-deviance test** to compare models (similar to logistic regression)
 
 ---
 
-### Iris: Predicted probabilities & residuals
-
+### NHANES: Predicted probabilities 
+ 
 ```{r}
 #calculate predicted probabilities
-pred_probs <- data.frame(predict(model1, type = "probs"))
+pred_probs <- as.tibble(predict(health_m, type = "probs")) %>% 
+                        mutate(obs_num = 1:n()) 
 ```
 
---
-
 ```{r}
-iris <- iris %>%
-  mutate(virginica = ifelse(Species == "virginica", 1, 0), 
-         versicolor = ifelse(Species == "versicolor", 1, 0), 
-         setosa = ifelse(Species == "setosa", 1, 0), 
-         resid_virginica =  virginica - pred_probs$virginica, 
-         resid_versicolor = versicolor - pred_probs$versicolor, 
-         resid_setosa = setosa - pred_probs$setosa)
+pred_probs %>%
+  slice(1:10)
 ```
 
 ---
 
-### Binned Residuals vs. Predictors
+### NHANES: Residuals
 
-- Below are the plots for *Sepal.Length* These plots should be repeated for each explanatory variable
+```{r}
+#calculate residuals
+residuals <- as.tibble(residuals(health_m)) %>%  #calculate residuals
+  setNames(paste('resid.', names(.), sep = "")) %>% #update column names
+  mutate(obs_num = 1:n()) #add obs number
+```
 
-.small[
+```{r}
+residuals %>%
+  slice(1:10)
+```
+
+---
+
+### Make "augmented" dataset
+
+```{r}
+health_m_aug <- inner_join(nhanes_adult, pred_probs) #add pred probabilities
+health_m_aug <- inner_join(health_m_aug, residuals) #add residuals
+```
+
+```{r}
+health_m_aug %>% 
+  glimpse()
+```
+
+---
+
+### Binned residuals vs. pred. probabilities
+
+```{r echo = F, fig.height = 4.5}
+par(mfrow = c(2,2))
+arm::binnedplot(x = health_m_aug$Excellent, y = health_m_aug$resid.Excellent, 
+                xlab="Predicted P(Excellent)", 
+                ylab="Residuals", 
+                main="Excellent: Residuals vs. Pred. Probabilities", 
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Vgood, y = health_m_aug$resid.Vgood, 
+                xlab="Predicted P(Vgood)", 
+                ylab="Residuals", 
+                main="Very Good: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Good, y = health_m_aug$resid.Good, 
+                xlab="Predicted P(Good)", 
+                ylab="Residuals", 
+                main="Good: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+
+arm::binnedplot(x = health_m_aug$Fair, y = health_m_aug$resid.Fair, 
+                xlab="Predicted P(Fair)", 
+                ylab="Residuals", 
+                main="Fair: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Poor, y = health_m_aug$resid.Poor, 
+                xlab="Predicted P(Poor)", 
+                ylab="Residuals", 
+                main="Poor: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+```
+
+---
+
+### Binned residuals vs. `Age`  
+
+```{r echo = F, fig.height = 4.5}
+par(mfrow = c(2,2))
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Excellent, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Excellent: Residuals vs. Age", 
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Vgood, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Very Good: Residuals vs. Age",
+                col.int = FALSE)
+
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Good, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Good: Residuals vs. Age",
+                col.int = FALSE)
+
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Fair, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Fair: Residuals vs. Age",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Poor, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Poor: Residuals vs. Age",
+                col.int = FALSE)
+```
+
+---
+### Residuals vs. `PhysActive`
+
+```{r}
+health_m_aug %>%
+  group_by(PhysActive) %>%
+  summarise(mean.Excellent = mean(resid.Excellent), 
+            mean.Vgood = mean(resid.Vgood), 
+            mean.Good = mean(resid.Good),
+            mean.Fair = mean(resid.Fair), 
+            mean.Poor = mean(resid.Poor)) %>%
+  t()
+```
+
+---
+
+### Actual vs. Predicted Health Rating
+
+- We can use our model to predict a person's health rating given their age and whether they exercise
+
+- For each observation, the predicted health rating is the one with the highest predicted probability
+
+```{r}
+health_m_aug <- 
+  health_m_aug %>% 
+  mutate(pred_health = predict(health_m, type = "class"))
+```
+
+---
+
+### Actual vs. Predicted Health Rating
+
+```{r}
+health_m_aug %>% 
+  count(HealthGen, pred_health, .drop = FALSE) %>%
+  pivot_wider(names_from = pred_health, values_from = n)
+#rows = actual, columns = predicted
+```
+
+---
+
+## Predictions 
+
 ```{r echo = F}
-#binned residuals vs. predictors - Virginica
-par(mfrow=c(2,2))
-arm::binnedplot(x = iris$Sepal.Length, y = iris$resid_virginica, 
-                xlab="Sepal Length", 
-                ylab="Residuals", 
-                main="Virginica: Residuals vs. Sepal Length")
-
-arm::binnedplot(x = iris$Sepal.Length, y = iris$resid_versicolor, 
-                xlab="Sepal Length", 
-                ylab="Residuals", 
-                main="Versicolor: Residuals vs. Sepal Length")
-
-arm::binnedplot(x = iris$Sepal.Length, y = iris$resid_setosa,
-                xlab="Sepal Length", 
-                ylab="Residuals", 
-                main="Setosa: Residuals vs. Sepal Length")
+health_m_aug %>%
+  select(Excellent, Vgood, Good, Fair, Poor, pred_health) %>%
+  slice(1:5)
 ```
-]
-
----
-
-### Interactions with Sepal.Length? 
-
-We want to test if there are any significant interactions with `Sepal.Length`
-
-.small[
-```{r results="hide"}
-#test for Sepal.Length interactions
-model1 <- multinom(Species ~ Sepal.Length + Sepal.Width + 
-                     Petal.Length + Petal.Width,data=iris)
-
-model2 <- multinom(Species ~ Sepal.Length + Sepal.Width + Petal.Length +
-                     Petal.Width + 
-                     Sepal.Length * Sepal.Width + 
-                     Sepal.Length * Petal.Length +
-                     Sepal.Length * Petal.Width,
-                   data=iris)
-```
-]
-
----
-
-### Interactions with Sepal.Length? 
-
-```{r}
-anova(model1,model2,test="Chisq")
-```
-<br> 
-
---
-
-**No significant interactions with Sepal.Length**
-
----
-
-### Actual vs. Predicted Species
-
-- We can use our model to predict the species
-
-- The predicted species is the one with the highest predicted probability
-
-```{r}
-pred_species <- predict(model1, type = "class") 
-table(iris$Species, pred_species)
-```
-
 
