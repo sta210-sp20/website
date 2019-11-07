@@ -1,7 +1,8 @@
 ---
-title: "Lab 09: Putting it All Together"
+title: "Lab 09"
+subtitle: "Multinomial Logistic Regression"
 author: ""
-date: "04.05.19"
+date: "11.07.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -12,6 +13,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
 ---
 
 ```{r setup, include=FALSE}
@@ -41,45 +43,210 @@ htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(rvest)
+library(broom)
 ```
 
 
-## Agenda
+### Agenda
 
 1. Lab introduction
 
-2. Goals for this lab
+2. Working with large data
 
-3. Getting started
+3. Code for multinomial logistic regression
 
----
-
-### Lab 09: Putting it All Together
-
-- <font class="vocab">Goals</font>:
-    - Conduct a full statistical analysis and write results as a short report
-    - Practice imputing missing values
-    - Use k-fold cross validation to assess model performance
-    
-- <font class="vocab">Data</font>: `gapminder` dataset in the **dslabs** package
-
-- Use the lecture notes on [missing data](https://www2.stat.duke.edu/courses/Spring19/sta210.001/slides/lec-slides/20-missing-data.html#1) and [k-fold cross validation](https://www2.stat.duke.edu/courses/Spring19/sta210.001/slides/lec-slides/19-validation.html#1) for help with concepts and code.
+4. Getting started
 
 ---
 
-## Goals for this lab
+### Lab 09: Multinomial Logistic Regression 
 
-- Part of the final project will be writing a report (up to 3 pages) about your analysis
+- <font class="vocab">Goal</font>: Create a multinomial logistic regression model to understand the relationship between a person's political views and their attitude towards government spending on mass transportation
 
-- Though there are 3 - 4 people in each group, the final report should read as if it was written by a single author
+- <font class="vocab">Data</font>: General Social Survey, a survey conducted since 1972 that tracks trends in attitudes towards various societal issues along with behavioral trends. You will use results from the 2016 survey. 
 
-- This lab will give your group practice putting together a short report before working on the final project. Use this lab to...
-    - figure out a work flow that you can use when you work on the final project
-    - figure out each group member's strengths and use this to help divide up work for the final project 
-    
+- Use the lecture notes on Multinomial Logistic Regression for help with concepts and code.
+
 ---
 
-## Getting started with the lab
+### Working with large data 
+
+- GitHub will warn you when pushing files larger than 50 MB, and you will not be allowed to push files larger than 100 MB.
+
+- The size of the data file we're working with it 34.3 MB.  Compare that to the Spotify dataset from last weeks' lab which was 149 KB (0.149 MB)!
+
+- While our file is smaller than these limits, it's still large enough to not push to GitHub.
+
+---
+
+### Working with large data 
+
+- `gitignore`: Contains a list of the files you don't want to to commit to Git or push to GitHub.
+    -  If you open the `.gitignore` file in your project, you'll see that our data file, `gss2016.csv`, is already listed there.
+    - You won't be pushing the data to GitHub, but since each team member will have the data in their projects, you can still all work with it.
+    - **Don't touch the data file though!** Git isn't tracking it, so you nobody will be able to tell if you modify it. Just read it in, and work with it in R.
+
+---
+
+class: middle, center
+
+### Code for multinomial logistic regression 
+
+(using the NHANES data from [Wednesday's lecture](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/20-multinomial-logistic-pt2.html#1))
+
+---
+
+### Fit Model
+
+- Use the <font class="vocab">`multinom()`</font> function in the `nnet` package 
+
+```{r eval=F}
+library(nnet)
+my.model <- multinom(Y ~ X1 + X2 + ... + XP, data=my.data)
+```
+
+```{r eval = F}
+tidy(my.model, exponentiate = FALSE) #display log-odds model
+```
+
+---
+
+### NHANES: Fit Model
+
+
+```{r echo = F}
+library(NHANES)
+
+nhanes_adult <- NHANES %>%
+  filter(Age >= 18) %>%
+  select(HealthGen, Age, PhysActive, Education) %>%
+  drop_na() %>%
+  mutate(obs_num = 1:n())
+```
+
+```{r results = "hide"}
+library(nnet)
+health_m <- multinom(HealthGen ~ Age + PhysActive, 
+                     data = nhanes_adult)
+```
+
+---
+
+### Display model
+
+.small[
+```{r}
+tidy(health_m, exponentiate = FALSE, conf.int = TRUE) %>%
+  kable(digits = 3, format = "markdown")
+```
+]
+
+---
+
+### Calculate predicted probabilities
+
+```{r}
+pred_probs <- as_tibble(predict(health_m, type = "probs")) %>% #<<
+                        mutate(obs_num = 1:n())
+```
+
+```{r}
+pred_probs %>%
+  slice(1:5)
+```
+
+---
+
+### Calculate predicted probabilities
+
+```{r}
+pred_probs <- as_tibble(predict(health_m, type = "probs")) %>% 
+                        mutate(obs_num = 1:n()) #<<
+```
+
+```{r}
+pred_probs %>%
+  slice(1:5)
+```
+
+---
+
+### Calculate residuals 
+
+```{r}
+#calculate residuals
+residuals <- as_tibble(residuals(health_m)) %>%  #<<
+  setNames(paste('resid.', names(.), sep = "")) %>% 
+  mutate(obs_num = 1:n()) 
+```
+
+```{r}
+residuals %>%
+  slice(1:5)
+```
+
+---
+
+### Calculate residuals 
+
+```{r}
+#calculate residuals
+residuals <- as_tibble(residuals(health_m)) %>% 
+  setNames(paste('resid.', names(.), sep = "")) %>% #<<
+  mutate(obs_num = 1:n()) 
+```
+
+```{r}
+residuals %>%
+  slice(1:5)
+```
+---
+
+### Calculate residuals 
+
+```{r}
+#calculate residuals
+residuals <- as_tibble(residuals(health_m)) %>% 
+  setNames(paste('resid.', names(.), sep = "")) %>% 
+  mutate(obs_num = 1:n()) #<<
+```
+
+```{r}
+residuals %>%
+  slice(1:5)
+```
+
+---
+
+### Put everything in one dataset
+
+```{r message = F, warning = F}
+health_m_aug <- inner_join(nhanes_adult, pred_probs) #<<
+health_m_aug <- inner_join(health_m_aug, residuals) 
+```
+
+```{r}
+health_m_aug %>% 
+  glimpse()
+```
+
+---
+
+### Put everything in one dataset
+
+```{r message = F, warning = F}
+health_m_aug <- inner_join(nhanes_adult, pred_probs) 
+health_m_aug <- inner_join(health_m_aug, residuals) #<<
+```
+
+```{r}
+health_m_aug %>% 
+  glimpse()
+```
+
+---
+
+### Getting started with the lab
 
 - Go to the course GitHub organization and find the **lab-09** repo that has your team name on it.
 
@@ -93,14 +260,12 @@ library(rvest)
 
 ```{r eval=FALSE}
 library(usethis)
-use_git_config(user.name="your name", user.email="your email")
+use_git_config(user.name="github username", user.email="your email")
 ```
-
-- **Use the email address associated with your GitHub account**
 
 ---
 
-## Caching your password
+### Caching your password
 
 You need to cache your password on a per-project basis: 
 
