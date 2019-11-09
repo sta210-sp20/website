@@ -3,25 +3,30 @@ STA 210 Sticker
 Maria Tackett
 12/30/2018
 
-This document contains the code to make the sticker for [STA 210: Regression Analysis](https://www2.stat.duke.edu/courses/Spring19/sta210.001/). The following packages are used in this project:
+This document contains the code to make the sticker for [STA 210:
+Regression
+Analysis](https://www2.stat.duke.edu/courses/Spring19/sta210.001/). The
+following packages are used in this project:
 
 ``` r
 library(hexSticker)
-library(readr)
 library(tidyverse)
-library(tibble)
 library(showtext)
 library(nnet)
 library(knitr)
 ```
 
-The Data
---------
+## The Data
 
-The data is the [Capital Bikeshare data set](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset) pulled from the UCI Machine Learning Repository. The following variables are used in this project:
+The data is the [Capital Bikeshare data
+set](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset)
+pulled from the UCI Machine Learning Repository. The following variables
+are used in this project:
 
--   `season`: 1 - Winter, 2 - Spring, 3 - Summer 4 - Fall
--   `atemp`: feeling temperature ÷ 50 (in degrees Celsius) <br>
+  - `season`: 1 - Winter, 2 - Spring, 3 - Summer 4 - Fall
+  - `atemp`: feeling temperature ÷ 50 (in degrees Celsius) <br>
+
+<!-- end list -->
 
 ``` r
 bikeshare <- read_csv("https://raw.githubusercontent.com/matackett/data/master/capital-bikeshare.csv")    
@@ -35,10 +40,10 @@ bikeshare <- bikeshare %>%
   select(season,atemp)
 ```
 
-Fit Model
----------
+## Fit Model
 
-A multinomial logistic regression model is used to create the main plot. The response variable is `season` and the predictor variable is `atemp`.
+A multinomial logistic regression model is used to create the main plot.
+The response variable is `season` and the predictor variable is `atemp`.
 
 ``` r
 # fit multinomial logistic model 
@@ -58,8 +63,7 @@ pred <- as.data.frame(predict.glm(m,type="response"))
 bikeshare <- bind_cols(bikeshare,pred)
 ```
 
-Make Sticker
-------------
+## Make Sticker
 
 ``` r
 # plot predicted probabilites versus atemp
@@ -91,4 +95,4 @@ sticker(p, package="STA 210",p_color="#00797C", p_family="open", p_size=7.5, s_x
 include_graphics("static/img/sta210_sticker.png")
 ```
 
-![](static/img/sta210_sticker.png)
+![](static/img/sta210_sticker.png)<!-- -->

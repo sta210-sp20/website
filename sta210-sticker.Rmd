@@ -15,9 +15,7 @@ This document contains the code to make the sticker for [STA 210: Regression Ana
 
 ```{r packages}
 library(hexSticker)
-library(readr)
 library(tidyverse)
-library(tibble)
 library(showtext)
 library(nnet)
 library(knitr)
