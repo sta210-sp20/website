@@ -48,7 +48,7 @@ library(broom)
 
 ### HW 05: Interpreting interaction term 
 
-- .vocab[Response: ]: `log_odds_removed`
+- .vocab[Response ]: `log_odds_removed`
 
 ```{r echo = F}
 moth <- read_csv("data/moth.csv")
@@ -146,21 +146,14 @@ include_graphics("img/21/sesame_street.jpg")
 
 ### Analysis 
 
-.pull-left[
-```{r echo = F}
-include_graphics("img/21/sesame_street_today.jpg")
-```
-]
-
-.pull-right[
 - Make a copy of the **Sesame Street** project in RStudio Cloud
 
 - Make sure your group's answers are recorded in one team member's RStudio Cloud project.
   - At the top of the project, write the names of the members' who are working on the appex. 
+  - Submit the name of the team member recording the responses: https://forms.gle/pN6k1M8J3twXwThs6
 
 - Other team members can follow along in RStudio Cloud or using the [instructions](https://www2.stat.duke.edu/courses/Fall19/sta210.001/appex/21-multinomial-logistic.html). 
 
-]
 
 
 

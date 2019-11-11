@@ -32,8 +32,8 @@ The main objective of this analysis is to understand how encouragement affects t
 - <font class="vocab">`viewcat`</font>
     + 1: rarely watched show
     + 2: once or twice a week
-      + 3: three to five times a week
-      + 4: watched show on average more than five times a week
+    + 3: three to five times a week
+    + 4: watched show on average more than five times a week
 
 **Predictors:**
 
@@ -67,7 +67,10 @@ sesame <- sesame %>%
 
 ### Questions
 
+
 1. We'd like to fit a model to predict how often a child in this study watched *Sesame Street*. What type of model should we fit? Briefly explain your choice. 
+
+#### Exploratory data analysis
 
 2. Describe how you would conduct exploratory data analysis. What plots and/or summary statistics would you include? What information would you learn from the exploratory data analysis?
 
@@ -75,6 +78,7 @@ sesame <- sesame %>%
 
 4. Make a plot to examine the relationship between the response and a quantitative predictor variable. What do you learn from the plot?
 
+#### Model selection
 
 5. The primary objective of the experiment was to understand the effect of encouragement, `viewenc`, on viewership. Explain the process you would use to select the final model. 
 
@@ -87,6 +91,8 @@ sesame <- sesame %>%
 9. The primary objective of the experiment was to understand the effect of encouragement `viewenc` on viewership. Does encouragement have a significant effect on viewership? If so, describe the effect. Otherwise, explain why not.
 
 10. We want to test if there is a statistically significant interaction between `viewenc` and `site`. Use the appropriate test to determine if this interaction is significant and should be included in the model. 
+
+#### Model Assessment
 
 11. How would you assess the appropriateness of the model fit? Describe the plots, tables, and/or calculations you would create to assess model fit. 
 
