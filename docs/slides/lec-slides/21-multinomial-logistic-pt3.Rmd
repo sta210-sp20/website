@@ -98,7 +98,7 @@ class: middle, center
 
 ### Practice: *Sesame Street*
 
-- We will analyze data from an experiment to test the effectiveness of the children's program *Sesame Street*, an educational program designed to teach young children basic educational skills such as counting and the alphabet
+- We will analyze data from an [experiment by the Educational Testing Service](http://files.eric.ed.gov/fulltext/ED122799.pdf) to test the effectiveness of the children's program *Sesame Street*, an educational program designed to teach young children basic educational skills such as counting and the alphabet
 
 - As part of the experiment, children were assigned to one of two groups: those who were encouraged to watch the program and those who were not
 
