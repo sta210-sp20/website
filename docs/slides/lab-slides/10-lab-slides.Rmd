@@ -1,7 +1,7 @@
 ---
-title: "Project Tips"
+title: "Project Work Day"
 author: ""
-date: "04.19.19"
+date: "11.14.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -43,68 +43,22 @@ library(tidyverse)
 library(rvest)
 ```
 
+### Collaborative Learning in STEM
 
-## Agenda
+Please fill out the survey below. The data is for research conducted by the Collaborative Learning in STEM Bass Connections project.
 
-1. Labs survey
+Participation is voluntary.
 
-2. Project Tips
-
-3. Course Evaluations
-
----
-
-## Lab Survey
-
-Please take a few minutes to fill out this survey about the STA 210 labs:
-
-[http://bit.ly/sta210-lab-survey](http://bit.ly/sta210-lab-survey)
+https://duke.qualtrics.com/jfe/form/SV_8i6V0yoMDcpVWg5
 
 ---
 
-## Tips
 
-- Merge conflicts will happen, issues will arise, and that’s fine! Commit and push often, and ask questions when stuck.
+### Project Work Day
 
-- Review the grading guidelines on the project assignment and ask questions if any of the expectations are unclear.
+- Today's lab is all about working on the regression analysis for your project.
 
-- Make sure each team member is contributing, both in terms of quality and quantity of contribution.
+- We will walk around throughout the lab section and talk with each group about their project. 
 
-- Set aside time to work together and apart (physically).
+- Fill out this short form at the end of lab: https://forms.gle/BNpE1B4JPzqtp3KT8 .
 
-- When you’re done, review the .md document on GitHub to make sure you’re happy with the final state of your work.
-
----
-
-## Code in write up
-
-- All code, R warnings, and R messages should be hidden so your document is neat and easy to read. At the top of your write up, include the following code: 
-```{r eval = F}
-knitr::opts_chunk$set(
-  echo = FALSE, 
-  message = FALSE, 
-  warning = FALSE
-)
-```
-
-- However your document should include all your code such that if we re-knit your Rmd file we should be able to obtain the results you presented. 
-
-- Exception: If you want to highlight something specific about a piece of code, you’re welcomed to show that portion.
-
----
-
-## Teamwork
-
-- You are to complete the assignment as a team. 
-
-- All team members are expected to contribute equally to the completion of this assignment and group assessments will be given at its completion - anyone judged to not have sufficient contributed to the final product will have their grade penalized. 
-
-- While different teams members may have different backgrounds and abilities, it is the responsibility of every team member to understand how and why all code and approaches in the assignment work.
-
----
-
-### Course evaluations
-
-- Please take a few minutes to go on DukeHub and evaluate the course.
-
-- Extra credit: If we get 90% response rate on the course evaluation everyone will get 1 point on their Exam 02 score.

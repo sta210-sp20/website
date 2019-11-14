@@ -123,8 +123,8 @@ class: middle, center
 include_graphics("img/21/sesame_street.jpg")
 ```
 ]
-<br>
-.small[[*In pictures: The early years of 'Sesame Street'*]( https://www.cnn.com/2019/11/10/entertainment/gallery/sesamtreet-early-years/index.html)]
+.small[[*In pictures: The early years of 'Sesame Street'*]( https://www.cnn.com/2019/11/10/entertainment/gallery/sesame-street-early-years/index.html)
+]
 ---
 
 ### Predictor Variables

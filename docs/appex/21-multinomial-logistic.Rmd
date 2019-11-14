@@ -98,7 +98,14 @@ sesame <- sesame %>%
 
 12. How would you assess the model's power in predicting the a child's viewership? Use the appropriate plot, table, and/or calculation to make a conclusion. 
 
+### Solutions
+
+https://www2.stat.duke.edu/courses/Fall19/sta210.001/appex/21-multinom-logistic-solutions.html
+
 ### References
 
-Data from [http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html)
+- Summary of the original study: [A Summary of the Major Findings in "The First Year of
+Sesame Street: An Evaluation"](https://files.eric.ed.gov/fulltext/ED122799.pdf)
+
+- Data from [http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html)
 
