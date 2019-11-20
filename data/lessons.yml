@@ -194,6 +194,7 @@ lessons:
   # - title: "Midterm 02 assigned"
   - date: "Wed, Nov 20"
     title: "Exam 02 Review"
+    slides: "lec-slides/24-exam-02-review.html"
     project: "project.html"
     hw: "hw-06.html"
     #slides: "lec-slides/20-missing-data.html"
