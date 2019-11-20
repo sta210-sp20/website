@@ -1,0 +1,123 @@
+---
+title: "Exam 02 Review"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,
+                   message=FALSE)
+```
+
+```{r load-packages}
+library(Sleuth3)
+library(knitr)
+library(broom)
+library(tidyverse)
+library(arm)
+library(nnet)
+```
+
+### Data Description
+
+- We would like to identify crab species based on the closing force and propodus height of claws
+  + `ex0722` data set in the `Sleuth3` R package
+
+- **Predictors:** 
+  + `Force`: </font> Closing force of claw (newtons)
+  + `Height`: </font> Propodus height (mm)
+  
+- **Response:**
+  + `Species`: </font> Hemigrapsus nudus (Hn), Lophopanopeus bellus (Lb), Cancer productus (Cp)
+
+### Part I: Lb species?
+
+Suppose we want to use `Force` and `Height` to determine whether or not a crab is from the Lophopanopeus bellus (Lb) species. 
+
+
+**1. What type of model should we use? Briefly explain your choice.**
+
+**2. Briefly explain how you would conduct exploratory data analysis.** 
+
+
+```{r echo = F}
+library(Sleuth3)
+claws <- ex0722
+claws <- claws %>% mutate(species_int = case_when(
+  Species=="Cancer productus" ~ 1, 
+  Species =="Hemigrapsus nudus" ~ 2, 
+  Species =="Lophopanopeus bellus" ~ 3
+), 
+cp = factor(if_else(Species=="Cancer productus",1,0)),
+       hn = factor(if_else(Species=="Hemigrapsus nudus",1,0)),
+       lb = factor(if_else(Species=="Lophopanopeus bellus",1,0)), 
+Species =  case_when(
+  Species=="Cancer productus" ~ "Cp", 
+  Species =="Hemigrapsus nudus" ~ "Hn", 
+  Species =="Lophopanopeus bellus" ~ "Lb"
+), 
+forceCent = Force - mean(Force), 
+heightCent = Height - mean(Height)
+)
+```
+
+We will use the mean-centered variables for `Force` and `Height`. The model output is below.
+
+```{r echo = F}
+m2 <- glm(lb ~ forceCent + heightCent, 
+          data=claws, family = "binomial")
+kable(tidy(m2),format="markdown",digits=3)
+```
+
+
+**3. Write the equation for the odds of a crab being from the Lb species.**
+
+**4. Interpret the intercept in the context of the problem.**
+
+**5. Interpret `forceCent` in the context of the problem.**
+
+The ROC curve is below. 
+
+```{r echo = F, fig.height = 3, fig.width = 4}
+claws_aug <- augment(m2, type.predict = "response", 
+                     type.residuals = "response")
+
+library(plotROC) #extension of ggplot2
+roc_curve <- ggplot(claws_aug, aes(d = as.numeric(lb), m = .fitted)) +
+  geom_roc(n.cuts = 5, labelround = 3) + 
+  geom_abline(intercept = 0) + 
+  labs(x = "False Positive", 
+      y = "True Positive")
+roc_curve
+calc_auc(roc_curve)$AUC
+```
+
+
+**6. What does <i>sensitivity</i> mean in the context of this data? What does <i>specificity</i> mean?**
+
+**7. Suppose we use a threshold of 0.507. What is the <i>sensitivity</i> at this threshold? What is the specificity?** 
+
+
+### Part 2: Which species?
+
+Suppose we want to use force and height to determine a crab's species. The model output is below:
+
+
+```{r, include=F}
+m1 <- multinom(Species ~ forceCent + heightCent, data=claws)
+```
+
+```{r echo = F}
+kable(tidy(m1, exponentiate="False"),format="markdown",digits=3)
+```
+
+**1. Write the equation of the model.** 
+
+**2. Interpret the intercept for the odds a crab is Hn vs. Cp species.**
+
+**3. Interpret the coefficient of `forceCent` for the odds a crab is Lb .vs Cp species.**
+
+
+
+
+
