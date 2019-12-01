@@ -147,7 +147,7 @@ by including `echo = FALSE` in the header of each code chunk. This will hide the
 
 **The main part of the write up (sections 1 - 4) should contain no more than 5 pages of text (excluding graphs, tables, images).**
 
-#### Presentation (15 pts): slides due Tue, Dec 10 at 5p
+#### Presentation (15 pts): slides due Tue, Dec 10 at 11:59p
 
 **Your presentation should be no longer than 8 minutes, and each team member should say something substantial.**
 
