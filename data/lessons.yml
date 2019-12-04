@@ -223,7 +223,7 @@ lessons:
     slides: "lec-slides/25-time-series.html"
   - date: "Wed, Dec 4"
     title: "Modeling Longitudinal Data"
-    #slides: "lec-slides/22-poisson-regression.html"
+    slides: "lec-slides/26-long-data.html"
   - date: "Thu, Dec 5"
     title: "Project"
     #slides: "lab-slides/10-lab-slides.html"
