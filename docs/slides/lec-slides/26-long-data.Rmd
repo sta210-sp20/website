@@ -89,11 +89,13 @@ college <- college %>%
 
 ### `college` data
  
+.small[
 ```{r echo = F}
 college %>% 
-  filter(instname %in% c("Duke University", "University of North Carolina at Chapel Hill"))
+  filter(instname %in% c("Duke University", "University of North Carolina at Chapel Hill")) %>%
+  mutate(instname = if_else(instname == "University of North Carolina at Chapel Hill", "UNC", instname))
 ```
-
+]
 ---
 
 ### What makes this model different?
@@ -116,12 +118,12 @@ college %>%
 We will fit a two-level model that includes the following model components: 
 
 - **Level One**: include time  and any other predictors that change within a college over the time period in the data (`year02`)
-    - The effects in this component are .vocab[random effects]
-    - Typically not interested in drawing inferences about specific levels
+    - The effects in this component are <font class = "vocab">random effects</font>
+    - Typically not interested in drawing inferences about specific levels of these variables
 
 - **Level Two**: includes predictors that differ between colleges but that remain the same within a college over the time period in the data (`faculty` and `tuition`)
-    - The effects in this component are .vocab[fixed effects]]
-    - Typicall the effects we wish to drawing inferences about
+    - The effects in this component are <font class = "vocab">fixed effects</font>
+    - Typically the effects we wish to drawing inferences about
 ---
 
 ### Modeling Approach 
@@ -170,7 +172,7 @@ cowplot::plot_grid(p3,p2,p1, ncol = 2)
 
 ### 1. EDA: Graduation Rate by Year   
 
-- Let's look at the rate over time for 20 randomly selected colleges
+- Let's look at the graduation rate over time for 20 randomly selected colleges
 
 ```{r echo = F, fig.height = 5}
 set.seed(1234)
@@ -197,13 +199,13 @@ p1 <- college %>%
   filter(year02 == 0) %>%
   ggplot(aes(x = faculty, y = rate)) +
   geom_point(alpha = 0.5) +
-  labs(title = "Graduation Rate vs. Faculty in 2002")
+  labs(title = "Grad. Rate vs. Faculty in 2002")
 
 p2 <- college %>% 
   filter(year02 == 0) %>%
   ggplot(aes(x = tuition, y = rate)) +
   geom_point(alpha = 0.5)  +
-  labs(title = "Graduation Rate vs. Tuition in 2002")
+  labs(title = "Grad. Rate vs. Tuition in 2002")
 
 cowplot::plot_grid(p1, p2, ncol = 2)
 ```
@@ -217,13 +219,13 @@ p1 <- college %>%
   filter(year02 == 7) %>%
   ggplot(aes(x = faculty, y = rate)) +
   geom_point(alpha = 0.5) +
-  labs(title = "Graduation Rate vs. Faculty in 2009")
+  labs(title = "Grad. Rate vs. Faculty in 2009")
 
 p2 <- college %>% 
   filter(year02 == 7) %>%
   ggplot(aes(x = tuition, y = rate)) +
   geom_point(alpha = 0.5)  +
-  labs(title = "Graduation Rate vs. Tuition in 2009")
+  labs(title = "Grad. Rate vs. Tuition in 2009")
 
 cowplot::plot_grid(p1, p2, ncol = 2)
 ```
@@ -234,7 +236,7 @@ cowplot::plot_grid(p1, p2, ncol = 2)
 
 - In an <font class="vocab">unconditional means model</font>, there are no predictors at any level 
 
-- The goal of this model is to compare variability with colleges and variability between colleges 
+- The goal of this model is to compare variability within colleges and variability between colleges 
 
 .alert[
 Let $Y_{ij}$ be the graduation rate of college $i$ in year $j$
@@ -312,11 +314,11 @@ $$Y_{ij} = a_i + b_i \times \text{year02}_{ij} + \epsilon_{ij}\\
 .alert[
 Let $Y_{ij}$ be the `rate` for college $i$ in year $j$
 
-$$Y_{ij} = a_i + b_i \text{year02}_{ij} + \epsilon_{ij}\\
+$$Y_{ij} = a_i + b_i \times \text{year02}_{ij} + \epsilon_{ij}\\
 \epsilon_{ij} \sim N(0, \sigma^2)$$
 ]
 
-- $a_i$: expected graduation rate for college $i$ at time 0
+- $a_i$: expected graduation rate for college $i$ at time 0 (2002)
 
 - $b_i$: slope for college $i$, i.e. the rate of change in graduation rate for college $i$ over the time period
 
@@ -349,7 +351,22 @@ Let $Y_{ij}$ be the graduation rate for college $i$ in year $j$
 
 **Level One**
 
-$$Y_{ij} = a_i + b_i \text{year02}_{ij} + \epsilon_{ij}$$
+$$Y_{ij} = a_i + b_i \times \text{year02}_{ij} + \epsilon_{ij}$$
+
+
+**Level Two**
+$$a_i = \alpha_0 + u_i \\
+b_i = \beta_0 + v_i$$
+]
+
+---
+
+.alert[
+Let $Y_{ij}$ be the graduation rate for college $i$ in year $j$
+
+**Level One**
+
+$$Y_{ij} = a_i + b_i \times  \text{year02}_{ij} + \epsilon_{ij}$$
 
 
 **Level Two**
@@ -359,7 +376,7 @@ b_i = \beta_0 + v_i$$
 
 where $\epsilon_{ij} \sim N(0, \sigma^2)$ and 
 
-$$\bigg[\begin{matrix}u \\ v  \end{matrix}\bigg] \sim N\Bigg(\bigg[\begin{matrix}0 \\ 0 \end{matrix}\bigg], \bigg[\begin{matrix}\sigma^2_u &  \sigma_{vu} \\ \sigma_{uv} & \sigma^2_{v} \end{matrix} \bigg] \Bigg)$$
+$$\bigg[\begin{matrix}u \\ v  \end{matrix}\bigg] \sim N\Bigg(\bigg[\begin{matrix}0 \\ 0 \end{matrix}\bigg], \bigg[\begin{matrix}\sigma^2_u &  \rho\sigma_{u}\sigma_v \\ \rho\sigma_{u}\sigma_v & \sigma^2_{v} \end{matrix} \bigg] \Bigg)$$
 
 ---
 
@@ -390,7 +407,7 @@ $$\bigg[\begin{matrix}u \\ v  \end{matrix}\bigg] \sim N\Bigg(\bigg[\begin{matrix
 
 ```{r echo = T, eval = F}
 library(lme4)
-model_1 <- lmer(rate ~ year02 + (year02|instname), 
+model_1 <- lmer(rate ~ 1 + (year02|instname), 
                 data = college)
 summary(model_1)
 ```
@@ -419,7 +436,7 @@ What do each of the following values tell you?
 
 - $\hat{\sigma}^2_v= 0.48$: 
 
-- $\rho_{uv} = -0.31$: 
+- $\rho_{uv} = -0.433$: 
 
 ---
 
@@ -448,7 +465,7 @@ b_i = \beta_0 + \beta_1 \times  \text{faculty}_i + \beta_2 \times \text{tuition}
 
 ```{r echo = T, eval = F}
 library(lme4)
-model_2 <- lmer(rate ~ year02 + faculty + tuition  +
+model_2 <- lmer(rate ~ faculty + tuition  + year02 +
                   faculty:year02 + tuition:year02 +
                   (year02|instname), data = college)
 summary(model_2)
@@ -457,7 +474,7 @@ summary(model_2)
 ---
 
 ```{r echo = F, eval = T}
-model_2 <- lmer(rate ~ year02 + faculty + tuition  +
+model_2 <- lmer(rate ~ faculty + tuition  + year02 +
                   faculty:year02 + tuition:year02 +
                   (year02|instname), data = college)
 summary(model_2)
