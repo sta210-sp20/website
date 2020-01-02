@@ -1,6 +1,6 @@
 REMOTEUSER ?= mt324
 HOST ?= monster.stat.duke.edu
-DIR ?= /web/isds/docs/courses/Fall19/sta210.001
+DIR ?= /web/isds/docs/courses/Spring20/sta210.001
 REMOTE ?= $(REMOTEUSER)@$(HOST):$(DIR)
 
 all:
