@@ -27,7 +27,7 @@ In homework, you will apply what you've learned during lecture and lab to comple
 
 Individual homework extensions will only be given for extenuating circumstances. There must be notification from your academic dean about the need for an extension before the homework deadline. We do not grant extensions after the assignment is due. 
 
-To accommodate unexpected and tempororary situations (e.g. interviews and other travel, unusually busy weeks, short term illness, etc.), the lowest homework grade will be dropped at the end of the semester. 
+To accommodate unexpected and temporary situations (e.g. interviews and other travel, unusually busy weeks, short term illness, etc.), the lowest homework grade will be dropped at the end of the semester. 
 
 <br> 
 <br>
@@ -42,7 +42,7 @@ If you miss lab, you should complete lab for partial credit by the regular lab d
 
 Individual lab extensions will only be given for extenuating circumstances. There must be notification from your academic dean about the need for an extension before the lab deadline. We do not grant extensions after the assignment is due. 
 
-To accommodate unexpected and tempororary situations (e.g. interviews and other travel, unusually busy weeks, short term illness, etc.), the lowest lab grade will be dropped at the end of the semester. 
+To accommodate unexpected and temporary situations (e.g. interviews and other travel, unusually busy weeks, short term illness, etc.), the lowest lab grade will be dropped at the end of the semester. 
 <br> 
 <br>
 
@@ -126,7 +126,7 @@ There are times may need help with the class that is beyond what can be provided
 ### Course Materials
 
 All lecture notes, assignment instructions, up-to-date schedule, and other course materials may be found on the course website, http://bit.ly/sta210-sp20. 
-I will periodically send announcements via email, so please check your email reguarly. You may also find a copy of announcements on Sakai.
+I will periodically send announcements via email, so please check your email regularly. You may also find a copy of announcements on Sakai.
 
 <br> 
 <br>
