@@ -93,24 +93,23 @@ In this course, we will strive to create a learning environment that is welcomin
 Duke University is committed to providing equal access to students with documented disabilities. Students with disabilities may contact the [Student Disability Access Office (SDAO)](https://access.duke.edu) to ensure your access to this course and to the program. There you can engage in a confidential conversation about the process for requesting reasonable accommodations both in the classroom and in clinical settings. Students are encouraged to register with the SDAO as soon as they begin the program. Please note that accommodations are not provided retroactively. More information can be found online at [access.duke.edu](https://access.duke.edu) or by contacting SDAO at 919-668-1267, <a href="mailto:sdao@duke.edu" title="email">SDAO@duke.edu</a>.
 <br> 
 <br>
+This class will use the Testing Center to provide testing accommodations to students registered with and approved by the SDAO. The center operates by appointment only and appointments must be made <u>at least 7 consecutive days in advance</u>, but please schedule your appointments as far in advance as possible. You will not be able to make an appointment until you have submitted a Semester Request with the SDAO and it has been approved. For instructions on how to register with SDAO, visit their website at https://access.duke.edu/requests. For instructions on how to make an appointment at the Testing Center, visit their website at https://testingcenter.duke.edu. 
 
-### Where to find help
+### Getting Help
 
 - If you have a question during lecture or lab, feel free to ask it! There are likely other students with the same question, so by asking you will create a learning opportunity for everyone. 
-- The teaching team is here to help you be successful in the course. You are encouraged to attend any of the office hours posted on the home page to ask questions as your study the course content and work through assignments. A lot of questions are most effectively answered in-person, so office hours are a valuable resource. Please use them!
-- Outside of class and office hours, any general questions about course content or assignments should be posted on Piazza since there are likely other students with the same questions. The questions you post will be visible to the entire class, so please email Professor Tackett directly with any specific questions about grades or personal matters. 
+- The teaching team is here to help you be successful in the course. You are encouraged to attend office hours during the times posted on the home page to ask questions about the course content and assignments. A lot of questions are most effectively answered in-person, so office hours are a valuable resource. Please use them!
+- Outside of class and office hours, any general questions about course content or assignments should be posted on Piazza. There is a chance another student has already asked a similar question, so please check the other posts on Piazza before adding a new question. If you know the answer to a question posted on Piazza, I encourage you to respond! 
 
-Sometimes you may need help with the class that is beyond what can be provided by the teaching team. In that instance, I encourage you to visit the Academic Resource Center.  
-
-The [Academic Resource Center (ARC)](https://arc.duke.edu) offers free services to all students during their undergraduate careers at Duke.  Services include Learning Consultations, Peer Tutoring and Study Groups, ADHD/LD Coaching, Outreach Workshops, and more. Because learning is a process unique to every individual, they work with each student to discover and develop their own academic strategy for success at Duke. Contact the ARC to schedule an appointment. Undergraduates in any year, studying any discipline can benefit! Contact <a href="mailto:arc@duke.edu" title="email">ARC@duke.edu</a>, 919-684-5917, 211 Academic Advising Center Building, East Campus – behind Marketplace.
+There are times may need help with the class that is beyond what can be provided by the teaching team. In those instances, I encourage you to visit the Academic Resource Center. The [Academic Resource Center (ARC)](https://arc.duke.edu) offers free services to all students during their undergraduate careers at Duke.  Services include Learning Consultations, Peer Tutoring and Study Groups, ADHD/LD Coaching, Outreach Workshops, and more. Because learning is a process unique to every individual, they work with each student to discover and develop their own academic strategy for success at Duke. Contact the ARC to schedule an appointment. Undergraduates in any year, studying any discipline can benefit! Contact <a href="mailto:arc@duke.edu" title="email">ARC@duke.edu</a>, 919-684-5917, 211 Academic Advising Center Building, East Campus – behind Marketplace.
 <br>
 <br>
 
-### Where to find course materials
+### Course Materials
 
-All assignments and course materials may be found on Sakai and the course website, [http://bit.ly/sta210-fa19](http://bit.ly/sta210-fa19). There is an up-to-date course schedule on the course website  where you can find lecture notes, assignment instructions, and reading assignments. 
+All lecture notes, assignment instructions, up-to-date schedule, and other course materials may be found on the course website, http://bit.ly/sta210-sp20. 
+I will periodically send announcements via email, so please check your email reguarly. You may also find a copy of announcements on Sakai.
 
-Announcements will be sent via email, so please check your email regularly. Announcements may also be found on Sakai. 
 <br> 
 <br>
 
@@ -122,13 +121,13 @@ If you have a personal or family emergency or health condition that affects your
 
 **Exam dates cannot be changed and no make-up exams will be given.** If you must miss an exam, your absence must be officially excused before the exam due date. If your absence is excused, the missing exam grade will be imputed at the end of the semester based on your performance on other relevant course assignments.
 
-The final project presentations will be during the university scheduled exam period, Wednesday, December 11, 9a - 12p. **You must complete the final project and present your work during the exam period in order to pass the course.**
+The final project presentations will be during the university scheduled exam period, Tuesday, April 28, 9a - 12p. **Project presentations must be done during the specified period.**
 <br> 
 <br>
 
 ### Late Work
 
-Homework or lab assignments submitted late but within 24 hours of the deadline may be accepted with a 20% penalty. Homework or lab assignments submitted any later will not be accepted.
+Homework or lab assignments submitted late but within 24 hours of the deadline may be accepted with a 20% penalty. Homework or lab assignments submitted any later will <u>not</u> be accepted.
 
 **Late work will not be accepted for the exams or the final project.**
 <br> 
@@ -146,15 +145,16 @@ By enrolling in this course, you have agreed to abide by and uphold the provisio
 
 ### Regrade Requests
 
-Regrade requests should be submitted through the regrade request from on Gradescope. **Requests for a regrade must be made within a week of when the assignment is returned.** Due to the time consuming nature of regrades, requests submitted later will not be regraded. Requests will be honored if there is an error in the grade calculation or a correct answer was mistakenly marked as incorrect. Please note that by submitting a regrade request, your entire assignment may be regraded and you may potentially lose points. Therefore, you should attend office hours to ask a member of the teaching team about your grading feedback before submitting a regrade request.  
+Regrade requests should be submitted through the regrade request from on Gradescope. **Requests for a regrade must be made within a week of when the assignment is returned; requests submitted later will not be considered.** You shoud only submit a regrade request if there is an error in the grade calculation or a correct answer was mistakenly marked as incorrect. You should not submit a regrade to dispute the number of points deducted for an incorrect response. *Please note that by submitting a regrade request, your entire assignment may be regraded and you may potentially lose points.* 
 
-No grades will be changed after the final project presentations.
+Due to the time consuming nature of responding to regrade requests, you should attend office hours and ask a member of the teaching team about the feedback before submitting the request When you submit a request, please indicate which member of the teaching team you spoke with. *Note: Grades can only be changed by the Professor Tackett. Teaching Assistants cannot change grades on returned assignments.*
 
-*Note: Grades can only be changed by the Professor Tackett. Teaching Assistants cannot change grades on returned assignments.*
+**No grades will be changed after the final project presentations.**
+
 <br> 
 <br>
 
 ### Technology
 
-Cell phones and other electronic devices should be turned off or put on silent during class. When you use a laptop, tablet, or comparable device, you should ensure that the volume set to mute and the device is only used for class purposes. In general, you should focus on the class discussion/activity at hand and refrain from engaging in other work or outside activities. 
+Cell phones and other electronic devices should be turned off or put on silent during class. When you use a laptop, tablet, or comparable device, please ensure that the volume set to mute and the device is only used for class purposes. In general, you should focus on the class discussion/activity at hand and refrain from engaging in other work or outside activities. 
 
