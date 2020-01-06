@@ -25,7 +25,10 @@ The following activities and assessments will help you successfully achieve the 
 
 In homework, you will apply what you've learned during lecture and lab to complete data analysis tasks. You may discuss homework assignments with other students; however, homework should be completed and submitted individually. Homework must be typed up using R Markdown and submitted in the appropriate GitHub repository. 
 
-*The lowest homework grade will be dropped at the end of the semester.*
+Individual homework extensions will only be given for extenuating circumstances. There must be notification from your academic dean about the need for an extension before the homework deadline. We do not grant extensions after the assignment is due. 
+
+To accommodate unexpected and tempororary situations (e.g. interviews and other travel, unusually busy weeks, short term illness, etc.), the lowest homework grade will be dropped at the end of the semester. 
+
 <br> 
 <br>
 
@@ -37,13 +40,20 @@ A portion of each lab grade will be for attending and participating during the l
 
 If you miss lab, you should complete lab for partial credit by the regular lab deadline. 
 
-*The lowest lab grade will be dropped at the end of the semester.*
+Individual lab extensions will only be given for extenuating circumstances. There must be notification from your academic dean about the need for an extension before the lab deadline. We do not grant extensions after the assignment is due. 
+
+To accommodate unexpected and tempororary situations (e.g. interviews and other travel, unusually busy weeks, short term illness, etc.), the lowest lab grade will be dropped at the end of the semester. 
 <br> 
 <br>
 
 #### Exams (Exam 01: 20%, Exam 02: 20%)
 
-The exams are an opportunity to assess the knowledge and skills you’ve learned. They will include both the conceptual and mathematical and conceptual aspects of regression. Both exams will be given during a lecture class period, and you will be permitted to bring one page of hand-written notes to each exam.
+The exams are an opportunity to assess the knowledge and skills you’ve learned. They will include both the conceptual and mathematical and conceptual aspects of regression. Both exams will be given during a lecture class period, and you will be permitted to bring one page of hand-written notes to each exam. The exam dates are as follows: 
+
+- Exam 01: Wednesday, February 26
+- Exam 02: Wednesday, April 15
+
+**Exam dates cannot be changed and no make-up exams will be given.** If you must miss an exam, your absence must be officially excused before the exam due date. If your absence is excused, the missing exam grade will be imputed at the end of the semester based on your performance on other relevant individual coursework.
 <br> 
 <br>
 
@@ -118,18 +128,6 @@ There are times may need help with the class that is beyond what can be provided
 All lecture notes, assignment instructions, up-to-date schedule, and other course materials may be found on the course website, http://bit.ly/sta210-sp20. 
 I will periodically send announcements via email, so please check your email reguarly. You may also find a copy of announcements on Sakai.
 
-<br> 
-<br>
-
-### Make-up Policy
-
-Students who miss a class due to a scheduled varsity trip, religious holiday, or short-term illness should fill out an online [NOVAP](https://trinity.duke.edu/undergraduate/academic-policies/athletic-varsity-participation), [Religious Observance Notification](https://trinity.duke.edu/undergraduate/academic-policies/religious-holidays), or [Incapacitation Form](https://trinity.duke.edu/undergraduate/academic-policies/illness), respectively. These excused absences do not excuse you from assigned homework. It will still be your responsibility to submit relevant assignments in accordance with the deadline.
-
-If you have a personal or family emergency or health condition that affects your ability to participate in class, you should contact your academic dean's office. More information about this procedure may be found on the [Personal Emergencies page](https://trinity.duke.edu/undergraduate/academic-policies/personal-emergencies) or provided by your academic dean.
-
-**Exam dates cannot be changed and no make-up exams will be given.** If you must miss an exam, your absence must be officially excused before the exam due date. If your absence is excused, the missing exam grade will be imputed at the end of the semester based on your performance on other relevant course assignments.
-
-The final project presentations will be during the university scheduled exam period, Tuesday, April 28, 9a - 12p. **Project presentations must be done during the specified period.**
 <br> 
 <br>
 
