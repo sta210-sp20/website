@@ -3,7 +3,7 @@ title: "Syllabus"
 markup: "mmark"
 ---
 
-**[Click here](syllabus.html) to download a PDF copy of the syllabus.**
+**[Click here](syllabus.pdf) to download a PDF copy of the syllabus.**
 
 ### Course Learning Objectives
 
