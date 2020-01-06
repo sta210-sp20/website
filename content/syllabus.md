@@ -45,7 +45,7 @@ The exams are an opportunity to assess the knowledge and skills you’ve learned
 
 #### Final Project (15%)
 
-The purpose of the project is to apply what you’ve learned throughout the semester to analyze an interesting data-based research question using regression. The project will be completed in teams, and each team will present their results during the final exam period, Wednesday, December 11, 9a - 12p. **You must complete the final project and present your work during the final exam period to pass the course.**
+The purpose of the project is to apply what you’ve learned throughout the semester to analyze an interesting data-based research question using regression. The project will be completed in teams, and each team will present their results during the final exam period, Tuesday, April 28, 9a - 12p.  **Project presentations must be done during the specified period.**
 <br> 
 <br>
 
@@ -82,11 +82,15 @@ If you have a cumulative numerical average of 90 - 100, you are guaranteed at le
 <br>
 <br>
 
-### Inclusion 
+### Diversity & Inclusion 
 
-In this course, we will strive to create a learning environment that is welcoming to all students and that is in alignment with [Duke’s Commitment to Diversity and Inclusion] (https://provost.duke.edu/initiatives/commitment-to-diversity-and-inclusion). If there is any aspect of the class that is not welcoming or accessible to you, please let me know immediately. Additionally, if you are experiencing something outside of class that is affecting your performance in the course, please feel free to talk with me and/or your academic dean. 
-<br>
-<br>
+It is my intent that students from all diverse backgrounds and perspectives be well-served by this course, that students' learning needs be addressed both in and out of class, and that the diversity that the students bring to this class be viewed as a resource, strength and benefit. It is my intent to present materials and activities that are respectful of diversity and in alignment with [Duke’s Commitment to Diversity and Inclusion] (https://provost.duke.edu/initiatives/commitment-to-diversity-and-inclusion). Your suggestions are encouraged and appreciated. Please let me know ways to improve the effectiveness of the course for you personally, or for other students or student groups.
+
+Furthermore, I would like to create a learning environment for my students that supports a diversity of thoughts, perspectives and experiences, and honors your identities. To help accomplish this:
+
+- If you feel like your performance in the class is being impacted by your experiences outside of class, please don't hesitate to come and talk with me. If you prefer to speak with someone outside of the course, your academic dean is an excellent resource.
+- I (like many people) am still in the process of learning about diverse perspectives and identities. If something was said in class (by anyone) that made you feel uncomfortable, please talk to me about it.
+
 
 ### Accessibility 
 
