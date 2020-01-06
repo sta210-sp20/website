@@ -47,7 +47,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   identifier = "syllabus"
   name = "Syllabus"
   pre = "<i class='fa fa-check fa-lg'></i>"
-  url = "/policies.html"
+  url = "/syllabus.html"
 [[menu.main]]
   weight = 4
   identifier = "rstudio"

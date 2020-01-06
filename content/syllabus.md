@@ -3,7 +3,7 @@ title: "Syllabus"
 markup: "mmark"
 ---
 
-<a href = "policies.pdf"><i class="material-icons">dashboard</i></a> Click the icon to download a PDF copy of the course policies. 
+**[Click here](syllabus.html) to download a PDF copy of the syllabus.**
 
 ### Course Learning Objectives
 
