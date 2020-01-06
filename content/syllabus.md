@@ -33,6 +33,8 @@ In homework, you will apply what you've learned during lecture and lab to comple
 
 In labs, you will apply the concepts discussed in lecture to various data analysis scenarios, with a focus on the computation. You will work on lab assignments in teams, and all team members are expected to contribute equally to the completion of each assignment. You are expected to use the team's repository on the course's GitHub page as the central platform for collaboration. Commits to this repository will be used as a metric of each team member's relative contribution for each lab. You will also be asked to evaluate your team members' performance periodically during the semester. 
 
+**FILL THIS IN!**
+
 *The lowest lab grade will be dropped at the end of the semester.*
 <br> 
 <br>
@@ -57,7 +59,7 @@ This part of the final grade will consist of three components.
 
 - Daily Engagement Surveys. After each class you will receive a quick survey of consisting of three questions about engagement in the day's lecture. You are expected to fill out the survey even if you did not attend lecture that day. You are required to complete at least 80% of the daily engagement surveys along with the pre-course and post-course surveys to receive full credit for this component of the grade. 
 
-- In-Class Questions. We will use active learning in class, which will include answering questions through a web browswer. You are required to complete at least 75% of these in-class questions to receive full credit for this component of the grade. You will not be graded based on accuracy; however, you should make a earnest attempt at answering the questions, since they will be used in part to give real-time feedback about the class's understanding of the lecture material. You will be identified using your Net Id. It is your responsibility to ensure your Net Id is entered correctly on each survey to receive credit. In-class questions cannot be made up; there is built-in flexibilty so you can earn full credit even if you miss multiple lectures.
+- In-Class Questions. We will use active learning in class, which will include answering questions through a web browser. You are required to complete at least 75% of these in-class questions to receive full credit for this component of the grade. You will not be graded based on accuracy; however, you should make a earnest attempt at answering the questions, since they will be used in part to give real-time feedback about the class's understanding of the lecture material. You will be identified using your Net Id. It is your responsibility to ensure your Net Id is entered correctly on each survey to receive credit. In-class questions cannot be made up; there is built-in flexibility so you can earn full credit even if you miss multiple lectures.
 
 <br> 
 <br>
@@ -149,7 +151,7 @@ By enrolling in this course, you have agreed to abide by and uphold the provisio
 
 ### Regrade Requests
 
-Regrade requests should be submitted through the regrade request from on Gradescope. **Requests for a regrade must be made within a week of when the assignment is returned; requests submitted later will not be considered.** You shoud only submit a regrade request if there is an error in the grade calculation or a correct answer was mistakenly marked as incorrect. You should not submit a regrade to dispute the number of points deducted for an incorrect response. *Please note that by submitting a regrade request, your entire assignment may be regraded and you may potentially lose points.* 
+Regrade requests should be submitted through the regrade request from on Gradescope. **Requests for a regrade must be made within a week of when the assignment is returned; requests submitted later will not be considered.** You should only submit a regrade request if there is an error in the grade calculation or a correct answer was mistakenly marked as incorrect. You should not submit a regrade to dispute the number of points deducted for an incorrect response. *Please note that by submitting a regrade request, your entire assignment may be regraded and you may potentially lose points.* 
 
 Due to the time consuming nature of responding to regrade requests, you should attend office hours and ask a member of the teaching team about the feedback before submitting the request When you submit a request, please indicate which member of the teaching team you spoke with. *Note: Grades can only be changed by the Professor Tackett. Teaching Assistants cannot change grades on returned assignments.*
 
