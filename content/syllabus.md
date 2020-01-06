@@ -33,7 +33,9 @@ In homework, you will apply what you've learned during lecture and lab to comple
 
 In labs, you will apply the concepts discussed in lecture to various data analysis scenarios, with a focus on the computation. You will work on lab assignments in teams, and all team members are expected to contribute equally to the completion of each assignment. You are expected to use the team's repository on the course's GitHub page as the central platform for collaboration. Commits to this repository will be used as a metric of each team member's relative contribution for each lab. You will also be asked to evaluate your team members' performance periodically during the semester. 
 
-**FILL THIS IN!**
+A portion of each lab grade will be for attending and participating during the lab session. You must attend lab and participate during the lab session to receive credit for the group's lab assignment. If you did not attend lab or did not participate during the lab session, your name should not be included in the final group submission. 
+
+If you miss lab, you should complete lab for partial credit by the regular lab deadline. 
 
 *The lowest lab grade will be dropped at the end of the semester.*
 <br> 
