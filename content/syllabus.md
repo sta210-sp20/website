@@ -37,7 +37,7 @@ In labs, you will apply the concepts discussed in lecture to various data analys
 <br> 
 <br>
 
-#### Exams (Exam I: 20%, Exam II: 20%)
+#### Exams (Exam 01: 20%, Exam 02: 20%)
 
 The exams are an opportunity to assess the knowledge and skills you’ve learned. They will include both the conceptual and mathematical and conceptual aspects of regression. Both exams will be given during a lecture class period, and you will be permitted to bring one page of hand-written notes to each exam.
 <br> 
@@ -51,9 +51,14 @@ The purpose of the project is to apply what you’ve learned throughout the seme
 
 #### Teamwork & Engagement (5%)
 
-This part of the final grade will consist of two components. The first component will be based on peer feedback surveys from your teammates. These teams will be constructed based on a short survey used to gauge your previous experience in programming and statistical topics. After completing the survey, you will be assigned to diverse teams of 3-4 students; these teams will stay consistent throughout the semester (barring extraordinary circumstances). You will work in these teams during class, on lab assignments, and on the final project. 
+This part of the final grade will consist of three components. 
 
-The second component will be based on completion of at least 80% of the class engagement surveys given throughout the semester. These quick surveys will consist of about three questions about engagement in the day's lecture. You will receive these surveys via email or text; you will have an opportunity to indicate your preference at the beginning of the semester. 
+- Team Feedback Surveys. You will be assigned to diverse teams of 3-4 students based on the results of a Get to Know You survey at the beginning of the semester. These teams will stay consistent throughout the semester (barring extraordinary circumstances). You will primarily work in these teams on lab assignments, the final project, and some in-class activities.
+
+- Daily Engagement Surveys. After each class you will receive a quick survey of consisting of three questions about engagement in the day's lecture. You are expected to fill out the survey even if you did not attend lecture that day. You are required to complete at least 80% of the daily engagement surveys along with the pre-course and post-course surveys to receive full credit for this component of the grade. 
+
+- In-Class Questions. We will use active learning in class, which will include answering questions through a web browswer. You are required to complete at least 75% of these in-class questions to receive full credit for this component of the grade. You will not be graded based on accuracy; however, you should make a earnest attempt at answering the questions, since they will be used in part to give real-time feedback about the class's understanding of the lecture material. You will be identified using your Net Id. It is your responsibility to ensure your Net Id is entered correctly on each survey to receive credit. In-class questions cannot be made up; there is built-in flexibilty so you can earn full credit even if you miss multiple lectures.
+
 <br> 
 <br>
 
@@ -66,14 +71,14 @@ The final grade will be calculated as follows:
 -----------|---------------------------------
 Homework | 25%
 Labs | 15%
-Exam I | 20%
-Exam II | 20%
+Exam 01 | 20%
+Exam 02 | 20%
 Final Project | 15%
 Teamwork & Engagement | 5%
 
 Class attendance in lecture and lab is a firm expectation; frequent absences or tardiness will be considered a legitimate cause for grade reduction.
 
-If you have a cumulative numerical average of 90 - 100, you are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-. The exact ranges for letter grades will be determined after Exam 2.
+If you have a cumulative numerical average of 90 - 100, you are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-. The exact ranges for letter grades will be determined at the end of the semester. 
 <br>
 <br>
 
