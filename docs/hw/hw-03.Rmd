@@ -1,7 +1,7 @@
 ---
-title: "HW 03: Multiple Linear Regression"
-subtitle: "Total: 70 points "
-author: "due Wed, October 2 at 11:59p"
+title: "HW 03"
+subtitle: "due Wed, Feb 19 at 11:59p"
+author: ""
 date: ""
 output: 
   html_document:
@@ -16,6 +16,12 @@ knitr::opts_chunk$set(echo = TRUE,
                       message=FALSE)
 ```
 
+<br><br>
+
+*Instructions will be available when the homework is assigned.*
+
+
+<!--
 
 # Getting Started
 
@@ -81,9 +87,6 @@ kable(tidy(model),format="markdown", digits = 3)
 
 6. Use the information from the table to calculate the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions. *Hint: You can calculate t\* using the `qt()` function.*
 
-
-<!--
-
 7. Let's conduct the nested F test to test whether the slope of year is the same for all three condition types. In other words, we wish to test the hypotheses
 
 $$ \begin{aligned} &H_0: \beta_5 = \beta_6 = 0 \\
@@ -91,7 +94,6 @@ $$ \begin{aligned} &H_0: \beta_5 = \beta_6 = 0 \\
 
 The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F test statistic and p-value for this test. What is your conclusion? 
 
--->
 
 ## Part 2: Data Analysis
 
@@ -147,3 +149,4 @@ As usual, be sure to include exploratory data analysis and an analysis of the mo
 
 The data used in this assignment was obtained from [https://github.com/proback/BYSH](https://github.com/proback/BYSH).
 
+-->

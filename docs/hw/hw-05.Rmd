@@ -1,6 +1,6 @@
 ---
-title: "HW 05: Logistic Regression"
-author: "due Wed, Nov 6 at 11:59p"
+title: "HW 05"
+subtitle: "due Wed, Apr 1 at 11:59p"
 date: ""
 output: 
   html_document:
@@ -14,8 +14,11 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning=FALSE,
                       message=FALSE)
 ```
-<br>
+<br><br>
 
+*Instructions will be available when the homework is assigned.*
+
+<!--
 # Getting Started
 
 - Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **hw-05**. It contains the starter documents you need to complete the lab.
@@ -144,3 +147,5 @@ The questions from this assignment are modified from exercises in Chapter 6 of  
 - Nafstad, Per, Jorgen A. Hagen, Leif Oie, Per Magnus, and Jouni J. K. Jaakkola. 1999. “Day Care Centers and Respiratory Health.” *Pediatrics*, 103 (4): 753–58. http://pediatrics.aappublications.org/content/103/4/753.
 
 - “NBA Enhanced Box Scores and Standings.” 2018. Accessed August 1. https://www.kaggle.com/pablote/nba-enhanced-stats.
+
+-->

@@ -1,7 +1,7 @@
 ---
-title: "HW 02: Analysis of Variance "
-subtitle: "Total: 60 points"
-author: "due Wed, Sep 25 at 11:59p"
+title: "HW 02"
+subtitle: "due Wed, Feb 12 at 11:59p"
+author: ""
 date: ""
 output: 
   html_document:
@@ -16,7 +16,12 @@ knitr::opts_chunk$set(echo = TRUE,
                       message=FALSE)
 ```
 
+<br><br>
 
+*Instructions will be available when the homework is assigned.*
+
+
+<!--
 # Getting Started
 
 - Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **hw-02**. It contains the starter documents you need to complete the lab.
@@ -126,3 +131,4 @@ As usual, be sure to include exploratory data analysis and an analysis of the mo
 ### References
 
 [Allen, K., Blascovich, J., Tomaka, J., and Kelsey, R., 1991, Presence of Human Friends and Pet Dogs as Moderators of Autonomic Responses to Stress in Women, *Journal of Personality and Social Psychology*, 61: 582-589.](https://search-ebscohost-com.proxy.lib.duke.edu/login.aspx?direct=true&db=pdh&AN=1992-04617-001&site=ehost-live&scope=site)
+-->

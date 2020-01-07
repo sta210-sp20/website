@@ -1,7 +1,7 @@
 ---
-title: "HW 01: Simple Linear Regression "
-subtitle: "Total: 60 points"
-author: "due Wednesday, September 18 at 11:59p"
+title: "HW 01"
+subtitle: "due Wed, Jan 29 at 11:59p"
+author: ""
 date: ""
 output: 
   html_document:
@@ -15,7 +15,11 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning=FALSE,
                       message=FALSE)
 ```
+<br><br>
 
+*Instructions will be available when the homework is assigned.*
+
+<!-- 
 
 # Getting Started
 
@@ -116,3 +120,5 @@ The *Data Analysis* section of homework contains open-ended data analysis questi
 | Documents neatly organized (.Rmd and .md files) | 5 |
 | Narrative in full sentences and neatly organized| 3 |
 | Regular and informative commit messages | 2 |
+
+-->

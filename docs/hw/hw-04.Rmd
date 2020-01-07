@@ -1,6 +1,7 @@
 ---
-title: "HW 04: Model Diagnostics"
-author: "due Thursday, October 10 at 11:59p"
+title: "HW 04"
+subtitle: "due Wed, Mar 25 at 11:59p"
+author: ""
 date: ""
 output: 
   html_document:
@@ -15,7 +16,12 @@ knitr::opts_chunk$set(echo = TRUE,
                       message=FALSE)
 ```
 
+<br><br>
 
+*Instructions will be available when the homework is assigned.*
+
+
+<!--
 # Getting Started
 
 - Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **hw-04**. It contains the starter documents you need to complete the lab.
@@ -115,4 +121,5 @@ This homework contains short answer questions about the concepts discussed in cl
 
 The data used in this homework is from [insideairbnb.com](http://insideairbnb.com/index.html)
 
+-->
 
