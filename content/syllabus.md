@@ -9,7 +9,7 @@ markup: "mmark"
 
 By the end of the semester, you will…
 
-- know methods for analyzing multivariate datasets and understand how these methods are applied in research
+- know methods for analyzing multivariate datasets, with an emphasis on interpretation
 - know how to check whether proposed statistical models are appropriate for given data
 - develop proficiency in addressing complex research questions using statistical evidence
 - develop proficiency in computing tools used to conduct reproducible statistical analyses, specifically R and Git
