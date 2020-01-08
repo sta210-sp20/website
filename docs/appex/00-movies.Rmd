@@ -1,7 +1,7 @@
 ---
 title: "Movie Budgets and Revenues"
-author: "Maria Tackett"
-date: "08.26.19"
+author: ""
+date: "01.08.20"
 output: html_document
 ---
 
@@ -35,10 +35,10 @@ movies
 
 ### Part 1 
 
-We begin by looking at how the gross revenue (`gross`) has changed over time. Since we want to visualize the results, we will choose a few genres of interest for the analysis. 
+We begin by looking at how the average gross revenue (`gross`) has changed over time. Since we want to visualize the results, we will choose a few genres of interest for the analysis. 
 
-```{r country-list}
-genre_list <- c("Horror", "Drama", "Action", "Animation")
+```{r genre-list}
+genre_list <- c("Comedy", "Action", "Animation", "Horror")
 ```
 
 ```{r plot-rating, fig.width=10, warning=FALSE}
@@ -47,14 +47,17 @@ movies %>%
   group_by(genre,year) %>%
   summarise(avg_gross = mean(gross)) %>%
   ggplot(mapping = aes(x = year, y = avg_gross, color=genre)) +
+    geom_point() + 
     geom_line() +
     ylab("Average Gross Revenue (in US Dollars)") +
     ggtitle("Gross Revenue Over Time")
 ```
 
+1. Suppose we fit a regression equation for each genre that uses `year` to predict `gross revenue`. Which genre do you expect to have the largest slope? (*Submit your response in the online form.*)
+
 ### Part 2
 
-Next, let's see the relationship between a movie's budget and its gross revenue. Because there is a large range of values for budget and revenue, we will plot the log-transformed version of each variable to more easily visualize the relationship. We will talk more about variable transformations later in the semester.
+Next, let's see the relationship between a movie's budget and its gross revenue.
 
 ```{r plot-revenue, fig.width=10, warning=FALSE}
 movies %>%
@@ -67,24 +70,11 @@ movies %>%
   facet_wrap(~ genre)
 ```
 
-## Next Steps
+1. Suppose we fit a regression equation for each genre that uses `budget` to predict gross revenue (`gross`). What are the signs of the correlation between `budget` and `gross` and the slope in each regression equation? (*Submit your response in the online form.*)
 
-1. Put your name in the author field at the top of the file (in the  `yaml` -- we will discuss what this is at a later date). Knit again.
+2. Which genre has the smallest residuals, on average? Note: *residual = observed revenue - predicted revenue*. (*Submit your response in the online form.*)
 
-2. Change the genre names in parts 1 and 2 to genres that interest you. The spelling and capitalization must match what's in the data, so you can use the [Appendix](#appendix) to see the correct spelling and capitalization. Knit again.
-
-You have made your first data visualization!
-
-## Discussion Questions
-
-1. Consider the plot in Part 1. 
-    - Describe how movie revenue has changed over time. 
-    - Suppose we use revenue as a measure of popularity. How has the popularity of each genre changed over time? In other words, are the genres that were most popular in 1986 still the most popular today?
-
-2. Consider the plot in Part 2. 
-    - Which genre(s) tend to have the highest budgets?
-    - In general, what is the relationship between a movie's budget and its total revenue? Are there any genres that show a different relationship between budget and revenue?
-
+3. In the remaining time, discuss the following: Notice in the graph above that `budget` and `gross` are log-transformed. Why are the log-transformed values of the variables displayed rather than the original values (in U.S. dollars)? 
 
 ## References
 
