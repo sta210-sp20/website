@@ -33,7 +33,7 @@ TAs               | [Youngsoo Baek](https://stat.duke.edu/people/youngsoo-baek-0
                   | [Sophie Dalldorf](https://www.linkedin.com/in/sophie-dalldorf-598a16192/) | <a href="mailto:sophia.dalldorf@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/sophiedalldorf" title="GitHub"><i class="fa fa-github"></i></a> | Fri 1p - 3p | Old Chem 203B
                   | [Jonathan Klus](https://stat.duke.edu/people/jonathan-klus) | <a href="mailto:jonathan.klus@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/jonklus" title="GitHub"><i class="fa fa-github"></i></a> | Mon 3p - 5p| Old Chem 203B
                   | [Matty Pahren](https://www.linkedin.com/in/mattypahren) | <a href="mailto:martha.pahren@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/mpahren" title="GitHub"><i class="fa fa-github"></i></a> | Tue 3p - 5p | Old Chem 203B
-                  | [Ethan Shen](https://www.linkedin.com/in/ethan-shen-931010134/) | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/ethann-shen" title="GitHub"><i class="fa fa-github"></i></a> | TBD | Old Chem 203B
+                  | [Ethan Shen](https://www.linkedin.com/in/ethan-shen-931010134/) | <a href="mailto:ethan.shen@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/ethann-shen" title="GitHub"><i class="fa fa-github"></i></a> | Wed 5p - 7p | Old Chem 203B
                    
                    
 ### Textbooks
