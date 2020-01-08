@@ -1,5 +1,5 @@
 ---
-title: "Welcome to Regression Analysis"
+title: "Welcome to Regression Analysis!"
 author: "Prof. Maria Tackett"
 date: "01.08.20"
 output:
@@ -145,7 +145,7 @@ knitr::include_graphics("img/00/reg_v_ml.png")
 ### Can I get a job that uses regression?
 
 ```{r fig.align="center",out.width="100%",echo=FALSE}
-knitr::include_graphics("img/00/nyt_job.jpg")
+knitr::include_graphics("img/00/nyt_job.JPG")
 ```
 
 
@@ -488,7 +488,7 @@ Raise your hand if you have any questions.
 
 - NO LAB TOMORROW. Labs start on Jan 16
 
-- **New to R or need a referesher?**
+- **New to R or need a refresher?**
   - Attend an Intro to R workshop 
   - Offered Jan 13 - 16, 6p - 7:30p, Gross Hall 270 (choose 1 night to attend)
 

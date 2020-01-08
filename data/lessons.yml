@@ -3,6 +3,7 @@ lessons:
   - date: "Wed, Jan 8"
     title: "Welcome to Regression Analysis"
     slides: "lec-slides/00-intro.html"
+    misc: "jan8.html"
   #  appex: "00-movies.html"
   - date: "Thu, Jan 9"
     title: "No Lab"
