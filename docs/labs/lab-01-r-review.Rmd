@@ -1,6 +1,6 @@
 ---
-title: "Lab 01: Introduction to R"
-date: "due Tuesday, September 3 at 11:59p"
+title: "Lab 01: R Review"
+date: "due Tue, Jan 21 at 11:59p"
 output: 
   tufte::tufte_html:
     css: "./sta210-labs.css"
@@ -19,33 +19,35 @@ knitr::opts_chunk$set(echo = TRUE,
 # Introduction
 
 ```{marginfigure}
-R is the name of the programming language itself and RStudio is a convenient interface.
+R is the name of the programming language itself and RStudio is a convenient user interface.
 ```
 
-The main goal of this lab is to introduce you to R and RStudio, which we will be using throughout the course both to learn the statistical concepts discussed in the course and to derive conclusions from the analysis of real-world data.
+The main goal of this lab is to review the basics of R and RStudio. We will use these tools throughout this course to analyze and make conclusions from real-world data. 
 
 ```{marginfigure}
-git is a version control system (like "Track Changes" features from Microsoft Word but more powerful) and GitHub is the home for your Git-based projects on the internet (like DropBox but much better).
+git is a version control system (like "Track Changes" features from Microsoft Word but more powerful) and GitHub is the home for your Git-based projects on the internet (like DropBox but better).
 ```
 
-An additional goal is to introduce you to git and GitHub, which is the collaboration and version control system that we will be using throughout the course.
+An additional goal is to introduce you to git and GitHub, which is the version control and collaboration system we will use throughout the course.
 
-As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer and statistician. If you're new to R, you should begin by building some basic fluency in R. Today's lab will focus on fundamental building blocks of R and RStudio: the interface, reading in data, and basic commands. Starting next week, the labs will focus on concepts more specific to regression analysis.
+As the labs progress, you are encouraged to explore beyond what the labs dictate; a willingness to experiment will make you a much better programmer and statistician. This lab is a brief review of the fundamental building blocks of R and RStudio: the interface, reading in data, and basic data wrangling and graphing functions. If you're new to R or would like additional practice, there are resources listed at the end of the lab instructions. 
 
-To make versioning simpler, today's lab is individual. This will give you a chance to become more familiar with git and GitHub. Next week you’ll learn about collaborating on GitHub and will produce a single lab report as a team.
+Today's lab will focus on fundamental building blocks of R and RStudio: the interface, reading in data, and basic commands. Starting next week, the labs will focus on concepts more specific to regression analysis. Today's lab will be individual, to give you a chance to become more familiar with the workflow. In future labs you will work in teams, and learn how to collaborate using GitHub to produce a single lab report as a team. 
 
 ## Topics covered in this lab:
 
-- Exploratory Data Analysis (data visualizations and numerical summaries)
-- Statistical Inference
+- Exploratory Data Analysis (EDA) - data visualizations and numerical summaries
+- Statistical inference about a mean
 - Writing a lab report using R Markdown
-- Tracking changes and submitting work using git and GitHub
+- Tracking changes and using git and GitHub
 
 # Getting Started
 
-Each of your assignments will begin with steps in this section. You saw your TA demonstrate these steps, and they're outlined in detail below. Going forward, each lab will begin with a "Getting started" section but details will be a bit more sparse than this. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
+Each of your assignments will begin with steps in this section. You saw your TA demonstrate these steps, and they're outlined in detail below. Going forward, each lab will begin with a "Getting started" section but the details will become more sparse as the semester progresses. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
 
 ## Clone Assignment Repo
+
+- UPDATE THIS WHOLE SECTION!
 
 - Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **lab-01-intro-r**. It contains the starter documents you need to complete the lab.
 
@@ -333,3 +335,5 @@ bikeshare %>%
 12. Use the p-value to state the conclusion in the context of the problem. *You can use [this table](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/01-inf-review-pt1.html#51) to help assess the p-value.*
 
 *You're done! Knit and commit all remaining changes, use the commit message "Done with Lab 1!", and push. Before you wrap up the assignment, make sure <u>all</u> documents are updated on your GitHub repo.*
+
+## Resources for additional practice (optional)
