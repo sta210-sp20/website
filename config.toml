@@ -54,7 +54,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   identifier = "rstudio"
   name = "RStudio"
   pre = "<i class=\"material-icons\">cloud</i>"
-  url = "https://rstudio.cloud"
+  url = "https://vm-manage.oit.duke.edu/containers"
   
 [[menu.main]]
   weight = 5
@@ -87,7 +87,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   weight = 2
   name = "RStudio"
   pre = "<i class=\"icon-rlogo\" style=\"font-size:150%\"></i>"
-  url = "https://rstudio.cloud/"
+  url = "https://vm-manage.oit.duke.edu/containers"
 [[menu.footer]]
   weight = 3
   identifier = "GitHub"
