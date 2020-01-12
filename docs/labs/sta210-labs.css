@@ -77,37 +77,55 @@ strong {
 
 /* Code formatting */
 
-@media screen and (max-width: 760px) {
+/* @media screen and (max-width: 760px) {
 	pre {
 		width: 100%;
 		font-size: 16px;
 	}
 }
+*/
+
+@media screen and (max-width: 760px) {
+	pre {
+		width: 100%;
+		font-size: 16px;
+     	overflow-x: auto;
+	}
+}
 
 code {
 	font-family: 'Source Code Pro', Consolas, "Liberation Mono", Menlo, Courier, monospace;
-	font-size: 15px;
+	font-size: 16px;
 	line-height: 1.6;
 }
 
-pre code {
-	font-size: 15px;
+pre {
+	background-color: #FFFFFF;
+	/*border-color: #CCCCCC;*/
+	/*border-style: solid;*/
+	border-width: 0px;
+ /* border-radius: 4px;*/
+  overflow-x: auto;
+ 	padding: 1em;
+ 	white-space: inherit;
+ 	word-break: normal;
+ 	word-wrap: normal;
 }
+
+
+pre code {
+	background-color: #F5F5F5;	
+	/*border-color: #CCCCCC*/
+	 white-space: inherit;
+}
+
 
 .marginnote code,
 .sidenote code {
 	font-size: 1rem;
 }
 
-.marginnote{
-  font-size: 13px;
-}
 
-pre {
-		width: 100%;
-		font-size: 16px;
-		overflow-x: auto;
-}
 
 /* Exercise counter */
 
