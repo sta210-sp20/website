@@ -104,7 +104,7 @@ pre {
 	/*border-color: #CCCCCC;*/
 	/*border-style: solid;*/
 	border-width: 0px;
- /* border-radius: 4px;*/
+  border-radius: 4px;*/
   overflow-x: auto;
  	padding: 1em;
  	white-space: inherit;
@@ -113,7 +113,7 @@ pre {
 }
 
 
-pre code {
+pre.r {
 	background-color: #F5F5F5;	
 	/*border-color: #CCCCCC*/
 	 white-space: inherit;
