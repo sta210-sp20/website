@@ -45,11 +45,9 @@ Today's lab will focus on fundamental building blocks of R and RStudio: the inte
 
 Each of your assignments will begin with steps in this section. You saw your TA demonstrate these steps, and they're outlined in detail below. Going forward, each lab will begin with a "Getting started" section but the details will become more sparse as the semester progresses. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
 
-## Clone Assignment Repo
+## Clone the repo & start new project in RStudio 
 
-- UPDATE THIS WHOLE SECTION!
-
-- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **lab-01-intro-r**. It contains the starter documents you need to complete the lab.
+- Go to the sta210-sp20 organization on GitHub (http://www.github.com/sta210-sp20). Click on the repo with the prefix **lab-01-review-r-**. It contains the starter documents you need to complete the lab.
 
 ```{r clone-repo-link, fig.margin = TRUE, echo = FALSE, fig.width=3}
 knitr::include_graphics("img/01-intro-r/clone-repo-link.png")
@@ -61,17 +59,22 @@ knitr::include_graphics("img/01-intro-r/clone-repo-link.png")
 knitr::include_graphics("img/01-intro-r/new-project-from-gh.png")
 ```
 
-- Go to RStudio Cloud and into the STA 210 course workspace. Create a **New Project from Git Repo**. You will need to click on the down arrow next to the **New Project** button to see this option.
+- Go to https://vm-manage.oit.duke.edu/containers and login with your Duke NetId and Password.
 
-```{r paste-gh-repo-url, fig.margin = TRUE, echo = FALSE, fig.width=5}
+- Click to log into the Docker container **RStudio - statistics application with RMarkdown and knitr support**. You should now see the RStudio environment. 
+
+- Go to *File* `r emo::ji("arrow_right")` *New Project* `r emo::ji("arrow_right")` *Version Control* `r emo::ji("arrow_right")` *Git*. 
+
+- Copy and paste the URL of your assignment repo into the dialog box *Repository URL*. You can leave the direct name empty. It will default to the name of the GitHub repo.
+
+UPDATE THE PICTURE! 
+```{r paste-gh-repo-url, fig.margin = TRUE, echo = FALSE, fig.width=5, eval = F}
 knitr::include_graphics("img/01-intro-r/paste-gh-repo-url.png")
 ```
 
-- Copy and paste the URL of your assignment repo into the dialog box. Be sure "Add packages from the base project" is checked. 
+- Click *Create Project*, and you should see the contents from your GitHub repo in the **Files** pane in RStudio. 
 
-- Click OK, and you should see the contents from your GitHub repo in the **Files** pane in RStudio. 
-
-## Configure git
+## Configure git - DO WE NEED THIS WITH THE DOCKERS?
 
 There is one more piece of housekeeping we need to take care of before we get started. Specifically,  we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your name and email address.
 
@@ -80,19 +83,19 @@ To do so, you will use the `use_git_config()` function from the `usethis` packag
 Type the following lines of code in the **console** in RStudio filling in your name and email address.
 
 ```{marginfigure}
-Use your first and last name. The email address is the one tied to your GitHub account. 
+The email address is the one tied to your GitHub account. 
 ```
 
 ```{r eval=FALSE}
 library(usethis)
-use_git_config(user.name="your name", user.email="your email")
+use_git_config(user.name = "GitHub username", user.email="your email")
 ```
 
 For example, mine would be 
 
 ```{r eval=FALSE}
 library(usethis)
-use_git_config(user.name="Maria Tackett", user.email="maria.tackett@duke.edu")
+use_git_config(user.name="matackett", user.email="maria.tackett@duke.edu")
 ```
 
 If you get the error message
@@ -109,46 +112,41 @@ install.package("usethis")
 
 Once you run the code, your values for `user.name` and `user.email` will show in the console. If your `user.name` and `user.email` are correct, you're good to go! Otherwise, run the code again with the necessary changes.
 
+### THE RSTUDIO PROJECT
+
+- PICTURES AND DESCRIPTION OF WHAT EACH PART OF RSTUDIO PROJECT PANE IS
+
+
+
 ## Packages
 
 We will use the following packages in today's lab. 
 
 ```{r load-packages}
 library(tidyverse)
-library(skimr)
-library(infer)
 ```
 
-If you need to install any of the packages, you can run the code below in the **console**.
+If you need to install the package, you can run the code below in the **console**.
+
 ```{r,eval=F}
 install.packages("tidyverse") 
-install.packages("skimr")
-install.packages("infer")
 ```
 
-# Warm up
+## YAML 
 
-Before we introduce the data, let's warm up with some simple exercises. 
-
-## Project name: 
-
-Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 01 - Intro R". You should write an informative project name for each new project in RStudio Cloud.
-
-```{r untitled-project, echo = FALSE}
-knitr::include_graphics("img/01-intro-r/untitled-project.png")
-```
+Before we introduce the data, let's update the name and date in the YAML. 
 
 ```{marginfigure}
 The top portion of your R Markdown file (between the three dashed lines) is called YAML. It stands for "YAML Ain't Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
 ```
 
-## YAML: 
-
-Open the R Markdown (Rmd) file in your project, change the author name to your name, and knit the document.
+Open the R Markdown (Rmd) file in your project, input your name for the author name and today's date for the date, and knit the document.
 
 ```{r yaml-raw-to-rendered, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/yaml-raw-to-rendered.png")
 ```
+
+**WRITE SOMETHING ABOUT THE FILE TYPES THAT WE'LL USE**
 
 ## Committing changes:
 
@@ -169,16 +167,20 @@ Now that you have made an update and committed this change, it's time to push th
 In order to push your changes to GitHub, click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. This might feel cumbersome. Bear with me... We *will* teach you how to save your password so you don't have to enter it every time. But for this one assignment you'll have to manually enter each time you push in order to gain some experience with it.
 
 
-## Data 
+## Data - UPDATE THE DATASET
 
-Today's data comes from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. You can get more information about the bikeshare on their website, [https://www.capitalbikeshare.com/](https://www.capitalbikeshare.com/). We will read in the data from the file *bikeshare.csv* located in the *data* folder and store it in a data frame called `bikeshare`.
+Data is the Durham trails data.
+
+Today's data comes from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. You can get more information about the bikeshare on their website, [https://www.capitalbikeshare.com/](https://www.capitalbikeshare.com/). We will read in the data from the file *durham_trails.csv* located in the *data* folder and store it in a data frame called `bikeshare`.
 
 
 ```{r read-data, eval=FALSE}
-bikeshare <- read_csv("data/bikeshare.csv")
+trails <- read_csv("data/durham_trails.csv")
 ```
 
 This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012. In this lab, we will focus on the following variables: 
+
+**UPDATE THE TABLE**
 
 |  |  |
 |----------|-------|
@@ -186,154 +188,159 @@ This dataset contains information about the number of bike rentals, environmenta
 | `temp` | Temperature (in $^{\circ}C$) &divide; 41 |
 | `count` | total number of bike rentals |
 
-# Exercises 
+# Exercises  
 
-Before doing any analysis, we want to understand the basic structure of the data. One way to do this, is to look at the actual dataset. Type the code below in the **console** to view the entire dataset. 
+Before doing any analysis, we may want to get quick view of the data. This is a useful thing to do after importing data to get an intial idea of the data imported correctly. One way to do this, is to look at the actual dataset. Type the code below in the **console** to view the entire dataset. 
+
 ```{r eval=FALSE}
-View(bikeshare)
+View(trails)
 ```
-
-It is sometimes more useful to view a summary of the data structure rather than view the entire dataset. This is especially true for very large datasets, i.e. those with a very large number of observations and/or rows. We can use the `glimpse()` function to get a general idea about the structure of our dataset. This function can be very useful when importing data from a file such as a .csv file (like in this lab) to ensure that data imported correctly and that we have the number of observations (rows) and variables (columns) we expect. We can also use this function to see each variable's type (e.g. integer, character). 
 
 ```{marginfigure}
-You can  type `??glimpse` in the console to learn more about the function and its syntax.
+Notice that the `View(trails)` command was run in the console and **not** in a code chunk in the RMarkdown file. By running the `View(trails)`, the dataset displays in your RStudio environment but not in the output from your RMarkdown file. Unless your dataset is very small (i.e. 20 observations or fewer), you never want to output the entire dataset in the output from the RMarkdown file. It is very disruptive if there are hundres (or thousands) of rows of data printed amongst your code, analysis output and narrative.
 ```
 
-1. Use the `glimpse()` function to get an overview of `bikeshare`. 
+## Exploratory Data Analysis
+
+1. It is sometimes more useful to view a summary of the data structure rather than view the entire dataset. This is especially true for very large datasets, i.e. those with a very large number of observations and/or rows. We can use the `glimpse()` function to get a general idea about the structure of our dataset. This function can be very useful when importing data from a file such as a .csv file (like in this lab) to ensure that data imported correctly and that we have the number of observations (rows) and variables (columns) we expect. We can also use this function to see each variable's type (e.g. integer, character). 
+
+    Use the `glimpse` function to get an overview of `trails`.
 
 ```{r eval = F}
-glimpse(bikeshare)
-```
-
-How many observations (rows) are in the `bikeshare` dataset? How many variables (columns)?
-
-2. Before conducting statistical inference (or eventually fitting regression models),  we want to do an exploratory data analysis (EDA) to get a sense of the main characteristics of the data. Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. It is good practice to examine any variable that may be relevant to the analysis in the EDA. To keep today's lab manageable, we will only examine the three variables `season`, `temp`, and `count`.
-
-There are many ways to calculate summary statistics for each variable, and we will use a few of them throughout the semester. For now, let's use the `skim()` function to calculate basic measures of center and spread.
-
-```{r eval=FALSE}
-bikeshare %>%
-  select(season,temp,count) %>%
-  skim()
-```
-
-What is the mean number of bike rentals? About 25% of the days in the data have a `count` above what value? 
-
-3. Does it make sense to calculate measures of center and spread for the variable `season`? If so, explain why it makes sense. Otherwise, explain why the `skim()` function calculated these summary statistics for the variable `season` even if they don't make sense.
-
-*This is a good place to pause, knit, and commit changes with the commit message "Added summary statistics  (Ex 1 - 3)". Push the changes to GitHub. Be sure you push all the files to GitHub by clicking the checkbox next to each file in the Git pane.*
-
-```{marginfigure}
-Check your lab-01 repo on the GitHub website (you may need to refresh the page in your browser) to ensure that all the documents you pushed are up-to-date.
-```
-
-## Visualizing Your Data
-
-4. One important part of EDA is visualizing the data to get a better idea of the shape of the distribution for each variable. Data visualizations are also useful for examining the relationship between multiple variables.  There are a lot of ways to make plots in R; we will use the functions available in the `ggplot2` package.
-
-The code below is used to create a histogram to visualize the distribution of `count`. Modify the code by writing an informative title and label for the x-axis.
-
-```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=count)) + 
-  geom_histogram() +
-  labs(title="______", x="______")
-```
-
-
-5. Sometimes you want to customize a plot by changing different features such as the color, marker types, etc. When plotting a histogram, one easy way to customize it is by changing its color. We'll look at two different ways to do this. 
-
-First, using a color of your choice, include the option `color="_____"` inside of `geom_histogram()` function. Your code will look similar to the code below. Be sure to also include an informative title and label for the x-axis.
-
-```{r eval=FALSE}
-ggplot(data=bikeshare, mapping=aes(x=count)) + 
-  geom_histogram(______) +
-  labs(title="______", x="______")
+glimpse(trails)
 ```
 
 ```{marginfigure}
-This [ggplot2 quick reference](http://sape.inf.usi.ch/quick-reference/ggplot2/colour) has a long list of color options. You can also use [HTML color codes](https://htmlcolorcodes.com/).
+Type `??glimpse` in the console to learn more about the function and its syntax.
 ```
 
-Next, instead of `color="_____"`, include the `fill="______"` option inside of the `geom_histogram()` function using the color of your choice. It can be the same color as before or a new one.
 
-What is the difference in the two plots? In other words, what is the difference in the way color is implemented when using `color` versus `fill`?
+How many observations (rows) are in the `trails` dataset? How many variables (columns)?
 
-6. Describe the distribution of `count`. Your description should include comments about the shape, center, spread, and any potential outliers. You should use the histogram and summary statistics in your description. 
+2. Before conducting statistical inference (or eventually fitting regression models),  we want to do an exploratory data analysis (EDA) to get a sense of the main characteristics of the data. Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. It is important to examine all variables relevant to the analysis (even if they are not included in the model), so you have full context about the data when interpreting the results. 
 
-*This is a another good place to pause, knit, commit changes with the commit message "Added data visualization of count (Ex 4 - 6)", and push.*
+<!-- This dataset contains information for both existing and proposed trails.  Because There are many ways to calculate summary statistics for each variable, and we will use a few of them throughout the semester. For now, let's use the `skim()` function to calculate basic measures of center and spread. -->
 
-7. We might expect the number of bike rentals to vary season-to-season. In the remainder of the lab, we will examine the relationship between `count` and `season`.
+Let's examine the distribution of `status` with a data visulization and summary statistics. 
 
-Recall from Exercise 2 that the variable `season` is currently stored in a numeric format. The numeric labels (1,2,3,4) are not very informative, so let's replace these values with the actual season names. Fill in the code below to update the variable `season`. 
+- What is an appropriate type of plot to visualize the distribution of `status`? Fill in the `ggplot` code below to plot the distribution of `status`. Include informative axis labels and title on the graph.
 
 ```{r eval=FALSE}
-bikeshare <- bikeshare %>%
-  mutate(season = as.factor(season), #first change season to a factor variable type
-         season = case_when(
-           season == 1 ~ "Winter", 
-           season == 2 ~ "______", 
-           season == 3 ~ "______", 
-           season == 4 ~ "______"
-         ))
+ggplot(data = trails, aes(x = status)) + 
+  __________ + 
+  labs(x = "_________", 
+       y = "_________", 
+       title = "__________")
 ```
-
-You can use the `glimpse()` to check that `season` updated correctly.
-
-
-8. Let's visualize the differences in the number of bike rentals across seasons. Create a side-by-side boxplot to visualize the relationship between `season` and `count`. The code below will help you get started. Be sure to include an informative title along with informative labels for the x and y axes.
 
 ```{marginfigure}
-[https://ggplot2.tidyverse.org/](https://ggplot2.tidyverse.org/) is a great resource as you learn `ggplot()`. Click **Reference** in the top right corner to see a list of the various plot types available in the ggplot2 package.
+See [Section 7.3.1 "Visualising Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) in *R for Data Science* for more information on choosing the appropriate graph based on variable type.
 ```
+
+Next, let's make a table of values in each category of `status`. Use the `count` function to display the number of observations in each category of `status`. Be sure to show your code and output. 
+
+
+3. The goal of the analysis is understand characteristics about trails in Durham, so we will just use data from currently existing trails for the analysis. Fill in the code below to use the `filter` function to create a subset of the data containing only the trails that are currently existing. Assign this subset the name `current_trails`. 
+
+```{r eval = FALSE}
+current_trails <- trails %>%
+  filter(__________)
+```
+
+*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write informative commit message (e.g. "Completed exercises 1 - 3"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
+
+```{marginfigure}
+Check your lab-01 repo on the GitHub website (you may need to refresh the page in your browser) to ensure that all of the files are up-to-date.
+```
+
+**Use `current_trails` for the remainder of the lab.**
+
+4. Let's examine the distribution of `length`. One important part of EDA is visualizing the data to get a better idea of the shape of the distribution for each variable. Data visualizations are also useful for examining the relationship between multiple variables.  There are a lot of ways to make plots in R; we will use the functions available in the `ggplot2` package.
+
+Use  `geom_histogram()` to visualize the distribution of `length`. Include informative axis labels and title on the graph.
+
+```{marginfigure}
+See [Section 7.3.1 "Visualising Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) or the [ggplot2 Reference page](https://ggplot2.tidyverse.org/reference/index.html) for details and example code.
+```                                               
+
+5. Next, fill in the code below to use the `summarise` function to calculate various summary statistics for the variable `length`. You can use the [summarise reference page](https://dplyr.tidyverse.org/reference/summarise.html) for more information about the function and example code. 
+
+```{r eval = FALSE}
+current_trails %>%
+  summarise(min = __________, 
+            q1 = __________, 
+            median = __________, 
+            q3 = __________, 
+            max = __________, 
+            iqr = __________, 
+            mean = __________, 
+            std_dev = __________
+            )
+```
+
+
+6. What are the appropriate measures of center and spread to describe the distribution of `length`. Briefly explain your reasoning. 
+
+7. Describe the distribution of `length`. Your description should include comments about the sahpe, center, spread, and any potential outliers. Use the histogram and appropriate summary statistics (from Exercise 6) in your description. 
+
+*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write informative commit message (e.g. "Completed exercises 4 - 7"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
+
+8. Consider the distribution of `dogwalking`. What is likely the true value of `dogwalking` for observations with `NA` recorded in the dataset? Fill in the code below to impute the appropriate value of `dogwalking` for observations currently listed as `NA`. Then, display the distribution of `dogwalking` to check that the missing values were correctly imputed.
 
 ```{r eval=FALSE}
-ggplot(data = bikeshare, mapping = aes(x = season, y = count)) + 
-         ______() +
-         labs(_______)
+current_trails <- current_trails %>%
+  mutate(dogwalking = if_else(is.na(dogwalking),______,dogwalking))
 ```
 
-Describe the relationship the two variables. In your description, include similarities and differences in the center and spread of the number of bike rentals across seasons. 
+9. Let's examine the relationship between the length of the trail and whether dog walking is allowed. Make an appropriate graph and calculate the appropriate summary statistics to describe the relationship between `length` and `dogwalking`. Be sure to include informative axis labels and title on your graph.
 
-*This is a another good place to pause, knit, and commit changes with the commit message "Refactored season and visualized bike rentals vs. season (Ex 7 - 8)", and push.*
+10. Describe the relationship between `length` and `dogwalking`. Include information from the graph and summary statistics from the previous exercise in your description. 
+
+
+*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write informative commit message (e.g. "Completed exercises 8 - 10"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
+
 
 ## Statistical Inference
 
-9. While you may have observed differences in the typical number of bike rentals across season, we’d like to assess whether those differences are statistically significant or just due to random day-to-day variation. For now, let's focus on two season. Over the next few questions, we will conduct a hypothesis test to determine if there is a statistically significant difference in the mean number of bike rentals between Spring and Fall.
-      
+We'd like to use the data from the trails in Durham to make more general conclusions about trails in urban areas in the southeast of the United States. For the purposes of this lab, then, we will consider the trails in Durham a sample representative of the trails in other urbran areas in states in the Southeast United States.
+
+11. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess whether that difference is statistically signifcant or just due to random chance. We'll begin by conducting a hypothesis test: 
       -  State the null and alternative hypotheses in words.
       -  Now write the hypotheses in statistical notation. You can use "mu" to represent the mean parameter.
 
-10. Next, we will calculate the test statistic and p-value using `infer` package. Fill in the value for `alternative = _____` in the `t_test()` function to calculate the test statistic and p-value. The choices are `less`, `greater`, and `two_sided`. 
- 
+12. Fill in the code below to use the `t.test` function to calculate the test statistic and p-value. Replace `response` with the variable we're interesting in analyzing and `group_var` with the variable used to define the two groups.
+
+```{r eval = FALSE}
+t.test(response ~ group_var, data = current_trails, 
+       alternative = "___________", 
+       conf.level = 0.99) #less, greater, or two.sided
+```
+
 ```{marginfigure}
-Learn more about the `infer` package: https://infer.netlify.com/index.html
+Type `?t.test` in the console to learn more about the function and its options. 
 ```
 
-```{r eval = F}
-# Calculate the test statistic 
-bikeshare %>% 
-  t_test(formula = count ~ season,
-         alternative = "_____",  ## less, greater, or two_sided
-         order = c("Spring", "Fall")) %>% 
-  pull(statistic) #get the test statistic
-```
+13. Use the output from the previous exercise to answer the following: 
+  - Write the definition of the test statistic in the context of this analysis.
+  - Write the definition of the p-value in the context of this analysis. 
+  - State your conclusion in the context of this analysis. Use $\alpha = 0.01$ for the significance level.  significance level.  
 
-```{r eval = F}
-# Calculate the p-value
-bikeshare %>% 
-  t_test(formula = count ~ season,
-         alternative = "_____",  ## less, greater, or two_sided
-         order = c("Spring", "Fall")) %>% 
-  pull(p_value) #get the p-value
-```
-
-*This is a another good place to pause, knit, and commit changes with the commit message "Completed hypothesis test calculations in Ex 10", and push.*
+14. Notice the confidence interval for the difference in mean trail length printed in the output from Exercise 12. Interpret this confidence interval in the context of this analysis. 
 
 
-11. Interpret the p-value in the context of the question. 
-
-12. Use the p-value to state the conclusion in the context of the problem. *You can use [this table](https://www2.stat.duke.edu/courses/Fall19/sta210.001/slides/lec-slides/01-inf-review-pt1.html#51) to help assess the p-value.*
-
-*You're done! Knit and commit all remaining changes, use the commit message "Done with Lab 1!", and push. Before you wrap up the assignment, make sure <u>all</u> documents are updated on your GitHub repo.*
+*You're done! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 1!" Before you wrap up the assignment, make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that<u>all</u> documents are updated in your repo on GitHub.*
 
 ## Resources for additional practice (optional)
+
+- [Chapter 2: Get Started](https://socviz.co/gettingstarted.html#work-in-plain-text-using-rmarkdown) *Data Visualization by Kieran Healy* 
+
+- [Chapter 3: Data visualization](https://r4ds.had.co.nz/data-visualisation.html) in *R for Data Science* by Hadley Wickham
+
+- RStudio Cloud Primers
+  - Visualization Basics: https://rstudio.cloud/learn/primers/1.1
+  - Work with Data: https://rstudio.cloud/learn/primers/2
+  - Visualize Data: https://rstudio.cloud/learn/primers/3
+
+- Visualization in R using ggplot2 workshop by the Center for Data and Visualization Sciences 
+  - Jan 30, 1p - 3p
+  - More info & registration: https://duke.libcal.com/event/6085379
