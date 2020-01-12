@@ -1,5 +1,5 @@
 ---
-title: "Lab 01: R Review"
+title: "Lab 01: Review R"
 date: "due Tue, Jan 21 at 11:59p"
 output: 
   tufte::tufte_html:
@@ -55,7 +55,7 @@ knitr::include_graphics("img/01-intro-r/clone-repo-link.png")
 
 - Click on the green **Clone or download** button, select **Use HTTPS** (this might already be selected by default, and if it is, you'll see the text **Clone with HTTPS** as in the image below). Click on the clipboard icon to copy the repo URL.
 
-```{r new-project-from-gh, fig.margin = TRUE, echo = FALSE, fig.width=3}
+```{r new-project-from-gh, fig.margin = TRUE, echo = FALSE, fig.width=3, eval = F}
 knitr::include_graphics("img/01-intro-r/new-project-from-gh.png")
 ```
 
@@ -112,10 +112,9 @@ install.package("usethis")
 
 Once you run the code, your values for `user.name` and `user.email` will show in the console. If your `user.name` and `user.email` are correct, you're good to go! Otherwise, run the code again with the necessary changes.
 
-### THE RSTUDIO PROJECT
+## THE RSTUDIO PROJECT
 
 - PICTURES AND DESCRIPTION OF WHAT EACH PART OF RSTUDIO PROJECT PANE IS
-
 
 
 ## Packages
@@ -142,6 +141,8 @@ The top portion of your R Markdown file (between the three dashed lines) is call
 
 Open the R Markdown (Rmd) file in your project, input your name for the author name and today's date for the date, and knit the document.
 
+**UPDATE PICTURE**
+
 ```{r yaml-raw-to-rendered, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/yaml-raw-to-rendered.png")
 ```
@@ -153,6 +154,8 @@ knitr::include_graphics("img/01-intro-r/yaml-raw-to-rendered.png")
 Then go to the Git pane in your RStudio.
 
 If you have made changes to your Rmd file, you should see it listed here. Click on it to select it in this list and then click on **Diff**. This shows you the difference between the last committed state of the document and its current state with your changes. If you're happy with these changes, write "Update author name" in the **Commit message** box and click **Commit**.
+
+**UPDATE PICTURE**
 
 ```{r update-author-name-commit, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/update-author-name-commit.png")
@@ -167,26 +170,25 @@ Now that you have made an update and committed this change, it's time to push th
 In order to push your changes to GitHub, click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. This might feel cumbersome. Bear with me... We *will* teach you how to save your password so you don't have to enter it every time. But for this one assignment you'll have to manually enter each time you push in order to gain some experience with it.
 
 
-## Data - UPDATE THE DATASET
+## Data: Trails in Durham, NC
 
-Data is the Durham trails data.
+Today's data comes from the [Durham Open Data](https://live-durhamnc.opendata.arcgis.com/) a program managed by the City of Durham's Technology Solutions Department and the County of Durham's Information Services & Technology Department to provide open data about our community. You can read more about their mission [here](https://live-durhamnc.opendata.arcgis.com/pages/about-us).
 
-Today's data comes from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. You can get more information about the bikeshare on their website, [https://www.capitalbikeshare.com/](https://www.capitalbikeshare.com/). We will read in the data from the file *durham_trails.csv* located in the *data* folder and store it in a data frame called `bikeshare`.
-
+In this lab, we will focus on data about the proposed and existing outdoor trails in Durham, NC. The data is located in the *durham_trails.csv* file located in the *data* folder. Use the code below to read in the .csv file and save it in the RStudio environment as a data frame called `trails`.
 
 ```{r read-data, eval=FALSE}
 trails <- read_csv("data/durham_trails.csv")
 ```
 
-This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012. In this lab, we will focus on the following variables: 
+A full list of the variables in the dataset can be found [here](https://live-durhamnc.opendata.arcgis.com/datasets/existing-and-proposed-trails?geometry=-80.283%2C35.650%2C-77.473%2C36.428). For today's analysis, we will primarily focus on the following variables: 
 
-**UPDATE THE TABLE**
+
 
 |  |  |
 |----------|-------|
-| `season` |1: Winter, 2: Spring, 3: Summer, 4: Fall |
-| `temp` | Temperature (in $^{\circ}C$) &divide; 41 |
-| `count` | total number of bike rentals |
+| `status` |Whether the trail is proposed or existing|
+| `dogwalking` | Whether dogs are allowed on the trail |
+| `length` | Length of the trail in miles |
 
 # Exercises  
 
