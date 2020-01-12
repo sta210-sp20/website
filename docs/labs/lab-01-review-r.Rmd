@@ -16,6 +16,8 @@ knitr::opts_chunk$set(echo = TRUE,
                       message=FALSE)
 ```
 
+
+
 # Introduction
 
 ```{marginfigure}
@@ -346,3 +348,10 @@ Type `?t.test` in the console to learn more about the function and its options.
 - Visualization in R using ggplot2 workshop by the Center for Data and Visualization Sciences 
   - Jan 30, 1p - 3p
   - More info & registration: https://duke.libcal.com/event/6085379
+  
+<br><br>
+<hr>
+
+<div class = "footer">
+This work is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+</div>
