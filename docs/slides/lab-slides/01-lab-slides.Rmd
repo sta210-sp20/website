@@ -54,7 +54,7 @@ library(rvest)
 
 - Major or intended major
 
-- Something boring about yourself 
+- Share a boring fact about yourself 
 
 ---
 
