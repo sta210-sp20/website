@@ -20,14 +20,14 @@ body {
 h2 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
-  color: #339898;
+  color: #00897B;
   font-size: 12px;
   margin: 0.25em 0 0.5em 0;
 }
 h1, h3 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
-  color: #339898;
+  color: #00897B;
 }
 a, a > code {
   font-family: 'Open Sans', sans-serif;
@@ -48,7 +48,7 @@ a, a > code {
 .remark-code-line-highlighted     { background-color: #ffff88; }
 
 .inverse {
-  background-color: #339898;
+  background-color: #00897B;
   color: #ffffff;
   /* text-shadow: 0 0 20px #333; */
 }
@@ -162,7 +162,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 }
 
 .vocab2 {
-  color: #339898;
+  color: #00897B;
   font-weight: bold;
   font-size: 16pt;
 }
@@ -207,5 +207,20 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 
 .remark-slide-number {
   font-size: 12pt;
+}
+
+pre {
+	background-color: #FFFFFF;
+	border-color: #CCCCCC;
+	border-style: solid;	
+	border-width: 1px;
+    border-radius: 4px;
+	overflow-x: auto;
+ 	padding: 1em;
+}
+
+pre.r {
+	background-color: #F5F5F5;	
+	border-color: #CCCCCC
 }
 
