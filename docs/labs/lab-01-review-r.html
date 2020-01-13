@@ -512,7 +512,7 @@ font-size: 10pt;
 <ul>
 <li><p>Click on the green <strong>Clone or download</strong> button, select <strong>Use HTTPS</strong> (this might already be selected by default, and if it is, you’ll see the text <strong>Clone with HTTPS</strong> as in the image below). Click on the clipboard icon to copy the repo URL.</p></li>
 <li><p>Go to <a href="https://vm-manage.oit.duke.edu/containers" class="uri">https://vm-manage.oit.duke.edu/containers</a> and login with your Duke NetId and Password.</p></li>
-<li><p>Click to log into the Docker container <strong>RStudio - statistics application with RMarkdown and knitr support</strong>. You should now see the RStudio environment.</p></li>
+<li><p>Click to log into the Docker container <strong>STA 210 - Regression Analysis</strong>. You should now see the RStudio environment.</p></li>
 <li><p>Go to <em>File</em> ➡️ <em>New Project</em> ➡️ <em>Version Control</em> ➡️ <em>Git</em>.</p></li>
 <li><p>Copy and paste the URL of your assignment repo into the dialog box <em>Repository URL</em>. You can leave the direct name empty. It will default to the name of the GitHub repo.</p></li>
 </ul>
@@ -672,12 +672,13 @@ font-size: 10pt;
 <h2>Statistical Inference</h2>
 <p>We’d like to use the data from the trails in Durham to make more general conclusions about trails in urban areas in the southeast of the United States. For the purposes of this lab, then, we will consider the trails in Durham a sample representative of the trails in other urbran areas in states in the Southeast United States.</p>
 <ol start="11" style="list-style-type: decimal">
-<li>While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don’t, let’s assess whether that difference is statistically signifcant or just due to random chance. We’ll begin by conducting a hypothesis test:
+<li><p>Discussion about the assumptions.</p></li>
+<li><p>While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don’t, let’s assess whether that difference is statistically signifcant or just due to random chance. We’ll begin by conducting a hypothesis test:</p>
 <ul>
 <li>State the null and alternative hypotheses in words.</li>
 <li>Now write the hypotheses in statistical notation. You can use “mu” to represent the mean parameter.</li>
 </ul></li>
-<li>Fill in the code below to use the <code>t.test</code> function to calculate the test statistic and p-value. Replace <code>response</code> with the variable we’re interesting in analyzing and <code>group_var</code> with the variable used to define the two groups.</li>
+<li><p>Fill in the code below to use the <code>t.test</code> function to calculate the test statistic and p-value. Replace <code>response</code> with the variable we’re interesting in analyzing and <code>group_var</code> with the variable used to define the two groups.</p></li>
 </ol>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">t.test</span>(response <span class="op">~</span><span class="st"> </span>group_var, <span class="dt">data =</span> current_trails, </span>
 <span id="cb14-2"><a href="#cb14-2"></a>       <span class="dt">alternative =</span> <span class="st">&quot;___________&quot;</span>, </span>
