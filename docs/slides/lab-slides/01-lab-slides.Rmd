@@ -1,7 +1,7 @@
 ---
 title: "Lab 01"
-subtitle: "R Review"
-date: "01.17.19"
+subtitle: "Review R"
+date: "01.16.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
