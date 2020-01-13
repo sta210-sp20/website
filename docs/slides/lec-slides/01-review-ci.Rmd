@@ -91,9 +91,9 @@ class: middle, center
 
 ### *Sesame Street*
 
-- *Sesame Street* is a television series designed to teach children ages 3-5 basic educaitonal skills such as reading (e.g. the alphabet) and math (e.g. counting)
+- *Sesame Street* is a television series designed to teach children ages 3-5 basic education skills such as reading (e.g. the alphabet) and math (e.g. counting)
 
-- Tody we are going to analyze data from an [study conducted by the Educational Testing Service](http://files.eric.ed.gov/fulltext/ED122799.pdf) in the early 1970s to test the  effectiveness of the program. 
+- Today we are going to analyze data from an [study conducted by the Educational Testing Service](http://files.eric.ed.gov/fulltext/ED122799.pdf) in the early 1970s to test the  effectiveness of the program. 
 
 ```{r fig.align="center",out.width="50%",echo=FALSE}
 knitr::include_graphics("img/01/sesame_street.jpg")
@@ -236,7 +236,7 @@ class: middle, center
 <br><br>
 --
 
-- We aren't able to collect data on all children in the U.S. ages 3 - 5, but we do have data on 240 children who particpated in the study. This is the .vocab[sample statistic].
+- We aren't able to collect data on all children in the U.S. ages 3 - 5, but we do have data on 240 children who participated in the study. This is the .vocab[sample statistic].
 
 ---
 
@@ -253,7 +253,7 @@ class: middle, center
 <br><br>
 --
 
-- Our goal, then is to account for that sampling variablity and calculate a plausible range of values the true mean can take.
+- Our goal, then is to account for that sampling variability and calculate a plausible range of values the true mean can take.
 
 
 ---
@@ -481,17 +481,17 @@ Suppose we have a population with mean $\mu$ and standard deviation $\sigma$. By
 $$\bar{x} \sim N\Big(\mu, \frac{\sigma}{\sqrt{n}}\Big)$$
 ]
 
-<br>
+---
 
-**Conditions:** 
+### Conditions for CLT
+
 - **Independence**: The sampled observations must be independent. This is difficult to check, but the following are useful guidelines:
     - the sample must be random
     - if sampling without replacement, sample size must be less than 10% of the population size
 
 - **Sample Size**: Sample size is large. Usually $n > 30$ is considered large enough sample. Need larger sample size if population distribution is extremely skewed. 
 
-- If comparing two populations, the groups must be independent of each other,
-and all conditions should be checked for both groups.
+- **Independent Groups**: If comparing two populations, the groups must be independent of each other, and all conditions should be checked for both groups.
 
 ---
 
@@ -534,9 +534,9 @@ knitr::include_graphics("img/02/tdistribution.png")
 
 ---
 
-### *Sesame Street* data 
+### 95\% CI for mean change in reading scores
 
-Let's calculate the 95\% confidence interval for the mean change in reading scores in 26 weeks. 
+Let's write the equation for the 95\% confidence interval for the mean change in reading scores in 26 weeks. 
 
 ```{r echo = F}
 sesame_street %>%
@@ -549,6 +549,85 @@ sesame_street %>%
 
 ---
 
+### 95\% CI for mean change in reading scores
+
+We can also calculate the 95\% confidence interval using the `t.test` function in R
+
+```{r}
+t.test(sesame_street$change, conf.level = 0.95)
+```
+
+
+---
+
+
+### What does "95\% confidence" mean?
+
+<div align="center">
+```{r, echo=FALSE,out.width = '50%'}
+knitr::include_graphics("img/02/confidence_intervals.png")
+```
+</div>
+
+.small[
+- Suppose we take a lot of samples and calculate a 95\% confidence interval from each
+
+- We would expect about 95% of these intervals to contain the true population mean, i.e. the parameter of interest
+
+- Some sample means will be far away from the parameter and that's OK. The interval is only a plausible range of values. We may conclude that other values are not plausible based on our data, but that doesn't mean other values are impossible. 
+]
+
+---
+
+### In-class exercise
+
+.question[
+
+- Answer the questions at http://bit.ly/sta210-sp20-CI
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+---
+
+class: middle, center
+
+### Confidence Interval for the Difference in Two Means
+
+
+---
+
+### Difference in mean reading score change
+
+Let Group 1 be the those encouraged to watch *Sesame Street* and Group 2 who got no encouragement to watch the show 
+
+```{r}
+sesame_street %>%
+  group_by(treatment) %>%
+  summarise(n = n(), mean = mean(change), sd = sd(change))
+```
+
+- **Parameter**: $\mu_{1} - \mu_{2}$
+- **Statistic**: $\bar{x}_{1} - \bar{x}_{2}$
+
+- We want to estimate the difference in the mean change in reading scores between the two groups,  i.e. estimate $\mu_{1} - \mu_{2}$. 
+]
+
+---
+
+### Sample distribution of $\bar{x}_1 - \bar{x}2$
+
+- In the *Sesame Street* example, the parameter of interest is the difference in means, $\mu_{1} - \mu_{2}$. Let's look at the confidence interval for $\mu_{1} - \mu_{2}$ based on the CLT
+
+- The statistic is the difference in sample means $\bar{x}_1 - \bar{x}_2$
+
+- Assuming the conditions for the CLT are met (independent observations, large $n$, independent groups), the sampling distribution for $\bar{x}_1 - \bar{x}_2$ is 
+
+$$\bar{x}_1 - \bar{x}_2 \sim N \Bigg(\mu_1 - \mu_2, \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}\Bigg)$$
+
+---
 
 ### Confidence interval for the difference in means
 
@@ -557,74 +636,6 @@ The $C%$ confidence interval to estimate $\bar{\mu}_1 - \bar{\mu}_2$ is
 $$(\bar{x}_1 - \bar{x}_2) \pm t_{df}^* \times \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$
 where $t_{df}^*$ is the critical value calculated from the *t* distribution with *df* degrees of freedom
 
----
-
-```{r}
-sesame_street %>%
-  group_by(treatment) %>%
-  summarise(n = n(), mean = mean(change), sd = sd(change))
-```
-
-- **Parameter**: $\mu_{e} - \mu_{ne}$
-- **Statistic**: $\bar{x}_{e} - \bar{x}_{ne}$
-
-- In the last class, we conducted a hypothesis test and came to the conclusion that children who watched *Sesame Street* regularly showed greater improvement in reading scores, on average, than children who didn't want the show regularly.  
-
-.alert[
-Today we will estimate the difference in average improvement between the two groups, i.e. estimate $\mu_{e} - \mu_{ne}$. 
-]
-
-
-
----
-
-### Deriving the confidence interval
-
-- In the *Sesame Street* example, the parameter of interest is the difference in means, $\mu_{1} - \mu_{2}$. Let's look at the confidence interval for $\mu_{1} - \mu_{2}$ based on the CLT
-
---
-
-- The statistic is the difference in sample means $\bar{x}_1 - \bar{x}_2$
-
-- Assuming the conditions for the CLT are met (independent observations and large $n$), the sampling distribution for $\bar{x}_1 - \bar{x}_2$ is 
-
-$$\bar{x}_1 - \bar{x}_2 \sim N \Bigg(\mu_1 - \mu_2, \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}\Bigg)$$
----
-
-### Deriving the confidence interval
-
-- By the CLT and properties of the Normal distribution, in 95% of random samples, 
-
-<small>
-$$(\mu_1 - \mu_2) - 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \leq \bar{x}_1 - \bar{x}_2 \leq (\mu_1 - \mu_2) + 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$$
-</small>
-
---
-
-
-- Now, let's center the inequality around the parameter $\mu_1 - \mu_2$
-
-<small>
-$$(\bar{x}_1 - \bar{x}_2) - 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \leq \mu_1 - \mu_2 \leq (\bar{x}_1 - \bar{x}_2) + 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$$
-</small>
-
---
-.alert[
-Range of plausible values for $\mu_1 - \mu_2$ (using 95% confidence)
-$$(\bar{x}_1 - \bar{x}_2) \pm 1.96 \times \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$$
-]
----
-
-
-## General form of the CI
-
-- Generalizing the equations on the previous slide, all confidence intervals take the form $[LB, UB]$
-
-$$\text{Lower Bound (LB)} = \text{ Estimate} - \text{ (critical value) } \times SE$$
-$$\text{Upper Bound (UB)} = \text{ Estimate} + \text{ (critical value) } \times SE$$
---
-
-- Let's talk about the <font class="vocab">*SE*</font> and the critical value
 ---
 
 ## Standard Error of $\bar{x}_1 - \bar{x}_2$
@@ -640,28 +651,6 @@ $$\text{Upper Bound (UB)} = \text{ Estimate} + \text{ (critical value) } \times 
 - Thus, the <font class="vocab">**standard error of $\mathbf{\bar{x}_1 - \bar{x}_2}$**</font> is
 
 $$\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$
-
----
-
-## t-distribution vs. Normal 
-
-- We need to account for the extra variability that comes from using $s_1$ and $s_2$ (instead of $\sigma_1$ and $\sigma_2$). Therefore, we will use the *t* distribution for sampling distribution of $\bar{x}_1 - \bar{x}_2$ 
-
-```{r, echo=FALSE,out.width = '70%'}
-knitr::include_graphics("img/02/tdistribution.png")
-```
-
-<font size="2">Picture from <i>The Basic Practice of Statistics (7th edition)</i></font>
-
----
-
-### Confidence interval for the difference in means
-
-The $C%$ confidence interval to estimate $\bar{\mu}_1 - \bar{\mu}_2$ is 
-
-$$(\bar{x}_1 - \bar{x}_2) \pm t_{df}^* \times \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$
-where $t_{df}^*$ is the critical value calculated from the *t* distribution with *df* degrees of freedom
-
 ---
 
 ## Calculating the critical value 
@@ -673,311 +662,79 @@ The critical value, $t^*$, follows a $t$ distribution with degrees of freedom gi
 $$df = \frac{\Big(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\Big)^2}{\frac{1}{n_1-1}\Big(\frac{s_1^2}{n_1}\Big)^2 + \frac{1}{n_2-1}\Big(\frac{s_2^2}{n_2}\Big)^2} \approx min\{n_1-1,n_2-1\}$$
 <br>
 <br>
-In practice, we will use R to calculate the degrees of freedom.
+In practice, we can use R to calculate the degrees of freedom.
 
 ---
 
-### Understanding a 95% Confidence Interval
+### 95% confidence interval for the difference in means
 
-<div align="center">
-```{r, echo=FALSE,out.width = '50%'}
-knitr::include_graphics("img/02/confidence_intervals.png")
+```{r}
+sesame_street %>%
+  group_by(treatment) %>%
+  summarise(n = n(), mean = mean(change), std_dev = sd(change))
 ```
-</div>
 
-- The goal is to produce an interval for the parameter of interest using statistics calculated from a random sample
-
-- If we repeated this process thousands of times, we would expect about 95% of the intervals to contain the true parameter of interest
-
-- Note this is <u>**not**</u> the same as saying there's a 95% probability that the parameter is in a given interval 
-
----
-
-## *Sesame Street* Example 
 
 ```{r echo = F}
 treatment <- sesame_street %>% filter(treatment == "Encouraged")
 control <- sesame_street %>% filter(treatment == "Not Encouraged")
-mean1 <- mean(treatment$change)
-mean2 <- mean(control$change)
-stat <-  mean1 - mean2
 
 var1 <- var(treatment$change)
 var2 <- var(control$change)
 n1 <- nrow(treatment)
 n2 <- nrow(control)
 se <- sqrt(var1 / n1 + var2 / n2)
-
-df = (var1/n1 + var2/n2)^2/((var1/n1)^2*(n1-1)^(-1) + (var2/n2)^2*(n2-1)^(-1))
-
-t <- qt(0.975, df)
-LB <- stat - t * se
-UB <- stat + t * se
 ```
 
-The 95% confidence interval to estimate the mean difference in reading score improvement between children who watched *Sesame Street* regularly versus those who didn't is 
+```{r}
+(df <-  (var1/n1 + var2/n2)^2/((var1/n1)^2*(n1-1)^(-1) + (var2/n2)^2*(n2-1)^(-1)))
 
-<center><large>
-**[`r round(LB, 3)`, `r round(UB, 3)`]**
-</center>
-</large>
+(t_star <- qt(0.975, df))
+```
 
-<br><br>
+---
+
+### 95% confidence interval for the difference in means
+
+We can also calculate the 95% confidence interval for the difference in means using the `t.test` function
+
+```{r}
+t.test(change ~ treatment, data = sesame_street, conf.level = 0.95)
+```
+
+---
+
+### 95% confidence interval for the difference in means
+
+The 95% confidence interval for the difference in mean reading score change is [1.682, 1.757]. 
 
 .question[
-1. Interpret this interval in context. 
+Interpret this interval in the context of the data. 
 
-2. Based on this interval, what do you conclude about the effectiveness of *Sesame Street*?
+Using this interval, is there evidence of a statistically significant difference in the mean change in reading scores between those encouraged to watch *Sesame Street* and those who got no encouragement?
 ]
 
 ---
 
-### Practice (OpenIntro 5.25)
+class: middle, center
 
-```{r,echo=F,results=F}
-mean = c(35749,35500)
-sd = c(39421,41512)
-n = c(21,17)
-city = c("Cleveland, OH", "Sacramento, CA")
-data = as.data.frame(cbind(city,mean,sd,n))
-```
-
-Average income varies from one region of the country to
-another, and it often reflects both lifestyles and regional living expenses. 
-<br>
-<br>
-Suppose a new graduate is considering a job in two locations, Cleveland, OH and Sacramento, CA, and he wants to see whether the average income in one of these cities is higher than the other. The summary data is show below:
-.pull-left[
-```{r, echo=FALSE,out.width = '100%'}
-knitr::include_graphics("img/02/income.png")
-```
-]
-
-.pull-right[
-```{r,echo=F}
-knitr::kable(data,format="html")
-```
-]
-```{r,echo=F,results=F}
-se = sqrt(sd[1]^2/n[1] + sd[2]^2/n[2])
-estimate = mean[1] - mean[2]
-t.crit = qt(0.975,16)
-LB = estimate - t.crit*estimate
-UB = estimate + t.crit*estimate
-```
+### Accessing RStudio & GitHub
 
 ---
 
-### Practice: (OpenIntro 5.25)
+### Access RStudio & GitHub
 
-The 95% confidence interval for the difference in the mean income between Cleveland and Sacramento is 
-```{r,echo=F}
-knitr::kable(cbind(LB,UB),format="html")
-```
+.vocab[RStudio]
 
---
-<br> 
+- Go to https://vm-manage.oit.duke.edu/containers and login using your NetId credentials
 
-.question[
-1. Interpret the interval iin context. 
+- Click to log in to the Docker container called **STA 210 - Regression Analysis**
 
-2. How would the interval change if we increased the confidence level to 99%?
-
-3. Why might any conclusions based on this interval be unreliable?
-]
-
----
-
-### Confidence intervals and hypothesis tests
-
-- Confidence intervals can be used to assess a hypothesis or claim about a population parameter
-
-- Suppose $\mu$ is the parameter of interest and you calculate a 95\% confidence interval  
-
-- Let's also suppose that the hypotheses are $H_0: \mu = 1$ vs. $H_a: \mu \neq 1$
-    - If the 95% confidence interval contains 1, then this two-sided hypothesis test will result in a p-value that is greater than 0.05
-    - If the 95% confidence interval does not contain 1, then this two-sided hypothesis test will result in a p-value that is less than 0.05
-
----
-
-## Practice 
-
-.instructions[
-Determine if each state is true or false. If it is false, rewrite the statement so it is true.
-]
-
-1. If you increase sample size, the width of confidence intervals will increase.
-
-2. For a given standard error, higher confidence levels (e.g. 99% vs. 95%) result in wider confidence intervals.
-
-
-3. The statement, "the p-value is .003", is equivalent to the statement, "there is a 0.3% probability that the null hypothesis is true".
-
-4. A p-value of .04 is more evidence against the null hypothesis than a p-value of .08.
-
-
-
----
-
-
-class: middle, center 
-
-### Understanding the Hypothesis Test
-
----
-
-## Calculating the p-value
-
-- <font class="vocab3">p-value:</font> probability of getting a test statistic as extreme or more extreme than the calculated test statistic, assuming the null hypothesis is true
---
-
-
-- When the alternative has a $>$, the p-value is calculated using the area to the right of the test statistic
---
-
-
-- When the alternative has a $<$, the p-value is calculated using the area to the left of the test statistic
---
-
-
-- When the alternative has $\neq$, the p-value is calculated as the area to the left of $-|\text{test statistic}|$ and to the right of $|\text{test statistic}|$
-
----
-
-### Interpreting the p-value
---
-
-**What the p-value is NOT**:
-- It is <u>*not*</u> the probability the null hypothesis is true
-  + The null hypothesis is either true or not true
-- (1 - *p-value*) is <u>*not*</u> the probability that the alternative hypothesis is true
-  + The alternative hypothesis is either true or not true
-
---
-
-.alert[
-The p-value **IS**
-
-The probability of getting a test statistic as extreme or more extreme than the calculated test statistic, *assuming the null hypothesis is true.*
-]
-
----
-
-## Interpreting the p-value
-
-|  Magnitude of p-value |             Interpretation            |
-|:---------------------:|:-------------------------------------:|
-| p-value < 0.01        | strong evidence against $H_0$         |
-| 0.01 < p-value < 0.05 | moderate evidence against $H_0$       |
-| 0.05 < p-value < 0.1  | weak evidence against $H_0$           |
-| p-value > 0.1         | effectively no evidence against $H_0$ |
-<br> 
 <br>
 
-**Note:** These are general guidelines. The strength of evidence depends on the context of the problem.
----
+.vocab[GitHub]
 
-## Statistical Significance
+- Go to https://github.com/sta210-sp20
 
-- A threshold can be used to decide whether or not to reject $H_0$. 
-
-- This threshold is called the <font class="vocab3">significance level</font> and is usually denoted by $\alpha$
-
-- When $H_0$ is rejected, we use the term <font class="vocab3"> statistically significant </font> to describe the outcome of the test.
-
-- *Example*: When $\alpha = 0.05$, results are statistically significance when the p-value is $< 0.05$
-
----
-
-## Statistical Significance
-
-- Do not rely strictly on the significance level to make a conclusion!
---
-
-- Suppose the significance level is 0.05
---
-
-  + If the p-value is 0.05001, we do not reject $H_0$
---
-
-  + If the p-value is 0.04999, we do reject $H_0$
---
-
-- p-values of 0.05001 and 0.04999 are practically the same, yet they lead to different conclusions. 
---
-
-- Always state the p-value when reporting results and assess it's magnitude in the context of your problem. 
----
-
-class: results 
-
-### Results that Aren't Statistically Significant
-
-- An outcome of failing to reject $H_0$ is <u>*not*</u> a failed study/experiment
-
-- Obtaining an outcome of "no significant effect" or "no significant difference" is still valid 
-
-- It is often just as important to learn that the $H_0$ can't be refuted
-
----
-
-## Type I &  Type II Errors
-
-<center>
-```{r, echo=FALSE,out.width = '80%'}
-knitr::include_graphics("img/02/errors.png")
-```
-<small>Image: <i>The Basic Practice of Statistics (7th Ed.)</i></small>
-</center>
-<br> 
-
-- <font class="vocab3">Type I Error</font>: Reject $H_0$ when $H_0$ is true
-- <font class="vocab3">Type II Error</font>: Fail to reject $H_0$ when $H_1$ is true
-- Replicate study when possible to reduce these errors
-<br>
-<br>
-
----
-
-## Reducing Error
-
-- Probability of Type I error is the significance level, i.e the threshold for rejecting $H_0$
-
-- Probability of Type II error decreases as the sample size increases
-    - When designing a study, it is good practice to conduct a power analyses to determine the sample size required to minimize the chance of Type II error
-
----
-
-## Practice (OpenIntro 5.29)
-
-A food safety inspector is called upon to investigate a restaurant with a few customer reports of poor sanitation practices. The food safety inspector uses a hypothesis testing framework to evaluate whether regulations are not being met. If he decides the restaurant is in gross violation, its license to serve food will be revoked.
-
-
-.question[
-
-a. What are the null and alternative hypotheses (in words)?
-
-a. What is a Type 1 Error in this context?
-
-b. What is a Type 2 Error in this context?
-
-d. Which error is more problematic for the diners? Why?
-]
-
----
-
-## Before Next Class
-
-- Fill out the **Getting To Know You Survey on Sakai** - due TODAY at 11:59p
-
-- **New to R or need a refresher?**
-  - Duke Libraries Rfun - Intro to R Workshop: Data Transformations, Data Structures, and the Tidyverse
-      - September 12 1p - 3p
-      - To register: https://duke.libcal.com/event/5497129
-    - *Work with Data* primer on RStudio Cloud: [https://rstudio.cloud/learn/primers/2](https://rstudio.cloud/learn/primers/2)
-    - "Data Visualization" in *R for Data Science*:
-    [https://r4ds.had.co.nz/data-visualisation.html](https://r4ds.had.co.nz/data-visualisation.html)
-
-- **More on statistical inference**
-  - [OpenIntro Statistics](https://www.openintro.org/download.php?file=os3_tablet&referrer=/stat/textbook.php) Chapter 5: Inference for numerical data
+- Click to accept the invite at the top of the page. This will make you a member of the sta210-sp20 organization on GitHub
 
