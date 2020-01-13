@@ -55,7 +55,7 @@ class: middle, center
 
 - Sampling distributions &amp; the Central Limit Theorem
 
-- Calculating confidence intervals
+- Calculating &amp; interpreting confidence intervals
 
 ---
 
@@ -70,7 +70,7 @@ class: middle, center
 
 ### *Sesame Street* study
 
-- Children from 6 locations around the United States (including Durham!) participated in the study. The children were split into two groups (`treatment`):
+- Children from 6 locations around the United States (including Durham!) participated in the 26-week study. The children were split into two groups (`treatment`):
       + **Group 1**: Those who were encouraged to watch the show (assume watched regularly)
       + **Group 2**: Those who didn't get encouragement to watch the show (assume didn't watch regularly)
 
@@ -162,7 +162,7 @@ sesame_street %&gt;%
 ggplot(data = sesame_street, 
        mapping = aes(y = change, x = treatment)) +
   geom_boxplot(fill = "steelblue") +
-  labs(x = "Change in Reading Score (Post - Pre)", 
+  labs(y = "Change in Reading Score (Post - Pre)",
          title = "Distribution of the Change in Reading Score", 
        subtitle = "Encouraged vs. Not Encouraged.")
 ```
@@ -240,7 +240,7 @@ class: middle, center
 &lt;br&gt;&lt;br&gt;
 --
 
-- We aren't able to collect data on all children in the U.S. ages 3 - 5, but we do have data on 240 children who participated in the study. This is the .vocab[sample statistic].
+- We aren't able to collect data on all children in the U.S. ages 3 - 5, but we do have data on 240 children who participated in the study and can calculate their mean change in reading scores. This is the .vocab[sample statistic] (also known as *point estimate*).
 
 ---
 
@@ -252,21 +252,21 @@ class: middle, center
 &lt;br&gt;&lt;br&gt;
 --
 
-- If we redid the study using 240 different children, we'd expect the mean change in reading score in that sample to be differ from 10.8. This is .vocab[sampling variability]. 
+- If we did the study again using 240 different children, we'd expect the mean change in reading score for that sample to differ from 10.8. This is .vocab[sampling variability]. 
 
 &lt;br&gt;&lt;br&gt;
 --
 
-- Our goal, then is to account for that sampling variability and calculate a plausible range of values the true mean can take.
+- Our goal, then, is to account for that sampling variability and calculate a plausible range of values the true mean can take.
 
 
 ---
 
 ### Sampling distribution
 
-- A .vocab[sampling distribution] is the distribution of sample statistics from random samples of of the same size taken with replacement from a population
+- A .vocab[sampling distribution] is the distribution of sample statistics from random samples of the same size taken with replacement from a population
 
-- In practice it is impossible to construction sampling distributions,  since it would 
+- In practice it is impossible to construct sampling distributions,  since it would 
 require having access to the entire population. However, we have theorems that tell us what the sampling distribution will look like (more on this shortly.)
 
 --
@@ -455,7 +455,7 @@ sampling &lt;- rs_pop %&gt;%
 - Using the .vocab[Central Limit Theorem (CLT)] we know the form of the sampling distribution for certain statistics such as the mean, proportion, difference in means, etc.
     - CLT does not apply to all statistics (e.g. the median)
 
-- By the Central Limit Theorem, when the conditions are met, we know the sampling distribution of the sample statistic will..
+- By the Central Limit Theorem, when the conditions are met, we know the sampling distribution of the sample statistic will...
   - be approximately Normal
   - have a mean equal to the unknown population parameter
   - have a standard deviation proportional to the inverse of the square root of the sample size.
@@ -495,7 +495,7 @@ Suppose we have a population with mean `\(\mu\)` and standard deviation `\(\sigm
 - The &lt;font class="vocab"&gt;standard error (SE) &lt;/font&gt; is the *standard deviation* of the *sampling distribution*, calculated using sample statistics
 
 .alert[
-`$$SE = \frac{s}{\sqrt{n}}$$`
+`$$SE(\bar{x}) = \frac{s}{\sqrt{n}}$$`
 ]
 
 - We will use the standard error for calculations of confidence intervals and hypothesis tests
@@ -504,7 +504,7 @@ Suppose we have a population with mean `\(\mu\)` and standard deviation `\(\sigm
 
 ### Confidence interval for the mean
 
-The `\(C%\)` confidence interval to estimate `\(\mu\)` is 
+The `\(C\)`% confidence interval to estimate the population mean, `\(\mu\)`,  is 
 
 .alert[
 `$$\bar{x} \pm t_{df}^* \times \frac{s}{\sqrt{n}}$$`
@@ -515,7 +515,7 @@ where `\(t_{df}^*\)` is the critical value calculated from the `\(t\)` distribut
 
 ## t-distribution vs. Normal 
 
-- We need to account for the extra variability that comes from using `\(s/\sqrt{n}\)` (instead `\(\sigma/\sqrt{n}\)`) Therefore, we will use the `\(t\)` distribution for the shape of the sampling distribution of `\(\bar{x}\)` in our calculations.
+- We need to account for the extra variability that comes from using `\(s/\sqrt{n}\)` (instead `\(\sigma/\sqrt{n}\)`). Therefore, we will use the `\(t\)` distribution for the shape of the sampling distribution of `\(\bar{x}\)` in our calculations.
 
 &lt;img src="img/02/tdistribution.png" width="70%" style="display: block; margin: auto;" /&gt;
 
@@ -523,9 +523,9 @@ where `\(t_{df}^*\)` is the critical value calculated from the `\(t\)` distribut
 
 ---
 
-### 95\% CI for mean change in reading scores
+### 95% CI for mean change in reading scores
 
-Let's write the equation for the 95\% confidence interval for the mean change in reading scores in 26 weeks. 
+Let's write the equation for the 95% confidence interval for the mean change in reading scores after 26 weeks for children ages 3 - 5.
 
 
 ```
@@ -548,7 +548,7 @@ Let's write the equation for the 95\% confidence interval for the mean change in
 
 ### 95\% CI for mean change in reading scores
 
-We can also calculate the 95\% confidence interval using the `t.test` function in R
+We can also calculate the 95% confidence interval using the `t.test` function in R
 
 
 ```r
@@ -573,14 +573,14 @@ t.test(sesame_street$change, conf.level = 0.95)
 ---
 
 
-### What does "95\% confidence" mean?
+### What does "95% confidence" mean?
 
 &lt;div align="center"&gt;
 &lt;img src="img/02/confidence_intervals.png" width="50%" style="display: block; margin: auto;" /&gt;
 &lt;/div&gt;
 
 .small[
-- Suppose we take a lot of samples and calculate a 95\% confidence interval from each
+- Suppose we take a lot of samples and calculate a 95% confidence interval from each
 
 - We would expect about 95% of these intervals to contain the true population mean, i.e. the parameter of interest
 
@@ -632,7 +632,7 @@ sesame_street %&gt;%
 - **Statistic**: `\(\bar{x}_{1} - \bar{x}_{2}\)`
 
 - We want to estimate the difference in the mean change in reading scores between the two groups,  i.e. estimate `\(\mu_{1} - \mu_{2}\)`. 
-]
+
 
 ---
 
@@ -650,14 +650,16 @@ sesame_street %&gt;%
 
 ### Confidence interval for the difference in means
 
-The `\(C%\)` confidence interval to estimate `\(\bar{\mu}_1 - \bar{\mu}_2\)` is 
+.alert[
+The `\(C%\)` confidence interval to estimate `\(\mu_1 - \mu_2\)` is 
 
 `$$(\bar{x}_1 - \bar{x}_2) \pm t_{df}^* \times \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$`
-where `\(t_{df}^*\)` is the critical value calculated from the *t* distribution with *df* degrees of freedom
+where `\(t_{df}^*\)` is the critical value calculated from the *t* distribution with *df* degrees of freedom.
+]
 
 ---
 
-## Standard Error of `\(\bar{x}_1 - \bar{x}_2\)`
+### Standard Error of `\(\bar{x}_1 - \bar{x}_2\)`
 
 - In practice, we don't know the population standard deviations `\(\sigma_1\)` and `\(\sigma_2\)`
 
@@ -669,7 +671,9 @@ where `\(t_{df}^*\)` is the critical value calculated from the *t* distribution 
 
 - Thus, the &lt;font class="vocab"&gt;**standard error of `\(\mathbf{\bar{x}_1 - \bar{x}_2}\)`**&lt;/font&gt; is
 
-`$$\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$`
+.alert[
+`$$SE(\bar{x}_1 - \bar{x}_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$`
+]
 ---
 
 ## Calculating the critical value 
@@ -751,12 +755,12 @@ t.test(change ~ treatment, data = sesame_street, conf.level = 0.95)
 
 ### 95% confidence interval for the difference in means
 
-The 95% confidence interval for the difference in mean reading score change is [1.682, 1.757]. 
+The 95% confidence interval for the difference in mean reading score change is [1.682, 1.758]. 
 
 .question[
 Interpret this interval in the context of the data. 
 
-Using this interval, is there evidence of a statistically significant difference in the mean change in reading scores between those encouraged to watch *Sesame Street* and those who got no encouragement?
+Using this interval, is there evidence of a statistically significant difference in the mean change in reading scores between those encouraged to watch *Sesame Street* and those who got no encouragement to watch the show?
 ]
 
 ---
@@ -771,7 +775,7 @@ class: middle, center
 
 .vocab[RStudio]
 
-- Go to https://vm-manage.oit.duke.edu/containers and login using your NetId credentials
+- Go to https://vm-manage.oit.duke.edu/containers and login using your Net ID
 
 - Click to log in to the Docker container called **STA 210 - Regression Analysis**
 
@@ -782,6 +786,8 @@ class: middle, center
 - Go to https://github.com/sta210-sp20
 
 - Click to accept the invite at the top of the page. This will make you a member of the sta210-sp20 organization on GitHub
+
+- If you don't see the invite, click [here](https://docs.google.com/forms/d/e/1FAIpQLSfeTP2Li3xROLS_klixE6Ju8wZOqSWSdk_91PrKaqFPjoHEYw/viewform) to (re)submit your GitHub username.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

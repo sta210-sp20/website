@@ -63,7 +63,7 @@ knitr::include_graphics("img/01-intro-r/new-project-from-gh.png")
 
 - Go to https://vm-manage.oit.duke.edu/containers and login with your Duke NetId and Password.
 
-- Click to log into the Docker container **RStudio - statistics application with RMarkdown and knitr support**. You should now see the RStudio environment. 
+- Click to log into the Docker container **STA 210 - Regression Analysis**. You should now see the RStudio environment. 
 
 - Go to *File* `r emo::ji("arrow_right")` *New Project* `r emo::ji("arrow_right")` *Version Control* `r emo::ji("arrow_right")` *Git*. 
 
