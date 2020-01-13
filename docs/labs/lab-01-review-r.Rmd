@@ -308,6 +308,8 @@ current_trails <- current_trails %>%
 
 We'd like to use the data from the trails in Durham to make more general conclusions about trails in urban areas in the southeast of the United States. For the purposes of this lab, then, we will consider the trails in Durham a sample representative of the trails in other urbran areas in states in the Southeast United States.
 
+11. Discussion about the assumptions.
+
 11. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess whether that difference is statistically signifcant or just due to random chance. We'll begin by conducting a hypothesis test: 
       -  State the null and alternative hypotheses in words.
       -  Now write the hypotheses in statistical notation. You can use "mu" to represent the mean parameter.
