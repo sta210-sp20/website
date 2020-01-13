@@ -3,7 +3,7 @@
   <head>
     <title>Inference Review</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dr. Maria Tackett &amp; Becky Tang" />
+    <meta name="author" content="Prof. Maria Tackett" />
     <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
   </head>
   <body>
@@ -12,8 +12,8 @@ class: center, middle, inverse, title-slide
 
 # Inference Review
 ## Confidence Intervals
-### Dr. Maria Tackett &amp; Becky Tang
-### 09.02.19
+### Prof. Maria Tackett
+### 01.13.20
 
 ---
 
@@ -24,45 +24,60 @@ class: center, middle, inverse, title-slide
 
 class: middle, center
 
-### [Click for PDF of slides](02-inf-review-pt2.pdf)
+### [Click for PDF of slides](01-review-ci.pdf)
 
 ---
 
 ## Announcements
 
-- Fill out the **Getting To Know You Survey on Sakai** - due TODAY at 11:59p
+- Complete [surveys and consent form](https://www2.stat.duke.edu/courses/Spring20/sta210.001/misc/jan8.html) by Wed at 11:59p
 
-- Lab 01 due **Wednesday at 11:59p**
+- [Reading for today &amp; Wednesday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-01.html)
+
+- Office hours start today. See [course homepage](https://www2.stat.duke.edu/courses/Spring20/sta210.001/) for schedule
+
+- **New to R or need a refresher?**
+  - Attend an Intro to R workshop 
+  - Offered Jan 13 - 16, 6p - 7:30p, Gross Hall 270 (choose 1 night to attend)
+  - [Click here](https://forms.office.com/Pages/ResponsePage.aspx?id=TsVyyzFKnk2xSh6jbfrJTFvPd3eQtCxBtEvbtkDole1UNjYyVzVTSFdYMVJaWDBXUEhQS0tXWE81VC4u) to sign up
+  
+- Find more info about statistics related events on [Sakai](https://sakai.duke.edu)
 
 ---
 
-## Today's Agenda
+class: middle, center
 
-- Confidence intervals
-
-- Understanding hypothesis tests (time permitting)
+### Any questions from last class?
 
 ---
 
-## *Sesame Street*
+### Today's Agenda
 
-- *Sesame Street* is a television series designed to teach children ages 3-5 skills such as reading and math.
+- Sampling distributions &amp; the Central Limit Theorem
 
-- The show originally had a particular focus on reaching economically disadvantaged children. In the early 1970s, the Educational Testing Service (ETS) conducted a study to determine the show's effectiveness in helping this group of children develop the skills needed to be successful in school. 
+- Calculating confidence intervals
+
+---
+
+### *Sesame Street*
+
+- *Sesame Street* is a television series designed to teach children ages 3-5 basic educaitonal skills such as reading (e.g. the alphabet) and math (e.g. counting)
+
+- Tody we are going to analyze data from an [study conducted by the Educational Testing Service](http://files.eric.ed.gov/fulltext/ED122799.pdf) in the early 1970s to test the  effectiveness of the program. 
 
 &lt;img src="img/01/sesame_street.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
-## *Sesame Street*
+### *Sesame Street* study
 
-- A study was conducted to test whether the show was effective in helping children improve their reading and math skills. The 240 children who participated in the study were split into two groups: 
+- Children from 6 locations around the United States (including Durham!) participated in the study. The children were split into two groups (`treatment`):
       + **Group 1**: Those who were encouraged to watch the show (assume watched regularly)
       + **Group 2**: Those who didn't get encouragement to watch the show (assume didn't watch regularly)
 
 - Each child was given a test before and after the study to measure their knowledge of basic math, reading, etc.
 
-- We will focus on the change in reading (identifying letters) scores 
-&lt;br&gt;&lt;br&gt;&lt;br&gt;
+- We will focus on the change in reading (identifying letters) scores (`change`)
+&lt;br&gt;&lt;br&gt;
 
 &lt;small&gt;
 [Sesame Street Data - Full Description](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html) 
@@ -73,6 +88,8 @@ Original Study: *Ann Bogatz, Gerry &amp; Ball, Samuel. (1971). The Second Year o
 
 ### Let's look at the data
 
+`sesame_street.csv` is available in the datasets repo on GitHub.
+
 
 
 
@@ -82,32 +99,457 @@ sesame_street %&gt;%
 ```
 
 ```
-##         treatment prelet postlet change
-## 1      Encouraged     23      30      7
-## 2      Encouraged     26      37     11
-## 3  Not Encouraged     14      46     32
-## 4  Not Encouraged     11      14      3
-## 5  Not Encouraged     47      63     16
-## 6  Not Encouraged     26      36     10
-## 7  Not Encouraged     12      45     33
-## 8      Encouraged     48      47     -1
-## 9      Encouraged     44      50      6
-## 10     Encouraged     38      52     14
+## # A tibble: 10 x 4
+##    treatment      prelet postlet change
+##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Encouraged         23      30      7
+##  2 Encouraged         26      37     11
+##  3 Not Encouraged     14      46     32
+##  4 Not Encouraged     11      14      3
+##  5 Not Encouraged     47      63     16
+##  6 Not Encouraged     26      36     10
+##  7 Not Encouraged     12      45     33
+##  8 Encouraged         48      47     -1
+##  9 Encouraged         44      50      6
+## 10 Encouraged         38      52     14
 ```
 
 ---
+
+### Exploratory Data Analysis - Univariate
+
 &lt;small&gt;
 
 ```r
-ggplot(data = sesame_street, mapping = aes(y = change, x = treatment)) +
-  geom_boxplot(fill = "steelblue") +
-  labs(title = "Change in Reading Scores") +
-  theme_minimal()
+ggplot(data = sesame_street, mapping = aes(x = change)) +
+  geom_histogram(fill = "steelblue", color = "black") +
+  labs(x = "Change in Reading Score (Post - Pre)" , 
+       title = "Distribution of the Change in Reading Scores")
 ```
 
 &lt;img src="01-review-ci_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 &lt;/small&gt;
 
+---
+
+### Exploratory Data Analysis - Univariate
+
+- Calculate summary statistics for `change`
+&lt;small&gt;
+
+```r
+sesame_street %&gt;%
+  summarise(n = n(), min = min(change), median = median(change), max = max(change), 
+            IQR = IQR(change), 
+            mean = mean(change), std_dev = sd(change))
+```
+
+```
+## # A tibble: 1 x 7
+##       n   min median   max   IQR  mean std_dev
+##   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1   240   -22      9    41    15  10.8    11.2
+```
+&lt;/small&gt;
+
+---
+
+### Exploratory Data Analysis - Bivariate
+
+&lt;small&gt;
+
+```r
+ggplot(data = sesame_street, 
+       mapping = aes(y = change, x = treatment)) +
+  geom_boxplot(fill = "steelblue") +
+  labs(x = "Change in Reading Score (Post - Pre)", 
+         title = "Distribution of the Change in Reading Score", 
+       subtitle = "Encouraged vs. Not Encouraged.")
+```
+
+&lt;img src="01-review-ci_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+&lt;/small&gt;
+
+---
+
+### Exploratory Data Analysis - Bivariate
+
+Calculate summary statistics for `change` for each group of `treatment`
+&lt;small&gt;
+
+```r
+sesame_street %&gt;%
+  group_by(treatment) %&gt;%
+  summarise(n = n(), min = min(change), median = median(change), 
+            max = max(change), IQR = IQR(change), 
+            mean = mean(change), std_dev = sd(change))
+```
+
+```
+## # A tibble: 2 x 8
+##   treatment          n   min median   max   IQR  mean std_dev
+##   &lt;chr&gt;          &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Encouraged       152   -17     10    38  15.5 12.5     10.7
+## 2 Not Encouraged    88   -22      5    41  12    7.88    11.4
+```
+
+---
+
+### What is statistical inference?
+
+.pull-left[
+
+&lt;img src="img/01/pop_samp.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-left[
+- &lt;font class = "vocab"&gt;Statistical inference&lt;/font&gt; is the process of using sample data to make conclusions about the underlying population from which the sample was taken
+
+- Types of inference:
+  - &lt;font class="vocab"&gt;Confidence Intervals: &lt;/font&gt; Estimate the parameter of interest
+  - &lt;font class="vocab"&gt;Hypothesis Tests: &lt;/font&gt; Test a specified claim or hypothesis
+]
+
+&lt;font size = "3"&gt;
+Image source: https://keydifferences.com/difference-between-population-and-sample.html
+&lt;/font&gt;
+---
+
+class: middle, center
+
+### Confidence Interval for a Population Mean
+
+---
+
+### Confidence Intervals
+
+- Developed by Jerzy Neyman (in the 1930s)
+
+- &lt;font class="vocab"&gt;**What**&lt;/font&gt;: Plausible range of values for a population parameter
+  + Assuming sample data is a random sample from the population
+  
+- &lt;font class="vocab"&gt;**Why**&lt;/font&gt;: Because the statistic is a random variable, its value is subject to chance error, i.e. random variability
+  + We want to take that variability into account by reporting a range of plausible values the parameter can take rather than solely relying on a single statistic
+
+---
+
+### Let's think about the *Sesame Street* data
+
+- We want to know the true mean change in reading scores for all children in the U.S. ages 3 - 5 after 26 weeks (the length of the study). This is the .vocab[population parameter].
+
+&lt;br&gt;&lt;br&gt;
+--
+
+- We aren't able to collect data on all children in the U.S. ages 3 - 5, but we do have data on 240 children who particpated in the study. This is the .vocab[sample statistic].
+
+---
+
+### Let's think about the *Sesame Street* data
+
+
+- Our best guess for the true mean change in reading scores is the mean change in reading scores from our sample: 10.8
+
+&lt;br&gt;&lt;br&gt;
+--
+
+- If we redid the study using 240 different children, we'd expect the mean change in reading score in that sample to be differ from 10.8. This is .vocab[sampling variability]. 
+
+&lt;br&gt;&lt;br&gt;
+--
+
+- Our goal, then is to account for that sampling variablity and calculate a plausible range of values the true mean can take.
+
+
+---
+
+### Sampling distribution
+
+- A .vocab[sampling distribution] is the distribution of sample statistics from random samples of of the same size taken with replacement from a population
+
+- In practice it is impossible to construction sampling distributions,  since it would 
+require having access to the entire population. However, we have theorems that tell us what the sampling distribution will look like (more on this shortly.)
+
+--
+
+- For now, let's do a couple of demonstrations to get an idea about some basic properties of sampling distributions. 
+    - For the demonstration, we will make the unrealistic assumption that we have access ot the population and will construct the sample distribution. 
+    
+---
+
+### The population
+
+
+```r
+set.seed(011320)
+norm_pop &lt;- tibble(x = rnorm(n = 100000, mean = 20, sd = 3))
+ggplot(data = norm_pop, aes(x = x)) +
+  geom_histogram(binwidth = 1) +
+  labs(title = "Population distribution")
+```
+
+&lt;img src="01-review-ci_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Sampling from the population - 1
+
+
+```r
+samp_1 &lt;- norm_pop %&gt;%
+  sample_n(size = 50, replace = TRUE)
+```
+
+--
+
+
+```r
+samp_1 %&gt;%
+  summarise(x_bar = mean(x))
+```
+
+```
+## # A tibble: 1 x 1
+##   x_bar
+##   &lt;dbl&gt;
+## 1  20.1
+```
+
+---
+
+### Sampling from the population - 2
+
+
+```r
+samp_2 &lt;- norm_pop %&gt;%
+  sample_n(size = 50, replace = TRUE)
+```
+
+--
+
+
+```r
+samp_2 %&gt;%
+  summarise(x_bar = mean(x))
+```
+
+```
+## # A tibble: 1 x 1
+##   x_bar
+##   &lt;dbl&gt;
+## 1  19.7
+```
+
+
+---
+
+### Sampling from the population - 3
+
+
+```r
+samp_3 &lt;- norm_pop %&gt;%
+  sample_n(size = 50, replace = TRUE)
+```
+
+--
+
+
+```r
+samp_3 %&gt;%
+  summarise(x_bar = mean(x))
+```
+
+```
+## # A tibble: 1 x 1
+##   x_bar
+##   &lt;dbl&gt;
+## 1  19.5
+```
+
+
+--
+
+.vocab[keep repeating...]
+
+---
+
+### Population vs. sampling distributions
+
+
+
+&lt;img src="01-review-ci_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Discussion 
+
+Take a minute to discuss the following with 1 - 2 people around you: 
+
+.question[
+How do the shapes, centers, and spreads of these distributions compare?
+]
+
+---
+
+### Let's simulate another distribution
+
+
+```r
+rs_pop &lt;- tibble(x = rbeta(100000, 1, 5) * 100)
+```
+
+&lt;img src="01-review-ci_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+
+```
+## # A tibble: 1 x 2
+##      mu sigma
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  16.6  14.1
+```
+
+---
+
+### Sampling distribution
+
+
+```r
+sampling &lt;- rs_pop %&gt;%
+  rep_sample_n(size = 50, replace = TRUE, reps = 1000) %&gt;%
+  group_by(replicate) %&gt;%
+  summarise(xbar = mean(x))
+```
+
+&lt;img src="01-review-ci_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
+
+
+```
+## # A tibble: 1 x 2
+##    mean    se
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  16.7  2.08
+```
+
+---
+
+### Population vs. sampling distribution 
+
+&lt;img src="01-review-ci_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### In-class exercise 
+
+.question[
+
+- Use the two examples we just discussed to answer the questions: http://bit.ly/sta210-sp20-samp 
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+---
+
+### Central Limit Theorem
+
+- Using the .vocab[Central Limit Theorem (CLT)] we know the form of the sampling distribution for certain statistics such as the mean, proportion, difference in means, etc.
+    - CLT does not apply to all statistics (e.g. the median)
+
+- By the Central Limit Theorem, when the conditions are met, we know the sampling distribution of the sample statistic will..
+  - be approximately Normal
+  - have a mean equal to the unknown population parameter
+  - have a standard deviation proportional to the inverse of the square root of the sample size.
+
+- Get more details on the derivation of the CLT in STA 240 &amp; STA 250
+
+---
+
+### CLT for a population mean 
+
+.alert[
+Suppose we have a population with mean `\(\mu\)` and standard deviation `\(\sigma\)`. By the CLT, when conditions are met, the sampling distribution of the sample mean is 
+
+`$$\bar{x} \sim N\Big(\mu, \frac{\sigma}{\sqrt{n}}\Big)$$`
+]
+&lt;br&gt;
+
+**Conditions:** 
+- **Independence**: The sampled observations must be independent. This is difficult to check, but the following are useful guidelines:
+    - the sample must be random
+    - if sampling without replacement, sample size must be less than 10% of the population size
+
+- **Sample Size**: Sample size is large. Usually `\(n &gt; 30\)` is considered large enough sample. Need larger sample size if population distribution is extremely skewed. 
+
+- If comparing two populations, the groups must be independent of each other,
+and all conditions should be checked for both groups.
+
+---
+
+## Standard Error
+
+- By the CLT, the standard deviation of the sampling distribution of `\(\bar{x}\)` is `\(\sigma/ \sqrt{n}\)`. 
+
+- In practice, we don't know the population standard deviation `\(\sigma\)`, but we can estimate it using the sample standard deviation `\(s\)`. 
+
+- The &lt;font class="vocab"&gt;standard error (SE) &lt;/font&gt; is the *standard deviation* of the *sampling distribution*, calculated using sample statistics
+
+.alert[
+`$$SE = \frac{s}{\sqrt{n}}$$`
+]
+
+- We will use the standard error for calculations of confidence intervals and hypothesis tests
+
+---
+
+### Confidence interval for the mean
+
+The `\(C%\)` confidence interval to estimate `\(\mu\)` is 
+
+.alert[
+`$$\bar{x} \pm t_{df}^* \times \frac{s}{\sqrt{n}}$$`
+where `\(t_{df}^*\)` is the critical value calculated from the `\(t\)` distribution with `\(n-1\)` degrees of freedom. 
+]
+
+---
+
+## t-distribution vs. Normal 
+
+- We need to account for the extra variability that comes from using `\(s/\sqrt{n}\)` (instead `\(\sigma/\sqrt{n}\)`) Therefore, we will use the `\(t\)` distribution for the shape of the sampling distribution of `\(\bar{x}\)` in our calculations.
+
+&lt;img src="img/02/tdistribution.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+&lt;font size="2"&gt;Picture from &lt;i&gt;The Basic Practice of Statistics (7th edition)&lt;/i&gt;&lt;/font&gt;
+
+---
+
+### *Sesame Street* data 
+
+Let's calculate the 95\% confidence interval for the mean change in reading scores in 26 weeks. 
+
+
+```
+## # A tibble: 1 x 7
+##       n   min median   max   IQR  mean std_dev
+##   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1   240   -22      9    41    15  10.8    11.2
+```
+
+
+```r
+(t_star &lt;- qt(0.975, 239))
+```
+
+```
+## [1] 1.969939
+```
+
+
+### Confidence interval for the difference in means
+
+The `\(C%\)` confidence interval to estimate `\(\bar{\mu}_1 - \bar{\mu}_2\)` is 
+
+`$$(\bar{x}_1 - \bar{x}_2) \pm t_{df}^* \times \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$`
+where `\(t_{df}^*\)` is the critical value calculated from the *t* distribution with *df* degrees of freedom
 
 ---
 
@@ -135,42 +577,7 @@ sesame_street %&gt;%
 Today we will estimate the difference in average improvement between the two groups, i.e. estimate `\(\mu_{e} - \mu_{ne}\)`. 
 ]
 
----
 
-## Recall: Statistical inference
-
-- &lt;font class = "vocab"&gt;Statistical inference&lt;/font&gt; is the process of using sample data to make conclusions about the underlying population from which the sample was taken
-
-- Types of inference: testing and estimation
-  - &lt;font class="vocab"&gt;Confidence Intervals: &lt;/font&gt; Estimate the parameter of interest
-  - &lt;font class="vocab"&gt;Hypothesis Tests: &lt;/font&gt; Test a specified claim or hypothesis
-  
-- Today, we will focus on confidence intervals
-
----
-
- 
-
-## Confidence Intervals
-- Developed by Jerzy Neyman (in the 1930s)
-
-- &lt;font class="vocab"&gt;**What**&lt;/font&gt;: Plausible range of values for a population parameter
-  + Assuming sample data is a random sample from the population
-  
-- &lt;font class="vocab"&gt;**Why**&lt;/font&gt;: Because the statistic is a random variable, its value is subject to chance error, i.e. random variability
-  + We want to take that variability into account by reporting a range of plausible values the parameter can take rather than solely relying on a single statistic
-
----
-
-### Recall: Central Limit Theorem 
-
-- Using the &lt;font class = "vocab"&gt;Central Limit Theorem (CLT)&lt;/font&gt; we know the form of the sampling distribution for certain statistics such as the mean, proportion, difference in means, etc.
-    - CLT does not apply to all statistics (e.g. the median)
-
-- By the Central Limit Theorem, when the conditions are met, we know the sampling distribution of the sample statistic will..
-  - be approximately Normal
-  - have a mean equal to the unknown population parameter
-  - have a standard error proportional to the inverse of the square root of the sample size.
 
 ---
 
