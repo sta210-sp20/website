@@ -47,7 +47,7 @@ Today's lab will focus on fundamental building blocks of R and RStudio: the inte
 
 Each of your assignments will begin with steps in this section. You saw your TA demonstrate these steps, and they're outlined in detail below. Going forward, each lab will begin with a "Getting started" section but the details will become more sparse as the semester progresses. You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
 
-## Clone the repo & start new project in RStudio 
+## Clone the repo & start new RStudio project
 
 - Go to the sta210-sp20 organization on GitHub (http://www.github.com/sta210-sp20). Click on the repo with the prefix **lab-01-review-r-**. It contains the starter documents you need to complete the lab.
 
@@ -65,18 +65,19 @@ knitr::include_graphics("img/01-intro-r/new-project-from-gh.png")
 
 - Click to log into the Docker container **STA 210 - Regression Analysis**. You should now see the RStudio environment. 
 
-- Go to *File* `r emo::ji("arrow_right")` *New Project* `r emo::ji("arrow_right")` *Version Control* `r emo::ji("arrow_right")` *Git*. 
-
-- Copy and paste the URL of your assignment repo into the dialog box *Repository URL*. You can leave the direct name empty. It will default to the name of the GitHub repo.
-
-UPDATE THE PICTURE! 
-```{r paste-gh-repo-url, fig.margin = TRUE, echo = FALSE, fig.width=5, eval = F}
+```{r paste-gh-repo-url, fig.margin = TRUE, echo = FALSE, fig.width=5}
 knitr::include_graphics("img/01-intro-r/paste-gh-repo-url.png")
 ```
 
-- Click *Create Project*, and you should see the contents from your GitHub repo in the **Files** pane in RStudio. 
+- Go to *File* `r emo::ji("arrow_right")` *New Project* `r emo::ji("arrow_right")` *Version Control* `r emo::ji("arrow_right")` *Git*. 
 
-## Configure git - DO WE NEED THIS WITH THE DOCKERS?
+- Copy and paste the URL of your assignment repo into the dialog box *Repository URL*. You can leave *Project Directy Name* empty. It will default to the name of the GitHub repo.
+
+
+
+- Click *Create Project*, and the files from your GitHub repo will be displayed the *Files* pane in RStudio. 
+
+## Configure git 
 
 There is one more piece of housekeeping we need to take care of before we get started. Specifically,  we need to configure your git so that RStudio can communicate with GitHub. This requires two pieces of information: your name and email address.
 
@@ -106,28 +107,35 @@ If you get the error message
 Error in library(usethis) : there is no package called ‘usethis’
 ```
 
-then you need to install the `usethis` package. Run the following code in the console to install the package.
+then you need to install the `usethis` package. Run the following code in the console to install the package. Then, rerun the `use_git_config` function with your GitHub username and email address associated with your GitHub account.
 
 ```{r eval=FALSE}
 install.package("usethis")
 ```
 
-Once you run the code, your values for `user.name` and `user.email` will show in the console. If your `user.name` and `user.email` are correct, you're good to go! Otherwise, run the code again with the necessary changes.
+Once you run the configuration code, your values for `user.name` and `user.email` will display in the console. If your `user.name` and `user.email` are correct, you're good to go! Otherwise, run the code again with the necessary changes.
 
-## THE RSTUDIO PROJECT
+## RStudio & R Markdown
 
-- PICTURES AND DESCRIPTION OF WHAT EACH PART OF RSTUDIO PROJECT PANE IS
+
+```{r echo=FALSE, fig.height=200, fig.width=200}
+knitr::include_graphics("img/01-intro-r/rstudio-panes.png")
+```
+
+- INSERT PICTURE FOR THE R MARKDOWN FILE!
+
+Read [Getting Started](https://socviz.co/gettingstarted.html#gettingstarted) in *Data Visualization* by Kieran Healy for more details about R and RStudio. 
 
 
 ## Packages
 
-We will use the following packages in today's lab. 
+We will use the following package in today's lab. 
 
 ```{r load-packages}
 library(tidyverse)
 ```
 
-If you need to install the package, you can run the code below in the **console**.
+If you need to install the package, run the code below in the **console**.
 
 ```{r,eval=F}
 install.packages("tidyverse") 
@@ -143,36 +151,34 @@ The top portion of your R Markdown file (between the three dashed lines) is call
 
 Open the R Markdown (Rmd) file in your project, input your name for the author name and today's date for the date, and knit the document.
 
-**UPDATE PICTURE**
-
 ```{r yaml-raw-to-rendered, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/yaml-raw-to-rendered.png")
 ```
 
-**WRITE SOMETHING ABOUT THE FILE TYPES THAT WE'LL USE**
+- **WRITE SOMETHING ABOUT THE FILE TYPES THAT WE'LL USE**
 
 ## Committing changes:
 
-Then go to the Git pane in your RStudio.
+Next, go to the *Git* pane in RStudio. 
 
 If you have made changes to your Rmd file, you should see it listed here. Click on it to select it in this list and then click on **Diff**. This shows you the difference between the last committed state of the document and its current state with your changes. If you're happy with these changes, write "Update author name" in the **Commit message** box and click **Commit**.
-
-**UPDATE PICTURE**
 
 ```{r update-author-name-commit, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/update-author-name-commit.png")
 ```
 
-You don't have to commit after every change, this would get quite cumbersome. You should consider committing states that are *meaningful to you* for inspection, comparison, or restoration. In the first few assignments we will tell you exactly when to commit and in some cases, what commit message to use. As the semester progresses we will let you make these decisions.
+You don't have to commit after every change, this would get quite cumbersome. You should consider committing states that are *meaningful to you* for inspection, comparison, or restoration. In the first few assignments, we will provide some guidance on when to commit and an example commit message.
 
 ## Pushing changes: 
 
-Now that you have made an update and committed this change, it's time to push these changes to the web! Or more specifically, to your repo on GitHub. Why? So that others can see your changes. And by others, we mean the course teaching team (your repos in this course are private to you and us, only). 
+Now that you have made an update and committed this change, it's time to push these changes to the web! Or more specifically, to your repo on GitHub. Why? So that others can see your changes. And by others, we mean the course teaching team. (Your repos in this course are private and can only be seen by you and the teaching team.)
 
-In order to push your changes to GitHub, click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. This might feel cumbersome. Bear with me... We *will* teach you how to save your password so you don't have to enter it every time. But for this one assignment you'll have to manually enter each time you push in order to gain some experience with it.
+In order to push your changes to GitHub, click **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. This might feel cumbersome. Bear with me... We *will* teach you how to save your password so you don't have to enter it every time. But for this one assignment you'll have to manually enter each time you push in order to gain some experience with it.
+
+Make sure you push all the files from the *Git* pane to your assignment repo on GitHub. The Git pane should be empty after you push. If it's not, click the box next to the remainig files, write an informative commit message, and push.
 
 
-## Data: Trails in Durham, NC
+# Data: Trails in Durham, NC
 
 Today's data comes from the [Durham Open Data](https://live-durhamnc.opendata.arcgis.com/) a program managed by the City of Durham's Technology Solutions Department and the County of Durham's Information Services & Technology Department to provide open data about our community. You can read more about their mission [here](https://live-durhamnc.opendata.arcgis.com/pages/about-us).
 
@@ -182,8 +188,7 @@ In this lab, we will focus on data about the proposed and existing outdoor trail
 trails <- read_csv("data/durham_trails.csv")
 ```
 
-A full list of the variables in the dataset can be found [here](https://live-durhamnc.opendata.arcgis.com/datasets/existing-and-proposed-trails?geometry=-80.283%2C35.650%2C-77.473%2C36.428). For today's analysis, we will primarily focus on the following variables: 
-
+A full list of the variables in the dataset is available  [here](https://live-durhamnc.opendata.arcgis.com/datasets/existing-and-proposed-trails?geometry=-80.283%2C35.650%2C-77.473%2C36.428). For today's analysis, we will primarily focus on the following variables: 
 
 
 |  |  |
