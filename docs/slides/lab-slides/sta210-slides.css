@@ -209,18 +209,4 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
   font-size: 12pt;
 }
 
-pre {
-	background-color: #FFFFFF;
-	border-color: #CCCCCC;
-	border-style: solid;	
-	border-width: 1px;
-    border-radius: 4px;
-	overflow-x: auto;
- 	padding: 1em;
-}
-
-pre.r {
-	background-color: #F5F5F5;	
-	border-color: #CCCCCC
-}
 
