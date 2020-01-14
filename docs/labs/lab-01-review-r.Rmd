@@ -117,8 +117,9 @@ Once you run the configuration code, your values for `user.name` and `user.email
 
 ## RStudio & R Markdown
 
+<br>
 
-```{r echo=FALSE, fig.height=200, fig.width=200}
+```{r echo=FALSE, fig.fullwidth = TRUE}
 knitr::include_graphics("img/01-intro-r/rstudio-panes.png")
 ```
 
@@ -151,7 +152,7 @@ The top portion of your R Markdown file (between the three dashed lines) is call
 
 Open the R Markdown (Rmd) file in your project, input your name for the author name and today's date for the date, and knit the document.
 
-```{r yaml-raw-to-rendered, echo = FALSE}
+```{r yaml-raw-to-rendered, fig.fullwidth = TRUE, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/yaml-raw-to-rendered.png")
 ```
 
@@ -163,7 +164,7 @@ Next, go to the *Git* pane in RStudio.
 
 If you have made changes to your Rmd file, you should see it listed here. Click on it to select it in this list and then click on **Diff**. This shows you the difference between the last committed state of the document and its current state with your changes. If you're happy with these changes, write "Update author name" in the **Commit message** box and click **Commit**.
 
-```{r update-author-name-commit, echo = FALSE}
+```{r update-author-name-commit, fig.fullwidth = TRUE, echo = FALSE}
 knitr::include_graphics("img/01-intro-r/update-author-name-commit.png")
 ```
 
@@ -197,42 +198,37 @@ A full list of the variables in the dataset is available  [here](https://live-du
 | `dogwalking` | Whether dogs are allowed on the trail |
 | `length` | Length of the trail in miles |
 
-# Exercises  
+# Exercises 
 
-Before doing any analysis, we may want to get quick view of the data. This is a useful thing to do after importing data to get an intial idea of the data imported correctly. One way to do this, is to look at the actual dataset. Type the code below in the **console** to view the entire dataset. 
+**Write your answers in complete sentences and show all code and output.**
+
+Before doing any analysis, we may want to get quick view of the data. This is a useful thing to do after importing data to see if the data imported correctly. One way to do this, is to look at the actual dataset. Type the code below in the **console** to view the entire dataset. 
+
+```{marginfigure}
+Notice that the `View(trails)` command was run in the console and **not** in a code chunk in the RMarkdown file. By running the `View(trails)` in the console, the dataset displays in your RStudio environment but not in the output from your RMarkdown file.
+```
 
 ```{r eval=FALSE}
 View(trails)
 ```
 
-```{marginfigure}
-Notice that the `View(trails)` command was run in the console and **not** in a code chunk in the RMarkdown file. By running the `View(trails)`, the dataset displays in your RStudio environment but not in the output from your RMarkdown file. Unless your dataset is very small (i.e. 20 observations or fewer), you never want to output the entire dataset in the output from the RMarkdown file. It is very disruptive if there are hundres (or thousands) of rows of data printed amongst your code, analysis output and narrative.
-```
 
 ## Exploratory Data Analysis
 
-1. It is sometimes more useful to view a summary of the data structure rather than view the entire dataset. This is especially true for very large datasets, i.e. those with a very large number of observations and/or rows. We can use the `glimpse()` function to get a general idea about the structure of our dataset. This function can be very useful when importing data from a file such as a .csv file (like in this lab) to ensure that data imported correctly and that we have the number of observations (rows) and variables (columns) we expect. We can also use this function to see each variable's type (e.g. integer, character). 
-
-    Use the `glimpse` function to get an overview of `trails`.
+1. Now that we've had a quick view of the dataset, let's get more details about its structure. Sometimes viewing a summary of the data structure is more useful than viewing the raw data, especially if the dataset has a large number of observations and/or rows. Run the code below to use the `glimpse` function to see a summary of the `trails` dataset.
+  - How many observations (rows) are in the `trails` dataset? How many variables (columns)?
 
 ```{r eval = F}
 glimpse(trails)
 ```
 
+2. Before conducting statistical inference (or eventually fitting regression models),  we need do some exploratory data analysis (EDA). Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. Let's begin by examining the distribution of `status` with a data visulization and summary statistics. 
+
 ```{marginfigure}
-Type `??glimpse` in the console to learn more about the function and its syntax.
+See [Section 7.3.1 "Visualising Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) in *R for Data Science* for more information on choosing the appropriate graph based on variable type.
 ```
 
-
-How many observations (rows) are in the `trails` dataset? How many variables (columns)?
-
-2. Before conducting statistical inference (or eventually fitting regression models),  we want to do an exploratory data analysis (EDA) to get a sense of the main characteristics of the data. Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. It is important to examine all variables relevant to the analysis (even if they are not included in the model), so you have full context about the data when interpreting the results. 
-
-<!-- This dataset contains information for both existing and proposed trails.  Because There are many ways to calculate summary statistics for each variable, and we will use a few of them throughout the semester. For now, let's use the `skim()` function to calculate basic measures of center and spread. -->
-
-Let's examine the distribution of `status` with a data visulization and summary statistics. 
-
-- What is an appropriate type of plot to visualize the distribution of `status`? Fill in the `ggplot` code below to plot the distribution of `status`. Include informative axis labels and title on the graph.
+  - What is a type of graph that's appropriate to visualize the distribution of `status`? Fill in the `ggplot` code below to plot the distribution of `status`. Include informative axis labels and title on the graph.
 
 ```{r eval=FALSE}
 ggplot(data = trails, aes(x = status)) + 
@@ -242,34 +238,32 @@ ggplot(data = trails, aes(x = status)) +
        title = "__________")
 ```
 
-```{marginfigure}
-See [Section 7.3.1 "Visualising Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) in *R for Data Science* for more information on choosing the appropriate graph based on variable type.
-```
-
-Next, let's make a table of values in each category of `status`. Use the `count` function to display the number of observations in each category of `status`. Be sure to show your code and output. 
-
-
-3. The goal of the analysis is understand characteristics about trails in Durham, so we will just use data from currently existing trails for the analysis. Fill in the code below to use the `filter` function to create a subset of the data containing only the trails that are currently existing. Assign this subset the name `current_trails`. 
+  - Next, let's calculate the proportion of observations in each category of `status`. Fill in the code below to calculate the distribution of `status`. 
 
 ```{r eval = FALSE}
-current_trails <- trails %>%
-  filter(__________)
+trails %>%
+  count(_____) %>%
+  mutate(proportion = n / sum(n))
 ```
 
-*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write informative commit message (e.g. "Completed exercises 1 - 3"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
+3. Since we want to analyze characteristics for outdoor trails in Durham, we will just use data from currently existing trails for the remainder of the analysis. Use the `filter` function to create a subset consisting only of trails that currently exist and have a value reported for `length`. Assign the subet the name `current_trails`. (*Hint: There should be 1054 observations in current_trails.*)
+
 
 ```{marginfigure}
 Check your lab-01 repo on the GitHub website (you may need to refresh the page in your browser) to ensure that all of the files are up-to-date.
 ```
 
+*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write an informative commit message (e.g. "Completed exercises 1 - 3"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
+
+
 **Use `current_trails` for the remainder of the lab.**
 
-4. Let's examine the distribution of `length`. One important part of EDA is visualizing the data to get a better idea of the shape of the distribution for each variable. Data visualizations are also useful for examining the relationship between multiple variables.  There are a lot of ways to make plots in R; we will use the functions available in the `ggplot2` package.
+4. Let's examine the distribution of `length`. One important part of EDA is creating data visualizations to see the shape, center, spread, and outliers in a distribution. Data visualizations are also useful for examining the relationship between multiple variables. There are a lot of ways to make data visualizations in R; we will use the functions available in the `ggplot2` package.
 
-Use  `geom_histogram()` to visualize the distribution of `length`. Include informative axis labels and title on the graph.
+   Make a graph to visualize the distribution of `length`. Include an informative title and axis labels.
 
 ```{marginfigure}
-See [Section 7.3.1 "Visualising Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) or the [ggplot2 Reference page](https://ggplot2.tidyverse.org/reference/index.html) for details and example code.
+See [Section 7.3.1 "Visualising Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) or the [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/index.html) for details and example code.
 ```                                               
 
 5. Next, fill in the code below to use the `summarise` function to calculate various summary statistics for the variable `length`. You can use the [summarise reference page](https://dplyr.tidyverse.org/reference/summarise.html) for more information about the function and example code. 
@@ -287,26 +281,26 @@ current_trails %>%
             )
 ```
 
+6. Describe the distribution of `length`. Your description should include comments about the shape, center, spread, and any potential outliers. Use the graph from Exercise 4 and relevant summary statistics from Exercise 5 in your description.
 
-6. What are the appropriate measures of center and spread to describe the distribution of `length`. Briefly explain your reasoning. 
+*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write informative commit message (e.g. "Completed exercises 4 - 6"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
 
-7. Describe the distribution of `length`. Your description should include comments about the sahpe, center, spread, and any potential outliers. Use the histogram and appropriate summary statistics (from Exercise 6) in your description. 
+7. Consider the distribution of `dogwalking`. 
+    - What are the values of `dogwalking` in the dataset? Show the code and output to support your answer. 
+    - What do you think is the most likely reason for the missing observations of `dogwalking`? In other words, what does a missing value of `dogwalking` indicate? 
 
-*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write informative commit message (e.g. "Completed exercises 4 - 7"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
-
-8. Consider the distribution of `dogwalking`. What is likely the true value of `dogwalking` for observations with `NA` recorded in the dataset? Fill in the code below to impute the appropriate value of `dogwalking` for observations currently listed as `NA`. Then, display the distribution of `dogwalking` to check that the missing values were correctly imputed.
+8. Complet the code below to impute (i.e. fill in) the missing values of `dogwalking` with the appropriate value.  Then, display the distribution of `dogwalking` to check that the missing values were correctly imputed.
 
 ```{r eval=FALSE}
 current_trails <- current_trails %>%
   mutate(dogwalking = if_else(is.na(dogwalking),______,dogwalking))
 ```
 
-9. Let's examine the relationship between the length of the trail and whether dog walking is allowed. Make an appropriate graph and calculate the appropriate summary statistics to describe the relationship between `length` and `dogwalking`. Be sure to include informative axis labels and title on your graph.
+9. Now that we've completed the univariate EDA (i.e. examining one variable at a time), let's examine the relationship between the length of the trail and whether dog walking is allowed. Make a graph to visualize the relationship between `length` and `dogwalking` and calculate the appropriate summary statistics. Include informative axis labels and title on your graph.
 
-10. Describe the relationship between `length` and `dogwalking`. Include information from the graph and summary statistics from the previous exercise in your description. 
+10. Describe the relationship between `length` and `dogwalking`. In other words, describe how the distribution of `length` compares between trails that allow dog walking versus those that don't. Include information from the graph and summary statistics from the previous exercise in your response.
 
-
-*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write informative commit message (e.g. "Completed exercises 8 - 10"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
+*This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write informative commit message (e.g. "Completed exercises 7 - 10"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
 
 
 ## Statistical Inference
