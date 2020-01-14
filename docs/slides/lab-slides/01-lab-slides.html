@@ -22,11 +22,13 @@ class: center, middle, inverse, title-slide
 
 
 
-## Meet Your TA!
+class: middle, center
+
+## Meet Your TAs!
 
 ---
 
-## Introduce Yourself!
+### Introduce Yourself!
 
 - Name
 
@@ -36,7 +38,7 @@ class: center, middle, inverse, title-slide
 
 ---
 
-## Today's Agenda
+### Today's Agenda
 
 1. Questions about the syllabus 
 
@@ -54,7 +56,7 @@ Course website: [http://bit.ly/sta210-sp20](http://bit.ly/sta210-sp20)
 
 ---
 
-## What to expect in lab
+### What to expect in lab
 
 - Introduction to the lab assignment (~ 5 - 10 min, longer today)
 
@@ -68,9 +70,9 @@ Course website: [http://bit.ly/sta210-sp20](http://bit.ly/sta210-sp20)
 
 ---
 
-## Tips
+### Tips
 
-- You do not have to finish the lab in class, they will always be due the following Tuesday at 11:59p. One work strategy is to get through portions that you think will be most challenging (which initially might be the coding component) during lab when a TA can help you on the spot and leave the narrative writing until later.
+- You do not have to finish the lab in class, they will always be due the **following Tuesday at 11:59p**. One work strategy is to get through portions that you think will be most challenging (which initially might be the coding component) during lab when a TA can help you on the spot and leave the narrative writing until later.
 
 - Do not pressure each other to finish early; use the time wisely to really learn the material and produce a quality lab report.
 
@@ -82,7 +84,7 @@ class: center, middle
 
 ---
 
-## Goals
+### Goals
 
 &lt;small&gt;
 - **Introduce you to R and RStudio:**
@@ -103,7 +105,7 @@ class: center, middle
 
 ---
 
-## Getting started 
+### Getting started 
 
 You may watch or follow along: 
 
@@ -117,7 +119,7 @@ You may watch or follow along:
 
 ---
 
-## Getting started 
+### Getting started 
 
 - Go to *File* ➡️ *New Project* ➡️ *Version Control* ➡️ *Git*. 
 
@@ -132,20 +134,20 @@ Now it's your turn! When you're done with this part, you may continue if you lik
 
 ---
 
-## Configure git - DO I STILL NEED THIS STEP??
+### Configure git
 
-&lt;!--
-Next, we need to configure git so RStudio and GitHub can communicate with each other. 
-
-You may watch or follow along: 
+Next, we need to configure git so RStudio and GitHub can communicate with each other. You may watch or follow along: 
 
 - Type the following lines of code in the **console**: 
 
+&lt;small&gt;
 
 ```r
 library(usethis)
-use_git_config(user.name="your name", user.email="your email")
+use_git_config(user.name="GitHub username", 
+               user.email="your email")
 ```
+&lt;/small&gt;
 
 - If you get an error message, it may be because you need to install the `usethis` package. You can type the code below in the console to install the package
 
@@ -153,9 +155,6 @@ use_git_config(user.name="your name", user.email="your email")
 ```r
 install.packages("usethis")
 ```
-
-Once you're configured git, you're ready to complete the rest of lab!\
---&gt;
 
 ---
 
