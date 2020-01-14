@@ -1,8 +1,8 @@
 ---
 title: "Inference Review"
 subtitle: "Hypothesis Testing"
-author: "Dr. Maria Tackett"
-date: "08.28.19"
+author: "Prof. Maria Tackett"
+date: "01.15.19"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -55,7 +55,7 @@ library(infer)
 
 class: middle, center
 
-### [Click for PDF of slides](01-inf-review-pt1.pdf)
+### [Click for PDF of slides](02-review-ht.pdf)
 
 ---
 
