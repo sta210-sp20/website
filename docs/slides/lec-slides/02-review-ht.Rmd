@@ -48,9 +48,8 @@ knitr::opts_chunk$set(
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
-library(rvest)
-library(STA210)
 library(infer)
+library(countdown)
 ```
 
 class: middle, center
@@ -59,55 +58,49 @@ class: middle, center
 
 ---
 
-## Announcements
+### Announcements
 
-- Get to Know You survey - due Monday at 11:59p
+- Complete [surveys and consent form](https://www2.stat.duke.edu/courses/Spring20/sta210.001/misc/jan8.html) by Wed at 11:59p
 
-- Labs start tomorrow. Make sure you...
-    - Are a member of the `sta210-fa19` organization on GitHub
-    - Can access the STA 210 course workspace on RStudio Cloud
-    
-- All regular office hours start Monday. See the [course homepage](https://www2.stat.duke.edu/courses/Fall19/sta210.001/index.html) for the office hour schedule.
+- [Reading for next Wednesday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-02.html)
 
-- Duke Libraries Rfun - Intro to R Workshop: Data Transformations, Data Structures, and the Tidyverse
-  - September 12 1p - 3p
-  - To register: https://duke.libcal.com/event/5497129
-  
----
+- Labs start tomorrow! 
 
-class: middle, center
+- No class Monday - Martin Luther King, Jr. Holiday
 
-### Any questions from last class? 
+- Find more info about statistics related events on [Sakai](https://sakai.duke.edu)
 
 ---
 
 ## Today's Agenda
 
-- Review hypothesis testing
+- Calculating & interpreting hypothesis tests
+
+- Connecting hypothesis tests and confidence intervals
 
 ---
 
-## *Sesame Street*
+### *Sesame Street*
 
-- *Sesame Street* is a television series designed to teach children ages 3-5 skills such as reading and math.
+- *Sesame Street* is a television series designed to teach children ages 3-5 basic education skills such as reading (e.g. the alphabet) and math (e.g. counting)
 
-- The show originally had a particular focus on reaching economically disadvantaged children. In the early 1970s, the Educational Testing Service (ETS) conducted a study to determine the show's effectiveness in helping this group of children develop the skills needed to be successful in school. 
+- Today we are going to analyze data from an [study conducted by the Educational Testing Service](http://files.eric.ed.gov/fulltext/ED122799.pdf) in the early 1970s to test the  effectiveness of the program. 
 
 ```{r fig.align="center",out.width="50%",echo=FALSE}
 knitr::include_graphics("img/01/sesame_street.jpg")
 ```
 ---
 
-## *Sesame Street*
+### *Sesame Street* study
 
-- A study was conducted to test whether the show was effective in helping children improve their reading and math skills. The 240 children who participated in the study were split into two groups: 
-      + **Group 1**: Those who were encouraged to watch the show (assumed watched regularly)
-      + **Group 2**: Those who didn't get encouragement to watch the show 
+- Children from 6 locations around the United States (including Durham!) participated in the 26-week study. The children were split into two groups (`treatment`):
+      + **Group 1**: Those who were encouraged to watch the show (assume watched regularly)
+      + **Group 2**: Those who didn't get encouragement to watch the show (assume didn't watch regularly)
 
 - Each child was given a test before and after the study to measure their knowledge of basic math, reading, etc.
 
-- We will focus on the change in reading (identifying letters) scores 
-<br><br><br>
+- We will focus on the change in reading (identifying letters) scores (`change`)
+<br><br>
 
 <small>
 [Sesame Street Data - Full Description](http://www2.stat.duke.edu/~jerry/sta210/sesamelab.html) 
@@ -118,13 +111,10 @@ Original Study: *Ann Bogatz, Gerry & Ball, Samuel. (1971). The Second Year of Se
 
 ### Let's look at the data
 
+`sesame_street.csv` is available in the datasets repo on GitHub.
+
 ```{r, echo = F}
-sesame_street <- read.table("data/sesame.txt",sep=",",header=T)
-sesame_street <- sesame_street %>% 
-  mutate(treatment=as.factor(viewenc), 
-         treatment = if_else(viewenc == 1, "Encouraged", "Not Encouraged"),
-                               change = postlet - prelet) %>%
-  select(treatment,prelet,postlet,change)
+sesame_street <- read_csv("data/sesame_street.csv")
 ```
 
 ```{r}
@@ -133,41 +123,64 @@ sesame_street %>%
 ```
 
 ---
+
+### Exploratory Data Analysis - Univariate
+
 <small>
 ```{r}
-ggplot(data = sesame_street, mapping = aes(y = change, x = treatment)) +
-  geom_boxplot(fill = "steelblue") +
-  labs(title = "Change in Reading Scores") +
-  theme_minimal()
+ggplot(data = sesame_street, mapping = aes(x = change)) +
+  geom_histogram(fill = "steelblue", color = "black") +
+  labs(x = "Change in Reading Score (Post - Pre)" , 
+       title = "Distribution of the Change in Reading Scores")
 ```
 </small>
 
-
 ---
 
+### Exploratory Data Analysis - Univariate
+
+- Calculate summary statistics for `change`
+<small>
 ```{r}
 sesame_street %>%
-  group_by(treatment) %>%
-  summarise(n = n(), mean = mean(change), sd = sd(change))
+  summarise(n = n(), min = min(change), median = median(change), max = max(change), 
+            IQR = IQR(change), 
+            mean = mean(change), std_dev = sd(change))
 ```
-<br>
-
-.question[
-Based on this, do you think there is enough evidence to conclude that *Sesame Street* is effective in helping children learn reading skills? Why or why not?
-]
+</small>
 
 ---
 
-## What is statistical inference?
+### 95% CI for mean change in reading score
 
-- <font class = "vocab">Statistical inference</font> is the process of using sample data to make conclusions about the underlying population from which the sample was taken
+The 95% confidence interval for the mean change in reading score is 
 
-- Types of inference: testing and estimation
-  - <font class="vocab">Confidence Intervals: </font> Estimate the parameter of interest
-  - <font class="vocab">Hypothesis Tests: </font> Test a specified claim or hypothesis
-  
-- Today, we will focus on hypothesis testing
+$$\mathbf{[9.384, 12.224]}$$
 
+
+.question[
+
+- Interpret the interval at http://bit.ly/sta210-sp20-CI-2
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+
+```{r echo = F}
+countdown(minutes = 3, seconds = 0)
+```
+
+---
+
+### Confidence Interval Recap
+
+---
+
+class: middle, center
+
+### Hypothesis Tests
 
 ---
 
@@ -275,7 +288,7 @@ $$
 ### Simulated distribution of sample statistic under $H_0$
 
 ```{r echo = F}
-set.seed(20190828)
+set.seed(20200115)
 null_dist <- sesame_street %>%
   # alt: response = arr_delay, explanatory = half_year
   specify(change ~ treatment) %>%
