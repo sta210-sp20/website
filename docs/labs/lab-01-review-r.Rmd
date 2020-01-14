@@ -71,7 +71,7 @@ knitr::include_graphics("img/01-intro-r/paste-gh-repo-url.png")
 
 - Go to *File* `r emo::ji("arrow_right")` *New Project* `r emo::ji("arrow_right")` *Version Control* `r emo::ji("arrow_right")` *Git*. 
 
-- Copy and paste the URL of your assignment repo into the dialog box *Repository URL*. You can leave *Project Directy Name* empty. It will default to the name of the GitHub repo.
+- Copy and paste the URL of your assignment repo into the dialog box *Repository URL*. You can leave *Project Directory Name* empty. It will default to the name of the GitHub repo.
 
 
 
@@ -176,7 +176,7 @@ Now that you have made an update and committed this change, it's time to push th
 
 In order to push your changes to GitHub, click **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. This might feel cumbersome. Bear with me... We *will* teach you how to save your password so you don't have to enter it every time. But for this one assignment you'll have to manually enter each time you push in order to gain some experience with it.
 
-Make sure you push all the files from the *Git* pane to your assignment repo on GitHub. The Git pane should be empty after you push. If it's not, click the box next to the remainig files, write an informative commit message, and push.
+Make sure you push all the files from the *Git* pane to your assignment repo on GitHub. The Git pane should be empty after you push. If it's not, click the box next to the remaining files, write an informative commit message, and push.
 
 
 # Data: Trails in Durham, NC
@@ -222,10 +222,10 @@ View(trails)
 glimpse(trails)
 ```
 
-2. Before conducting statistical inference (or eventually fitting regression models),  we need do some exploratory data analysis (EDA). Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. Let's begin by examining the distribution of `status` with a data visulization and summary statistics. 
+2. Before conducting statistical inference (or eventually fitting regression models),  we need do some exploratory data analysis (EDA). Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. Let's begin by examining the distribution of `status` with a data visualization and summary statistics. 
 
 ```{marginfigure}
-See [Section 7.3.1 "Visualising Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) in *R for Data Science* for more information on choosing the appropriate graph based on variable type.
+See [Section 7.3.1 "Visualizing Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) in *R for Data Science* for more information on choosing the appropriate graph based on variable type.
 ```
 
   - What is a type of graph that's appropriate to visualize the distribution of `status`? Fill in the `ggplot` code below to plot the distribution of `status`. Include informative axis labels and title on the graph.
@@ -268,7 +268,7 @@ Check your lab-01 repo on the GitHub website (you may need to refresh the page i
    Make a graph to visualize the distribution of `length`. Include an informative title and axis labels.
 
 ```{marginfigure}
-See [Section 7.3.1 "Visualising Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) or the [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/index.html) for details and example code.
+See [Section 7.3.1 "Visualizing Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) or the [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/index.html) for details and example code.
 ```                                               
 
 5. Next, fill in the code below to use the `summarise` function to calculate various summary statistics for the variable `length`. You can use the [summarise reference page](https://dplyr.tidyverse.org/reference/summarise.html) for more information about the function and example code. 
@@ -314,7 +314,7 @@ __________ <- __________ %>%
 
 ## Statistical Inference
 
-We'd like to use the data from the trails in Durham to make more general conclusions about trails in urban areas in the southeastern United States. We will reasonably consider the trails in Durham representative ofo the trails in other urban areas in the southeastern United States. 
+We'd like to use the data from the trails in Durham to make more general conclusions about trails in urban areas in the southeastern United States. We will reasonably consider the trails in Durham representative of the trails in other urban areas in the southeastern United States. 
 
 Over the next few questions, will use statistical inference to assess whether there is a difference in the mean length of trails that allow dog walking versus those that don't. 
 
@@ -323,7 +323,7 @@ Over the next few questions, will use statistical inference to assess whether th
     - **Sample Size**
     - **Independent Groups**
 
-13. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess if there is enough evidence to consider the difference "statistically signifcant" or if it appears to be due to random chance. We'll begin by conducting a hypothesis test: 
+13. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess if there is enough evidence to consider the difference "statistically significant" or if it appears to be due to random chance. We'll begin by conducting a hypothesis test: 
       -  State the null and alternative hypotheses in words.
       -  Now write the hypotheses in statistical notation. You can use "mu" to represent the mean parameter.
 

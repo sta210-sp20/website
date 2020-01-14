@@ -521,7 +521,7 @@ font-size: 10pt;
 </p>
 <ul>
 <li><p>Go to <em>File</em> ➡️ <em>New Project</em> ➡️ <em>Version Control</em> ➡️ <em>Git</em>.</p></li>
-<li><p>Copy and paste the URL of your assignment repo into the dialog box <em>Repository URL</em>. You can leave <em>Project Directy Name</em> empty. It will default to the name of the GitHub repo.</p></li>
+<li><p>Copy and paste the URL of your assignment repo into the dialog box <em>Repository URL</em>. You can leave <em>Project Directory Name</em> empty. It will default to the name of the GitHub repo.</p></li>
 <li><p>Click <em>Create Project</em>, and the files from your GitHub repo will be displayed the <em>Files</em> pane in RStudio.</p></li>
 </ul>
 </div>
@@ -591,7 +591,7 @@ font-size: 10pt;
 <h2>Pushing changes:</h2>
 <p>Now that you have made an update and committed this change, it’s time to push these changes to the web! Or more specifically, to your repo on GitHub. Why? So that others can see your changes. And by others, we mean the course teaching team. (Your repos in this course are private and can only be seen by you and the teaching team.)</p>
 <p>In order to push your changes to GitHub, click <strong>Push</strong>. This will prompt a dialogue box where you first need to enter your user name, and then your password. This might feel cumbersome. Bear with me… We <em>will</em> teach you how to save your password so you don’t have to enter it every time. But for this one assignment you’ll have to manually enter each time you push in order to gain some experience with it.</p>
-<p>Make sure you push all the files from the <em>Git</em> pane to your assignment repo on GitHub. The Git pane should be empty after you push. If it’s not, click the box next to the remainig files, write an informative commit message, and push.</p>
+<p>Make sure you push all the files from the <em>Git</em> pane to your assignment repo on GitHub. The Git pane should be empty after you push. If it’s not, click the box next to the remaining files, write an informative commit message, and push.</p>
 </div>
 </div>
 <div id="data-trails-in-durham-nc" class="section level1">
@@ -633,9 +633,9 @@ font-size: 10pt;
 </ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">glimpse</span>(trails)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Before conducting statistical inference (or eventually fitting regression models), we need do some exploratory data analysis (EDA). Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. Let’s begin by examining the distribution of <code>status</code> with a data visulization and summary statistics.</li>
+<li>Before conducting statistical inference (or eventually fitting regression models), we need do some exploratory data analysis (EDA). Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. Let’s begin by examining the distribution of <code>status</code> with a data visualization and summary statistics.</li>
 </ol>
-<p><label for="tufte-mn-6" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-6" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3">Section 7.3.1 “Visualising Distributions”</a> in <em>R for Data Science</em> for more information on choosing the appropriate graph based on variable type.</span></span></p>
+<p><label for="tufte-mn-6" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-6" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3">Section 7.3.1 “Visualizing Distributions”</a> in <em>R for Data Science</em> for more information on choosing the appropriate graph based on variable type.</span></span></p>
 <ul>
 <li>What is a type of graph that’s appropriate to visualize the distribution of <code>status</code>? Fill in the <code>ggplot</code> code below to plot the distribution of <code>status</code>. Include informative axis labels and title on the graph.</li>
 </ul>
@@ -662,7 +662,7 @@ font-size: 10pt;
 <li><p>Let’s examine the distribution of <code>length</code>. One important part of EDA is creating data visualizations to see the shape, center, spread, and outliers in a distribution. Data visualizations are also useful for examining the relationship between multiple variables. There are a lot of ways to make data visualizations in R; we will use the functions available in the <code>ggplot2</code> package.</p>
 <p>Make a graph to visualize the distribution of <code>length</code>. Include an informative title and axis labels.</p></li>
 </ol>
-<p><label for="tufte-mn-8" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-8" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3">Section 7.3.1 “Visualising Distributions”</a> or the <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot2 reference page</a> for details and example code.</span></span></p>
+<p><label for="tufte-mn-8" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-8" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3">Section 7.3.1 “Visualizing Distributions”</a> or the <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot2 reference page</a> for details and example code.</span></span></p>
 <ol start="5" style="list-style-type: decimal">
 <li>Next, fill in the code below to use the <code>summarise</code> function to calculate various summary statistics for the variable <code>length</code>. You can use the <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise reference page</a> for more information about the function and example code.</li>
 </ol>
@@ -700,7 +700,7 @@ font-size: 10pt;
 </div>
 <div id="statistical-inference" class="section level2">
 <h2>Statistical Inference</h2>
-<p>We’d like to use the data from the trails in Durham to make more general conclusions about trails in urban areas in the southeastern United States. We will reasonably consider the trails in Durham representative ofo the trails in other urban areas in the southeastern United States.</p>
+<p>We’d like to use the data from the trails in Durham to make more general conclusions about trails in urban areas in the southeastern United States. We will reasonably consider the trails in Durham representative of the trails in other urban areas in the southeastern United States.</p>
 <p>Over the next few questions, will use statistical inference to assess whether there is a difference in the mean length of trails that allow dog walking versus those that don’t.</p>
 <ol start="12" style="list-style-type: decimal">
 <li>The following conditions must be met when we conduct statistical inference on the difference in means between two groups. For each condition, specify whether it is met and a brief explanation of your reasoning.
@@ -709,7 +709,7 @@ font-size: 10pt;
 <li><strong>Sample Size</strong></li>
 <li><strong>Independent Groups</strong></li>
 </ul></li>
-<li>While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don’t, let’s assess if there is enough evidence to consider the difference “statistically signifcant” or if it appears to be due to random chance. We’ll begin by conducting a hypothesis test:
+<li>While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don’t, let’s assess if there is enough evidence to consider the difference “statistically significant” or if it appears to be due to random chance. We’ll begin by conducting a hypothesis test:
 <ul>
 <li>State the null and alternative hypotheses in words.</li>
 <li>Now write the hypotheses in statistical notation. You can use “mu” to represent the mean parameter.</li>
