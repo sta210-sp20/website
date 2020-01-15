@@ -288,7 +288,7 @@ current_trails %>%
 
 6. Describe the distribution of `length`. Your description should include comments about the shape, center, spread, and any potential outliers. Use the graph from Exercise 4 and relevant summary statistics from Exercise 5 in your description.
 
-7. We want to limit the analysis to trails that are more likely intended for day hikes, rather than multi-day hikes and camping. Therefore, let's remove the extreme outliers from the data for this analysis and only consider those trails that are 15 miles long or shorter. 
+7. We want to limit the analysis to trails that are more likely intended for day hikes, rather than multi-day hikes and camping. Therefore, let's remove the extreme outliers from the data for this analysis and only consider those trails that are 15 miles or shorter. 
 
     Filter the dataset to remove the extreme outliers. **Be sure to save the updated dataset, so you can use it for the remainder of the lab.** 
     
@@ -325,7 +325,7 @@ Over the next few questions, will use statistical inference to assess whether th
 
 13. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess if there is enough evidence to consider the difference "statistically significant" or if it appears to be due to random chance. We'll begin by conducting a hypothesis test: 
       -  State the null and alternative hypotheses in words.
-      -  Now write the hypotheses in statistical notation. You can use "mu" to represent the mean parameter.
+      -  Now write the hypotheses in statistical notation. Type \$mu\$ to get the mean parameter, $\mu$.
 
 ```{marginfigure}
 Type `?t.test` in the console to learn more about the function and its options. 
