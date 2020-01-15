@@ -353,6 +353,30 @@ t.test(response ~ group_var, data = ________,
 
 # Submitting the Assignment
 
+Once your work is finalized in your GitHub repo, you will submit it to Gradescope. **Your assignment must be submitted on Gradescope by the deadline to be considered "on time".**
+
+To submit your assignment: 
+
+- Go to http://www.gradescope.com and click *Log in* in the top right corner. 
+
+- Click *School Credentials* `r emo::ji("arrow_right")` *Duke NetID* and log in using your NetID credentials.
+
+- Click on the *STA 210 Regression Analysis* course. 
+
+- Click on the assignment, and you'll be prompted to submit it.
+    - If asked, login to your GitHub account.
+    - If asked, click to request access to the "sta210-sp20" GitHub organization. 
+  
+- Select your `lab-01-review-r-` repo and choose "master" for the branch. 
+
+- Click *Upload*. You should receive an email to confirm that the assignment has been submitted.
+
+*Notes*: 
+- You can see what has been submitted by click "Code" at the top of the page. **We will be grading the PDF file**, so please make sure that has all of your final code, output, and narrative.
+
+- You are welcome to resubmit as many times as you'd like before the deadline (we will only grade the most recent version). Just click the "Resubmit" button at the bottom of the page and reselect your repo and master branch. 
+
+
 # Resources for additional practice (optional)
 
 - [Chapter 2: Get Started](https://socviz.co/gettingstarted.html#work-in-plain-text-using-rmarkdown) *Data Visualization by Kieran Healy* 
