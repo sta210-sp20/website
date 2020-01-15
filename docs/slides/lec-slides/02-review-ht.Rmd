@@ -2,7 +2,7 @@
 title: "Inference Review"
 subtitle: "Hypothesis Testing"
 author: "Prof. Maria Tackett"
-date: "01.15.19"
+date: "01.15.20"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -125,14 +125,12 @@ sesame_street %>%
 
 ### Exploratory Data Analysis - Univariate
 
-<small>
-```{r}
+```{r echo = F}
 ggplot(data = sesame_street, mapping = aes(x = change)) +
   geom_histogram(fill = "steelblue", color = "black") +
   labs(x = "Change in Reading Score (Post - Pre)" , 
        title = "Distribution of the Change in Reading Scores")
 ```
-</small>
 
 ---
 
