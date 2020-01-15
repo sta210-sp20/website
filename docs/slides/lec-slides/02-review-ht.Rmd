@@ -72,12 +72,11 @@ class: middle, center
 
 ---
 
-## Today's Agenda
+### Today's Agenda
 
 - Calculating & interpreting hypothesis tests
 
-- Connecting hypothesis tests and confidence intervals
-
+- Drawing conclusions using hypothesis tests and confidence intervals
 ---
 
 ### *Sesame Street*
@@ -410,7 +409,7 @@ ggplot(NULL, aes(c(lower,upper))) +
 
 ---
 
-## Don't just rely on p-values
+### Don't just rely on p-values
 
 - Do not rely strictly on the p-value and significance level to make a conclusion!
 --
@@ -445,7 +444,7 @@ t.test(enc$change, mu = 11, conf.level = 0.9,
 
 ---
 
-## In-class exercise 
+### In-class exercise 
 
 <center>
 .question[
@@ -476,5 +475,66 @@ p-value: 0.087
 - Using a significance level of 0.1, what is your conclusion from the test? 
 
 - Suppose you are advising a group of educators about whether they should spend additional time and money to encourage children to watch *Sesame Street*. Based on these results, would you advise the educators to spend the resources? Why or why not?
+
+---
+
+### Inference for difference in means $\mu_1 - \mu_2$
+
+By the Central Limit Throem, when [the conditions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/01-review-ci.html#39) are met, 
+
+$$(\bar{x}_1 - \bar{x}_2) \sim N\left(\mu_1 - \mu_2, \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \right)$$
+
+<br><br>
+
+- We don't know $\sigma_1$ and $\sigma_2$ in practice, so we use the **standard error** in all calculations. 
+
+$$SE (\bar{x}_1 - \bar{x}_2) = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$
+
+---
+
+### Inference for difference in means $\mu_1 - \mu_2$
+
+**Confidence Interval** to estimate $\mu_1 - \mu_2$
+
+$$(\bar{x}_1 - \bar{x}_2) \pm t_{df}^* \times \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$
+
+$t^*$ follows a $t$ distribution with [degrees of freedom](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/01-review-ci.html#54) computed in R. 
+
+---
+
+### Inference for difference in means $\mu_1 - \mu_2$
+
+**Hypothesis Test**: Is there a difference in the means between Group 1 and Group 2?
+
+- Null hypothesis: $H_0: \mu_1 - \mu_2 = 0$
+- Test statistic: 
+  
+  $$\frac{(\bar{x}_1 - \bar{x}_2) - 0}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+  
+- p-value: Calculated using the $t$ distribution with [degrees of freedom](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/01-review-ci.html#54) computed in R. 
+
+
+---
+
+### Additional Resources
+
+- Discussion in the scientific community about p-values: ["Scientists rise up against statistical significance" in *Nature*](https://www.nature.com/articles/d41586-019-00857-9)
+
+- Fun review of two-sample tests by [@allison_horst](https://twitter.com/allison_horst):  https://twitter.com/allison_horst/status/1216411185240690688
+
+```{r echo = F, out.width = "50%"}
+knitr::include_graphics("img/02/t_test_1.jpg")
+```
+
+---
+
+### By Thursday at noon
+
+- Make sure you are a member of the [course organization on GitHub](http://www.github.com/sta210-sp20)
+
+- Make sure you have access to RStudio
+
+- If you are using RStudio on your local machine, make sure you have git configured and you can knit a PDF (need a Latex editor installed)
+
 
 

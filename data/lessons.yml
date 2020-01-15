@@ -16,7 +16,7 @@ lessons:
   - date: "Wed, Jan 15"
     title: "Review: Hypothesis Tests"
     reading: "reading-01.html"
-  #  slides: "lec-slides/03-slr.html"
+    slides: "lec-slides/02-review-ht.html"
   - date: "Thu, Jan 16"
     title: "Lab 01"
   #  slides: "lab-slides/02-lab-slides.html"
