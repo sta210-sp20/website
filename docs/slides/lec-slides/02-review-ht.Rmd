@@ -470,10 +470,26 @@ p-value: 0.087
 ]
 </center>
 
-- Using a significance level of 0.1, what is your conclusion from the test? 
+- Using a significance level of 0.1, what is your conclusion from the test?
+    - **This is the "statistical" conclusion from our test based on the mechanics of hypothesis testing.** 
+    - In this case, we would reject $H_0$ and conclude there is sufficient evidence that the mean change in reading scores is not equal to 11 for those encouraged to watch *Sesame Street*.
+
+---
+
+### Conclusion 
+
+<center>
+.alert[
+p-value: 0.087
+
+90% confidence interval: [11.059, 13.941]
+]
+</center>
 
 - Suppose you are advising a group of educators about whether they should spend additional time and money to encourage children to watch *Sesame Street*. Based on these results, would you advise the educators to spend the resources? Why or why not?
-
+    - **This the "practical" conclusion from the test based on a combination of the results of the hypothesis test, the magnitude of the p-value, the confidence interval, business context, etc.**
+    - There is no single correct answer to this question, but this is an example of the type of question we ultimately are trying to answer when we do statistical inference, i.e. this is statistial inference in practice.
+    
 ---
 
 ### Inference for difference in means $\mu_1 - \mu_2$
@@ -513,7 +529,7 @@ $t^*$ follows a $t$ distribution with [degrees of freedom](https://www2.stat.duk
 
 ---
 
-### Muddiest point 
+### Muddiest point - Optional
 
 .question[
 

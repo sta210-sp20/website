@@ -154,7 +154,7 @@ The 95% confidence interval for the mean change in reading score is
 ]
 
 
-<div class="countdown blink-colon noupdate-5" id="timer_5e1f2294" style="right:0;bottom:0;" data-warnwhen="30">
+<div class="countdown blink-colon noupdate-5" id="timer_5e1f4d3f" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -436,7 +436,7 @@ t.test(enc$change, mu = 11, conf.level = 0.9,
 - You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
 ]
 
-<div class="countdown blink-colon noupdate-5" id="timer_5e1f209d" style="right:0;bottom:0;" data-warnwhen="30">
+<div class="countdown blink-colon noupdate-5" id="timer_5e1f4eca" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -452,10 +452,26 @@ p-value: 0.087
 ]
 &lt;/center&gt;
 
-- Using a significance level of 0.1, what is your conclusion from the test? 
+- Using a significance level of 0.1, what is your conclusion from the test?
+    - **This is the "statistical" conclusion from our test based on the mechanics of hypothesis testing.** 
+    - In this case, we would reject `\(H_0\)` and conclude there is sufficient evidence that the mean change in reading scores is not equal to 11 for those encouraged to watch *Sesame Street*.
+
+---
+
+### Conclusion 
+
+&lt;center&gt;
+.alert[
+p-value: 0.087
+
+90% confidence interval: [11.059, 13.941]
+]
+&lt;/center&gt;
 
 - Suppose you are advising a group of educators about whether they should spend additional time and money to encourage children to watch *Sesame Street*. Based on these results, would you advise the educators to spend the resources? Why or why not?
-
+    - **This the "practical" conclusion from the test based on a combination of the results of the hypothesis test, the magnitude of the p-value, the confidence interval, business context, etc.**
+    - There is no single correct answer to this question, but this is an example of the type of question we ultimately are trying to answer when we do statistical inference, i.e. this is statistial inference in practice.
+    
 ---
 
 ### Inference for difference in means `\(\mu_1 - \mu_2\)`
@@ -495,7 +511,7 @@ By the Central Limit Throem, when [the conditions](https://www2.stat.duke.edu/co
 
 ---
 
-### Muddiest point 
+### Muddiest point - Optional
 
 .question[
 
