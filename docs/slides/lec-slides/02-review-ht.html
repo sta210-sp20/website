@@ -164,47 +164,50 @@ The 95% confidence interval for the mean change in reading score is
 ]
 
 
-<div class="countdown" id="timer_5e1e3b7d" style="right:0;bottom:0;" data-warnwhen="0">
+<div class="countdown blink-colon noupdate-5" id="timer_5e1e6de9" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
 ---
 
-## Hypothesis Tests
-
-- Question we want to answer: 
-
-.center[
-*Are the data consistent or inconsistent with the specified hypothesis?*
-]
-&lt;br&gt;
-
-- To answer that question, we will determine
-
-.center[
-*Given the collected data, is there evidence &lt;u&gt;against&lt;/u&gt; a specified hypothesis about the corresponding parameter?*
-]
---
-
-.instructions[
-Is the averagee improvement in reading scores significantly greater for children who regularly watch *Sesame Street* than the change for those who don't?
-]
-
+### Confidence Interval Recap
 
 ---
 
-## Hypotheses
+class: middle, center
 
-- &lt;font class="vocab"&gt;Null hypothesis, `\(H_0\)`&lt;/font&gt;: This is the baseline hypothesis, i.e. the "there is nothing going on" hypothesis. 
-    - There is no difference in the reading development between children who watch *Sesame Street* regularly and those who don't.
-&lt;br&gt;&lt;br&gt;
-
-- &lt;font class = "vocab"&gt;Alternative hypothesis, `\(H_a\)`&lt;/font&gt;: This is typically what you want to show, i.e. the "there is something going on" hypothesis 
-    - Children who regularly watch *Sesame Street* have significantly greater improvement in reading scores compared to those who don't
+### Hypothesis Tests
 
 ---
 
-## Outline of a Hypothesis Test
+### Question we want to answer
+
+- Let's focus on the children who were encouraged to watch *Sesame Street*
+
+- In general, those children watched the show regularly, so let's see if the show impacted their reading skills
+
+.alert[
+The mean change in reading scores after 26 weeks for children ages 3 - 5 is 11.
+
+Is there evidence that mean change in reading score for children encouraged to watch *Sesame Street* is "significantly" different from the mean change in reading score for all children?
+]
+
+---
+
+### Let's look at the data 
+
+&lt;img src="02-review-ht_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+```
+## # A tibble: 1 x 3
+##       n  mean std_dev
+##   &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1   152  12.5    10.7
+```
+
+---
+
+### Outline of a Hypothesis Test
 
 - Identify the parameter of interest. 
 
@@ -217,7 +220,7 @@ Is the averagee improvement in reading scores significantly greater for children
 
 ---
 
-## Outline of a Hypothesis Test
+### Outline of a Hypothesis Test
 
 - Assess the p-value. A small p-value means...
     
@@ -235,276 +238,127 @@ Is the averagee improvement in reading scores significantly greater for children
 
   - When the p-value is &lt;font color = "blue"&gt; "not small"&lt;/font&gt;, we will conclude that there is &lt;font color = "blue"&gt;not sufficient evidence&lt;/font&gt; to claim the assumed hypothesis is false.
 
----
-
-
-## *Sesame Street* Example
-
-- **Question: ** Is the averagee improvement in reading scores significantly greater for children who regularly watch *Sesame Street* than the change for those who don't?
---
-
-- **Baseline: ** There is no difference between the two groups
---
-
-- **Claim: **The average improvement in reading scores for children who watch *Sesame Street* is greater than the average improvement of children who don't. We will use encouragement as a proxy for watching the show.
---
-
-- **Hypotheses: ** 
-
-$$
-`\begin{aligned}
-&amp; H_0: \mu_e - \mu_{ne} = 0\\
-&amp; H_a: \mu_e - \mu_{ne} &gt; 0 
-\end{aligned}`
-$$
----
-
-### Distribution of sample statistic under `\(H_0\)`
-
-- We conduct hypothesis testing under the assumption that the null hypothesis is true, `\(H_0: \mu_e - \mu_{ne} = 0\)`
-
-- We use sample statistics `\(\bar{x}_e\)` and `\(\bar{x}_{ne}\)` to help us understand the parameters. 
-
-- If the null hypothesis is true, we could randomly relabel the observations as Group 1 and Group 2 and recalculate the sample statistic `\(\bar{x}_e - \bar{x}_{ne}\)`
-
-- Let's do this relabeling about 1000 times and see what the distribution of `\(\bar{x}_e - \bar{x}_{ne}\)` looks like
 
 ---
 
-### Simulated distribution of sample statistic under `\(H_0\)`
+### Identify parameter &amp; hypotheses
 
+- &lt;font class="vocab"&gt;Null hypothesis, `\(H_0\)`&lt;/font&gt;: This is the baseline hypothesis, i.e. the "there is nothing going on" hypothesis. 
+    - The mean change in reading score for children encouraged to watch the show is 11 (same as the mean for all children)
+&lt;br&gt;&lt;br&gt;
 
-
-&lt;img src="02-review-ht_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
-
----
-
-In our actual data, we observed a difference of **12.5 - 7.875 = 4.625**
-
-&lt;img src="02-review-ht_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
-
-.question[
-What proportion of the 1000 observations yielded values of `\(\bar{x}_e - \bar{x}_{ne}\)` as or more extreme as the value we observed in the data?
-]
-
----
-
-&lt;img src="02-review-ht_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
-
-.question[
-What is your conclusion about the effectiveness of *Sesame Street* in helping students improve their reading skills?
-]
-
----
-
-class: middle, center 
-
-### Inference Using the Central Limit Theorem
-
----
-
-## Sampling Distributions
-
-- &lt;font class = "vocab"&gt;Sampling distribution&lt;/font&gt;: the distribution of sample statistics of random samples of size `\(n\)` taken with replacement from a population
-
-- If we take repeated samples from a population, each sample will yield a slightly different value of the sample statistic
-
-- We can measure the variability in these sample statistics by the &lt;font class = "vocab"&gt;standard error&lt;/font&gt;
-
----
-
-## In practice...
-
-We can't directly know what the sampling distributions looks like, because we only draw a single sample.
-
-- The whole point of statistical inference is to deal with this issue: observe only one sample, try to make inference about the entire population
-
-- One approach is to simulate the distributions as we did earlier, but we will now rely on theoretical results. 
-
---
-
-- The &lt;font class = "vocab"&gt;Central Limit Theorem &lt;/font&gt; is a theoretical result that tells us what the sampling distribution should look like (for certain sample statistics)
-
-- The Central Limit Theorem provides the foundation we need to conduct inference on parameters such as the mean, proportion, difference in means, and regression coefficients (coming soon!)
-
----
-
-### Central Limit Theorem 
-
-If certain conditions are met, the sampling distribution of the sample statistic will..
-
-- be approximately Normal
-- have a mean equal to the unknown population parameter
-- have a standard error proportional to the inverse of the square root of the sample size.
-
----
-
-## Central Limit Theorem
-
-&lt;font class="vocab"&gt;One Sample: &lt;/font&gt;
-
-- **Single mean:** `\(\bar{x} \sim N\left(mean = \mu, sd = \frac{\sigma}{\sqrt{n}}\right)\)`
-- **Single proportion:** `\(\hat{p} \sim N\left(mean = p, sd = \sqrt{\frac{p (1-p)}{n}} \right)\)`
-
-&lt;br&gt;
-
-&lt;font class="vocab"&gt;Two Sample: &lt;/font&gt;
-
-- **Difference between two means:** `\((\bar{x}_1 - \bar{x}_2) \sim N\left(mean = (\mu_1 - \mu_2), sd = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \right)\)`
-
-- **Difference between two proportions:** `\((\hat{p}_1 - \hat{p}_2) \sim N\left(mean = (p_1 - p_2), sd = \sqrt{\frac{p_1 (1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}} \right)\)`
-
----
-
-### Conditions required for the CLT
-
-- **Independence:** The sampled observations must be independent. This is difficult to check, but the following are useful guidelines:
-    - the sample must be random
-    - if sampling without replacement, sample size must be less than 10% of the population size
+- &lt;font class = "vocab"&gt;Alternative hypothesis, `\(H_a\)`&lt;/font&gt;: This is typically what you want to show, i.e. the "there is something going on" hypothesis 
+    - The mean change in reading score for children encouraged to watch the show not 11 (different from the mean for all children)
     
-- **Sample size / distribution:** 
-    - numerical data: The more skewed the sample (and hence the population)
-    distribution, the larger samples we need. Usually n &gt; 30 is considered a 
-    large enough sample for population distributions that are not extremely skewed.
-    - categorical data: At least 10 successes and 10 failures.
-
-- If comparing two populations, the groups must be independent of each other,
-and all conditions should be checked for both groups.
-
----
-
-## Standard Error
-
-The &lt;font class="vocab"&gt;standard error&lt;/font&gt; is the *standard deviation* of the *sampling distribution*, calculated using sample statistics (since we don't know the population parameters like `\(\sigma\)` or `\(p\)`).
-
---
-
-- **Single mean:** `\(SE = \frac{s}{\sqrt{n}}\)`
-
-- **Difference between two means:** `\(SE = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}\)`
-
-- **Single proportion:** `\(SE = \sqrt{\frac{\hat{p} (1-\hat{p})}{n}}\)`
-
-- **Difference between two proportions:** `\(SE = \sqrt{\frac{\hat{p}_1 (1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}\)`
-
---
-
-.question[
-How are standard error and sample size associated? What does that say about how the spread of the sampling distribution changes as `\(n\)` increases?
-]
-
----
-
-## Hypothesis Tests Using the CLT 
-
-- State the null and alternative hypotheses 
-
---
-
-
--  Calculate the standard error of the sample statistic of interest (sample mean, sample proportion, difference between sample means, etc.)
-
---
-
-- Calculate the &lt;font class = "vocab"&gt;test statistic&lt;/font&gt;, the number of standard errors the observed value is from the hypothesized null value. The appropriate test statistic is...
-$$ \frac{\text{observed value} - \text{hypothesized value}}{SE}$$
-    - *z* for proportions
-    - *t* for means, along with appropriate degrees of freedom
-  
----
-
-## Hypothesis Tests Using the CLT 
-
-- Use the test statistic to calculate the p-value, the probability of the observed outcome or a more extreme outcome given that the null hypothesis is true
-    - Standard Normal distribution for proportions
-    - *t* distribution with appropriate degrees of freedom for means (and eventually regression coefficients)
-
----
-
-### *Sesame Street* Example using the CLT
-
-- Sample Statistic, `\(\bar{x}_e - \bar{x}_{ne}\)`: 
-
-```
-## [1] 4.625
-```
-
-
-- Standard Error, `\(\sqrt{s_e^2/n_e + s_{ne}^2/n_{ne}}\)`: 
-
-
-```
-## [1] 1.49096
-```
-
-
-- Test Statistic, `\(\frac{(\bar{x}_e - \bar{x}_{ne} - 0)}{\sqrt{s_e^2/n_e + s_{ne}^2/n_{ne}}}\)`: 
-
-```
-## [1] 3.102028
-```
-
-- P-value: 
-
-```
-## [1] 0.001121931
-```
+`$$H_0: \mu = 11 \\
+H_a: \mu \neq 11$$`
 
 
 ---
 
-### Theoretical distribution under `\(H_0\)`
+### Distribution `\(\bar{x}\)` under `\(H_0\)`
 
-*t* distribution with approximately 173.59 degrees of freedom. 
+- We want to draw conclusions about `\(\mu\)`, so we'll use our best guess `\(\bar{x}\)`
 
-&lt;img src="02-review-ht_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+- Recall from the Central Limit Theorem, when certain conditions are met (they are!), we know that 
+
+`$$\bar{x} \sim N\Big(\mu, \frac{\sigma}{\sqrt{n}}\Big)$$`
+
+--
+
+- We conduct a hypothesis test under the assumption that `\(H_0\)` is true, so for this test
+
+`$$\bar{x} \sim N\Big(11, \frac{\sigma}{\sqrt{n}}\Big)$$`
+
+
 
 ---
 
-class: middle, center 
+### Distribution `\(\bar{x}\)` under `\(H_0\)`
 
-### Understanding the Hypothesis Test
+- We don't know `\(\sigma\)`, so we can use the standard error `\(s/\sqrt{n}\)` to approximate `\(\sigma/\sqrt{n}\)`.
 
----
+- Thus, putting it all together, we know 
 
-## Calculating the p-value
-
-- &lt;font class="vocab3"&gt;p-value:&lt;/font&gt; probability of getting a test statistic as extreme or more extreme than the calculated test statistic, assuming the null hypothesis is true
---
-
-
-- When the alternative has a `\(&gt;\)`, the p-value is calculated using the area to the right of the test statistic
---
-
-
-- When the alternative has a `\(&lt;\)`, the p-value is calculated using the area to the left of the test statistic
---
-
-
-- When the alternative has `\(\neq\)`, the p-value is calculated as the area to the left of `\(-|\text{test statistic}|\)` and to the right of `\(|\text{test statistic}|\)`
-
----
-
-### Interpreting the p-value
---
-
-**What the p-value is NOT**:
-- It is &lt;u&gt;*not*&lt;/u&gt; the probability the null hypothesis is true
-  + The null hypothesis is either true or not true
-- (1 - *p-value*) is &lt;u&gt;*not*&lt;/u&gt; the probability that the alternative hypothesis is true
-  + The alternative hypothesis is either true or not true
+`$$\bar{x} \approx N\Big(11, \frac{10.7}{\sqrt{152}}\Big)$$`
 
 --
 
 .alert[
-Correct interpretation of the p-value: 
-
-The probability of getting a test statistic as extreme or more extreme than the calculated test statistic, *assuming the null hypothesis is true.*
+Given `\(\bar{x} \approx N\Big(11, \frac{10.7}{\sqrt{152}}\Big)\)`, what is the probability of observing a mean change in score at least 1.5 points away from the center (11) in a random sample of 152 children ages 3 - 5?
 ]
 
 ---
 
-## Interpreting the p-value
+### Visualize
+
+
+&lt;img src="02-review-ht_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+
+The shaded area represents the (approximate) probability of obtaining a sample mean at least as far away from the center as the one we observed given the true mean change is 11. 
+
+---
+
+### Test Statistic
+
+- Let's quantify how "unusual" our observed sample mean is given `\(H_0: \mu = 11\)` is true
+
+- We'll begin by calculating how "far away" the observed mean is from the center of the distribution under `\(H_0\)`
+
+- The .vocab[test statistic] is the number of standard errors the observed value is from the hypothesized value. The general form of the test statistic is 
+$$ \frac{\text{observed value} - \text{hypothesized value}}{SE}$$
+
+--
+
+.alert[
+`$$t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}} = \frac{12.5 - 11}{\frac{10.7}{\sqrt{152}}} \approx 1.728$$`
+where the test statistic follows the `\(t\)` distribution with `\(n-1\)` df
+]
+
+---
+
+### Motivating the p-value 
+
+- We got a test statistic of 1.728. In other words...
+
+--
+
+.alert[
+Given `\(\bar{x} \approx N\Big(11, \frac{10.7}{\sqrt{152}}\Big)\)`, what is the probability of observing a mean change in score at least 1.5 points away from the center (11) in a random sample of 152 children ages 3 - 5?
+]
+
+--
+
+`$$\Large{\Downarrow}$$`
+
+--
+
+.alert[
+Given the `\(t\)` distribution with 151 degrees of freedom, what is the probability of observing a test statistic with magnitude 1.728 or larger?
+]
+
+---
+
+### p-value
+
+Given the `\(t\)` distribution with 151 degrees of freedom, what is the probability of observing a test statistic with magnitude 1.728 or larger?
+
+&lt;img src="02-review-ht_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+
+```r
+(p_value &lt;- 2 * pt(-1.728, 151))
+```
+
+```
+## [1] 0.08603259
+```
+
+---
+
+### General guide for interpreting the p-value
+
 
 |  Magnitude of p-value |             Interpretation            |
 |:---------------------:|:-------------------------------------:|
@@ -516,79 +370,106 @@ The probability of getting a test statistic as extreme or more extreme than the 
 &lt;br&gt;
 
 **Note:** These are general guidelines. The strength of evidence depends on the context of the problem.
----
-
-## Statistical Significance
-
-- A threshold can be used to decide whether or not to reject `\(H_0\)`. 
-
-- This threshold is called the &lt;font class="vocab3"&gt;significance level&lt;/font&gt; and is usually denoted by `\(\alpha\)`
-
-- When `\(H_0\)` is rejected, we use the term &lt;font class="vocab3"&gt; statistically significant &lt;/font&gt; to describe the outcome of the test.
-
-- *Example*: When `\(\alpha = 0.05\)`, results are statistically significance when the p-value is `\(&lt; 0.05\)`
 
 ---
 
-## Statistical Significance
+### Drawing the conclusion: Part 1
 
-- Do not rely strictly on the significance level to make a conclusion!
+- A threshold can be used to decide whether or not to reject `\(H_0\)` in favor of the alternative `\(H_a\)`
+
+- This threshold is called the .vocab[significance level] and is usually denoted by `\(\alpha\)`
+
+- If the p-value is less than `\(\alpha\)`, then we conclude there is sufficient evidence against `\(H-\)` and we **reject the null hypothesis**
+
+- Otherwise, we conclude that there isn't sufficient evidence against `\(H_0\)` and **fail to reject the null hypothesis**
+
+---
+
+## Don't just rely on p-values
+
+- Do not rely strictly on the p-value and significance level to make a conclusion!
 --
 
 - Suppose the significance level is 0.05
 --
 
-  + If the p-value is 0.05001, we do not reject `\(H_0\)`
+  + If the p-value is 0.05001, we fail to reject `\(H_0\)`
 --
 
-  + If the p-value is 0.04999, we do reject `\(H_0\)`
+  + If the p-value is 0.04999, we reject `\(H_0\)`
 --
 
 - 0.05001 and 0.04999 are practically the same, yet they led to different conclusions. 
 --
 
-- Always state the p-value when reporting results and assess it's magnitude in the context of your problem. 
----
-
-class: results 
-
-### Results that Aren't Statistically Significant
-
-- An outcome of failing to reject `\(H_0\)` is &lt;u&gt;*not*&lt;/u&gt; a failed study/experiment
-
-- Obtaining an outcome of "no significant effect" or "no significant difference" is still valid 
-
-- It is often just as important to learn that the `\(H_0\)` can't be refuted
+.alert[
+Use confidence intervals and other statistical summaries to provide more context about the results.
+]
 
 ---
 
-## Statistical Inference
+### t-test for *Sesame Street* data 
 
-- We concluded that there is a statistically significant difference in the average reading improvement between children who watched *Sesame Street* regularly compared to those who didn't
 
-- From our sample data, the estimated difference is `\(\bar{x}_e - \bar{x}_{ne}\)` = 12.5 - 7.875 = 4.625
+```r
+enc &lt;- sesame_street %&gt;%
+  filter(treatment == "Encouraged")
 
-- Though this may be a good estimate, we saw earlier that there is variability in statistics calculated from sample data. 
+t.test(enc$change, mu = 11, conf.level = 0.9, 
+       direction = "two.sided")
+```
 
-- Next class, we will discuss how to account for that variability in our estimate of the parameter. 
+```
+## 
+## 	One Sample t-test
+## 
+## data:  enc$change
+## t = 1.7226, df = 151, p-value = 0.08701
+## alternative hypothesis: true mean is not equal to 11
+## 90 percent confidence interval:
+##  11.05883 13.94117
+## sample estimates:
+## mean of x 
+##      12.5
+```
+
 ---
 
-## Before Next Class
+## In-class exercise 
 
-- Fill out the **Getting To Know You Survey on Sakai** - due 9/2 at 11:59p
+&lt;center&gt;
+p-value: 0.087
+90% confidence interval: [11.059, 13.941]
+&lt;/center&gt;
 
-- Accept invite to join `sta210-fa19` organization on GitHub
+.question[
 
-- **New to R or need a refresher?**
-  - Duke Libraries Rfun - Intro to R Workshop: Data Transformations, Data Structures, and the Tidyverse
-      - September 12 1p - 3p
-      - To register: https://duke.libcal.com/event/5497129
-    - *Work with Data* primer on RStudio Cloud: [https://rstudio.cloud/learn/primers/2](https://rstudio.cloud/learn/primers/2)
-    - "Data Visualization" in *R for Data Science*:
-    [https://r4ds.had.co.nz/data-visualisation.html](https://r4ds.had.co.nz/data-visualisation.html)
+- Answer the questions: http://bit.ly/sta210-sp20-ht
 
-- **More on statistical inference**
-  - [OpenIntro Statistics](https://www.openintro.org/download.php?file=os3_tablet&amp;referrer=/stat/textbook.php) Chapter 5: Inference for numerical data
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+<div class="countdown blink-colon noupdate-5" id="timer_5e1e6f1b" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+### Conclusion 
+
+&lt;center&gt;
+.alert[
+p-value: 0.087
+
+90% confidence interval: [11.059, 13.941]
+]
+&lt;/center&gt;
+
+- Using a significance level of 0.1, what is your conclusion from the test? 
+
+- Suppose you are advising the educators about whether they should spend additional money and resources to encourage children to watch *Sesame Street*. Based on these results, would you advise the educators to spend the resources? Why or why not?
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
