@@ -448,10 +448,6 @@ t.test(enc$change, mu = 11, conf.level = 0.9,
 ## In-class exercise 
 
 <center>
-p-value: 0.087
-90% confidence interval: [11.059, 13.941]
-</center>
-
 .question[
 
 - Answer the questions: http://bit.ly/sta210-sp20-ht
@@ -479,5 +475,5 @@ p-value: 0.087
 
 - Using a significance level of 0.1, what is your conclusion from the test? 
 
-- Suppose you are advising the educators about whether they should spend additional money and resources to encourage children to watch *Sesame Street*. Based on these results, would you advise the educators to spend the resources? Why or why not?
+- Suppose you are advising a group of educators about whether they should spend additional time and money to encourage children to watch *Sesame Street*. Based on these results, would you advise the educators to spend the resources? Why or why not?
 
