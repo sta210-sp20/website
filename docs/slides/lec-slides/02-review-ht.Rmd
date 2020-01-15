@@ -236,7 +236,7 @@ sesame_street %>%
     
     a. The assumed (null) hypothesis is incorrect
     
-    b. The assumed (null) hypothesis is correct and a rare event has occured 
+    b. The assumed (null) hypothesis is correct and a rare event has occurred
     
 - State a conclusion about the hypothesis based on the assessment of the p-value
 --
@@ -476,4 +476,5 @@ p-value: 0.087
 - Using a significance level of 0.1, what is your conclusion from the test? 
 
 - Suppose you are advising a group of educators about whether they should spend additional time and money to encourage children to watch *Sesame Street*. Based on these results, would you advise the educators to spend the resources? Why or why not?
+
 
