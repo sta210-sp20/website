@@ -32,7 +32,7 @@ class: middle, center
 
 ### Announcements
 
-- Complete [surveys and consent form](https://www2.stat.duke.edu/courses/Spring20/sta210.001/misc/jan8.html) by Wed at 11:59p
+- Complete [surveys and consent form](https://www2.stat.duke.edu/courses/Spring20/sta210.001/misc/jan8.html) by TODAY at 11:59p
 
 - [Reading for next Wednesday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-02.html)
 
@@ -41,6 +41,7 @@ class: middle, center
 - No class Monday - Martin Luther King, Jr. Holiday
 
 - Find more info about statistics related events on [Sakai](https://sakai.duke.edu)
+    - Florida Blue visting Jan 22. [Submit resume](https://forms.office.com/Pages/ResponsePage.aspx?id=TsVyyzFKnk2xSh6jbfrJTFvPd3eQtCxBtEvbtkDole1UQlROM1hHRVVVV0xDRlFTMjdMOUJLNDFXVC4u) by today to be considered for interview during their visit
 
 ---
 
@@ -153,7 +154,7 @@ The 95% confidence interval for the mean change in reading score is
 ]
 
 
-<div class="countdown blink-colon noupdate-5" id="timer_5e1e808f" style="right:0;bottom:0;" data-warnwhen="30">
+<div class="countdown blink-colon noupdate-5" id="timer_5e1f2294" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -178,7 +179,7 @@ class: middle, center
 .alert[
 The mean change in reading scores after 26 weeks for children ages 3 - 5 is 11.
 
-Is there evidence that mean change in reading score for children encouraged to watch *Sesame Street* is "significantly" different from the mean change in reading score for all children?
+Is there evidence that mean change in reading scores for children encouraged to watch *Sesame Street* is "significantly" different from the mean change in reading score for all children?
 ]
 
 ---
@@ -368,9 +369,9 @@ Given the `\(t\)` distribution with 151 degrees of freedom, what is the probabil
 
 - This threshold is called the .vocab[significance level] and is usually denoted by `\(\alpha\)`
 
-- If the p-value is less than `\(\alpha\)`, then we conclude there is sufficient evidence against `\(H-\)` and we **reject the null hypothesis**
+- If the p-value is less than `\(\alpha\)`, then we conclude there is sufficient evidence against `\(H_0\)` and we **&lt;u&gt;reject&lt;/u&gt; the null hypothesis**
 
-- Otherwise, we conclude that there isn't sufficient evidence against `\(H_0\)` and **fail to reject the null hypothesis**
+- Otherwise, we conclude that there isn't sufficient evidence against `\(H_0\)` and **&lt;u&gt;fail to reject&lt;/u&gt; the null hypothesis**
 
 ---
 
@@ -426,7 +427,6 @@ t.test(enc$change, mu = 11, conf.level = 0.9,
 
 ### In-class exercise 
 
-&lt;center&gt;
 .question[
 
 - Answer the questions: http://bit.ly/sta210-sp20-ht
@@ -436,7 +436,7 @@ t.test(enc$change, mu = 11, conf.level = 0.9,
 - You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
 ]
 
-<div class="countdown blink-colon noupdate-5" id="timer_5e1e8118" style="right:0;bottom:0;" data-warnwhen="30">
+<div class="countdown blink-colon noupdate-5" id="timer_5e1f209d" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -492,6 +492,21 @@ By the Central Limit Throem, when [the conditions](https://www2.stat.duke.edu/co
   `$$\frac{(\bar{x}_1 - \bar{x}_2) - 0}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$`
   
 - p-value: Calculated using the `\(t\)` distribution with [degrees of freedom](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/01-review-ci.html#54) computed in R. 
+
+---
+
+### Muddiest point 
+
+.question[
+
+What is one question you have about hypohtesis testing and confidence intervals? 
+
+Submit your question here: http://bit.ly/sta210-sp20-review
+
+- Use **NetId@duke.edu** for your email address.
+
+- Type "none" only if you really, really, really don't have a question
+]
 
 
 ---

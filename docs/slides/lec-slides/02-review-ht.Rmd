@@ -60,7 +60,7 @@ class: middle, center
 
 ### Announcements
 
-- Complete [surveys and consent form](https://www2.stat.duke.edu/courses/Spring20/sta210.001/misc/jan8.html) by Wed at 11:59p
+- Complete [surveys and consent form](https://www2.stat.duke.edu/courses/Spring20/sta210.001/misc/jan8.html) by TODAY at 11:59p
 
 - [Reading for next Wednesday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-02.html)
 
@@ -69,6 +69,7 @@ class: middle, center
 - No class Monday - Martin Luther King, Jr. Holiday
 
 - Find more info about statistics related events on [Sakai](https://sakai.duke.edu)
+    - Florida Blue visting Jan 22. [Submit resume](https://forms.office.com/Pages/ResponsePage.aspx?id=TsVyyzFKnk2xSh6jbfrJTFvPd3eQtCxBtEvbtkDole1UQlROM1hHRVVVV0xDRlFTMjdMOUJLNDFXVC4u) by today to be considered for interview during their visit
 
 ---
 
@@ -190,7 +191,7 @@ class: middle, center
 .alert[
 The mean change in reading scores after 26 weeks for children ages 3 - 5 is 11.
 
-Is there evidence that mean change in reading score for children encouraged to watch *Sesame Street* is "significantly" different from the mean change in reading score for all children?
+Is there evidence that mean change in reading scores for children encouraged to watch *Sesame Street* is "significantly" different from the mean change in reading score for all children?
 ]
 
 ---
@@ -401,9 +402,9 @@ ggplot(NULL, aes(c(lower,upper))) +
 
 - This threshold is called the .vocab[significance level] and is usually denoted by $\alpha$
 
-- If the p-value is less than $\alpha$, then we conclude there is sufficient evidence against $H-$ and we **reject the null hypothesis**
+- If the p-value is less than $\alpha$, then we conclude there is sufficient evidence against $H_0$ and we **<u>reject</u> the null hypothesis**
 
-- Otherwise, we conclude that there isn't sufficient evidence against $H_0$ and **fail to reject the null hypothesis**
+- Otherwise, we conclude that there isn't sufficient evidence against $H_0$ and **<u>fail to reject</u> the null hypothesis**
 
 ---
 
@@ -444,7 +445,6 @@ t.test(enc$change, mu = 11, conf.level = 0.9,
 
 ### In-class exercise 
 
-<center>
 .question[
 
 - Answer the questions: http://bit.ly/sta210-sp20-ht
@@ -510,6 +510,21 @@ $t^*$ follows a $t$ distribution with [degrees of freedom](https://www2.stat.duk
   $$\frac{(\bar{x}_1 - \bar{x}_2) - 0}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
   
 - p-value: Calculated using the $t$ distribution with [degrees of freedom](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/01-review-ci.html#54) computed in R. 
+
+---
+
+### Muddiest point 
+
+.question[
+
+What is one question you have about hypohtesis testing and confidence intervals? 
+
+Submit your question here: http://bit.ly/sta210-sp20-review
+
+- Use **NetId@duke.edu** for your email address.
+
+- Type "none" only if you really, really, really don't have a question
+]
 
 
 ---
