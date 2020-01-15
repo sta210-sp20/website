@@ -7,6 +7,8 @@ output:
     tufte_variant: "envisioned"
     highlight: pygments
     fig_height: 10
+    toc: true
+    toc_depth: 1
 link-citations: yes
 ---
 
@@ -347,9 +349,11 @@ t.test(response ~ group_var, data = ________,
 16. Notice the confidence interval for the difference in mean trail length printed in the output from Exercise 14. Interpret this confidence interval in the context of this analysis. 
 
 
-*You're done! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 1!" Before you wrap up the assignment, make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that<u>all</u> documents are updated in your repo on GitHub.*
+*You're done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 1!", and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that<u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.*
 
-## Resources for additional practice (optional)
+# Submitting the Assignment
+
+# Resources for additional practice (optional)
 
 - [Chapter 2: Get Started](https://socviz.co/gettingstarted.html#work-in-plain-text-using-rmarkdown) *Data Visualization by Kieran Healy* 
 

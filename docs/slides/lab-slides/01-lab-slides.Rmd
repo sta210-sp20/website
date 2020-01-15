@@ -89,7 +89,6 @@ Course website: [http://bit.ly/sta210-sp20](http://bit.ly/sta210-sp20)
 
 - All assignments will be completed using RStudio and GitHub
     + You will submit your GitHub repo on Gradescopes
-
 ---
 
 ### Tips
@@ -178,9 +177,29 @@ install.packages("usethis")
 
 ---
 
-### Submitting Assignments 
+### Submitting Assignments - Part 1
 
-- Fill in these instructions! 
+- Go to http://www.gradescope.com and click *Log in* in the top right corner. 
+
+- Click "School Credentials" `r emo::ji("arrow_right")` Duke NetID and log in using your Net ID credentials.
+
+- Click on the "STA 210 Regression Analysis" course, and click the "Lab 01" assignment. 
+
+- Click the "Submit" button, and you will be asked to log into GitHub.
+
+---
+
+### Submitting Assignments - Part 2
+
+- Select your `lab-01-review-r-` repo and choose "master" for the branch. 
+
+- Click *Upload*. You should receive an email to confirm that the assignment has been submitted. 
+
+- You can see what has been submitted by click "Code" at the top of the page. 
+  - **We will be grading the PDF file**, so please make sure that has all of your final code, output, and narratives. 
+  
+- You are welcome to resubmit as many times as you'd like before the deadline. Just follow the steps above.
+
 
 ---
 
