@@ -121,13 +121,20 @@ Once you run the configuration code, your values for `user.name` and `user.email
 
 <br>
 
+Below are the general components of an RStudio project. 
+
 ```{r echo=FALSE, fig.fullwidth = TRUE}
 knitr::include_graphics("img/01-intro-r/rstudio-panes.png")
 ```
 
-- INSERT PICTURE FOR THE R MARKDOWN FILE!
 
-Read [Getting Started](https://socviz.co/gettingstarted.html#gettingstarted) in *Data Visualization* by Kieran Healy for more details about R and RStudio. 
+Below are the general components of an RMarkdown file. 
+
+```{r echo=FALSE, fig.fullwidth = TRUE}
+knitr::include_graphics("img/01-intro-r/rmarkdown.jpg")
+```
+
+To get more details about the RStudio project, RMarkdown file, and just R in general, read [Getting Started](https://socviz.co/gettingstarted.html#gettingstarted) in *Data Visualization* by Kieran Healy.
 
 
 ## Packages
@@ -146,19 +153,14 @@ install.packages("tidyverse")
 
 ## YAML 
 
-Before we introduce the data, let's update the name and date in the YAML. 
-
 ```{marginfigure}
 The top portion of your R Markdown file (between the three dashed lines) is called YAML. It stands for "YAML Ain't Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
 ```
 
+Before we introduce the data, let's update the name and date in the YAML. 
+
+
 Open the R Markdown (Rmd) file in your project, input your name for the author name and today's date for the date, and knit the document.
-
-```{r yaml-raw-to-rendered, fig.fullwidth = TRUE, echo = FALSE}
-knitr::include_graphics("img/01-intro-r/yaml-raw-to-rendered.png")
-```
-
-- **WRITE SOMETHING ABOUT THE FILE TYPES THAT WE'LL USE**
 
 ## Committing changes:
 
@@ -325,9 +327,13 @@ Over the next few questions, will use statistical inference to assess whether th
     - **Sample Size**
     - **Independent Groups**
 
-13. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess if there is enough evidence to consider the difference "statistically significant" or if it appears to be due to random chance. We'll begin by conducting a hypothesis test: 
-      -  State the null and alternative hypotheses in words.
-      -  Now write the hypotheses in statistical notation. Type \$mu\$ to get the mean parameter, $\mu$.
+13. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess if there is enough evidence to consider the difference "statistically significant" or if it appears to be due to random chance. We'll begin by conducting a test of the following hypotheses: 
+
+$$H_0: \mu_1 - \mu_2 = 0 \\
+H_a: \mu_1 - \mu_2 \neq 0$$
+
+
+    State the null and alternative hypotheses in words. Write them in the context of this analysis.
 
 ```{marginfigure}
 Type `?t.test` in the console to learn more about the function and its options. 
