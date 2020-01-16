@@ -632,27 +632,22 @@ font-size: 10pt;
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory Data Analysis</h2>
 <ol style="list-style-type: decimal">
-<li>Now that we’ve had a quick view of the dataset, let’s get more details about its structure. Sometimes viewing a summary of the data structure is more useful than viewing the raw data, especially if the dataset has a large number of observations and/or rows. Run the code below to use the <code>glimpse</code> function to see a summary of the <code>trails</code> dataset.</li>
+<li><p>Now that we’ve had a quick view of the dataset, let’s get more details about its structure. Sometimes viewing a summary of the data structure is more useful than viewing the raw data, especially if the dataset has a large number of observations and/or rows. Run the code below to use the <code>glimpse</code> function to see a summary of the <code>trails</code> dataset.</p>
+<p>How many observations are in the <code>trails</code> dataset? How many variables?</p></li>
 </ol>
-<ul>
-<li>How many observations (rows) are in the <code>trails</code> dataset? How many variables (columns)?</li>
-</ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">glimpse</span>(trails)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Before conducting statistical inference (or eventually fitting regression models), we need do some exploratory data analysis (EDA). Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. Let’s begin by examining the distribution of <code>status</code> with a data visualization and summary statistics.</li>
-</ol>
-<p><label for="tufte-mn-6" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-6" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3">Section 7.3.1 “Visualizing Distributions”</a> in <em>R for Data Science</em> for more information on choosing the appropriate graph based on variable type.</span></span></p>
+<li><p>Before conducting statistical inference (or eventually fitting regression models), we need do some exploratory data analysis (EDA). Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. Let’s begin by examining the distribution of <code>status</code> with a data visualization and summary statistics.</p>
 <ul>
-<li>What is a type of graph that’s appropriate to visualize the distribution of <code>status</code>? Fill in the <code>ggplot</code> code below to plot the distribution of <code>status</code>. Include informative axis labels and title on the graph.</li>
-</ul>
+<li><p>What is a type of graph that’s appropriate to visualize the distribution of <code>status</code>? Fill in the <code>ggplot</code> code below to plot the distribution of <code>status</code>. Include informative axis labels and title on the graph.</p></li>
+<li><p>Then, calculate the proportion of observations in each category of <code>status</code> by completing the code below.</p></li>
+</ul></li>
+</ol>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> trails, <span class="kw">aes</span>(<span class="dt">x =</span> status)) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span>__________ <span class="op">+</span><span class="st"> </span></span>
 <span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;_________&quot;</span>, </span>
 <span id="cb10-4"><a href="#cb10-4"></a>       <span class="dt">y =</span> <span class="st">&quot;_________&quot;</span>, </span>
 <span id="cb10-5"><a href="#cb10-5"></a>       <span class="dt">title =</span> <span class="st">&quot;__________&quot;</span>)</span></code></pre></div>
-<ul>
-<li>Next, let’s calculate the proportion of observations in each category of <code>status</code>. Complete the code below to calculate the distribution of <code>status</code>.</li>
-</ul>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>trails <span class="op">%&gt;%</span></span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">count</span>(_____) <span class="op">%&gt;%</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">proportion =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n))</span></code></pre></div>
@@ -661,14 +656,14 @@ font-size: 10pt;
 </ol>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>__________ &lt;-<span class="st"> </span>trails <span class="op">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">filter</span>(status <span class="op">==</span><span class="st"> &quot;______&quot;</span>, <span class="op">!</span><span class="kw">is.na</span>(______))</span></code></pre></div>
-<p><label for="tufte-mn-7" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-7" class="margin-toggle"><span class="marginnote"><span style="display: block;">Check your lab-01 repo on the GitHub website (you may need to refresh the page in your browser) to ensure that all of the files are up-to-date.</span></span></p>
+<p><label for="tufte-mn-6" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-6" class="margin-toggle"><span class="marginnote"><span style="display: block;">Check your lab-01 repo on the GitHub website (you may need to refresh the page in your browser) to ensure that all of the files are up-to-date.</span></span></p>
 <p><em>This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write an informative commit message (e.g. “Completed exercises 1 - 3”), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty.&quot;</em></p>
 <p><strong>Use <code>current_trails</code> for Exercises 4 - 6.</strong></p>
 <ol start="4" style="list-style-type: decimal">
 <li><p>Let’s examine the distribution of <code>length</code>. One important part of EDA is creating data visualizations to see the shape, center, spread, and outliers in a distribution. Data visualizations are also useful for examining the relationship between multiple variables. There are a lot of ways to make data visualizations in R; we will use the functions available in the <code>ggplot2</code> package.</p>
 <p>Make a graph to visualize the distribution of <code>length</code>. Include an informative title and axis labels.</p></li>
 </ol>
-<p><label for="tufte-mn-8" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-8" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3">Section 7.3.1 “Visualizing Distributions”</a> or the <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot2 reference page</a> for details and example code.</span></span></p>
+<p><label for="tufte-mn-7" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-7" class="margin-toggle"><span class="marginnote"><span style="display: block;">See <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3">Section 7.3.1 “Visualizing Distributions”</a> or the <a href="https://ggplot2.tidyverse.org/reference/index.html">ggplot2 reference page</a> for details and example code.</span></span></p>
 <ol start="5" style="list-style-type: decimal">
 <li>Next, fill in the code below to use the <code>summarise</code> function to calculate various summary statistics for the variable <code>length</code>. You can use the <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise reference page</a> for more information about the function and example code.</li>
 </ol>
@@ -709,24 +704,24 @@ font-size: 10pt;
 <p>We’d like to use the data from the trails in Durham to make more general conclusions about trails in urban areas in the southeastern United States. We will reasonably consider the trails in Durham representative of the trails in other urban areas in the southeastern United States.</p>
 <p>Over the next few questions, will use statistical inference to assess whether there is a difference in the mean length of trails that allow dog walking versus those that don’t.</p>
 <ol start="12" style="list-style-type: decimal">
-<li>The following conditions must be met when we conduct statistical inference on the difference in means between two groups. For each condition, specify whether it is met and a brief explanation of your reasoning.
+<li><p>The following conditions must be met when we conduct statistical inference on the difference in means between two groups. For each condition, specify whether it is met and a brief explanation of your reasoning.</p>
 <ul>
 <li><strong>Independence</strong></li>
 <li><strong>Sample Size</strong></li>
 <li><strong>Independent Groups</strong></li>
 </ul></li>
-<li>While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don’t, let’s assess if there is enough evidence to consider the difference “statistically significant” or if it appears to be due to random chance. We’ll begin by conducting a test of the following hypotheses:</li>
+<li><p>While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don’t, let’s assess if there is enough evidence to consider the difference “statistically significant” or if it appears to be due to random chance.</p>
+<p>The null and alternative hypotheses are written in statistical notation below. State the hypotheses in words in the context of this analysis.</p></li>
 </ol>
 <p><span class="math display">\[H_0: \mu_1 - \mu_2 = 0 \\
 H_a: \mu_1 - \mu_2 \neq 0\]</span></p>
-<pre><code>State the null and alternative hypotheses in words. Write them in the context of this analysis.</code></pre>
-<p><label for="tufte-mn-9" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-9" class="margin-toggle"><span class="marginnote"><span style="display: block;">Type <code>?t.test</code> in the console to learn more about the function and its options.</span></span></p>
+<p><label for="tufte-mn-8" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-8" class="margin-toggle"><span class="marginnote"><span style="display: block;">Type <code>?t.test</code> in the console to learn more about the function and its options.</span></span></p>
 <ol start="14" style="list-style-type: decimal">
 <li>Fill in the code below to use the <code>t.test</code> function to calculate the test statistic and p-value. Replace <code>response</code> with the variable we’re interested in drawing conclusions about and <code>group_var</code> with the variable used to define the two groups.</li>
 </ol>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">t.test</span>(response <span class="op">~</span><span class="st"> </span>group_var, <span class="dt">data =</span> ________, </span>
-<span id="cb16-2"><a href="#cb16-2"></a>       <span class="dt">alternative =</span> <span class="st">&quot;___________&quot;</span>, </span>
-<span id="cb16-3"><a href="#cb16-3"></a>       <span class="dt">conf.level =</span> <span class="fl">0.99</span>) <span class="co">#less, greater, or two.sided</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">t.test</span>(response <span class="op">~</span><span class="st"> </span>group_var, <span class="dt">data =</span> ________, </span>
+<span id="cb15-2"><a href="#cb15-2"></a>       <span class="dt">alternative =</span> <span class="st">&quot;___________&quot;</span>, </span>
+<span id="cb15-3"><a href="#cb15-3"></a>       <span class="dt">conf.level =</span> <span class="fl">0.99</span>) <span class="co">#less, greater, or two.sided</span></span></code></pre></div>
 <ol start="15" style="list-style-type: decimal">
 <li>Use the output from the previous exercise to answer the following:
 <ul>

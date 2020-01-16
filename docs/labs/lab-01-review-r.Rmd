@@ -76,7 +76,6 @@ knitr::include_graphics("img/01-intro-r/paste-gh-repo-url.png")
 - Copy and paste the URL of your assignment repo into the dialog box *Repository URL*. You can leave *Project Directory Name* empty. It will default to the name of the GitHub repo.
 
 
-
 - Click *Create Project*, and the files from your GitHub repo will be displayed the *Files* pane in RStudio. 
 
 ## Configure git 
@@ -220,19 +219,22 @@ View(trails)
 ## Exploratory Data Analysis
 
 1. Now that we've had a quick view of the dataset, let's get more details about its structure. Sometimes viewing a summary of the data structure is more useful than viewing the raw data, especially if the dataset has a large number of observations and/or rows. Run the code below to use the `glimpse` function to see a summary of the `trails` dataset.
-  - How many observations (rows) are in the `trails` dataset? How many variables (columns)?
 
+    How many observations are in the `trails` dataset? How many variables?
+
+  
 ```{r eval = F}
 glimpse(trails)
 ```
 
+
+
+
 2. Before conducting statistical inference (or eventually fitting regression models),  we need do some exploratory data analysis (EDA). Much of EDA consists of visualizing the data but it also includes calculating summary statistics for the variables in our dataset. Let's begin by examining the distribution of `status` with a data visualization and summary statistics. 
 
-```{marginfigure}
-See [Section 7.3.1 "Visualizing Distributions"](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) in *R for Data Science* for more information on choosing the appropriate graph based on variable type.
-```
-
-  - What is a type of graph that's appropriate to visualize the distribution of `status`? Fill in the `ggplot` code below to plot the distribution of `status`. Include informative axis labels and title on the graph.
+    - What is a type of graph that's appropriate to visualize the distribution of `status`? Fill in the `ggplot` code below to plot the distribution of `status`. Include informative axis labels and title on the graph.
+    
+    - Then, calculate the proportion of observations in each category of `status` by completing the code below.
 
 ```{r eval=FALSE}
 ggplot(data = trails, aes(x = status)) + 
@@ -242,7 +244,7 @@ ggplot(data = trails, aes(x = status)) +
        title = "__________")
 ```
 
-  - Next, let's calculate the proportion of observations in each category of `status`. Complete the code below to calculate the distribution of `status`. 
+
 
 ```{r eval = FALSE}
 trails %>%
@@ -327,13 +329,15 @@ Over the next few questions, will use statistical inference to assess whether th
     - **Sample Size**
     - **Independent Groups**
 
-13. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess if there is enough evidence to consider the difference "statistically significant" or if it appears to be due to random chance. We'll begin by conducting a test of the following hypotheses: 
+13. While we have observed a difference in the mean length in trails for those that allow dog-walking versus those that don't, let's assess if there is enough evidence to consider the difference "statistically significant" or if it appears to be due to random chance. 
+
+    The null and alternative hypotheses are written in statistical notation below. State the hypotheses in words in the context of this analysis.  
 
 $$H_0: \mu_1 - \mu_2 = 0 \\
 H_a: \mu_1 - \mu_2 \neq 0$$
 
 
-    State the null and alternative hypotheses in words. Write them in the context of this analysis.
+    
 
 ```{marginfigure}
 Type `?t.test` in the console to learn more about the function and its options. 
