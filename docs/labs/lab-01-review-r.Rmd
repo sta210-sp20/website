@@ -386,6 +386,18 @@ To submit your assignment:
 
 - You are welcome to resubmit as many times as you'd like before the deadline (we will only grade the most recent version). Just click the "Resubmit" button at the bottom of the page and reselect your repo and master branch. 
 
+# Grading
+
+|  	|  	|
+|----------------------------------------	|----	|
+| Exploratory Data Analysis (Ex. 1 - 11) 	| 28 	|
+| Statistical Inference (Ex. 12 - 16) 	| 15 	|
+| Lab attendance & participation 	| 3 	|
+| Narrative in full sentences 	| 2 	|
+| At least 3 informative commit messages 	| 2 	|
+| **Total** | **50** |
+
+
 
 # Resources for additional practice (optional)
 
