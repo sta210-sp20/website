@@ -337,7 +337,6 @@ $$H_0: \mu_1 - \mu_2 = 0 \\
 H_a: \mu_1 - \mu_2 \neq 0$$
 
 
-    
 
 ```{marginfigure}
 Type `?t.test` in the console to learn more about the function and its options. 
