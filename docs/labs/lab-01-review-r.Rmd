@@ -267,7 +267,7 @@ Check your lab-01 repo on the GitHub website (you may need to refresh the page i
 *This is a good place to knit, commit, and push changes to your remote lab-01 repo on GitHub. Be sure to write an informative commit message (e.g. "Completed exercises 1 - 3"), and push every file to GitHub by clicking the checkbox next to each file in the Git pane. After you push the changes, the Git pane in RStudio should be empty."*
 
 
-**Use `current_trails` for Exercises 4 - 6.**
+**Use `current_trails` for Exercises 4 - 7.**
 
 4. Let's examine the distribution of `length`. One important part of EDA is creating data visualizations to see the shape, center, spread, and outliers in a distribution. Data visualizations are also useful for examining the relationship between multiple variables. There are a lot of ways to make data visualizations in R; we will use the functions available in the `ggplot2` package.
 
