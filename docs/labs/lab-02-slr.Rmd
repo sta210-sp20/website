@@ -264,7 +264,6 @@ To submit your assignment:
 |----------------------------------------	|----	|
 | Exploratory Data Analysis (Ex. 1 - 4) 	| UPDATE	|
 | Simple Linear Regression (Ex. 5 - 12) 	| UPDATE 	|
-| Prediction (Ex. 13 - 15) 	| UPDATE	|
 | Lab attendance & participation 	| 3 	|
 | Narrative in full sentences 	| 2 	|
 | Commit messages from every member| 2 	|

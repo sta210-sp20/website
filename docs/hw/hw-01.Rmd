@@ -75,8 +75,8 @@ The *Conceptual Problems* section of homework contains short answer questions ab
     c.  Use equations to calculate the test statistic. Show the code used to calculate the test statistic and the resulting output. Write the definition of the test statistic in the context of this problem. 
     d. What are the degrees of freedom associated with this test statistic?
     e. Calculate the p-value and use it to state your conclusion in the context of this problem. 
-    f. 
-    
+    f. If you were to construct a 95% confidence interval that corresponded to this hypothesis test, would you 40 to be in the interval? Briefly explain why or why not.
+
 
 2. *Is there a significant difference in the average age of of people in the UK who smoke versus those who don't?* To answer this question, will use a *t*-test to compare the average age of those who smoke versus those don't. 
 
@@ -85,25 +85,6 @@ The *Conceptual Problems* section of homework contains short answer questions ab
     c. Use the `t.test` function to test the hypotheses from part(a). Write the definition of the test statistic in the context of this problem. 
     d. Write the definition of the p-value in the context of this problem.
     e. Use the p-value to make a conclusion in the context of this problem. 
-
-
-Fill in the code below to create a new dataframe with the modifications stated above and assign the dataframe to `winter_data`.
-
-2. Fit a regression model that can be used to predict the number of bike rentals given the temperature. Store the model to the object `winter_model`. Display the model coefficients along with the associated confidence intervals and test statistics.
-
-
-3. Interpret the 95% confidence interval for $\beta_1$ in the context of the data.
-
-4. Suppose we now calculate a 90% confidence interval for $\beta_1$. Would the width of the interval be larger, smaller, or the same as the width of the 95% confidence interval calculated in the previous question? Briefly explain your reasoning.
-
-5. Based on the confidence interval, is there a statistically significant linear relationship between the temperature and the number of bike rentals in the winter? Briefly explain your reasoning.
-
-6. What is the value of the test statistic associated with the null hypothesis $H_0: \beta_1 = 0$? Interpret this value in the context of the problem. 
-
-7. Suppose your roommate reads the regression output and says, "the probability that the slope is not 0  is 7.28e-25.” Is your friend correct? Briefly explain.
-
-8. Find $R^2$ and interpret its value in the context of the problem.
-
 
 
 ## Part 2: Data Analysis
