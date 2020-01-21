@@ -107,7 +107,7 @@ library(tidyverse)
 library(skimr)
 library(knitr)
 library(broom)
-library(rcfss) #package containing dataset
+library(openintro) #package containing dataset
 ```
 
 # Warm up
@@ -133,61 +133,46 @@ Now, the remaining team members who have not been concurrently making these chan
 
 **If you need a more detailed review on committing and pushing changes, see [Getting Starte](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#getting-started) from Lab 01.**
 
-# Data 
+# Data: Gift aid at Elmhurst College
 
-In today's lab, we will analyze the `scorecard` dataset from the rcfss package. This dataset contains information about 1849 colleges obtained from the Department of Education's College Scorecard. Load the rcfss library into the global R environment and type `?scorecard` in the **console** to learn more about the dataset and variable definitions. Today's analysis will focus on the following variables: 
+In today's lab, we will analyze the `elmhurst` dataset in the openintro package. This dataset contains information about 50 randomly selected students from the 2011 freshmen class at Elmhurst College. The data were originally sampled from a table on all 2011 freshmen at the college that was included in the article ["What Students Really Pay to go to College"](https://www.chronicle.com/article/What-Students-Really-Pay-to-Go/131435) in *The Chronicle of Higher Education* article.
+
+You can load the data from loading the openintro package, and then running the following command: 
+
+```{r eval = F}
+data(elmhurst)
+```
+
+The `elmhurst` dataset contains the following variables: 
 
 |  |  |
 |-----------|------------------------------------------|
-| `type` | Type of college (Public, Private - nonprofit, Private - for profit) |
-| `cost` | The average annual cost of attendance, including tuition and feeds, books and supplies, and living expenses, minus the average grant/scholarship aid |
-| `admrate` | Undergraduate admissions rate (from 0 - 100%) |
+| `family_income` | Family income of the student |
+| `gift_aid` | Gift aid, in ($ thousands) |
+| `price_paid` | Price paid by the student (= tuition - gift_aid) |
 
 # Exercises 
 
+**To help get used to the group workflow, there are markers throughout the lab to indicate when each team member should be typing. The other group members should still contribute to the discussion when they are not typing; however, they should <u>not</u> change anything in RStudio.**
+
 ## Exploratory Data Analysis
 
-1. Plot a histogram to examine the distribution of `admrate`. What is the shape of the distribution? 
+**Team Member 1 types.**
 
-2. To better understand the distribution of `admrate`, we would like calculate measures of center and spread of the distribution. Fill in the code below to use the `skim` function to calculate summary statistics for `admrate`. Report the appropriate measures of center (mean or median) and spread (standard deviation or IQR) based on the shape of the distribution from Exercise 1.
+1. Plot a histogram to examine the distribution of `gift_aid`. What is the shape of the distribution? Be sure the histogram has an appropriate binwidth to clearly see the shape of the distribution. *You can use the [ggplot reference](https://ggplot2.tidyverse.org/reference/) page for more detail about adjusting binwidth in histograms.*
 
-```{r eval=FALSE}
-scorecard %>%
-  select(admrate) %>%
-  skim()
-```
+2. To better understand the distribution of `gift_aid`, we would like calculate measures of center and spread of the distribution.
+Use the `summarise` function to calculate the appropriate measures of center (mean or median) and spread (standard deviation or IQR) based on the shape of the distribution from Exercise 1. Show the code and output, and state the measures of center and spread in your narrative.
 
-3. Plot the distribution of `cost` and calculate the appropriate summary statistics. Describe the distribution of `cost` (shape, center, and spread) using the plot and appropriate summary statistics.  
+3. Plot the distribution of `family_income` and calculate the appropriate summary statistics. Describe the distribution of `family_income` (shape, center, and spread) using the plot and appropriate summary statistics.  
 
-4. One nice feature of the `skim` function is that it provides information about the number of observations that are missing values of the variable. How many observations have missing values of `admrate`? How many observations have missing values of `cost`? 
-
-5. Later in the semester, we will techniques to deal with missing values in the data. For now, however, we will only include complete observations for the remainder of this analysis. We can use the `filter` function to select only the rows that values for both `cost` and `admrate`. 
-
-Fill in the code below to create a new dataset called `scorecard_new` that only includes observations with values for both `admrate` and `cost`.
-
-```{r eval=FALSE}
-__________ <- scorecard %>%
-  filter(!is.na(admrate),________)
-```
-
-```{marginfigure}
-Learn more about the `filter` function in [Section 5.2 of R for Data Science] (https://r4ds.had.co.nz/transform.html#filter-rows-with-filter)
-```
-
-You will use `scorecard_new` for the rest of the lab. 
-
-6. Create a scatterplot to display the relationship between `cost` (response variable) and `admrate` (predictor variable). Use the scatterplot to describe the relationship between the two variables.
-
-7. The data contains information about the type of college, and we would like to incorporate this information into the scatterplot. One way to do this is to use a different color marker for each type of college. Fill in the code below the scatterplot from the previous exercise with the marker colors based on the variable `type`. Describe two new observations from this scatterplot that you didn't see in the previous plot.
-
-```{r eval=FALSE}
-ggplot(data=scorecard_new, mapping=aes(x=admrate, y=cost, color=type)) + 
-  _____________________
-```
+4. Create a scatterplot to display the relationship between `gift_aid` (response variable) and `family_income` (predictor variable). Use the scatterplot to describe the relationship between the two variables. Be sure the scatterplot includes informative axis labels and title.
 
 ## Simple Linear Regression
 
-8. Use the `lm()` function to fit a simple linear regression model to describe the relationship between a college's admission rate and cost. Use the code below to assign your model a name, and use the `tidy()` and `kable()` functions to neatly display the model output. *Replace X and Y with the appropriate variable names.*
+**Team Member 1, knit, commit, and push your work. Team Member 2, pull to get the updated files and type the responses for the next few questions.**
+
+5. Use the `lm()` function to fit a simple linear regression model to describe the relationship between an Elmhurst student's family income and the amount of gift aid they received. Use the code below to assign your model a name, and use the `tidy()` and `kable()` functions to neatly display the model output. *Replace X and Y with the appropriate variable names.*
 
 ```{r eval=FALSE}
 _____ <- lm(Y ~ X, data = _____)
@@ -195,49 +180,56 @@ tidy(_____) %>% # output model
   kable(format = "markdown", digits = 3) # format model output
 ```
 
-9. Interpret the slope in the context of the problem.
+6. Interpret the slope in the context of the problem.
 
-10. Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful. 
+7. Does the intercept have a meaningful interpretation? If so, write the interpretation in the context of the problem. Otherwise, explain why the interpretation is not meaningful. 
 
-
-
-11. When we fit a linear regression model, we make some inherent assumptions about the relationship between the response and predictor variables. We can check that the assumptions hold by analyzing the residuals. Over the next few questions, we will examine plots of the residuals to determine if the assumptions are met.(*We will talk more about these assumptions in the next lecture.*)
+8. When we fit a linear regression model, we make some inherent assumptions about the relationship between the response and predictor variables. We can check that the assumptions hold by analyzing the residuals. Over the next few questions, we will examine plots of the residuals to determine if the assumptions are met.
 
 Let's begin by calculating the residuals and adding them to the dataset. Fill in the model name in the code below to add residuals to the original dataset using the `resid()` and `mutate()` functions.  
 
 ```{r eval=FALSE}
-scorecard_new <- scorecard_new %>%
+_____<- _____ %>%
   mutate(resid = residuals(_____))
 ```
 
-12. One of the assumptions for regression is that there is a linear relationship between the predictor and response variables. To check this assumption, we will examine a scatterplot of the residuals versus the predictor variable. 
+**Team Member 2, knit, commit, and push your work. Team Member 3, pull to get the updated files and type the responses for the next few questions.**
+
+9. One of the assumptions for regression is that there is a linear relationship between the predictor and response variables. To check this assumption, we will examine a scatterplot of the residuals versus the predictor variable. 
 
 Create a scatterplot with the predictor variable on the *x* axis and residuals on the *y* axis. Be sure to include an informative title and properly label the axes. 
 
-13. Examine the plot from the previous question to assess the linearity condition.  
+10. Examine the plot from the previous question to assess the linearity condition.  
 - *Ideally, there would be no discernible shape in the plot. This is an indication that the linear model adequately describes the relationship between the response and predictor, and all that is left is the irredicubile error that can't be accounted for in the model.*
 - *If there is an obvious shape in the plot (e.g. a parabola or fan shape), this means that the linear model does not adequately describe the relationship between the response and predictor variables.*
 
 Based on this, does it appear that the linearity condition is satisfied? Briefly explain your reasoning. 
 
-14. Recall that when we fit a regression model, we assume for any given value of $x$, the $y$ values follow the Normal distribution with mean $\beta_0 + \beta_1 x$ and variance $\sigma^2$. We will look at two sets of plots to check that this holds. 
+11. Recall that when we fit a regression model, we assume for any given value of $x$, the $y$ values follow the Normal distribution with mean $\beta_0 + \beta_1 x$ and variance $\sigma^2$. We will look at two sets of plots to check that this assumption holds.
 
-We begin by assessing whether or not the distribution of the $y$ values is Normal (the Normality assumption). To do so, we can check if the residuals are Normally distributed. 
+We begin by checking the constant variance assumption, i.e that the variance of $y$ is approximately equal for each value of $x$. To check this, we will use the scatterplot of the residuals versus the predictor variable $x$.
 
-Create a histogram of the residuals. Be sure to include an informative title and axis labels. 
+Using the scatterplot from the previous exercise, does it appear the constant variance is satisfied? Briefly explain your reasoning. *Note: You don't need to know the value of $\sigma^2$ to answer this question.*
 
-Based on the histogram, does it appear the Normality assumption is satisfied? Briefly explain. 
+12. Next, we assess with Normality assumption, i.e. that the distribution of the $y$ values is Normal at every value of $x$. In practice, it is impossible to check the distribution of $y$ at every possible value of $x$, so we can check that the assumption is satisifed by looking at the overall distribution of the residuals. The assumption is satisified if the distribution of residuals is approximately Normal. 
 
-15. Note from the previous exercise that we assume the variance is $\sigma^2$ for every value of $x$ (the constant variance assumption). We can use the scatterplot of the residuals versus predicted values to determine if the constant variance assumption holds. 
+**Team Member 3, knit, commit, and push your work. Team Member 4, pull to get the updated files and type the responses for the next few questions.**
 
-Using the scatterplot in Exercise 12, does it appear the constant variance is satisfied? Briefly explain your reasoning. *Note: You don't need to know the value of $\sigma^2$ to answer this question. We'll talk more about $\sigma^2$ next week.*
+Create a histogram and a Normal QQ-Plot of the residuals. Be sure to include an informative title and axis labels on each plot.
 
-16. The final assumption is that the observations are independent, i.e. one observation does not affect another. We can typically make an assessment about this assumption using a description of the data. Do you think the independence assumption is satisifed? Briefly explain your reasoning. 
-
-*You're done! Commit all remaining changes, use the commit message "Done with Lab 2!", and push. Before you wrap up the assignment, make sure the .Rmd and .md documents are all updated on your GitHub repo. There is a 10% penality if the .md file is not updated on GitHub.*
+Based on these plots, does it appear the Normality assumption is satisfied? Briefly explain. 
 
 
-*You're done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 1!", and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that<u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.*
+
+13. The final assumption is that the observations are independent, i.e. one observation does not affect another. We can typically make an assessment about this assumption using a description of the data. Do you think the independence assumption is satisifed? Briefly explain your reasoning. 
+
+## Prediction 
+
+14. Suppose a high school senior is considering Elmhurst College, and she would like to use your regression model to estimate how much gift aid she can expect to receive. Her family income is $90,000. Based on your model, about how much gift aid should she expect to receive? Show the code and output and report the prediction and the appropriate interval in your narrative. 
+
+15. Another high school senior is considering Elmhurst College, and her family income is about $310,000. Should she use your model to estimate the how much gift aid she can expect to receive? Briefly explain your reasoning. 
+
+*You're done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 2!", and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that<u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.*
 
 # Submitting the Assignment
 
@@ -264,13 +256,14 @@ To submit your assignment:
 
 - You are welcome to resubmit as many times as you'd like before the deadline (we will only grade the most recent version). Just click the "Resubmit" button at the bottom of the page and reselect your repo and master branch. 
 
-# Grading
+# Grading - UPDATE
 
 |  	|  	|
 |----------------------------------------	|----	|
-| Exploratory Data Analysis (Ex. 1 - 11) 	| 28 	|
-| Statistical Inference (Ex. 12 - 16) 	| 15 	|
+| Exploratory Data Analysis (Ex. 1 - 4) 	| UPDATE	|
+| Simple Linear Regression (Ex. 5 - 12) 	| UPDATE 	|
+| Prediction (Ex. 13 - 15) 	| UPDATE	|
 | Lab attendance & participation 	| 3 	|
 | Narrative in full sentences 	| 2 	|
-| At least 3 informative commit messages 	| 2 	|
+| Commit messages from every member| 2 	|
 | **Total** | **50** |
