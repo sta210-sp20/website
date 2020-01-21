@@ -17,7 +17,6 @@ body {
   color: #333333;
   font-size: 16pt;
 }
-
 h2 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
@@ -25,7 +24,6 @@ h2 {
   font-size: 12px;
   margin: 0.25em 0 0.5em 0;
 }
-
 h1, h3 {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
@@ -36,12 +34,6 @@ a, a > code {
   color: #993399;
   text-decoration: underline;
   font-size: 14pt;
-}
-
-h3 a {
-  font-family: 'Open-Sans', sans-serif;
-  font-weight: bold;
-  font-size: 115%;
 }
 
 .footnote {
@@ -59,6 +51,10 @@ h3 a {
   background-color: #00897B;
   color: #ffffff;
   /* text-shadow: 0 0 20px #333; */
+}
+
+.inverse .remark-slide-number {
+  font-size: 12pt;
 }
 
 .inverse h1, .inverse h2, .inverse h3 {
@@ -102,7 +98,7 @@ li{
 }
 .large { font-size: 130% }
 .midi { font-size: 90% }
-.small { font-size: 20% }
+.small { font-size: 10% }
 
 img, video, iframe {
   max-width: 100%;
@@ -209,4 +205,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
   margin-left: -1.5em
 }
 
+.remark-slide-number {
+  font-size: 12pt;
+}
 
