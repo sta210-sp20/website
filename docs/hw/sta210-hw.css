@@ -150,11 +150,13 @@ ol ol>li:before {
 	counter-reset: sub-item;
 		/* Use the counter as content */
 	/* Increment the counter by 1 */
+	content: "Part " counter(li)".";
+	counter-increment: li;
 	position: absolute;
 	color: #00897B;
-	left: -0.5px;
+	left: -0.1px;
 	font-weight: bold;
-	padding-left: 90px;
+	padding-left: 0px;
 }
 
 .td {
