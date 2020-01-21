@@ -1482,11 +1482,13 @@ ol ol>li:before {
 counter-reset: sub-item;
 
 
+content: "Part " counter(li)".";
+counter-increment: li;
 position: absolute;
 color: #00897B;
-left: -0.5px;
+left: -0.1px;
 font-weight: bold;
-padding-left: 90px;
+padding-left: 0px;
 }
 .td {
 font-size: 10pt;
@@ -1673,112 +1675,137 @@ div.tocify {
 
 
 <p><br><br></p>
-<p><em>Instructions will be available when the homework is assigned.</em></p>
-<!-- 
-
-# Getting Started
-
-A brief outline of getting started is shown below. See the [Lab 01 Instructions](https://www2.stat.duke.edu/courses/Fall19/sta199.001/labs/lab-01-intro-r.html) for more details about the steps. 
-
-- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **hw-01**. It contains the starter documents you need to complete the lab.
-- Clone the repo in RStudio Cloud
-- Configure git using the `use_git_config()` function.
-
-## Tips
-
-Here are some tips as you complete HW 01:
-
-- Make sure all your code chunks are informatively named, and these labels are not repeated
-- Periodically Knit your document and commit changes (the more often the better, for example, once per each new task)
-- Push all your changes back to your GitHub repo
-- Once you push your changes back you do not need to do anything else to “submit” your work. And you can of course push multiple times throughout the assignment. At the time of the deadline we will take whatever is in your repo and consider it your final submission, and grade the state of your work at that time (which means even if you made mistakes before then, you wouldn’t be penalized for them as long as the final state of your work is correct).
-
-## Packages 
-
-We will use the following packages in this assignment: 
-
-
-```r
-library(tidyverse)
+<div id="getting-started" class="section level1">
+<h1>Getting Started</h1>
+<p>A brief outline of getting started is shown below. See the <a href="https://www2.stat.duke.edu/courses/Fall19/sta199.001/labs/lab-01-intro-r.html">Lab 01 Instructions</a> for more details about the steps.</p>
+<ul>
+<li>Go to the sta210-fa19 organization on GitHub (<a href="https://github.com/sta210-fa19">https://github.com/sta210-fa19</a>). Click on the repo with the prefix <strong>hw-01</strong>. It contains the starter documents you need to complete the lab.</li>
+<li>Clone the repo in RStudio Cloud</li>
+<li>Configure git using the <code>use_git_config()</code> function.</li>
+</ul>
+<div id="tips" class="section level2">
+<h2>Tips</h2>
+<p>Here are some tips as you complete HW 01:</p>
+<ul>
+<li>Periodically Knit your document and commit changes (the more often the better, for example, once per each new task)</li>
+<li>Push all your changes back to your GitHub repo. The Git pane in RStudio should be empty after you push. You can also check your assignment repo on github.com to make sure it has updated.</li>
+<li>Once you have completed your work, you will submit your assignment in Gradescope. You are welcome to resubmit multiple times until the assignment deadline. We will grade the most recent version of the .pdf file in Gradescope.</li>
+</ul>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>We will use the following packages in this assignment:</p>
+<pre class="r"><code>library(tidyverse)
 library(modelr)
 library(readr) 
 library(broom)
 library(knitr)
-```
-
-We use functions from the [`readr` package](https://readr.tidyverse.org/articles/readr.html) to read in the `bikeshare` data from a .csv file. The [`broom` package](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) is used to display model output in a tidy format.
-
-# Data
-
-For this assignment, you will continue analyzing the `bikeshare` dataset from Lab 01. The data comes from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. You can get more information about the bikeshare on their website, [https://www.capitalbikeshare.com/](https://www.capitalbikeshare.com/). We will read in the data from the file *bikeshare.csv* located in the *data* folder. 
-
-
-```r
-bikeshare <- read_csv("data/bikeshare.csv")
-```
-
-This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012. This analysis will focus on the following variables: 
-
-|  |  |
-|----------|-------|
-| `season` |1: Winter, 2: Spring, 3: Summer, 4: Fall |
-| `temp` | Temperature (in $^{\circ}C$) &divide; 41 |
-| `count` | total number of bike rentals |
-
-
-# Questions
-
-## Part 1: Computations & Concepts
-
-The *Computations & Concepts* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
-
-1. For Part 1 of the assignment, we will analyze a simple linear regression model of the relationship between temperature and number of bike rentals in the winter months. Before fitting the regression model, we want to do two things to prepare the data: 
-    - Take a subset that only contains data from winter months. 
-    - Create a new variable `temp_c` that is calculated as `temp * 41`.
-
-Fill in the code below to create a new dataframe with the modifications stated above and assign the dataframe to `winter_data`.
-
-2. Fit a regression model that can be used to predict the number of bike rentals given the temperature. Store the model to the object `winter_model`. Display the model coefficients along with the associated confidence intervals and test statistics.
-
-
-3. Interpret the 95% confidence interval for $\beta_1$ in the context of the data.
-
-4. Suppose we now calculate a 90% confidence interval for $\beta_1$. Would the width of the interval be larger, smaller, or the same as the width of the 95% confidence interval calculated in the previous question? Briefly explain your reasoning.
-
-5. Based on the confidence interval, is there a statistically significant linear relationship between the temperature and the number of bike rentals in the winter? Briefly explain your reasoning.
-
-6. What is the value of the test statistic associated with the null hypothesis $H_0: \beta_1 = 0$? Interpret this value in the context of the problem. 
-
-7. Suppose your roommate reads the regression output and says, "the probability that the slope is not 0  is 7.28e-25.” Is your friend correct? Briefly explain.
-
-8. Find $R^2$ and interpret its value in the context of the problem.
-
-
-
-## Part 2: Data Analysis
-
-The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and should read as a complete narrative. This means that in addition to addressing the question(s) stated below, you should include exploratory data analysis and check the appropriate model assumptions. In short, these questions should be treated as "mini-projects".
-
-9. Fit a regression model that could be used to predict the number of bike rentals based on the temperature during the **summer season**. Use your model to answer the following: 
-    - Describe the relationship between the two variables including discussion about whether the relationship is statistically significant. 
-    - In Washington D.C., the average temperature in the summer is about 30 degrees Celsius (about 87 degrees Fahrenheit). Use your model to predict (1) the average number of bike rentals for the days in the summer that are 30 degrees Celsius and (2) the number of bike rentals we can expect if it's 30 degrees on a single day in the summer.
-    
-*Notes:* 
-*- Be sure to include all relevant code and resulting output.*
-*- All plots should have proper labels for the axes and an informative title.* 
-
-
-# Grading
-
-| **Total** | **60** |
-|-------------------------------------------------------------|:--:|
-| Questions 1 - 8 | 30 |
-| Question 9 | 20 |
-| Documents neatly organized (.Rmd and .md files) | 5 |
-| Narrative in full sentences and neatly organized| 3 |
-| Regular and informative commit messages | 2 |
-
--->
+library(openintro)</code></pre>
+<p>If you need to install any of the packages, type <code>install.packages(&quot;package_name&quot;)</code> in the console, where <code>package_name</code> is the package you need to install.</p>
+</div>
+</div>
+<div id="data---update-the-variable-defintions" class="section level1">
+<h1>Data - UPDATE THE VARIABLE DEFINTIONS!</h1>
+<p>For this assignment, we will be using the <code>smoking</code> dataset in the openintro R package. The data was originally provided by <a href="https://www.stem.org.uk/" class="uri">https://www.stem.org.uk/</a>.</p>
+<p>This dataset contains smoking habits and other demogrpahic information for 1,691 randomly selected survey respondents in the United Kingdom. The following variables are in the dataset:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><code>family_income</code></td>
+<td>Family income of the student</td>
+</tr>
+<tr class="even">
+<td><code>gift_aid</code></td>
+<td>Gift aid, in ($ thousands)</td>
+</tr>
+<tr class="odd">
+<td><code>price_paid</code></td>
+<td>Price paid by the student (= tuition - gift_aid)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="questions" class="section level1">
+<h1>Questions</h1>
+<div id="part-1-conceptual-problems" class="section level2">
+<h2>Part 1: Conceptual Problems</h2>
+<p>The <em>Conceptual Problems</em> section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.</p>
+<ol style="list-style-type: decimal">
+<li><p><em>Is there a significant difference in the average age of of people in the UK who smoke versus those who don’t?</em> To answer this question, will use a <em>t</em>-test to compare the average age of those who smoke versus those don’t.</p>
+<ol style="list-style-type: lower-alpha">
+<li>State the hypotheses both in words and using statistical notation. You can use the syntax $mu$ to produce <span class="math inline">\(\mu\)</span> when typing the hypotheses. <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></li>
+<li>Are the conditions met to conduct a <em>t</em>-test? Include discussion about each condition, including an explanation about your conclusion and any supporting graphs, code, or output, as needed.</li>
+<li>Use the <code>t.test</code> function to test the hypotheses from part(a). Write the definition of the test statistic in the context of this problem.</li>
+<li>Write the definition of the p-value in the context of this problem.</li>
+<li>Use the p-value to make a conclusion in the context of this problem.</li>
+</ol></li>
+</ol>
+<p>Fill in the code below to create a new dataframe with the modifications stated above and assign the dataframe to <code>winter_data</code>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Fit a regression model that can be used to predict the number of bike rentals given the temperature. Store the model to the object <code>winter_model</code>. Display the model coefficients along with the associated confidence intervals and test statistics.</p></li>
+<li><p>Interpret the 95% confidence interval for <span class="math inline">\(\beta_1\)</span> in the context of the data.</p></li>
+<li><p>Suppose we now calculate a 90% confidence interval for <span class="math inline">\(\beta_1\)</span>. Would the width of the interval be larger, smaller, or the same as the width of the 95% confidence interval calculated in the previous question? Briefly explain your reasoning.</p></li>
+<li><p>Based on the confidence interval, is there a statistically significant linear relationship between the temperature and the number of bike rentals in the winter? Briefly explain your reasoning.</p></li>
+<li><p>What is the value of the test statistic associated with the null hypothesis <span class="math inline">\(H_0: \beta_1 = 0\)</span>? Interpret this value in the context of the problem.</p></li>
+<li><p>Suppose your roommate reads the regression output and says, “the probability that the slope is not 0 is 7.28e-25.” Is your friend correct? Briefly explain.</p></li>
+<li><p>Find <span class="math inline">\(R^2\)</span> and interpret its value in the context of the problem.</p></li>
+</ol>
+</div>
+<div id="part-2-data-analysis" class="section level2">
+<h2>Part 2: Data Analysis</h2>
+<p>The <em>Data Analysis</em> section of homework contains open-ended data analysis questions. Your response should be neatly organized and should read as a complete narrative. This means that in addition to addressing the question(s) stated below, you should include exploratory data analysis and check the appropriate model assumptions. In short, these questions should be treated as “mini-projects”.</p>
+<ol start="9" style="list-style-type: decimal">
+<li>Fit a regression model that could be used to predict the number of bike rentals based on the temperature during the <strong>summer season</strong>. Use your model to answer the following:
+<ul>
+<li>Describe the relationship between the two variables including discussion about whether the relationship is statistically significant.</li>
+<li>In Washington D.C., the average temperature in the summer is about 30 degrees Celsius (about 87 degrees Fahrenheit). Use your model to predict (1) the average number of bike rentals for the days in the summer that are 30 degrees Celsius and (2) the number of bike rentals we can expect if it’s 30 degrees on a single day in the summer.</li>
+</ul></li>
+</ol>
+<p><em>Notes:</em> <em>- Be sure to include all relevant code and resulting output.</em> <em>- All plots should have proper labels for the axes and an informative title.</em></p>
+</div>
+</div>
+<div id="submitting-your-assignment" class="section level1">
+<h1>Submitting Your Assignment</h1>
+</div>
+<div id="grading" class="section level1">
+<h1>Grading</h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Total</strong></th>
+<th align="center"><strong>60</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Questions 1 - 8</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td>Question 9</td>
+<td align="center">20</td>
+</tr>
+<tr class="odd">
+<td>Documents neatly organized (.Rmd and .md files)</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td>Narrative in full sentences and neatly organized</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>Regular and informative commit messages</td>
+<td align="center">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>See <a href="https://artofproblemsolving.com/wiki/index.php/LaTeX:LaTeX_on_AoPS#Getting_Started_with_LaTeX">Getting Started with LaTex</a> and <a href="https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols#Greek_Letters">LaTex Symbols Guide</a> for more information about typing statistical notation using LaTex.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
 
 
 

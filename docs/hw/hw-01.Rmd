@@ -17,10 +17,6 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 <br><br>
 
-*Instructions will be available when the homework is assigned.*
-
-<!-- 
-
 # Getting Started
 
 A brief outline of getting started is shown below. See the [Lab 01 Instructions](https://www2.stat.duke.edu/courses/Fall19/sta199.001/labs/lab-01-intro-r.html) for more details about the steps. 
@@ -33,10 +29,9 @@ A brief outline of getting started is shown below. See the [Lab 01 Instructions]
 
 Here are some tips as you complete HW 01:
 
-- Make sure all your code chunks are informatively named, and these labels are not repeated
 - Periodically Knit your document and commit changes (the more often the better, for example, once per each new task)
-- Push all your changes back to your GitHub repo
-- Once you push your changes back you do not need to do anything else to “submit” your work. And you can of course push multiple times throughout the assignment. At the time of the deadline we will take whatever is in your repo and consider it your final submission, and grade the state of your work at that time (which means even if you made mistakes before then, you wouldn’t be penalized for them as long as the final state of your work is correct).
+- Push all your changes back to your GitHub repo. The Git pane in RStudio should be empty after you push. You can also check your assignment repo on github.com to make sure it has updated.
+- Once you have completed your work, you will submit your assignment in Gradescope. You are welcome to resubmit multiple times until the assignment deadline. We will grade the most recent version of the .pdf file in Gradescope.
 
 ## Packages 
 
@@ -48,36 +43,49 @@ library(modelr)
 library(readr) 
 library(broom)
 library(knitr)
+library(openintro)
 ```
 
-We use functions from the [`readr` package](https://readr.tidyverse.org/articles/readr.html) to read in the `bikeshare` data from a .csv file. The [`broom` package](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) is used to display model output in a tidy format.
+If you need to install any of the packages, type `install.packages("package_name")` in the console, where `package_name` is the package you need to install. 
 
-# Data
+# Data - UPDATE THE VARIABLE DEFINTIONS!
 
-For this assignment, you will continue analyzing the `bikeshare` dataset from Lab 01. The data comes from the Capital Bikeshare in Washington D.C. The Capital Bikeshare is a system in which customers can rent a bike for little cost, ride it around the city, and return it to a station near their destination. You can get more information about the bikeshare on their website, [https://www.capitalbikeshare.com/](https://www.capitalbikeshare.com/). We will read in the data from the file *bikeshare.csv* located in the *data* folder. 
+For this assignment, we will be using the `smoking` dataset in the openintro R package. The data was originally provided by https://www.stem.org.uk/. 
 
-```{r read-data, eval=FALSE}
-bikeshare <- read_csv("data/bikeshare.csv")
-```
-
-This dataset contains information about the number of bike rentals, environmental conditions, and other information about the each day in 2011 and 2012. This analysis will focus on the following variables: 
+This dataset contains smoking habits and other demogrpahic information for 1,691 randomly selected survey respondents in the United Kingdom. The following variables are in the dataset: 
 
 |  |  |
-|----------|-------|
-| `season` |1: Winter, 2: Spring, 3: Summer, 4: Fall |
-| `temp` | Temperature (in $^{\circ}C$) &divide; 41 |
-| `count` | total number of bike rentals |
+|-----------|------------------------------------------|
+| `family_income` | Family income of the student |
+| `gift_aid` | Gift aid, in ($ thousands) |
+| `price_paid` | Price paid by the student (= tuition - gift_aid) |
+
 
 
 # Questions
 
-## Part 1: Computations & Concepts
+## Part 1: Conceptual Problems
 
-The *Computations & Concepts* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
+The *Conceptual Problems* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
 
-1. For Part 1 of the assignment, we will analyze a simple linear regression model of the relationship between temperature and number of bike rentals in the winter months. Before fitting the regression model, we want to do two things to prepare the data: 
-    - Take a subset that only contains data from winter months. 
-    - Create a new variable `temp_c` that is calculated as `temp * 41`.
+1. According to a [2018 article by the BBC](https://www.bbc.com/news/uk-43316697), the average age of a resident in the UK is 40. *Is the average age of <u>smokers</u> in the UK significantly different from 40, the average age of all UK residents, 40?*?
+
+    a. State the hypotheses both in words and using statistical notiation.  You can use the syntax \$mu\$ to produce $\mu$ when typing the hypotheses. ^[See [Getting Started with LaTex](https://artofproblemsolving.com/wiki/index.php/LaTeX:LaTeX_on_AoPS#Getting_Started_with_LaTeX) and [LaTex Symbols Guide](https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols#Greek_Letters) for more information about typing statistical notation using LaTex.]
+    b. Are the conditions met to conduct a *t*-test? Include discussion about each condition, including an explanation about your conclusion and any supporting graphs, code, or output, as needed.
+    c.  Use equations to calculate the test statistic. Show the code used to calculate the test statistic and the resulting output. Write the definition of the test statistic in the context of this problem. 
+    d. What are the degrees of freedom associated with this test statistic?
+    e. Calculate the p-value and use it to state your conclusion in the context of this problem. 
+    f. 
+    
+
+2. *Is there a significant difference in the average age of of people in the UK who smoke versus those who don't?* To answer this question, will use a *t*-test to compare the average age of those who smoke versus those don't. 
+
+    a. State the hypotheses both in words and using statistical notation.
+    b. Are the conditions met to conduct a *t*-test? Include discussion about each condition, including an explanation about your conclusion and any supporting graphs, code, or output, as needed.
+    c. Use the `t.test` function to test the hypotheses from part(a). Write the definition of the test statistic in the context of this problem. 
+    d. Write the definition of the p-value in the context of this problem.
+    e. Use the p-value to make a conclusion in the context of this problem. 
+
 
 Fill in the code below to create a new dataframe with the modifications stated above and assign the dataframe to `winter_data`.
 
@@ -110,6 +118,9 @@ The *Data Analysis* section of homework contains open-ended data analysis questi
 *- Be sure to include all relevant code and resulting output.*
 *- All plots should have proper labels for the axes and an informative title.* 
 
+# Submitting Your Assignment
+
+
 
 # Grading
 
@@ -120,5 +131,3 @@ The *Data Analysis* section of homework contains open-ended data analysis questi
 | Documents neatly organized (.Rmd and .md files) | 5 |
 | Narrative in full sentences and neatly organized| 3 |
 | Regular and informative commit messages | 2 |
-
--->
