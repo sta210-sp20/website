@@ -1,5 +1,5 @@
 ---
-title: "Lab 02"
+title: "Lab 02" 
 subtitle: "Simple Linear Regression"
 author: ""
 date: "01.23.20"
@@ -47,11 +47,11 @@ library(rvest)
 
 class: center, middle
 
-# Welcome to lab
+### Welcome to lab
 
 ---
 
-## Agenda
+### Agenda
 
 1. **Teams:** Find teammates.
 
@@ -66,7 +66,7 @@ class: center, middle
 
 ---
     
-## Teams
+### Teams
 
 - Find your teammates: [STA210 Teams](https://prodduke-my.sharepoint.com/:x:/g/personal/mt324_duke_edu/EZaLCjdJR7hKhHScho6x66IB-p48xcaVwzMy2-0G2e3xKg?e=HQglFh)
 
@@ -78,7 +78,7 @@ class: center, middle
     
 ---
 
-## Working on a team
+### Working on a team
 
 - Do not pressure each other to finish early; use the time wisely to really learn the material and produce a quality report.
 
@@ -113,7 +113,7 @@ You may watch or follow along:
 
 ---
 
-## Configure Git
+### Configure Git
 
 - If you need to configure git, type the following lines of code in the console in RStudio filling in your name and email address.
 
@@ -126,7 +126,7 @@ use_git_config(user.name="your name", user.email="your email")
 
 ---
 
-## Team Workflow
+### Team Workflow
 
 - You and your teammates are working from the same lab-02 GitHub repo. This means you are all contributing to the same R Markdown document!
 
@@ -153,7 +153,7 @@ I will now demonstrate the steps for updating the lab documents and sharing the 
 
 ---
 
-## Warm-up
+### Warm-up
 
 - Complete the warmup exercise to practice pushing and pulling changes.
 
@@ -166,7 +166,7 @@ I will now demonstrate the steps for updating the lab documents and sharing the 
 
 ---
 
-## Lab Tips
+### Lab Tips
 
 - Be ready to troubleshoot your document, since it will likely fail to knit on multiple occasions throughout the process. Read the error message carefully and take note of which line is preventing a successful knit.
 
@@ -175,8 +175,6 @@ I will now demonstrate the steps for updating the lab documents and sharing the 
 - Remember that your R Markdown file is not aware of your project's global environment and can only make use of variables, functions, etc. that you have loaded or defined in the document.
 
 - If you're unsure how a function works or what its arguments are, simply type `?` in front of it and hit enter (`?read_csv` for instance). The "Help" tab will open and provide a summary of the function as well as some examples.
-
----
 
 ---
 
