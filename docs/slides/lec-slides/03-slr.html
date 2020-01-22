@@ -4,6 +4,8 @@
     <title>Simple Linear Regression</title>
     <meta charset="utf-8" />
     <meta name="author" content="Prof. Maria Tackett" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
   </head>
   <body>
@@ -25,7 +27,7 @@ class: middle, center
 
 ---
 
-## Announcements 
+### Announcements 
 
 - Lab 01 due **TODAY at 11:59p**
 
@@ -41,7 +43,7 @@ class: middle, center
 
 ---
 
-## Check in
+### Check in
 
 - Any questions from last class?
 
@@ -51,8 +53,25 @@ class: middle, center
 
 ---
 
+### In-class exercise: 
 
-## Today's Agenda
+.question[
+
+- Answer the questions: http://bit.ly/sta210-sp20-indep
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+<div class="countdown blink-colon noupdate-5" id="timer_5e284e97" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+
+### Today's Agenda
 
 - Simple Linear Regression 
     - Estimating &amp; interpreting coefficients
@@ -62,7 +81,7 @@ class: middle, center
 
 ---
 
-## Packages and Data
+### Packages and Data
 
 
 ```r
@@ -91,7 +110,7 @@ class: middle, center
 
 ---
 
-## rottentomatoes.com
+### rottentomatoes.com
 
 Can the ratings from movie critics be used to predict what movies the audience will like? 
 
@@ -105,7 +124,7 @@ Can the ratings from movie critics be used to predict what movies the audience w
 
 ---
 
-## Critic vs. Audience Ratings
+### Critic vs. Audience Ratings
 
 - To answer this question, we will analyze the critic and audience scores from rottentomatoes.com.  
     - The data was first used in the article [Be Suspicious of Online Movie Ratings, Especially Fandango's](https://fivethirtyeight.com/features/fandango-movies-ratings/).
@@ -115,7 +134,7 @@ Can the ratings from movie critics be used to predict what movies the audience w
     - **`audience`**: Audience score for the film (0 - 100)
 ---
 
-## `glimpse` of the data
+### `glimpse` of the data
 
 .small[
 
@@ -164,7 +183,7 @@ p2 &lt;- ggplot(data = movie_scores,mapping = aes(x = audience)) +
 plot_grid(p1, p2, ncol = 2)
 ```
 
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-slr_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -177,7 +196,7 @@ ggplot(data = movie_scores, mapping = aes(x = critics, y = audience)) +
   labs(title = "Audience Score vs. Critics Score")
 ```
 
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-slr_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -190,12 +209,12 @@ ggplot(data = movie_scores, mapping = aes(x = critics, y = audience)) +
   labs(title = "Audience Score vs. Critics Score")
 ```
 
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-slr_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-## Terminology
+### Terminology
 
 - **`audience`** is the &lt;font class="vocab"&gt;response variable `\((Y)\)`&lt;/font&gt;
     - variable whose variation we want to understand and/or variable we wish to predict
@@ -209,7 +228,7 @@ ggplot(data = movie_scores, mapping = aes(x = critics, y = audience)) +
   
 ---
 
-## Model 
+### Model 
 
 .alert[
 `$$\text{audience} = f(critics) + \epsilon$$`
@@ -219,7 +238,7 @@ We want to estimate `\(f\)`. How do we do it?
   
 ---
 
-## General form of model
+### General form of model
 
 .alert[
 `$$Y = f(\mathbf{X}) + \epsilon$$`
@@ -236,7 +255,7 @@ We want to estimate `\(f\)`. How do we do it?
    
 ---
 
-## How to estimate `\(f\)`?
+### How to estimate `\(f\)`?
 
 In general, we will use the following steps to estimate `\(f\)`
 
@@ -252,22 +271,34 @@ In general, we will use the following steps to estimate `\(f\)`
 
 ---
 
-## Why estimate `\(f\)`?
+### Why estimate `\(f\)`?
 
 Suppose we have the model
 
 `$$\text{audience} = \beta_0 + \beta_1 \times \text{critics} + \epsilon$$`
-&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;&lt;br&gt;
 
 --
 
 .question[
-What are 1-2 questions you can answer using this model?
+
+- What is one question you can answer using this model?
+
+- Submit your response at: http://bit.ly/sta210-sp20-q
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
 ]
+
+<div class="countdown blink-colon noupdate-5" id="timer_5e284dac" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
 
 ---
 
-## Why estimate `\(f\)`?
+### Why estimate `\(f\)`?
 
 There are two types of questions we may wish to answer using our model:
 
@@ -285,7 +316,7 @@ There are two types of questions we may wish to answer using our model:
 
 ---
 
-## Course Outline
+### Course Outline
 
 - **Unit 1: Quantitative Response Variables**
     - Simple Linear Regression 
@@ -309,11 +340,11 @@ There are two types of questions we may wish to answer using our model:
 
 class: middle, center
 
-## Simple Linear Regression
+### Simple Linear Regression
 
 ---
 
-## Least-Squares Regression
+### Least-Squares Regression
 
 - There is some true relationship between `\(X\)` and `\(Y\)` that exists in the population
 
@@ -335,7 +366,7 @@ class: middle, center
 
 ---
 
-## Regression Model 
+### Regression Model 
 
 `$$Y|X \sim N(\beta_0 + \beta_1 X,\sigma^2)$$`
 
@@ -347,7 +378,7 @@ class: middle, center
 
 ---
 
-## Regression Model
+### Regression Model
 
 .alert[
 `$$Y|X \sim N(\beta_0 + \beta_1 X, \sigma^2)$$`
@@ -365,15 +396,15 @@ class: middle, center
 
 ---
 
-## Residuals
+### Residuals
 
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-slr_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
 The .vocab[residual] is the difference between the observed and predicted response.
 
 ---
 
-## Residual Sum of Squares
+### Residual Sum of Squares
 
 - The residual for the `\(i^{th}\)` observation is 
 
@@ -392,7 +423,7 @@ The .vocab[residual] is the difference between the observed and predicted respon
 
 ---
 
-## Estimating Coefficients
+### Estimating Coefficients
 
 - .vocab[Slope:]
 
@@ -404,7 +435,7 @@ such that `\(r\)` is the correlation between `\(x\)` And `\(y\)`.
 
 ---
 
-## Least-Squares Model
+### Least-Squares Model
 
 
 ```r
@@ -427,7 +458,7 @@ tidy(model) %&gt;%
 
 
 
-## Interpreting Slope &amp; Intercept 
+### Interpreting Slope &amp; Intercept 
 
 - &lt;font class="vocab"&gt;Slope: &lt;/font&gt; Increase in the mean response for every one unit increase in the predictor variable
 
@@ -445,7 +476,7 @@ Write the interpretation of the slope and intercept
 
 ---
 
-## Nonsensical Intercept 
+### Nonsensical Intercept 
 
 - Sometimes it doesn't make sense to interpret the intercept
   + When predictor variable doesn't take values close to 0
@@ -473,18 +504,18 @@ Write the interpretation of the slope and intercept
 
 class: middle, center
 
-## Assessing Model Fit
+### Assessing Model Fit
 
 ---
 
-## `\(R^2\)`
+### `\(R^2\)`
 We can use the coefficient of determination, `\(R^2\)`, to measure how well the model fits the data 
 - `\(R^2\)` is the proportion of variation in `\(Y\)` that is explained by the regression line (reported as percentage)
 - It is difficult to determine what's a "good" value of `\(R^2\)`. It depends on the context of the data.
 
 ---
 
-## Calculating `\(R^2\)`
+### Calculating `\(R^2\)`
 .instructions[
 `$$R^2 = \frac{\text{TSS} - \text{RSS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}}$$`
 ]
@@ -496,7 +527,7 @@ We can use the coefficient of determination, `\(R^2\)`, to measure how well the 
 
 ---
 
-## Rotten Tomatoes Data
+### Rotten Tomatoes Data
 
 
 ```r
@@ -515,11 +546,11 @@ The critics score explains about 61.06% of the variation in audience scores on r
 
 class: middle, center
 
-## Checking Model Assumptions 
+### Checking Model Assumptions 
 
 ---
 
-## Assumptions for Regression 
+### Assumptions for Regression 
 
 1. &lt;font class="vocab"&gt;Linearity: &lt;/font&gt;The plot of the mean value for `\(y\)` against `\(x\)` falls on a straight line
 
@@ -531,7 +562,7 @@ class: middle, center
 
 ---
 
-## Checking Assumptions 
+### Checking Assumptions 
 
 We can use plots of the residuals to check the assumptions for regression.
 
@@ -544,7 +575,7 @@ We can use plots of the residuals to check the assumptions for regression.
 
 ---
 
-## Residuals vs. Predictor
+### Residuals vs. Predictor
 
 - When all the assumptions are true, the values of the residuals reflect random (chance) error
 
@@ -556,7 +587,7 @@ We can use plots of the residuals to check the assumptions for regression.
 
 ---
 
-## Plots of Residuals
+### Plots of Residuals
 
 &lt;img src="img/02/resid_plots.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -574,11 +605,11 @@ ggplot(data=movie_scores,mapping=aes(x=critics, y=residuals)) +
   labs(title="Residuals vs. Critics Score")
 ```
 
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-slr_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## Checking Normality
+### Checking Normality
 
 - Examine the distribution of the residuals to determine if the Normality assumption is satisfied 
 
@@ -589,7 +620,7 @@ ggplot(data=movie_scores,mapping=aes(x=critics, y=residuals)) +
 
 ---
 
-## Normal QQ-Plot
+### Normal QQ-Plot
 
 &lt;img src="img/02/normal_qqplot.png" width="100%" style="display: block; margin: auto;" /&gt;
 
@@ -602,7 +633,7 @@ ggplot(data=movie_scores,mapping=aes(x=residuals)) +
   labs(title="Distribution of Residuals") 
 ```
 
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-slr_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -614,12 +645,12 @@ ggplot(data=movie_scores,mapping=aes(sample=residuals)) +
   labs(title="Normal QQ Plot of Residuals")
 ```
 
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-slr_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
-## Checking Independence
+### Checking Independence
 
 - Often, we can conclude that the independence assumption is sufficiently met based on a description of the data and how it was collected. 
 
@@ -630,7 +661,7 @@ ggplot(data=movie_scores,mapping=aes(sample=residuals)) +
 
 ---
 
-## Recap 
+### Recap 
 
 - Motivating Regression Analysis
 

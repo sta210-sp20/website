@@ -50,7 +50,7 @@ class: middle, center
 
 ---
 
-## Announcements 
+### Announcements 
 
 - Lab 01 due **TODAY at 11:59p**
 
@@ -66,7 +66,7 @@ class: middle, center
 
 ---
 
-## Check in
+### Check in
 
 - Any questions from last class?
 
@@ -76,8 +76,26 @@ class: middle, center
 
 ---
 
+### In-class exercise: 
 
-## Today's Agenda
+.question[
+
+- Answer the questions: http://bit.ly/sta210-sp20-indep
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+```{r echo = F}
+library(countdown)
+countdown(minutes = 3, seconds = 0, update_every = 5, warn_when = 30)
+```
+
+---
+
+
+### Today's Agenda
 
 - Simple Linear Regression 
     - Estimating & interpreting coefficients
@@ -87,7 +105,7 @@ class: middle, center
 
 ---
 
-## Packages and Data
+### Packages and Data
 
 ```{r packages}
 library(tidyverse)
@@ -114,7 +132,7 @@ class: middle, center
 
 ---
 
-## rottentomatoes.com
+### rottentomatoes.com
 
 Can the ratings from movie critics be used to predict what movies the audience will like? 
 
@@ -132,7 +150,7 @@ knitr::include_graphics("img/03/movie-rating-2.png")
 
 ---
 
-## Critic vs. Audience Ratings
+### Critic vs. Audience Ratings
 
 - To answer this question, we will analyze the critic and audience scores from rottentomatoes.com.  
     - The data was first used in the article [Be Suspicious of Online Movie Ratings, Especially Fandango's](https://fivethirtyeight.com/features/fandango-movies-ratings/).
@@ -142,7 +160,7 @@ knitr::include_graphics("img/03/movie-rating-2.png")
     - **`audience`**: Audience score for the film (0 - 100)
 ---
 
-## `glimpse` of the data
+### `glimpse` of the data
 
 .small[
 ```{r}
@@ -184,7 +202,7 @@ ggplot(data = movie_scores, mapping = aes(x = critics, y = audience)) +
 
 ---
 
-## Terminology
+### Terminology
 
 - **`audience`** is the <font class="vocab">response variable $(Y)$</font>
     - variable whose variation we want to understand and/or variable we wish to predict
@@ -198,7 +216,7 @@ ggplot(data = movie_scores, mapping = aes(x = critics, y = audience)) +
   
 ---
 
-## Model 
+### Model 
 
 .alert[
 $$\text{audience} = f(critics) + \epsilon$$
@@ -208,7 +226,7 @@ We want to estimate $f$. How do we do it?
   
 ---
 
-## General form of model
+### General form of model
 
 .alert[
 $$Y = f(\mathbf{X}) + \epsilon$$
@@ -225,7 +243,7 @@ $$Y = f(\mathbf{X}) + \epsilon$$
    
 ---
 
-## How to estimate $f$?
+### How to estimate $f$?
 
 In general, we will use the following steps to estimate $f$
 
@@ -241,22 +259,35 @@ In general, we will use the following steps to estimate $f$
 
 ---
 
-## Why estimate $f$?
+### Why estimate $f$?
 
 Suppose we have the model
 
 $$\text{audience} = \beta_0 + \beta_1 \times \text{critics} + \epsilon$$
-<br><br><br>
+<br><br>
 
 --
 
 .question[
-What are 1-2 questions you can answer using this model?
+
+- What is one question you can answer using this model?
+
+- Submit your response at: http://bit.ly/sta210-sp20-q
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
 ]
+
+```{r echo = F}
+library(countdown)
+countdown(minutes = 3, seconds = 0, update_every = 5, warn_when = 30)
+```
+
 
 ---
 
-## Why estimate $f$?
+### Why estimate $f$?
 
 There are two types of questions we may wish to answer using our model:
 
@@ -274,7 +305,7 @@ There are two types of questions we may wish to answer using our model:
 
 ---
 
-## Course Outline
+### Course Outline
 
 - **Unit 1: Quantitative Response Variables**
     - Simple Linear Regression 
@@ -298,11 +329,11 @@ There are two types of questions we may wish to answer using our model:
 
 class: middle, center
 
-## Simple Linear Regression
+### Simple Linear Regression
 
 ---
 
-## Least-Squares Regression
+### Least-Squares Regression
 
 - There is some true relationship between $X$ and $Y$ that exists in the population
 
@@ -324,7 +355,7 @@ $$Y = \beta_0 + \beta_1 X + \epsilon$$
 
 ---
 
-## Regression Model 
+### Regression Model 
 
 $$Y|X \sim N(\beta_0 + \beta_1 X,\sigma^2)$$
 
@@ -338,7 +369,7 @@ knitr::include_graphics("img/02/regression.png")
 
 ---
 
-## Regression Model
+### Regression Model
 
 .alert[
 $$Y|X \sim N(\beta_0 + \beta_1 X, \sigma^2)$$
@@ -356,7 +387,7 @@ $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i \hspace{10mm} \epsilon_i \sim N(0,\si
 
 ---
 
-## Residuals
+### Residuals
 
 ```{r echo=F, warning=FALSE, message=FALSE}
 m <- lm(audience ~ critics,data=movie_scores)
@@ -372,7 +403,7 @@ The .vocab[residual] is the difference between the observed and predicted respon
 
 ---
 
-## Residual Sum of Squares
+### Residual Sum of Squares
 
 - The residual for the $i^{th}$ observation is 
 
@@ -391,7 +422,7 @@ $$RSS = e^2_1 + e^2_2 + \dots + e^2_n$$
 
 ---
 
-## Estimating Coefficients
+### Estimating Coefficients
 
 - .vocab[Slope:]
 
@@ -403,7 +434,7 @@ such that $r$ is the correlation between $x$ And $y$.
 
 ---
 
-## Least-Squares Model
+### Least-Squares Model
 
 ```{r}
 model <- lm(audience ~ critics, data = movie_scores)
@@ -418,7 +449,7 @@ $$\hat{\text{audience}} =  32.316 + 0.519 \times \text{critics}$$
 
 
 
-## Interpreting Slope & Intercept 
+### Interpreting Slope & Intercept 
 
 - <font class="vocab">Slope: </font> Increase in the mean response for every one unit increase in the predictor variable
 
@@ -436,7 +467,7 @@ Write the interpretation of the slope and intercept
 
 ---
 
-## Nonsensical Intercept 
+### Nonsensical Intercept 
 
 - Sometimes it doesn't make sense to interpret the intercept
   + When predictor variable doesn't take values close to 0
@@ -464,18 +495,18 @@ Write the interpretation of the slope and intercept
 
 class: middle, center
 
-## Assessing Model Fit
+### Assessing Model Fit
 
 ---
 
-## $R^2$
+### $R^2$
 We can use the coefficient of determination, $R^2$, to measure how well the model fits the data 
 - $R^2$ is the proportion of variation in $Y$ that is explained by the regression line (reported as percentage)
 - It is difficult to determine what's a "good" value of $R^2$. It depends on the context of the data.
 
 ---
 
-## Calculating $R^2$
+### Calculating $R^2$
 .instructions[
 $$R^2 = \frac{\text{TSS} - \text{RSS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}}$$
 ]
@@ -487,7 +518,7 @@ $$\text{RSS} = \sum\limits_{i=1}^{n}[y_i - (\hat{\beta}_0 + \hat{\beta}_1x_i)]^2
 
 ---
 
-## Rotten Tomatoes Data
+### Rotten Tomatoes Data
 
 ```{r}
 rsquare(model,movie_scores)
@@ -501,11 +532,11 @@ The critics score explains about `r round(rsquare(model,movie_scores) * 100,2)`%
 
 class: middle, center
 
-## Checking Model Assumptions 
+### Checking Model Assumptions 
 
 ---
 
-## Assumptions for Regression 
+### Assumptions for Regression 
 
 1. <font class="vocab">Linearity: </font>The plot of the mean value for $y$ against $x$ falls on a straight line
 
@@ -517,7 +548,7 @@ class: middle, center
 
 ---
 
-## Checking Assumptions 
+### Checking Assumptions 
 
 We can use plots of the residuals to check the assumptions for regression.
 
@@ -530,7 +561,7 @@ We can use plots of the residuals to check the assumptions for regression.
 
 ---
 
-## Residuals vs. Predictor
+### Residuals vs. Predictor
 
 - When all the assumptions are true, the values of the residuals reflect random (chance) error
 
@@ -542,7 +573,7 @@ We can use plots of the residuals to check the assumptions for regression.
 
 ---
 
-## Plots of Residuals
+### Plots of Residuals
 
 ```{r, echo=FALSE,out.width = '80%',fig.align='center'}
 knitr::include_graphics("img/02/resid_plots.png")
@@ -562,7 +593,7 @@ ggplot(data=movie_scores,mapping=aes(x=critics, y=residuals)) +
 
 ---
 
-## Checking Normality
+### Checking Normality
 
 - Examine the distribution of the residuals to determine if the Normality assumption is satisfied 
 
@@ -573,7 +604,7 @@ ggplot(data=movie_scores,mapping=aes(x=critics, y=residuals)) +
 
 ---
 
-## Normal QQ-Plot
+### Normal QQ-Plot
 
 ```{r, echo=FALSE,out.width = '100%',fig.align='center'}
 knitr::include_graphics("img/02/normal_qqplot.png")
@@ -599,7 +630,7 @@ ggplot(data=movie_scores,mapping=aes(sample=residuals)) +
 
 ---
 
-## Checking Independence
+### Checking Independence
 
 - Often, we can conclude that the independence assumption is sufficiently met based on a description of the data and how it was collected. 
 
@@ -610,7 +641,7 @@ ggplot(data=movie_scores,mapping=aes(sample=residuals)) +
 
 ---
 
-## Recap 
+### Recap 
 
 - Motivating Regression Analysis
 
