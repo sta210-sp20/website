@@ -249,7 +249,7 @@ To submit your assignment:
     - If asked, login to your GitHub account.
     - If asked, click to request access to the "sta210-sp20" GitHub organization. 
   
-- Select your `lab-01-review-r-` repo and choose "master" for the branch. 
+- Select your assignment repo and choose "master" for the branch. 
 
 - Click *Upload*. You should receive an email to confirm that the assignment has been submitted.
 

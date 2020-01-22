@@ -1677,17 +1677,16 @@ div.tocify {
 <p><br><br></p>
 <div id="getting-started" class="section level1">
 <h1>Getting Started</h1>
-<p>A brief outline of getting started is shown below. See the <a href="https://www2.stat.duke.edu/courses/Fall19/sta199.001/labs/lab-01-intro-r.html">Lab 01 Instructions</a> for more details about the steps.</p>
+<p>A brief outline of getting started is shown below. See the <a href="https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html">Lab 01 Instructions</a> for more details about the steps.</p>
 <ul>
-<li>Go to the sta210-fa19 organization on GitHub (<a href="https://github.com/sta210-fa19">https://github.com/sta210-fa19</a>). Click on the repo with the prefix <strong>hw-01</strong>. It contains the starter documents you need to complete the lab.</li>
+<li>Go to the sta210-sp20 organization on GitHub (<a href="https://github.com/sta210-sp20">https://github.com/sta210-sp20</a>). Click on the repo with the prefix <strong>hw-01</strong>. It contains the starter documents you need to complete the lab.</li>
 <li>Clone the repo in RStudio Cloud</li>
-<li>Configure git using the <code>use_git_config()</code> function.</li>
 </ul>
 <div id="tips" class="section level2">
 <h2>Tips</h2>
 <p>Here are some tips as you complete HW 01:</p>
 <ul>
-<li>Periodically Knit your document and commit changes (the more often the better, for example, once per each new task)</li>
+<li>Periodically knit your document and commit changes (the more often the better, for example, once per each new task)</li>
 <li>Push all your changes back to your GitHub repo. The Git pane in RStudio should be empty after you push. You can also check your assignment repo on github.com to make sure it has updated.</li>
 <li>Once you have completed your work, you will submit your assignment in Gradescope. You are welcome to resubmit multiple times until the assignment deadline. We will grade the most recent version of the .pdf file in Gradescope.</li>
 </ul>
@@ -1696,76 +1695,79 @@ div.tocify {
 <h2>Packages</h2>
 <p>We will use the following packages in this assignment:</p>
 <pre class="r"><code>library(tidyverse)
-library(modelr)
-library(readr) 
 library(broom)
 library(knitr)
-library(openintro)</code></pre>
+library(openintro)
+library(MASS)</code></pre>
 <p>If you need to install any of the packages, type <code>install.packages(&quot;package_name&quot;)</code> in the console, where <code>package_name</code> is the package you need to install.</p>
 </div>
-</div>
-<div id="data---update-the-variable-defintions" class="section level1">
-<h1>Data - UPDATE THE VARIABLE DEFINTIONS!</h1>
-<p>For this assignment, we will be using the <code>smoking</code> dataset in the openintro R package. The data was originally provided by <a href="https://www.stem.org.uk/" class="uri">https://www.stem.org.uk/</a>.</p>
-<p>This dataset contains smoking habits and other demogrpahic information for 1,691 randomly selected survey respondents in the United Kingdom. The following variables are in the dataset:</p>
-<table>
-<tbody>
-<tr class="odd">
-<td><code>family_income</code></td>
-<td>Family income of the student</td>
-</tr>
-<tr class="even">
-<td><code>gift_aid</code></td>
-<td>Gift aid, in ($ thousands)</td>
-</tr>
-<tr class="odd">
-<td><code>price_paid</code></td>
-<td>Price paid by the student (= tuition - gift_aid)</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div id="questions" class="section level1">
 <h1>Questions</h1>
 <div id="part-1-conceptual-problems" class="section level2">
 <h2>Part 1: Conceptual Problems</h2>
 <p>The <em>Conceptual Problems</em> section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.</p>
+<p>For Queston 1 -2, we will be using the <code>smoking</code> dataset in the openintro R package. The data was originally provided by <a href="https://www.stem.org.uk/" class="uri">https://www.stem.org.uk/</a>.</p>
+<p>This dataset contains smoking habits and other demogrpahic information for 1,691 randomly selected survey respondents in the United Kingdom. Click <a href="https://www.openintro.org/data/index.php?data=smoking">here</a> for a full list of the variables in the data. We will use the following variables:</p>
+<p>|———–|——————————————| | <code>smoke</code> | Yes: respondent smokes regularly, No: respondent does not smoke regularly | | <code>age</code> | Age in years |</p>
 <ol style="list-style-type: decimal">
+<li><p>According to a <a href="https://www.bbc.com/news/uk-43316697">2018 article by the BBC</a>, the average age of a resident in the UK is 40. <em>Is the average age of <u>smokers</u> in the UK significantly different from 40, the average age of all UK residents, 40?</em>?</p>
+<ol style="list-style-type: lower-alpha">
+<li>State the hypotheses both in words and using statistical notiation. You can use the syntax $mu$ to produce <span class="math inline">\(\mu\)</span> when typing the hypotheses. <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></li>
+<li>Are the conditions met to conduct a <em>t</em>-test? Include discussion about each condition, including an explanation about your conclusion and any supporting graphs, code, or output, as needed.</li>
+<li>Use equations to calculate the test statistic. Show the code used to calculate the test statistic and the resulting output. Write the definition of the test statistic in the context of this problem.</li>
+<li>What are the degrees of freedom associated with this test statistic?</li>
+<li>Calculate the p-value and use it to state your conclusion in the context of this problem.</li>
+<li>If you were to construct a 95% confidence interval that corresponded to this hypothesis test, would you 40 to be in the interval? Briefly explain why or why not.</li>
+</ol></li>
 <li><p><em>Is there a significant difference in the average age of of people in the UK who smoke versus those who don’t?</em> To answer this question, will use a <em>t</em>-test to compare the average age of those who smoke versus those don’t.</p>
 <ol style="list-style-type: lower-alpha">
-<li>State the hypotheses both in words and using statistical notation. You can use the syntax $mu$ to produce <span class="math inline">\(\mu\)</span> when typing the hypotheses. <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></li>
+<li>State the hypotheses both in words and using statistical notation.</li>
 <li>Are the conditions met to conduct a <em>t</em>-test? Include discussion about each condition, including an explanation about your conclusion and any supporting graphs, code, or output, as needed.</li>
 <li>Use the <code>t.test</code> function to test the hypotheses from part(a). Write the definition of the test statistic in the context of this problem.</li>
 <li>Write the definition of the p-value in the context of this problem.</li>
 <li>Use the p-value to make a conclusion in the context of this problem.</li>
 </ol></li>
 </ol>
-<p>Fill in the code below to create a new dataframe with the modifications stated above and assign the dataframe to <code>winter_data</code>.</p>
-<ol start="2" style="list-style-type: decimal">
-<li><p>Fit a regression model that can be used to predict the number of bike rentals given the temperature. Store the model to the object <code>winter_model</code>. Display the model coefficients along with the associated confidence intervals and test statistics.</p></li>
-<li><p>Interpret the 95% confidence interval for <span class="math inline">\(\beta_1\)</span> in the context of the data.</p></li>
-<li><p>Suppose we now calculate a 90% confidence interval for <span class="math inline">\(\beta_1\)</span>. Would the width of the interval be larger, smaller, or the same as the width of the 95% confidence interval calculated in the previous question? Briefly explain your reasoning.</p></li>
-<li><p>Based on the confidence interval, is there a statistically significant linear relationship between the temperature and the number of bike rentals in the winter? Briefly explain your reasoning.</p></li>
-<li><p>What is the value of the test statistic associated with the null hypothesis <span class="math inline">\(H_0: \beta_1 = 0\)</span>? Interpret this value in the context of the problem.</p></li>
-<li><p>Suppose your roommate reads the regression output and says, “the probability that the slope is not 0 is 7.28e-25.” Is your friend correct? Briefly explain.</p></li>
-<li><p>Find <span class="math inline">\(R^2\)</span> and interpret its value in the context of the problem.</p></li>
-</ol>
 </div>
 <div id="part-2-data-analysis" class="section level2">
 <h2>Part 2: Data Analysis</h2>
 <p>The <em>Data Analysis</em> section of homework contains open-ended data analysis questions. Your response should be neatly organized and should read as a complete narrative. This means that in addition to addressing the question(s) stated below, you should include exploratory data analysis and check the appropriate model assumptions. In short, these questions should be treated as “mini-projects”.</p>
-<ol start="9" style="list-style-type: decimal">
-<li>Fit a regression model that could be used to predict the number of bike rentals based on the temperature during the <strong>summer season</strong>. Use your model to answer the following:
-<ul>
-<li>Describe the relationship between the two variables including discussion about whether the relationship is statistically significant.</li>
-<li>In Washington D.C., the average temperature in the summer is about 30 degrees Celsius (about 87 degrees Fahrenheit). Use your model to predict (1) the average number of bike rentals for the days in the summer that are 30 degrees Celsius and (2) the number of bike rentals we can expect if it’s 30 degrees on a single day in the summer.</li>
-</ul></li>
+<ol start="3" style="list-style-type: decimal">
+<li>When veterinarians prescribe heart medicine for cats, the dosage often needs to be calibrated to the weight of the cat’s heart. It is very difficult to measure the heart’s weight, so veterinarians need a way to estimate it. One way to estimate it is using a cat’s body weight which is more feasible to obtain (though still difficult depending on the cat!).</li>
 </ol>
+<p><strong>We would like to fit a regression model that can be used by veterinarians to describe the relationship between a cat’s body weight and heart weight.</strong> You will use the <code>cats</code> dataset in the MASS package to complete the analysis. The <code>cats</code> dataset includes the following variables:</p>
+<p>|———–|——————————————| | <code>Sex</code> | Catgories “F” and “M”| | <code>Bwt</code> | Body weight in kilograms (kg) | | <code>Hwt</code> | Heart weight in grams (g) |</p>
+<p>Include the following in your analysis:</p>
+<ul>
+<li>Univariate and bivariate exploratory data analysis</li>
+<li>Output of the regression model</li>
+<li>Output and interpretation of <span class="math inline">\(R^2\)</span></li>
+<li>Check of model assumptions</li>
+</ul>
 <p><em>Notes:</em> <em>- Be sure to include all relevant code and resulting output.</em> <em>- All plots should have proper labels for the axes and an informative title.</em></p>
 </div>
 </div>
 <div id="submitting-your-assignment" class="section level1">
 <h1>Submitting Your Assignment</h1>
+<p>Once your work is finalized in your GitHub repo, you will submit it to Gradescope. <strong>Your assignment must be submitted on Gradescope by the deadline to be considered “on time”.</strong></p>
+<p>To submit your assignment:</p>
+<ul>
+<li><p>Go to <a href="http://www.gradescope.com" class="uri">http://www.gradescope.com</a> and click <em>Log in</em> in the top right corner.</p></li>
+<li><p>Click <em>School Credentials</em> ➡️ <em>Duke NetID</em> and log in using your NetID credentials.</p></li>
+<li><p>Click on the <em>STA 210 Regression Analysis</em> course.</p></li>
+<li><p>Click on the assignment, and you’ll be prompted to submit it.</p>
+<ul>
+<li>If asked, login to your GitHub account.</li>
+<li>If asked, click to request access to the “sta210-sp20” GitHub organization.</li>
+</ul></li>
+<li><p>Select your assignment repo and choose “master” for the branch.</p></li>
+<li><p>Click <em>Upload</em>. You should receive an email to confirm that the assignment has been submitted.</p></li>
+</ul>
+<p><em>Notes</em>: - You can see what has been submitted by click “Code” at the top of the page. <strong>We will be grading the PDF file</strong>, so please make sure that has all of your final code, output, and narrative.</p>
+<ul>
+<li>You are welcome to resubmit as many times as you’d like before the deadline (we will only grade the most recent version). Just click the “Resubmit” button at the bottom of the page and reselect your repo and master branch.</li>
+</ul>
 </div>
 <div id="grading" class="section level1">
 <h1>Grading</h1>
@@ -1773,32 +1775,29 @@ library(openintro)</code></pre>
 <thead>
 <tr class="header">
 <th><strong>Total</strong></th>
-<th align="center"><strong>60</strong></th>
+<th align="center"><strong>50</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Questions 1 - 8</td>
-<td align="center">30</td>
+<td>Conceptual Problems (Questions 1 - 2)</td>
+<td align="center">20</td>
 </tr>
 <tr class="even">
-<td>Question 9</td>
+<td>Data Analysis (Question 3)</td>
 <td align="center">20</td>
 </tr>
 <tr class="odd">
-<td>Documents neatly organized (.Rmd and .md files)</td>
-<td align="center">5</td>
-</tr>
-<tr class="even">
-<td>Narrative in full sentences and neatly organized</td>
+<td>Question headers and narrative in complete sentences</td>
 <td align="center">3</td>
 </tr>
-<tr class="odd">
-<td>Regular and informative commit messages</td>
+<tr class="even">
+<td>At least 3 informative commit messages</td>
 <td align="center">2</td>
 </tr>
 </tbody>
 </table>
+<p><em>Note there is a 10% penalty if the .pdf file is incomplete and the .Rmd file has to be knitted for grading.</em></p>
 </div>
 <div class="footnotes">
 <hr />

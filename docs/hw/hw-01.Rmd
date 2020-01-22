@@ -19,17 +19,16 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Getting Started
 
-A brief outline of getting started is shown below. See the [Lab 01 Instructions](https://www2.stat.duke.edu/courses/Fall19/sta199.001/labs/lab-01-intro-r.html) for more details about the steps. 
+A brief outline of getting started is shown below. See the [Lab 01 Instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html) for more details about the steps. 
 
-- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **hw-01**. It contains the starter documents you need to complete the lab.
+- Go to the sta210-sp20 organization on GitHub ([https://github.com/sta210-sp20](https://github.com/sta210-sp20)). Click on the repo with the prefix **hw-01**. It contains the starter documents you need to complete the lab.
 - Clone the repo in RStudio Cloud
-- Configure git using the `use_git_config()` function.
 
 ## Tips
 
 Here are some tips as you complete HW 01:
 
-- Periodically Knit your document and commit changes (the more often the better, for example, once per each new task)
+- Periodically knit your document and commit changes (the more often the better, for example, once per each new task)
 - Push all your changes back to your GitHub repo. The Git pane in RStudio should be empty after you push. You can also check your assignment repo on github.com to make sure it has updated.
 - Once you have completed your work, you will submit your assignment in Gradescope. You are welcome to resubmit multiple times until the assignment deadline. We will grade the most recent version of the .pdf file in Gradescope.
 
@@ -39,34 +38,28 @@ We will use the following packages in this assignment:
 
 ```{r}
 library(tidyverse)
-library(modelr)
-library(readr) 
 library(broom)
 library(knitr)
 library(openintro)
+library(MASS)
 ```
 
 If you need to install any of the packages, type `install.packages("package_name")` in the console, where `package_name` is the package you need to install. 
-
-# Data - UPDATE THE VARIABLE DEFINTIONS!
-
-For this assignment, we will be using the `smoking` dataset in the openintro R package. The data was originally provided by https://www.stem.org.uk/. 
-
-This dataset contains smoking habits and other demogrpahic information for 1,691 randomly selected survey respondents in the United Kingdom. The following variables are in the dataset: 
-
-|  |  |
-|-----------|------------------------------------------|
-| `family_income` | Family income of the student |
-| `gift_aid` | Gift aid, in ($ thousands) |
-| `price_paid` | Price paid by the student (= tuition - gift_aid) |
-
-
 
 # Questions
 
 ## Part 1: Conceptual Problems
 
 The *Conceptual Problems* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
+
+For Queston 1 -2, we will be using the `smoking` dataset in the openintro R package. The data was originally provided by https://www.stem.org.uk/. 
+
+This dataset contains smoking habits and other demogrpahic information for 1,691 randomly selected survey respondents in the United Kingdom. Click [here](https://www.openintro.org/data/index.php?data=smoking) for a full list of the variables in the data. We will use the following variables: 
+
+|-----------|------------------------------------------|
+| `smoke` | Yes: respondent smokes regularly, No: respondent does not smoke regularly |
+| `age` | Age in years |
+
 
 1. According to a [2018 article by the BBC](https://www.bbc.com/news/uk-43316697), the average age of a resident in the UK is 40. *Is the average age of <u>smokers</u> in the UK significantly different from 40, the average age of all UK residents, 40?*?
 
@@ -91,24 +84,56 @@ The *Conceptual Problems* section of homework contains short answer questions ab
 
 The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and should read as a complete narrative. This means that in addition to addressing the question(s) stated below, you should include exploratory data analysis and check the appropriate model assumptions. In short, these questions should be treated as "mini-projects".
 
-9. Fit a regression model that could be used to predict the number of bike rentals based on the temperature during the **summer season**. Use your model to answer the following: 
-    - Describe the relationship between the two variables including discussion about whether the relationship is statistically significant. 
-    - In Washington D.C., the average temperature in the summer is about 30 degrees Celsius (about 87 degrees Fahrenheit). Use your model to predict (1) the average number of bike rentals for the days in the summer that are 30 degrees Celsius and (2) the number of bike rentals we can expect if it's 30 degrees on a single day in the summer.
-    
+3. When veterinarians prescribe heart medicine for cats, the dosage often needs to be calibrated to the weight of the cat's heart. It is very difficult to measure the heart's weight, so veterinarians need a way to estimate it. One way to estimate it is using a cat's body weight which is more feasible to obtain (though still difficult depending on the cat!).
+
+**We would like to fit a regression model that can be used by veterinarians to describe the relationship between a cat's body weight and heart weight.** You will use the `cats` dataset in the MASS package to complete the analysis. The `cats` dataset includes the following variables: 
+
+|-----------|------------------------------------------|
+| `Sex` | Catgories "F" and "M"|
+| `Bwt`  | Body weight in kilograms (kg) |
+| `Hwt` | Heart weight in grams (g) |
+
+Include the following in your analysis: 
+
+- Univariate and bivariate exploratory data analysis
+- Output of the regression model 
+- Output and interpretation of $R^2$
+- Check of model assumptions 
+  
 *Notes:* 
 *- Be sure to include all relevant code and resulting output.*
 *- All plots should have proper labels for the axes and an informative title.* 
 
 # Submitting Your Assignment
 
+Once your work is finalized in your GitHub repo, you will submit it to Gradescope. **Your assignment must be submitted on Gradescope by the deadline to be considered "on time".**
+
+To submit your assignment: 
+
+- Go to http://www.gradescope.com and click *Log in* in the top right corner. 
+
+- Click *School Credentials* `r emo::ji("arrow_right")` *Duke NetID* and log in using your NetID credentials.
+
+- Click on the *STA 210 Regression Analysis* course. 
+
+- Click on the assignment, and you'll be prompted to submit it.
+    - If asked, login to your GitHub account.
+    - If asked, click to request access to the "sta210-sp20" GitHub organization. 
+  
+- Select your assignment repo and choose "master" for the branch. 
+
+- Click *Upload*. You should receive an email to confirm that the assignment has been submitted.
 
 
 # Grading
 
-| **Total** | **60** |
+| **Total** | **50** |
 |-------------------------------------------------------------|:--:|
-| Questions 1 - 8 | 30 |
-| Question 9 | 20 |
-| Documents neatly organized (.Rmd and .md files) | 5 |
-| Narrative in full sentences and neatly organized| 3 |
-| Regular and informative commit messages | 2 |
+| Conceptual Problems (Questions 1 - 2) | 20 |
+| Data Analysis (Question 3) | 20 |
+| Question headers and narrative in complete sentences| 3 	|
+| At least 3 informative commit messages 	| 2 	|
+
+
+*Note there is a 10% penalty if the .pdf file is incomplete and the .Rmd file has to be knitted for grading.*
+
