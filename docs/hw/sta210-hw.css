@@ -120,6 +120,9 @@ ol {
 	/* Remove the default left padding */
 	padding-left: 0;
 	font-size: 13pt;
+	counter-increment: quest_counter
+
+
 }
 
 ol>li {
@@ -133,13 +136,13 @@ ol>li {
 	padding-right: 0;
 	padding-left: 97px;
 	font-size: 13pt;
+
+
 }
 
 ol>li:before {
 	/* Use the counter as content */
-	content: "Question " counter(li)".";
-	/* Increment the counter by 1 */
-	counter-increment: li;
+	content: "Question " counter(quest_counter)".";
 	position: absolute;
 	color: #00897B;
 	left: -0.5px;
