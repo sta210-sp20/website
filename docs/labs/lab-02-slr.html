@@ -546,10 +546,9 @@ font-size: 10pt;
 <h2>Packages</h2>
 <p>We will use the following packages in today’s lab.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">library</span>(skimr)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">library</span>(knitr)</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">library</span>(broom)</span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="kw">library</span>(openintro) <span class="co">#package containing dataset</span></span></code></pre></div>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">library</span>(broom)</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">library</span>(openintro) <span class="co">#package containing dataset</span></span></code></pre></div>
 </div>
 </div>
 <div id="warm-up" class="section level1">
@@ -656,14 +655,15 @@ font-size: 10pt;
 <ol start="13" style="list-style-type: decimal">
 <li>The final assumption is that the observations are independent, i.e. one observation does not affect another. We can typically make an assessment about this assumption using a description of the data. Do you think the independence assumption is satisifed? Briefly explain your reasoning.</li>
 </ol>
-<!--
-## Prediction 
-
-14. Suppose a high school senior is considering Elmhurst College, and she would like to use your regression model to estimate how much gift aid she can expect to receive. Her family income is $90,000. Based on your model, about how much gift aid should she expect to receive? Show the code and output and report the prediction and the appropriate interval in your narrative. 
-
-15. Another high school senior is considering Elmhurst College, and her family income is about $310,000. Should she use your model to estimate the how much gift aid she can expect to receive? Briefly explain your reasoning. 
--->
-<p><em>You’re done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message “Done with Lab 2!”, and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that<u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.</em></p>
+</div>
+<div id="prediction" class="section level2">
+<h2>Prediction</h2>
+<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">Next week, we will discuss how to account for the uncertainty in the prediction using a prediction interval.</span></span></p>
+<ol start="14" style="list-style-type: decimal">
+<li><p>Suppose a high school senior is considering Elmhurst College, and she would like to use your regression model to estimate how much gift aid she can expect to receive. Her family income is $90,000. Based on your model, about how much gift aid should she expect to receive? Show the code or calculations you use to calculate the prediction.</p></li>
+<li><p>Another high school senior is considering Elmhurst College, and her family income is about $310,000. Do you think it would be wise to use your model calculate the predicted gift aid for this student? Briefly explain your reasoning.</p></li>
+</ol>
+<p><em>You’re done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message “Done with Lab 2!”, and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that <u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.</em></p>
 </div>
 </div>
 <div id="submitting-the-assignment" class="section level1">
@@ -679,7 +679,7 @@ font-size: 10pt;
 <li>If asked, login to your GitHub account.</li>
 <li>If asked, click to request access to the “sta210-sp20” GitHub organization.</li>
 </ul></li>
-<li><p>Select your <code>lab-01-review-r-</code> repo and choose “master” for the branch.</p></li>
+<li><p>Select your assignment repo and choose “master” for the branch.</p></li>
 <li><p>Click <em>Upload</em>. You should receive an email to confirm that the assignment has been submitted.</p></li>
 </ul>
 <p><em>Notes</em>: - You can see what has been submitted by click “Code” at the top of the page. <strong>We will be grading the PDF file</strong>, so please make sure that has all of your final code, output, and narrative.</p>
@@ -692,15 +692,15 @@ font-size: 10pt;
 <table>
 <tbody>
 <tr class="odd">
-<td>Exploratory Data Analysis (Ex. 1 - 4)</td>
+<td>Exploratory Data Analysis</td>
 <td>UPDATE</td>
 </tr>
 <tr class="even">
-<td>Simple Linear Regression (Ex. 5 - 12)</td>
+<td>Regressoin Model &amp; Assumptions</td>
 <td>UPDATE</td>
 </tr>
 <tr class="odd">
-<td>Prediction (Ex. 13 - 15)</td>
+<td>Prediction</td>
 <td>UPDATE</td>
 </tr>
 <tr class="even">

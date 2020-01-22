@@ -104,7 +104,6 @@ We will use the following packages in today's lab.
 
 ```{r load-packages}
 library(tidyverse)
-library(skimr)
 library(knitr)
 library(broom)
 library(openintro) #package containing dataset
@@ -223,15 +222,17 @@ Based on these plots, does it appear the Normality assumption is satisfied? Brie
 
 13. The final assumption is that the observations are independent, i.e. one observation does not affect another. We can typically make an assessment about this assumption using a description of the data. Do you think the independence assumption is satisifed? Briefly explain your reasoning. 
 
-<!--
 ## Prediction 
 
-14. Suppose a high school senior is considering Elmhurst College, and she would like to use your regression model to estimate how much gift aid she can expect to receive. Her family income is $90,000. Based on your model, about how much gift aid should she expect to receive? Show the code and output and report the prediction and the appropriate interval in your narrative. 
+```{marginfigure}
+Next week, we will discuss how to account for the uncertainty in the prediction using a prediction interval.
+```
 
-15. Another high school senior is considering Elmhurst College, and her family income is about $310,000. Should she use your model to estimate the how much gift aid she can expect to receive? Briefly explain your reasoning. 
--->
+14. Suppose a high school senior is considering Elmhurst College, and she would like to use your regression model to estimate how much gift aid she can expect to receive. Her family income is $90,000. Based on your model, about how much gift aid should she expect to receive? Show the code or calculations you use to calculate the prediction. 
 
-*You're done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 2!", and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that<u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.*
+15. Another high school senior is considering Elmhurst College, and her family income is about $310,000. Do you think it would be wise to use your model calculate the predicted gift aid for this student?  Briefly explain your reasoning. 
+
+*You're done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 2!", and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that <u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.*
 
 # Submitting the Assignment
 
@@ -262,8 +263,9 @@ To submit your assignment:
 
 |  	|  	|
 |----------------------------------------	|----	|
-| Exploratory Data Analysis (Ex. 1 - 4) 	| UPDATE	|
-| Simple Linear Regression (Ex. 5 - 12) 	| UPDATE 	|
+| Exploratory Data Analysis | UPDATE	|
+| Regressoin Model & Assumptions | UPDATE 	|
+| Prediction | UPDATE 	|
 | Lab attendance & participation 	| 3 	|
 | Narrative in full sentences 	| 2 	|
 | Commit messages from every member| 2 	|
