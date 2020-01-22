@@ -131,7 +131,7 @@ ol>li {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-right: 0;
-	padding-left: 90px;
+	padding-left: 97px;
 	font-size: 13pt;
 }
 
@@ -150,14 +150,20 @@ ol ol>li:before {
 	counter-reset: sub-item;
 		/* Use the counter as content */
 	/* Increment the counter by 1 */
-	content: "Part " counter(li)".";
-	counter-increment: li;
+	content: " ";
 	position: absolute;
 	color: #00897B;
-	left: -0.1px;
-	font-weight: bold;
+	
+}
+
+ol ol>li{
+  list-style: lower-alpha;
+  padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 0;
 	padding-left: 0px;
 }
+
 
 .td {
   font-size: 10pt;

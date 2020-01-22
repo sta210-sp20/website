@@ -1465,7 +1465,7 @@ width: 90%;
 padding-top: 10px;
 padding-bottom: 10px;
 padding-right: 0;
-padding-left: 90px;
+padding-left: 97px;
 font-size: 13pt;
 }
 ol>li:before {
@@ -1482,12 +1482,15 @@ ol ol>li:before {
 counter-reset: sub-item;
 
 
-content: "Part " counter(li)".";
-counter-increment: li;
+content: " ";
 position: absolute;
 color: #00897B;
-left: -0.1px;
-font-weight: bold;
+}
+ol ol>li{
+list-style: lower-alpha;
+padding-top: 10px;
+padding-bottom: 10px;
+padding-right: 0;
 padding-left: 0px;
 }
 .td {
@@ -1709,7 +1712,10 @@ library(MASS)</code></pre>
 <p>The <em>Conceptual Problems</em> section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.</p>
 <p>For Queston 1 -2, we will be using the <code>smoking</code> dataset in the openintro R package. The data was originally provided by <a href="https://www.stem.org.uk/" class="uri">https://www.stem.org.uk/</a>.</p>
 <p>This dataset contains smoking habits and other demogrpahic information for 1,691 randomly selected survey respondents in the United Kingdom. Click <a href="https://www.openintro.org/data/index.php?data=smoking">here</a> for a full list of the variables in the data. We will use the following variables:</p>
-<p>|———–|——————————————| | <code>smoke</code> | Yes: respondent smokes regularly, No: respondent does not smoke regularly | | <code>age</code> | Age in years |</p>
+<ul>
+<li><code>smoke</code>: Yes: respondent smokes regularly, No: respondent does not smoke regularly</li>
+<li><code>age</code>: Age in years</li>
+</ul>
 <ol style="list-style-type: decimal">
 <li><p>According to a <a href="https://www.bbc.com/news/uk-43316697">2018 article by the BBC</a>, the average age of a resident in the UK is 40. <em>Is the average age of <u>smokers</u> in the UK significantly different from 40, the average age of all UK residents, 40?</em>?</p>
 <ol style="list-style-type: lower-alpha">
@@ -1737,7 +1743,11 @@ library(MASS)</code></pre>
 <li>When veterinarians prescribe heart medicine for cats, the dosage often needs to be calibrated to the weight of the cat’s heart. It is very difficult to measure the heart’s weight, so veterinarians need a way to estimate it. One way to estimate it is using a cat’s body weight which is more feasible to obtain (though still difficult depending on the cat!).</li>
 </ol>
 <p><strong>We would like to fit a regression model that can be used by veterinarians to describe the relationship between a cat’s body weight and heart weight.</strong> You will use the <code>cats</code> dataset in the MASS package to complete the analysis. The <code>cats</code> dataset includes the following variables:</p>
-<p>|———–|——————————————| | <code>Sex</code> | Catgories “F” and “M”| | <code>Bwt</code> | Body weight in kilograms (kg) | | <code>Hwt</code> | Heart weight in grams (g) |</p>
+<ul>
+<li><code>Sex</code>: F: Female, M: Male</li>
+<li><code>Bwt</code>: Body weight in kilograms (kg)</li>
+<li><code>Hwt</code>: Heart weight in grams (g)</li>
+</ul>
 <p>Include the following in your analysis:</p>
 <ul>
 <li>Univariate and bivariate exploratory data analysis</li>
@@ -1763,10 +1773,6 @@ library(MASS)</code></pre>
 </ul></li>
 <li><p>Select your assignment repo and choose “master” for the branch.</p></li>
 <li><p>Click <em>Upload</em>. You should receive an email to confirm that the assignment has been submitted.</p></li>
-</ul>
-<p><em>Notes</em>: - You can see what has been submitted by click “Code” at the top of the page. <strong>We will be grading the PDF file</strong>, so please make sure that has all of your final code, output, and narrative.</p>
-<ul>
-<li>You are welcome to resubmit as many times as you’d like before the deadline (we will only grade the most recent version). Just click the “Resubmit” button at the bottom of the page and reselect your repo and master branch.</li>
 </ul>
 </div>
 <div id="grading" class="section level1">
