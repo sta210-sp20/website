@@ -432,6 +432,9 @@ such that $r$ is the correlation between $x$ And $y$.
 
 - .vocab[Intercept:] $\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$
 
+<br><br>
+*Optional: [Deriving the Least-Squares Estimates for Simple Linear Regression](https://github.com/sta210-sp20/supplemental-notes/blob/master/slr-derivations.pdf)*
+
 ---
 
 ### Least-Squares Model
