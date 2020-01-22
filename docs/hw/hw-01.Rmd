@@ -128,7 +128,7 @@ To submit your assignment:
 
 | **Total** | **50** |
 |-------------------------------------------------------------|:--:|
-| Conceptual Problems (Questions 1 - 2) | 20 |
+| Conceptual Problems (Questions 1 - 2) | 25 |
 | Data Analysis (Question 3) | 20 |
 | Question headers and narrative in complete sentences| 3 	|
 | At least 3 informative commit messages 	| 2 	|
