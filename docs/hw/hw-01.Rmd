@@ -48,13 +48,13 @@ If you need to install any of the packages, type `install.packages("package_name
 
 # Questions
 
-## Part 1: Conceptual Problems
+## Part 1: Conceptual
 
-The *Conceptual Problems* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
+The *Conceptual* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
 
-For Queston 1 -2, we will be using the `smoking` dataset in the openintro R package. The data was originally provided by https://www.stem.org.uk/. 
+For Questions 1 -2, we will be using the `smoking` dataset in the openintro R package. The data was originally provided by https://www.stem.org.uk/. 
 
-This dataset contains smoking habits and other demogrpahic information for 1,691 randomly selected survey respondents in the United Kingdom. Click [here](https://www.openintro.org/data/index.php?data=smoking) for a full list of the variables in the data. We will use the following variables: 
+This dataset contains smoking habits and other demographic information for 1,691 randomly selected survey respondents in the United Kingdom. Click [here](https://www.openintro.org/data/index.php?data=smoking) for a full list of the variables in the data. We will use the following variables: 
 
 
 - `smoke`: Yes: respondent smokes regularly, No: respondent does not smoke regularly 
@@ -63,7 +63,7 @@ This dataset contains smoking habits and other demogrpahic information for 1,691
 
 1. According to a [2018 article by the BBC](https://www.bbc.com/news/uk-43316697), the average age of a resident in the UK is 40. *Is the average age of <u>smokers</u> in the UK significantly different from 40, the average age of all UK residents, 40?*?
 
-    a. State the hypotheses both in words and using statistical notiation.  You can use the syntax \$mu\$ to produce $\mu$ when typing the hypotheses. ^[See [Getting Started with LaTex](https://artofproblemsolving.com/wiki/index.php/LaTeX:LaTeX_on_AoPS#Getting_Started_with_LaTeX) and [LaTex Symbols Guide](https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols#Greek_Letters) for more information about typing statistical notation using LaTex.]
+    a. State the hypotheses both in words and using statistical notation.  You can use the syntax \$mu\$ to produce $\mu$ when typing the hypotheses. ^[See [Getting Started with LaTex](https://artofproblemsolving.com/wiki/index.php/LaTeX:LaTeX_on_AoPS#Getting_Started_with_LaTeX) and [LaTex Symbols Guide](https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols#Greek_Letters) for more information about typing statistical notation using LaTex.]
     b. Are the conditions met to conduct a *t*-test? Include discussion about each condition, including an explanation about your conclusion and any supporting graphs, code, or output, as needed.
     c. Use equations to calculate the test statistic. Show the code used to calculate the test statistic and the resulting output. Write the definition of the test statistic in the context of this problem. 
     d. What are the degrees of freedom associated with this test statistic?
