@@ -176,6 +176,8 @@ lessons:
   #  #lab: "lab-08-multinom-logistic.html"
   #  #slides: "lab-slides/08-lab-slides.html"
   #  #project: "project.html"
+  - date: "UNIT 3"
+    title: "LOOKING AHEAD"
   - title: "Week 13"
   - date: "Mon, Mar 30"
     title: "Log-linear Regression"

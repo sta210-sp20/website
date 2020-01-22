@@ -1,7 +1,7 @@
 ---
 title: "Simple Linear Regression"
-author: "Dr. Maria Tackett"
-date: "09.04.19"
+author: "Prof. Maria Tackett"
+date: "01.22.20"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -54,7 +54,15 @@ class: middle, center
 
 - Lab 01 due **TODAY at 11:59p**
 
-- Will work in your lab groups starting tomorrow
+- HW 01 due **Wed, Jan 29 at 11:59p**
+
+- Lab groups start tomorrow!
+
+- Daily engagement survey starts today at the end of class (check your email)
+
+- [Reading for today & Monday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-02.html)
+
+- Check email for info about Jan 29 class
 
 ---
 
@@ -71,12 +79,11 @@ class: middle, center
 
 ## Today's Agenda
 
-- Motivating Regression Analysis
-
 - Simple Linear Regression 
     - Estimating & interpreting coefficients
     - Assessing model fit: $R^2$
     - Residuals and model assumptions
+    - Prediction
 
 ---
 
@@ -197,28 +204,8 @@ ggplot(data = movie_scores, mapping = aes(x = critics, y = audience)) +
 $$\text{audience} = f(critics) + \epsilon$$
 ]
 
-- We want to estimate $f$. How do we do it? 
-
---
-
-    - <font class="vocab">Non-parametric methods:</font> estimate $f$ by getting as close to the data points as possible without making explicit assumptions about the functional form of $f$
-    
---
-
-    - <font class="vocab">Parametric methods:</font> estimate $f$ by making an assumption about the functional form of $f$ then using the data to fit a model based on that form 
-    
----
-
-class: middle, center
-
-.alert[
-In this class, we will focus on <font class="vocab">parametric methods</font>
-]
-
-<small>
-*Non-parametric methods covered in STA 325: Machine Learning & Data Mining*
-</small>
-
+We want to estimate $f$. How do we do it? 
+  
 ---
 
 ## General form of model
@@ -285,53 +272,6 @@ There are two types of questions we may wish to answer using our model:
 
     - Ex: How much can we expect the audience score to change for each additional point in the critic score?
 
-
----
-
-## Prediction 
-
-$$\hat{\text{audience}} = \hat{f}(\text{critics})$$
-
-- **Question**: How accurate is $\hat{\text{audience}}$ as a prediction of $\text{audience}$?
-
-- This depends on two quantities: reducible and irreducible error
-
---
-    - <font class="vocab">Reducible error:</font> error that can potentially be reduced by using a model , $\hat{f}$, that is a more appropriate fit for the data
-
---
-    - <font class="vocab">Irreducible error: </font> Error that cannot be reduced even if the model, $\hat{f}$, is a perfect fit. In other words, this is variability associated with $\epsilon$
-
----
-
-class: middle, center
-
-.question[
-In the case of the `movie_ratings` data, what types of factors are included in the irreducible error?
-]
-
----
-
-## Inference
-
-$$\hat{\text{audience}} = \hat{f}(\text{critics})$$
-- **Question**: How is `audience` affected as `critics` changes?
---
-
-- We can break this into several questions: 
-
---
-    - Is the critic score an important predictor of the audience score?
-    
---
-    - What is the relationship between `audience` and `critics`? 
---
-    - Does a linear model adequately describe the relationship between `audience` and `critics`, or is a more complex model required?
-    
-.alert[
-This semester, we will learn how to fit and interpret models to answer these questions using different types of data. 
-]
-
 ---
 
 ## Course Outline
@@ -348,8 +288,10 @@ This semester, we will learn how to fit and interpret models to answer these que
 
 <br>
 
-- **Unit 3: Modeling in Practice**
-    - Dealing with messy data
+- **Unit 3: Looking Ahead**
+    - Log-linear models
+    - Weighted least squares
+    - Missing data
     - Special topics 
 
 ---
@@ -665,72 +607,6 @@ ggplot(data=movie_scores,mapping=aes(sample=residuals)) +
     - <font class="vocab">Serial Effect</font>: If the data were collected over time, the residuals should be plotted in time order to determine if there is serial correlation 
 
     - <font class="vocab">Cluster Effect</font>: You can plot the residuals vs. a group identifier or use different markers (colors/shapes) in the residual plot to determine if there is a cluster effect. 
-
----
-
-### Example: Birth rate vs. Per Capita Income
-
-- Pew Research did a <a href="http://www.pewsocialtrends.org/2011/10/12/in-a-down-economy-fewer-births/" target="_blank">study in 2011</a> looking at how the economy's effect on birthrate in the United States. 
-- We will look at data for Virginia and Washington D.C. years 2000 - 2009
-- Birth rate: Births per 100,000 women ages 15-44
-- Per Capita Income: average income per person
----
-```{r, echo=F}
-pew_data <- read_csv("data/birthrate.csv")
-```
-<small>
-```{r}
-ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=birthrate)) + 
-  geom_point() + 
-  geom_smooth(method="lm",se=FALSE) + 
-  labs(title="Birth rate vs. Per Capita Income", 
-       x="Per Capita Income ($)", y="Birth Rate") 
-```
-</small>
----
-## Birthrate vs. Per Capita Income
-```{r}
-pew_model <- lm(birthrate ~ percapitaincome,data=pew_data)
-tidy(pew_model) %>%
-  kable(format = "markdown", digits = 3)
-```
-<br><br>
-$$\hat{\text{Birth Rate}} = -18.2 + 0.0019 \times \text{ Per Capita Income}$$
-
----
-
-### Residuals vs. Explanatory Variable
-<small>
-```{r}
-pew_data <- pew_data %>% 
-  mutate(residuals = resid(pew_model))
-```
-```{r echo=F}
-ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=residuals)) + 
-  geom_point() + 
-  geom_hline(yintercept=0,color="red") +
-  labs(title="Residuals vs. Per Capita Income", 
-       x="Per Capita Income ($)")
-```
-</small>
----
-### Residuals: Cluster Effect 
-```{r,echo=F}
-ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=residuals,color=State)) + 
-  geom_point() + 
-  geom_hline(yintercept=0,color="red") +
-  labs(title="Residuals vs. Per Capita Income", 
-       x="Per Capita Income ($)")
-```
----
- 
-### Residuals: Serial Effect
-```{r,echo=F}
-ggplot(data=pew_data, aes(x=Year,y=residuals,color=State)) + geom_point() +
-  geom_hline(yintercept=0,color="red")+
-  labs("Residuals vs. Year") + 
-  scale_x_continuous(breaks=seq(2000,2009,1))
-```
 
 ---
 

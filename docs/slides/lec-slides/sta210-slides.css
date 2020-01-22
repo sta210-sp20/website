@@ -97,7 +97,7 @@ li{
 }
 .large { font-size: 130% }
 .midi { font-size: 90% }
-.small { font-size: 10% }
+.small { font-size: 80% }
 
 img, video, iframe {
   max-width: 100%;

@@ -3,7 +3,7 @@
   <head>
     <title>Simple Linear Regression</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dr. Maria Tackett" />
+    <meta name="author" content="Prof. Maria Tackett" />
     <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
   </head>
   <body>
@@ -11,8 +11,8 @@
 class: center, middle, inverse, title-slide
 
 # Simple Linear Regression
-### Dr. Maria Tackett
-### 09.04.19
+### Prof. Maria Tackett
+### 01.22.20
 
 ---
 
@@ -29,7 +29,15 @@ class: middle, center
 
 - Lab 01 due **TODAY at 11:59p**
 
-- Will work in your lab groups starting tomorrow
+- HW 01 due **Wed, Jan 29 at 11:59p**
+
+- Lab groups start tomorrow!
+
+- Daily engagement survey starts today at the end of class (check your email)
+
+- [Reading for today &amp; Monday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-02.html)
+
+- Check email for info about Jan 29 class
 
 ---
 
@@ -46,12 +54,11 @@ class: middle, center
 
 ## Today's Agenda
 
-- Motivating Regression Analysis
-
 - Simple Linear Regression 
     - Estimating &amp; interpreting coefficients
     - Assessing model fit: `\(R^2\)`
     - Residuals and model assumptions
+    - Prediction
 
 ---
 
@@ -208,28 +215,8 @@ ggplot(data = movie_scores, mapping = aes(x = critics, y = audience)) +
 `$$\text{audience} = f(critics) + \epsilon$$`
 ]
 
-- We want to estimate `\(f\)`. How do we do it? 
-
---
-
-    - &lt;font class="vocab"&gt;Non-parametric methods:&lt;/font&gt; estimate `\(f\)` by getting as close to the data points as possible without making explicit assumptions about the functional form of `\(f\)`
-    
---
-
-    - &lt;font class="vocab"&gt;Parametric methods:&lt;/font&gt; estimate `\(f\)` by making an assumption about the functional form of `\(f\)` then using the data to fit a model based on that form 
-    
----
-
-class: middle, center
-
-.alert[
-In this class, we will focus on &lt;font class="vocab"&gt;parametric methods&lt;/font&gt;
-]
-
-&lt;small&gt;
-*Non-parametric methods covered in STA 325: Machine Learning &amp; Data Mining*
-&lt;/small&gt;
-
+We want to estimate `\(f\)`. How do we do it? 
+  
 ---
 
 ## General form of model
@@ -296,53 +283,6 @@ There are two types of questions we may wish to answer using our model:
 
     - Ex: How much can we expect the audience score to change for each additional point in the critic score?
 
-
----
-
-## Prediction 
-
-`$$\hat{\text{audience}} = \hat{f}(\text{critics})$$`
-
-- **Question**: How accurate is `\(\hat{\text{audience}}\)` as a prediction of `\(\text{audience}\)`?
-
-- This depends on two quantities: reducible and irreducible error
-
---
-    - &lt;font class="vocab"&gt;Reducible error:&lt;/font&gt; error that can potentially be reduced by using a model , `\(\hat{f}\)`, that is a more appropriate fit for the data
-
---
-    - &lt;font class="vocab"&gt;Irreducible error: &lt;/font&gt; Error that cannot be reduced even if the model, `\(\hat{f}\)`, is a perfect fit. In other words, this is variability associated with `\(\epsilon\)`
-
----
-
-class: middle, center
-
-.question[
-In the case of the `movie_ratings` data, what types of factors are included in the irreducible error?
-]
-
----
-
-## Inference
-
-`$$\hat{\text{audience}} = \hat{f}(\text{critics})$$`
-- **Question**: How is `audience` affected as `critics` changes?
---
-
-- We can break this into several questions: 
-
---
-    - Is the critic score an important predictor of the audience score?
-    
---
-    - What is the relationship between `audience` and `critics`? 
---
-    - Does a linear model adequately describe the relationship between `audience` and `critics`, or is a more complex model required?
-    
-.alert[
-This semester, we will learn how to fit and interpret models to answer these questions using different types of data. 
-]
-
 ---
 
 ## Course Outline
@@ -359,8 +299,10 @@ This semester, we will learn how to fit and interpret models to answer these que
 
 &lt;br&gt;
 
-- **Unit 3: Modeling in Practice**
-    - Dealing with messy data
+- **Unit 3: Looking Ahead**
+    - Log-linear models
+    - Weighted least squares
+    - Missing data
     - Special topics 
 
 ---
@@ -685,65 +627,6 @@ ggplot(data=movie_scores,mapping=aes(sample=residuals)) +
     - &lt;font class="vocab"&gt;Serial Effect&lt;/font&gt;: If the data were collected over time, the residuals should be plotted in time order to determine if there is serial correlation 
 
     - &lt;font class="vocab"&gt;Cluster Effect&lt;/font&gt;: You can plot the residuals vs. a group identifier or use different markers (colors/shapes) in the residual plot to determine if there is a cluster effect. 
-
----
-
-### Example: Birth rate vs. Per Capita Income
-
-- Pew Research did a &lt;a href="http://www.pewsocialtrends.org/2011/10/12/in-a-down-economy-fewer-births/" target="_blank"&gt;study in 2011&lt;/a&gt; looking at how the economy's effect on birthrate in the United States. 
-- We will look at data for Virginia and Washington D.C. years 2000 - 2009
-- Birth rate: Births per 100,000 women ages 15-44
-- Per Capita Income: average income per person
----
-
-&lt;small&gt;
-
-```r
-ggplot(data=pew_data, mapping = aes(x=percapitaincome,y=birthrate)) + 
-  geom_point() + 
-  geom_smooth(method="lm",se=FALSE) + 
-  labs(title="Birth rate vs. Per Capita Income", 
-       x="Per Capita Income ($)", y="Birth Rate") 
-```
-
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
-&lt;/small&gt;
----
-## Birthrate vs. Per Capita Income
-
-```r
-pew_model &lt;- lm(birthrate ~ percapitaincome,data=pew_data)
-tidy(pew_model) %&gt;%
-  kable(format = "markdown", digits = 3)
-```
-
-
-
-|term            | estimate| std.error| statistic| p.value|
-|:---------------|--------:|---------:|---------:|-------:|
-|(Intercept)     |  -18.218|     15.33|    -1.188|    0.25|
-|percapitaincome |    0.002|      0.00|     5.125|    0.00|
-&lt;br&gt;&lt;br&gt;
-`$$\hat{\text{Birth Rate}} = -18.2 + 0.0019 \times \text{ Per Capita Income}$$`
-
----
-
-### Residuals vs. Explanatory Variable
-&lt;small&gt;
-
-```r
-pew_data &lt;- pew_data %&gt;% 
-  mutate(residuals = resid(pew_model))
-```
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
-&lt;/small&gt;
----
-### Residuals: Cluster Effect 
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
----
- 
-### Residuals: Serial Effect
-&lt;img src="03-slr_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
