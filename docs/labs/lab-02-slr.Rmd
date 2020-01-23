@@ -158,7 +158,7 @@ The `elmhurst` dataset contains the following variables:
 
 **Team Member 1 types.**
 
-1. Plot a histogram to examine the distribution of `gift_aid`. What is the shape of the distribution? Be sure the histogram has an appropriate binwidth to clearly see the shape of the distribution. *You can use the [ggplot reference](https://ggplot2.tidyverse.org/reference/) page for more detail about adjusting binwidth in histograms.*
+1. Plot a histogram to examine the distribution of `gift_aid`. What is the shape of the distribution? *You can use the [ggplot reference](https://ggplot2.tidyverse.org/reference/) page for more detail about adjusting binwidth in histograms.*
 
 2. To better understand the distribution of `gift_aid`, we would like calculate measures of center and spread of the distribution.
 Use the `summarise` function to calculate the appropriate measures of center (mean or median) and spread (standard deviation or IQR) based on the shape of the distribution from Exercise 1. Show the code and output, and state the measures of center and spread in your narrative.
