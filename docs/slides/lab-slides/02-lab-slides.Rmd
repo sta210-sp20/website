@@ -165,7 +165,9 @@ We will now walk through the steps in the warmup exercise:
 
 ### Submitting Assignments
 
-- You will be submitting your final assignment in [Gradescope](http://www.gradescope.com)
+- You will be submitting your final assignment in [Gradescope](http://www.gradescope.com). 
+
+- There is only one submission per group. One person should connect to the team's repo in GitHub and click *Add Group Members* to add the names of all group members to the assignment.
 
 - We will be grading the **PDF** in your GitHub repo, so make sure it has all of your final code, output, graphs, and narrative. 
 

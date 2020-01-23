@@ -272,7 +272,7 @@ To submit your assignment:
   
 - Select your assignment repo and choose "master" for the branch. 
 
-- **Make sure to include the names of all group members who participated in the assignment.**
+- **Make sure to include the names of all group members who participated in the assignment.** [Click here](https://www.gradescope.com/help#help-center-item-student-group-members) for help on adding group members to an assignment.
 
 - Click *Upload*. You should receive an email to confirm that the assignment has been submitted.
 
