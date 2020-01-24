@@ -61,7 +61,7 @@ This dataset contains smoking habits and other demographic information for 1,691
 - `age`:  Age in years 
 
 
-1. According to a [2018 article by the BBC](https://www.bbc.com/news/uk-43316697), the average age of a resident in the UK is 40. *Is the average age of <u>**smokers**</u> in the UK significantly different from 40, the average age of all UK residents, 40?* 
+1. According to a [2018 article by the BBC](https://www.bbc.com/news/uk-43316697), the average age of a resident in the UK is 40. *Is the average age of <u>**smokers**</u> in the UK significantly different from the average age of all UK residents?* 
 
     Hint: Before you begin, create a subset that only contains smokers.
 
