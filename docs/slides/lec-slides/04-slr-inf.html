@@ -28,14 +28,18 @@ class: middle, center
 
 ### Announcements 
 
-- Lab 02 due **tomorrow at 11:59p**
-    - Make sure the .md file is updated on GitHub!
-    
-- Reading 01 due Wednesday
-    
-- Supplemental notes on Github
+- Lab 02 due **Tuesday at 11:59p**
+    - One person from each group submit the assignment on Gradescope. 
+    - Click to add all group members names to the submission.
 
-- How grading works
+- HW 01 due **Wed, Jan 29 at 11:59p**
+
+- Fill out daily engagement survey (should receive it at the end of class)
+
+- [Reading for today](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-02.html)
+
+- No lecture on Wedneseday. Watch rstudio::conf and do reflection (part of HW 02 grade)
+
 ---
 
 
@@ -458,7 +462,8 @@ We wish to predict the &lt;font class="vocab"&gt;mean&lt;/font&gt; audience scor
 
 ```r
 x0 &lt;- data.frame(critics = c(60))
-*predict.lm(model, x0, interval = "prediction", conf.level = 0.95)
+*predict.lm(model, x0, interval = "prediction",
+*          conf.level = 0.95)
 ```
 
 .instructions[
@@ -475,7 +480,8 @@ We wish to predict the &lt;font class="vocab"&gt;mean&lt;/font&gt; audience scor
 
 ```r
 x0 &lt;- data.frame(critics = c(60))
-*predict.lm(model, x0, interval = "confidence", conf.level = 0.95)
+*predict.lm(model, x0, interval = "confidence",
+*          conf.level = 0.95)
 ```
 
 .instructions[
