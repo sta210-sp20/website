@@ -70,11 +70,11 @@ class: middle, center
 
 ### Today's Agenda
 
+- Model Assumptions 
+
 - Inference for regression 
 
-- Prediction 
-
-- Model Assumptions (time permitting)
+- Prediction (time permitting)
 
 ---
 
@@ -153,6 +153,158 @@ $$\hat{\text{audience}} =  32.316 + 0.519 \times \text{critics}$$
 - <font class = "vocab">Slope: </font> For each additional percentage point in the critics score, the audience score is expected to increase by 0.519 percentage points on average.
 
 - <font class = "vocab">Intercept: </font> If a movie gets a 0% from the critics, the audience score is expected to be 32.316%.
+
+---
+
+class: middle, center
+
+### Checking Model Assumptions 
+
+---
+
+### Recall: The regression model
+
+When we fit a simple linear regression model, we assume for every $x_i$ the distribution of $y$ is approximately Normal... 
+- with mean $\beta_0 + \beta_1x_i$. 
+- and variance $\sigma^2$ 
+
+```{r, echo=FALSE,out.width = '80%',fig.align='center'}
+knitr::include_graphics("img/02/regression.png")
+```
+
+---
+
+### Assumptions for Regression 
+
+When we fit a simple linear regression model, we must check that our data follows the relationship on the previous slide by checking the following assumptions...
+
+<br>
+
+1. <font class="vocab">Linearity: </font>The plot of the mean value of $y$ versus $x$ falls on a straight line
+
+2. <font class="vocab">Constant Variance: </font>The variance of the distribution of $y$ for a given value of $x$ is $\sigma^2$, i.e. is the same for all values of $x$
+
+3. <font class="vocab">Normality: </font> For a given $x$, the distribution of $y$ is Normal
+
+4. <font class="vocab">Independence: </font>All observations are independent
+
+---
+
+### Checking assumptions
+
+We will use various plots to check the assumptions for regression: 
+
+1. Scatterplot of $y$ vs. $x$
+  - Do this as part of the exploratory data analysis to see if there are any obvious departures from linearity
+
+2. Plot of residuals vs. predictor variable
+  - Check linearity condition 
+  - Check constant variance condition
+
+3. Histogram and Normal QQ-Plot of residuals
+  - Check Normality condition
+
+---
+
+### Linearity: Plot of residuals vs. predictor
+
+- If the linear model, $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$, adequately describes the relationship between $x$ and $y$, then the residuals should reflect random (chance) error
+
+- To assess this, we can look at a plot of the residuals vs. the predictor variable
+
+- .vocab[Linearity satisifed] if there is no distinguishable pattern in the residuals plot, i.e. the residuals should be randomly scattered 
+
+- A non-random pattern (e.g. a parabola) suggests a linear model does not adequately describe the relationship between $x$ and $y$
+
+---
+
+### Constant Variance: Plot of residuals vs. predictor
+
+- If the spread of the distribution of $y$ is equal for all values of $x$, then the spread of the residuals should be approximately equal for each value of $x$
+
+- To assess this, we can look at a plot of the residuals vs. the predictor variable
+
+- .vocab[Constant variance satisifed] if the vertical spread of the residuals is approximately equal as you move from left to right (i.e. there is no "fan" pattern)
+
+- A fan pattern suggests the constant variance assumption is not satisified and transformation or some other remedy is required (more on this later in the semester)
+
+---
+
+### Example residual plots
+
+```{r, echo=FALSE,out.width = '80%',fig.align='center'}
+knitr::include_graphics("img/02/resid_plots.png")
+```
+
+---
+
+.small[
+```{r}
+movie_scores <- movie_scores %>%
+  mutate(residuals = resid(model))
+```
+```{r}
+ggplot(data = movie_scores, mapping = aes(x = critics, y = residuals)) + 
+  geom_point() + 
+  geom_hline(yintercept = 0, color = "red")+
+  labs(title = "Residuals vs. Critics Score")
+```
+]
+
+.question[
+What are your conclusions about the linearity and constant variance assumptions?
+]
+
+---
+
+### Normality: Histogram & Normal QQ-Plot 
+
+- The linear model assumes that the distribution of $y$ is Normal for every value of $x$. 
+
+- This is impossible to check in practice, so we will look at the overall distribution of the residuals to assess if the Normality assumption is satisified 
+
+- .vocab[Normaltiy satisified] if a histogram of the residuals is approximately Normal
+    - Can also check that a Normal QQ-plot falls along a diagonal line
+
+- Note: Most inference methods for regression are robust to some departures from Normality
+
+---
+
+### Understanding the Normal QQ plot
+
+```{r, echo=FALSE,out.width = '100%',fig.align='center'}
+knitr::include_graphics("img/02/normal_qqplot.png")
+```
+
+---
+
+```{r} 
+ggplot(data = movie_scores, mapping = aes(x = residuals)) + 
+  geom_histogram() + 
+  labs(title = "Distribution of Residuals") 
+```
+
+---
+
+```{r}
+ggplot(data = movie_scores, mapping = aes(sample = residuals)) + 
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title = "Normal QQ Plot of Residuals")
+```
+
+
+---
+
+### Checking Independence
+
+- Often, we can conclude that the independence assumption is sufficiently met based on a description of the data and how it was collected. 
+
+- Two common violations of the independence assumption: 
+    - <font class="vocab">Serial Effect</font>: If the data were collected over time, the residuals should be plotted in time order to determine if there is serial correlation 
+
+    - <font class="vocab">Cluster Effect</font>: If there are subgroups represented in the data that are not accounted for in the model (e.g. type of movie), you can color the points in the residual plots by group to see if the model systematically over or under predicts for a particular subgroup 
+
 
 ---
 
@@ -509,161 +661,4 @@ Interpret the interval in the context of the data.
 
 How does the predicted value compare to the prediction for an individual movie? How does the interval compare?
 ]
-
----
-
-class: middle, center
-
-### Checking Model Assumptions 
-
----
-
-### Recall: The regression model
-
-When we fit a simple linear regression model, we assume for every $x_i$ the distribution of $y$ is approximately Normal... 
-- with mean $\beta_0 + \beta_1x_i$. 
-- and variance $\sigma^2$ 
-
-```{r, echo=FALSE,out.width = '80%',fig.align='center'}
-knitr::include_graphics("img/02/regression.png")
-```
-
----
-
-### Assumptions for Regression 
-
-When we fit a simple linear regression model, we must check that our data follows the relationship on the previous slide by checking the following assumptions...
-
-<br>
-
-1. <font class="vocab">Linearity: </font>The plot of the mean value of $y$ versus $x$ falls on a straight line
-
-2. <font class="vocab">Constant Variance: </font>The variance of the distribution of $y$ for a given value of $x$ is $\sigma^2$, i.e. is the same for all values of $x$
-
-3. <font class="vocab">Normality: </font> For a given $x$, the distribution of $y$ is Normal
-
-4. <font class="vocab">Independence: </font>All observations are independent
-
----
-
-### Checking assumptions
-
-We will use various plots to check the assumptions for regression: 
-
-1. Scatterplot of $y$ vs. $x$
-  - Do this as part of the exploratory data analysis to see if there are any obvious departures from linearity
-
-2. Plot of residuals vs. predictor variable
-  - Check linearity condition 
-  - Check constant variance condition
-
-3. Histogram and Normal QQ-Plot of residuals
-  - Check Normality condition
-
----
-
-### Linearity: Plot of residuals vs. predictor
-
-- If the linear model, $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$, adequately describes the relationship between $x$ and $y$, then the residuals should reflect random (chance) error
-
-- To assess this, we can look at a plot of the residuals vs. the predictor variable
-
-- .vocab[Linearity satisifed] if there is no distinguishable pattern in the residuals plot, i.e. the residuals should be randomly scattered 
-
-- A non-random pattern (e.g. a parabola) suggests a linear model does not adequately describe the relationship between $x$ and $y$
-
----
-
-### Constant Variance: Plot of residuals vs. predictor
-
-- If the spread of the distribution of $y$ is equal for all values of $x$, then the spread of the residuals should be approximately equal for each value of $x$
-
-- To assess this, we can look at a plot of the residuals vs. the predictor variable
-
-- .vocab[Constant variance satisifed] if the vertical spread of the residuals is approximately equal as you move from left to right (i.e. there is no "fan" pattern)
-
-- A fan pattern suggests the constant variance assumption is not satisified and transformation or some other remedy is required (more on this later in the semester)
-
----
-
-### Example residual plots
-
-```{r, echo=FALSE,out.width = '80%',fig.align='center'}
-knitr::include_graphics("img/02/resid_plots.png")
-```
-
----
-
-.small[
-```{r}
-movie_scores <- movie_scores %>%
-  mutate(residuals = resid(model))
-```
-```{r}
-ggplot(data = movie_scores, mapping = aes(x = critics, y = residuals)) + 
-  geom_point() + 
-  geom_hline(yintercept = 0, color = "red")+
-  labs(title = "Residuals vs. Critics Score")
-```
-]
-
-.question[
-What are your conclusions about the linearity and constant variance assumptions?
-]
-
----
-
-### Normality: Histogram & Normal QQ-Plot 
-
-- The linear model assumes that the distribution of $y$ is Normal for every value of $x$. 
-
-- This is impossible to check in practice, so we will look at the overall distribution of the residuals to assess if the Normality assumption is satisified 
-
-- .vocab[Normaltiy satisified] if a histogram of the residuals is approximately Normal
-    - Can also check that a Normal QQ-plot falls along a diagonal line
-
-- Note: Most inference methods for regression are robust to some departures from Normality
-
----
-
-### Understanding the Normal QQ plot
-
-```{r, echo=FALSE,out.width = '100%',fig.align='center'}
-knitr::include_graphics("img/02/normal_qqplot.png")
-```
-
----
-
-```{r} 
-ggplot(data = movie_scores, mapping = aes(x = residuals)) + 
-  geom_histogram() + 
-  labs(title = "Distribution of Residuals") 
-```
-
----
-
-```{r}
-ggplot(data = movie_scores, mapping = aes(sample = residuals)) + 
-  stat_qq() + 
-  stat_qq_line() +
-  labs(title = "Normal QQ Plot of Residuals")
-```
-
-
----
-
-### Checking Independence
-
-- Often, we can conclude that the independence assumption is sufficiently met based on a description of the data and how it was collected. 
-
-- Two common violations of the independence assumption: 
-    - <font class="vocab">Serial Effect</font>: If the data were collected over time, the residuals should be plotted in time order to determine if there is serial correlation 
-
-    - <font class="vocab">Cluster Effect</font>: If there are subgroups represented in the data that are not accounted for in the model (e.g. type of movie), you can color the points in the residual plots by group to see if the model systematically over or under predicts for a particular subgroup 
-
-
-
-
-
-
 
