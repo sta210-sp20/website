@@ -28,15 +28,16 @@ There are three ways to watch a session:
 
 Find the full schedule and register for a session here: https://blogs.library.duke.edu/data/2020/01/13/2020-rstudio-conference-livestream-coming-to-duke-libraries/?aiEnableCheckShortcode=true
 
-Space is limited, so register in advance! There will be swag from RStudio and some sessions include food `r emo::ji('smile')`.
+Space is limited, so register in advance! There will be swag from RStudio and some sessions include food. 
 
 
-### Option 2: Watch the conference live online
+### Option 2: Watch rstudio::conf live online
 
+You can live stream the conference using the following link: **ADD LINK**
 
-### Option 3: Watch an session from 2019 rstudio::conf 
+### Option 3: Watch talks from 2019 rstudio::conf 
 
-One purpose of this assignment is to give you an opportunity to be a part of the 2020 rstudio::conf, so only use this option if you absolutely can't make Options 1 or 2 work with your schedule. 
+If you are unable to attend a watch party or watch a talk from the 2020 conference, you can watch one or two talks from the 2019 conference. 
 
 - Find the talks from the 2019 event here: https://resources.rstudio.com/rstudio-conf-2019
 
@@ -45,4 +46,9 @@ One purpose of this assignment is to give you an opportunity to be a part of the
     - 1 long talk (over 30 minutes)
     
 ## Part 2: Submit a reflection 
+
+Once you've watched rstudio::conf, submit a short reflection here: **ADD LINK**
+
+For the email address, use NetID@duke.edu, so I can enter your reflection grade in Sakai. 
+
 
