@@ -16,22 +16,28 @@ knitr::opts_chunk$set(echo = TRUE,
                       message=FALSE)
 ```
 
-```{r echo = F}
-library(emo)
-```
+There will be no lecture meeting on Wednesday, January 30. Instead, you will take part in RStudio's annual conference, rstudio::conf. This is a great opportunity to hear from some of RStudio's primary developers and everyday users, and learn about the vast amount of things you can do with RStudio ranging from regression analysis to machine learning to creating a website to making stickers and clothes.
+
+There are two parts to this assignment: 
+
+**Part 1**: Watch a session from rstudio::conf
+
+**Part 2**: Submit a short reflection 
+
+Both parts are due by **Friday, January 31 at 11:59p**. This reflection will be worth 10 points of the HW 02 grade.
 
 ## Part 1: Watch a session from rstudio::conf
 
 There are three ways to watch a session: 
 
-### Option 1: Attend an on-campus rstudio::conf watch party
+### Option 1: Attend an on-campus rstudio::conf watch party (Wed, Jan 29 or Thu, Jan 30)
 
 Find the full schedule and register for a session here: https://blogs.library.duke.edu/data/2020/01/13/2020-rstudio-conference-livestream-coming-to-duke-libraries/?aiEnableCheckShortcode=true
 
 Space is limited, so register in advance! There will be swag from RStudio and some sessions include food. 
 
 
-### Option 2: Watch rstudio::conf live online
+### Option 2: Watch rstudio::conf live online (Wed, Jan 29 or Thu, Jan 30)
 
 You can live stream the conference using the following link: **ADD LINK**
 
@@ -45,9 +51,13 @@ If you are unable to attend a watch party or watch a talk from the 2020 conferen
     - 2 short talks (40 minutes or less) or
     - 1 long talk (over 30 minutes)
     
-## Part 2: Submit a reflection 
+## Part 2: Submit a reflection
 
-Once you've watched rstudio::conf, submit a short reflection here: **ADD LINK**
+Once you've watched rstudio::conf, submit a short reflection here: **ADD LINK**. The reflection includes three questions: 
+
+- What are two things you learned? 
+- What is one question you still have?
+- Describe the session you attended/watched in a tweet (280 characters or less).
 
 For the email address, use NetID@duke.edu, so I can enter your reflection grade in Sakai. 
 
