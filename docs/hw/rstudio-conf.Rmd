@@ -1,0 +1,48 @@
+---
+title: "rstudio::conf"
+subtitle: "due Fri, Jan 31 at 11:59p"
+author: ""
+date: ""
+output: 
+  html_document:
+    css: "./sta210-hw.css"
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE,
+                      message=FALSE)
+```
+
+```{r echo = F}
+library(emo)
+```
+
+## Part 1: Watch a session from rstudio::conf
+
+There are three ways to watch a session: 
+
+### Option 1: Attend an on-campus rstudio::conf watch party
+
+Find the full schedule and register for a session here: https://blogs.library.duke.edu/data/2020/01/13/2020-rstudio-conference-livestream-coming-to-duke-libraries/?aiEnableCheckShortcode=true
+
+Space is limited, so register in advance! There will be swag from RStudio and some sessions include food `r emo::ji('smile')`.
+
+
+### Option 2: Watch the conference live online
+
+
+### Option 3: Watch an session from 2019 rstudio::conf 
+
+One purpose of this assignment is to give you an opportunity to be a part of the 2020 rstudio::conf, so only use this option if you absolutely can't make Options 1 or 2 work with your schedule. 
+
+- Find the talks from the 2019 event here: https://resources.rstudio.com/rstudio-conf-2019
+
+- Watch either: 
+    - 2 short talks (40 minutes or less) or
+    - 1 long talk (over 30 minutes)
+    
+## Part 2: Submit a reflection 
+
