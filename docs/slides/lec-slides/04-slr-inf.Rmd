@@ -68,7 +68,6 @@ class: middle, center
 
 ---
 
-
 ### Today's Agenda
 
 - Model Assumptions 
