@@ -31,10 +31,43 @@ class: center, middle
 
 ## Agenda
 
-1.  Tips for collaborating in GitHub 
+1. Outline: Inference for Regression
 
-2.  Starting a new project &amp; lab tips
+2.  Tips for collaborating in GitHub 
 
+3.  Starting a new project &amp; lab tips
+
+
+---
+
+### Confidence interval for `\(\beta_1\)`
+
+The confidence interval for the regression slope is 
+
+.alert[
+`$$\mathbf{\hat{\beta}_1 \pm t^* SE(\hat{\beta}_1)}$$`
+]
+
+
+**Interpretation**: We are *C%* confident that for every one unit increase in `\(x\)`, `\(y\)` is predicted to *[increase/decrease]* on average by *LB* to *UB*. 
+
+---
+
+### Outline of hypothesis Test for `\(\beta_1\)`
+
+**Hypotheses: ** 
+`$$\begin{aligned}&amp; H_0: \beta_1 = 0\\&amp; H_a: \beta_1 \neq 0\end{aligned}$$`
+
+**Test Statistic:**
+`$$t = \frac{\hat{\beta}_1 - 0}{SE(\hat{\beta}_1)}$$`
+
+**p-value:** calculated calculated from a `\(t\)` distribution with `\(n-2\)` degrees of freedom
+
+`$$\text{p-value} = P(t \geq |\text{test statistic}|)$$` 
+
+&lt;br&gt;
+
+**Conclusion:** reject/fail to reject `\(H_0\)` based on p-value
 
 ---
 
