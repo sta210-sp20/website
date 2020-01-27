@@ -1,8 +1,8 @@
 ---
 title: "Lab 03"
-subtitle: "Merge Conflicts & SLR Inference"
+subtitle: "Inference for Simple Linear Regression"
 author: ""
-date: "09.12.19"
+date: "01.30.20"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -13,6 +13,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
 ---
 
 ```{r setup, include=FALSE}
@@ -46,76 +47,16 @@ library(rvest)
 
 class: center, middle
 
-# Welcome to lab
+# Welcome to lab!
 
 ---
 
 ## Agenda
 
-1. What are merge conflicts?
+1.  Tips for collaborating in GitHub 
 
-2. Practice dealing with merge conflicts
+2.  Starting a new project & lab tips
 
-3. Lab introduction
-
-4. Starting a new project & lab tips
-
----
-
-class: middle, center
-
-## Merge Conflicts
- 
----
-
-### What are merge conflicts?
-
-When two collaborators make changes to a file and push the file to their repo, 
-git merges these two files.
-
-```{r echo=FALSE, out.width=300, fig.align="center"}
-knitr::include_graphics("img/03/merge-no-conflict.png")
-```
-
-If these two files have conflicting content on the same line, git will produce a <font class="vocab">merge conflict</font>.
-
-```{r echo=FALSE, out.width=300, fig.align="center"}
-knitr::include_graphics("img/03/merge-conflict.png")
-```
-
----
-
-## Resolving merge conflicts
-
-- Merge conflicts need to be resolved manually, as they require a human intervention
-
-```{r echo=FALSE, out.width=800, fig.align="center"}
-knitr::include_graphics("img/03/merge-conflict-identifiers.png")
-```
-
-- To resolve the merge conflict
-  - decide if you want to keep only your text or the text on GitHub or 
-  incorporate changes from both texts
-  - delete the conflict markers `<<<<<<<`, `=======`, `>>>>>>>` and make the 
-  changes you want in the final merge
-
----
-
-### Practce dealing with merge conflicts
-
-- **Everyone**: Clone the repo starting with **merge-** in RStudio Cloud (`merge-conflicts-TEAMNAME`), 
-and open the R Markdown file. Remember to configure git! 
-
-- Assign the numbers 1, 2, 3, and 4 to each of the team members.
-    - If you have 3 team members, just assign numbers 1 -3.
-
-- Follow the [application exercise instructions](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/lab-03-merge-conflicts.html) **<i>exactly</i>**.
-
-- Raise your hand if you have any questions during the exercise. 
-
-- Completing the exercise will be part of the Lab 03 grade.
-
-- Once you've completed the merge conflict exercise, read the rest of the slides and start working on Lab 03. Use the repo with the prefix **lab-03-slr-inf-** to complete the lab.
 
 ---
 
@@ -123,9 +64,9 @@ and open the R Markdown file. Remember to configure git!
 
 - Always pull first before you start working.
 
-- Knit, commit, and push often to minimize merge conflicts and/or to make merge conflicts easier to resolve.
+- Knit, commit, and push often to minimize merge conflicts and/or to make merge conflicts easier to resolve. (More on merge conflicts next week)
 
-- If you find yourself in a situation that is difficult to resolve, ask questions asap, don't let it linger and get bigger.
+- If you find yourself in a situation that is difficult to resolve, ask questions as soon as possible, don't let it linger and get bigger.
 
 ---
 
@@ -133,9 +74,9 @@ and open the R Markdown file. Remember to configure git!
 
 - In today's lab, you will be analyzing data from the food menu at Starbucks. 
 
-- The focus of the lab is to give you practice conducting statistical inference for simple linear regression. 
+- The focus of the lab is to give you practice conducting statistical inference and prediction for simple linear regression. 
 
-- You will also get a chance to explore new data visualizations and functions to summarize data.
+- This will also give you more practice establishing a team workflow by following the guided prompts throughout the lab.
 
 ---
 

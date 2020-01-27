@@ -13,8 +13,8 @@
 class: center, middle, inverse, title-slide
 
 # Lab 03
-## Merge Conflicts &amp; SLR Inference
-### 09.12.19
+## Inference for Simple Linear Regression
+### 01.30.20
 
 ---
 
@@ -25,70 +25,16 @@ class: center, middle, inverse, title-slide
 
 class: center, middle
 
-# Welcome to lab
+# Welcome to lab!
 
 ---
 
 ## Agenda
 
-1. What are merge conflicts?
+1.  Tips for collaborating in GitHub 
 
-2. Practice dealing with merge conflicts
+2.  Starting a new project &amp; lab tips
 
-3. Lab introduction
-
-4. Starting a new project &amp; lab tips
-
----
-
-class: middle, center
-
-## Merge Conflicts
- 
----
-
-### What are merge conflicts?
-
-When two collaborators make changes to a file and push the file to their repo, 
-git merges these two files.
-
-&lt;img src="img/03/merge-no-conflict.png" width="300" style="display: block; margin: auto;" /&gt;
-
-If these two files have conflicting content on the same line, git will produce a &lt;font class="vocab"&gt;merge conflict&lt;/font&gt;.
-
-&lt;img src="img/03/merge-conflict.png" width="300" style="display: block; margin: auto;" /&gt;
-
----
-
-## Resolving merge conflicts
-
-- Merge conflicts need to be resolved manually, as they require a human intervention
-
-&lt;img src="img/03/merge-conflict-identifiers.png" width="800" style="display: block; margin: auto;" /&gt;
-
-- To resolve the merge conflict
-  - decide if you want to keep only your text or the text on GitHub or 
-  incorporate changes from both texts
-  - delete the conflict markers `&lt;&lt;&lt;&lt;&lt;&lt;&lt;`, `=======`, `&gt;&gt;&gt;&gt;&gt;&gt;&gt;` and make the 
-  changes you want in the final merge
-
----
-
-### Practce dealing with merge conflicts
-
-- **Everyone**: Clone the repo starting with **merge-** in RStudio Cloud (`merge-conflicts-TEAMNAME`), 
-and open the R Markdown file. Remember to configure git! 
-
-- Assign the numbers 1, 2, 3, and 4 to each of the team members.
-    - If you have 3 team members, just assign numbers 1 -3.
-
-- Follow the [application exercise instructions](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/lab-03-merge-conflicts.html) **&lt;i&gt;exactly&lt;/i&gt;**.
-
-- Raise your hand if you have any questions during the exercise. 
-
-- Completing the exercise will be part of the Lab 03 grade.
-
-- Once you've completed the merge conflict exercise, read the rest of the slides and start working on Lab 03. Use the repo with the prefix **lab-03-slr-inf-** to complete the lab.
 
 ---
 
@@ -96,9 +42,9 @@ and open the R Markdown file. Remember to configure git!
 
 - Always pull first before you start working.
 
-- Knit, commit, and push often to minimize merge conflicts and/or to make merge conflicts easier to resolve.
+- Knit, commit, and push often to minimize merge conflicts and/or to make merge conflicts easier to resolve. (More on merge conflicts next week)
 
-- If you find yourself in a situation that is difficult to resolve, ask questions asap, don't let it linger and get bigger.
+- If you find yourself in a situation that is difficult to resolve, ask questions as soon as possible, don't let it linger and get bigger.
 
 ---
 
@@ -106,9 +52,9 @@ and open the R Markdown file. Remember to configure git!
 
 - In today's lab, you will be analyzing data from the food menu at Starbucks. 
 
-- The focus of the lab is to give you practice conducting statistical inference for simple linear regression. 
+- The focus of the lab is to give you practice conducting statistical inference and prediction for simple linear regression. 
 
-- You will also get a chance to explore new data visualizations and functions to summarise data.
+- This will also give you more practice establishing a team workflow by following the guided prompts throughout the lab.
 
 ---
 
@@ -151,7 +97,8 @@ use_git_config(user.name="GITHUB USERNAME", user.email="your email")
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
