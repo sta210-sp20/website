@@ -39,7 +39,11 @@ Space is limited, so register in advance! There will be swag from RStudio and so
 
 ### Option 2: Watch rstudio::conf live online (Wed, Jan 29 or Thu, Jan 30)
 
-You can live stream the conference using the following link: *Link to updated when available.*
+Live stream the conference here: https://rstudio.com/conference/ and full conference schedule here: 
+
+Have questions about the live stream? Click [here](https://community.rstudio.com/t/rstudio-conference-live-streams-questions/50937) for the live stream FAQ and [here](https://web.cvent.com/event/36ebe042-0113-44f1-8e36-b9bc5d0733bf/websitePage:34f3c2eb-9def-44a7-b324-f2d226e25011?RefId=conference&utm_campaign=Site%20Promo&utm_medium=Ste&utm_source=ConfPage) for the conference agenda. *Note: Times in the agenda are in Pacific Standard Time.*
+
+
 
 ### Option 3: Watch talks from 2019 rstudio::conf 
 
