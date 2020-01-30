@@ -130,6 +130,8 @@ When you walk to the counter at Starbucks, you'll notice the large display of it
 
 ## Exploratory Data Analysis
 
+**Team Member 1: Your turn to type! Team Member 1 should be a different person than last lab.**
+
 1. What is the predictor variable? What is the response variable? 
 
 2. Let's begin by examining the distribution of the **<i>predictor variable</i>**. Make a histogram to display the distribution of the predictor variable. Describe the shape of the distribution. 
@@ -146,6 +148,12 @@ Below is example code for finding the minimum value of the response.
 
 4. Next, we want to examine the distribution of the response variable. We've primarily used histograms to visualize quantitative data, but let's try something new! Plot the distribution of the **<i>response variable</i>** using an appropriate plot that is **not** a histogram. You can use the [ggplot reference page](https://ggplot2.tidyverse.org/reference/index.html) to help generate ideas and see example code.
 
+**Team Member 1: Knit, commit, and push your work.**
+
+**All team members: Pull to see the updated .Rmd and .pdf files.**
+
+**Team Member 2: Your turn to type!**
+
 5. Briefly describe the type of plot you chose and what features of the distribution are visible using that plot. For example, the description of a histogram may be, 
 
 >*On a histogram, the range of values are divided into bins of equal width, and the number of observations in each bin is shown. From a histogram, one can see the shape of the data. One can also get an idea of the approximate center and spread of the data.*
@@ -157,6 +165,12 @@ Below is example code for finding the minimum value of the response.
 8. From the plot in the previous question, what assumption for regression might be violated? Briefly explain your reasoning. *Note: We still need to examine the residuals before making a final determination about the model assumptions; however, we can start to get intuition using during the exploratory data analysis.*
 
 ## Regression
+
+**Team Member 2: Knit, commit, and push your work.**
+
+**All team members: Pull to see the updated .Rmd and .pdf files.**
+
+**Team Member 3: Your turn to type!**
 
 9. Fit the regression model and display the output including the 95% confidence interval for the slope. Write the model equation. *Use words/variable names when you write the equation (not "x" and "y").* 
 
@@ -194,6 +208,12 @@ plot_grid(p1, lower, nrow = 2)
 ## Statistical Inference
 
 12. What is the 95% confidence interval for the slope? Interpret this interval in the context of the data.
+
+**Team Member 3: Knit, commit, and push your work.**
+
+**All team members: Pull to see the updated .Rmd and .pdf files.**
+
+**Team Member 4: Your turn to type!**
 
 13. Suppose we want to test the following hypotheses: 
 
