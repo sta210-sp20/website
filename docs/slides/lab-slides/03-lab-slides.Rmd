@@ -134,8 +134,6 @@ library(usethis)
 use_git_config(user.name="GITHUB USERNAME", user.email="your email")
 ```
 
-- Update the name of your RStudio project to "Lab 03"
-
 ---
 
 ## Tips for Lab
