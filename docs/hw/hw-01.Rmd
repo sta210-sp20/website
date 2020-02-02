@@ -70,7 +70,7 @@ This dataset contains smoking habits and other demographic information for 1,691
     c. Use the appropriate equation to calculate the test statistic. You can use R as a "calculator" by typing the equation in a R code chunk. Write the definition of the test statistic in the context of this problem. 
     d. What are the degrees of freedom associated with this test statistic?
     e. Calculate the p-value and use it to state your conclusion in the context of this problem. 
-    f. If you were to construct a 95% confidence interval that corresponded to this hypothesis test, would you 40 to be in the interval? Briefly explain why or why not.
+    f. If you were to construct a 95% confidence interval that corresponded to this hypothesis test, would you expect 40 to be in the interval? Briefly explain why or why not.
 
 2. *Is there a significant difference in the average age of people in the UK who smoke versus those who don't?* To answer this question, will use a *t*-test to compare the mean age of those who smoke versus those who don't. 
 
