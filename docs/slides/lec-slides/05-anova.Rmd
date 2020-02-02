@@ -2,7 +2,7 @@
 author: Prof. Maria Tackett
 date: 02.03.20
 title: Analysis of Variance
-subtitle: (ANOVA
+subtitle: (ANOVA)
 output:
   xaringan::moon_reader:
     mathjax: https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML
