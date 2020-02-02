@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Analysis of Variance</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Maria Tackett" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Analysis of Variance
+## (ANOVA
+### Prof. Maria Tackett
+### 02.03.20
+
+---
+
+
+
+
+class: middle, center
+
+## [Click for PDF of slides](05-anova.pdf)
+
+---
+
+### Announcements - UPDATE!!! 
+
+- Lab 03 - **due Tuesday at 11:59p**
+
+- Reading
+    
+---
+
+### rstudio::conf takeaways
+
+
+
+
+---
+
+
+### Today's Agenda
+
+- Comparing group means using Analysis of Variance (ANOVA)
+
+---
+
+### Capital Bike Share
+
+
+
+.pull-left[
+The Capital Bike Share is a bike share program in Washington D.C. where customers can rent a bike for a small fee, ride it around the city, and return it to a station located near their destination 
+]
+
+.pull-right[
+&lt;img src="img/05/bikeshare.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+&lt;br&gt;&lt;br&gt;
+
+Bike riding is often correlated with environmental conditions, so we are going to analyze the relationship between season (.vocab[`season`]) and the number of daily bike rentals (.vocab[`count`])
+
+---
+
+### Capital Bike Share
+
+Our dataset contains the number of bikes rented and other information for **100 randomly selected days** in 2011 and 2012
+
+
+```r
+bikeshare &lt;- read_csv("data/bikeshare-sample.csv")
+glimpse(bikeshare)
+```
+
+```
+## Observations: 100
+## Variables: 16
+## $ instant    &lt;dbl&gt; 649, 394, 125, 373, 101, 334, 308, 664, 476, 82, 651,…
+## $ dteday     &lt;date&gt; 2012-10-10, 2012-01-29, 2011-05-05, 2012-01-08, 2011…
+## $ season     &lt;chr&gt; "Fall", "Winter", "Spring", "Winter", "Spring", "Fall…
+## $ yr         &lt;dbl&gt; 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1,…
+## $ mnth       &lt;dbl&gt; 10, 1, 5, 1, 4, 11, 11, 10, 4, 3, 10, 6, 3, 8, 6, 7, …
+## $ holiday    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ weekday    &lt;dbl&gt; 3, 0, 4, 0, 1, 3, 5, 4, 5, 3, 5, 5, 3, 1, 3, 1, 2, 3,…
+## $ workingday &lt;dbl&gt; 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ weathersit &lt;dbl&gt; 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ temp       &lt;dbl&gt; 0.514167, 0.282500, 0.459167, 0.337500, 0.595652, 0.3…
+## $ atemp      &lt;dbl&gt; 0.503142, 0.272721, 0.441917, 0.340258, 0.565217, 0.3…
+## $ hum        &lt;dbl&gt; 0.630833, 0.311250, 0.444167, 0.465000, 0.716956, 0.6…
+## $ windspeed  &lt;dbl&gt; 0.1878210, 0.2400500, 0.2953920, 0.1915420, 0.3244740…
+## $ casual     &lt;dbl&gt; 780, 558, 614, 599, 855, 188, 470, 875, 1340, 203, 10…
+## $ registered &lt;dbl&gt; 6911, 2685, 3819, 2826, 2493, 3425, 3576, 6484, 5950,…
+## $ count      &lt;dbl&gt; 7691, 3243, 4433, 3425, 3348, 3613, 4046, 7359, 7290,…
+```
+
+---
+
+### Bike rentals
+
+&lt;img src="05-anova_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+```
+## # A tibble: 1 x 3
+##       n  mean    sd
+##   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1   100 4672. 2040.
+```
+
+
+---
+
+class: middle
+
+.vocab[Question]: Is there a statistically significant difference in the mean number of bikes rented in each season? 
+
+---
+
+## Bike rentals by season 
+
+&lt;img src="05-anova_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Bike rentals by season 
+
+&lt;img src="05-anova_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Bike rentals by season
+
+
+```
+## # A tibble: 4 x 4
+##   season     n  mean    sd
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Fall      25 5180. 1848.
+## 2 Spring    23 4924. 1889.
+## 3 Summer    27 5739. 1662.
+## 4 Winter    25 2779. 1465.
+```
+
+---
+
+class: middle
+
+So far, we have used a .vocab[quantitative] predictor variable to understand the variation in a quantitative response variable.
+&lt;br&gt;
+
+
+Now, we will use a .vocab[categorical (qualitative)] predictor variable to understand the variation in a quantitative response variable.
+
+---
+
+### Let's fit a model
+
+
+```r
+bike_model &lt;- lm(count ~ season, data = bikeshare)
+tidy(bike_model, conf.int = TRUE) %&gt;%
+  kable(format = "markdown", digits = 3)
+```
+
+
+
+|term         |  estimate| std.error| statistic| p.value|  conf.low| conf.high|
+|:------------|---------:|---------:|---------:|-------:|---------:|---------:|
+|(Intercept)  |  5180.200|   343.843|    15.066|   0.000|  4497.677|  5862.723|
+|seasonSpring |  -256.591|   496.726|    -0.517|   0.607| -1242.585|   729.402|
+|seasonSummer |   558.911|   477.178|     1.171|   0.244|  -388.279|  1506.101|
+|seasonWinter | -2400.760|   486.267|    -4.937|   0.000| -3365.993| -1435.527|
+---
+
+### In-class exercise 
+
+
+|term         |  estimate| std.error| statistic| p.value|  conf.low| conf.high|
+|:------------|---------:|---------:|---------:|-------:|---------:|---------:|
+|(Intercept)  |  5180.200|   343.843|    15.066|   0.000|  4497.677|  5862.723|
+|seasonSpring |  -256.591|   496.726|    -0.517|   0.607| -1242.585|   729.402|
+|seasonSummer |   558.911|   477.178|     1.171|   0.244|  -388.279|  1506.101|
+|seasonWinter | -2400.760|   486.267|    -4.937|   0.000| -3365.993| -1435.527|
+
+.question[
+
+- Go to http://bit.ly/sta210-sp20-bike and use the model to answer the questions
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+<div class="countdown" id="timer_5e3750a6" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+### How much variation is explained by our model?
+
+**Question:** What proportion of the variation in number of daily bike rentals is explained by season? 
+
+--
+
+
+```r
+rsquare(bike_model, bikeshare)
+```
+
+```
+## [1] 0.3112098
+```
+
+About 31.12% of the variation in the number of daily bike rentals is explained by the season. 
+
+--
+
+.alert[
+How do we calculate this value?
+]
+
+---
+
+### Analysis of Variance (ANOVA)
+
+.alert[
+`$$\small{\hat{\text{count}} = 5180.2 - 256.591 ~\text{Spring} + 558.911 ~\text{Summer} - 2400.760 ~\text{Winter}}$$`
+]
+
+--
+
+.vocab[Analysis of Variance (ANOVA)] uses a single hypothesis test to check whether the means across many groups are equal* 
+
+
+```r
+anova(bike_model) %&gt;%
+  kable(format = "markdown", digits = 3)
+```
+
+
+
+|          | Df|    Sum Sq|  Mean Sq| F value| Pr(&gt;F)|
+|:---------|--:|---------:|--------:|-------:|------:|
+|season    |  3| 128202929| 42734310|  14.458|      0|
+|Residuals | 96| 283747246|  2955700|      NA|     NA|
+&lt;br&gt;&lt;br&gt;
+
+.footnote[[\* *OpenIntro Statistics*](https://leanpub.com/openintro-statistics) pg. 285]
+
+---
+
+### Analysis of Variance
+
+
+|          | Df|    Sum Sq|  Mean Sq| F value| Pr(&gt;F)|
+|:---------|--:|---------:|--------:|-------:|------:|
+|season    |  3| 128202929| 42734310|  14.458|      0|
+|Residuals | 96| 283747246|  2955700|      NA|     NA|
+
+---
+
+### Notation
+
+- `\(K\)` is number of mutually exclusive groups. We index the groups as `\(i = 1,\dots, K\)`.
+&lt;br&gt;
+
+--
+
+- `\(n_i\)` is number of observations in group `\(i\)`
+&lt;br&gt;
+
+--
+
+- `\(n = n_1 + n_2 + \dots + n_K\)` is the total number of observations in the data
+&lt;br&gt;
+
+--
+  
+- `\(y_{ij}\)` is the `\(j^{th}\)` observation in group `\(i\)`, for all `\(i,j\)`
+&lt;br&gt;
+
+--
+
+- `\(\mu_i\)` is the population mean for group `\(i\)`, for `\(i = 1,\dots, K\)`
+
+---
+
+### Motivating ANOVA
+
+.alert[
+`$$y_{ij} = \mu_i + \epsilon_{ij}$$`
+]
+
+.vocab[Assumption]: `\(\epsilon_{ij}\)` follows a Normal distribution with mean 0 and constant variance `\(\sigma^2\)`
+`$$\epsilon_{ij} \sim N(0,\sigma^2)$$`
+
+- This is the same as `$$y_{ij} \sim N(\mu_i, \sigma^2)$$`
+
+---
+
+### Analysis of Variance (ANOVA)
+
+**Main Idea: ** Decompose the &lt;font color="green"&gt;total variation&lt;/font&gt; in the data into the variation &lt;font color="blue"&gt;between groups (model)&lt;/font&gt; and the variation &lt;font color="red"&gt;within each group (residuals)&lt;/font&gt;
+
+`$$\color{green}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}- \bar{y})^2}=\color{blue}{\sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2} + \color{red}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2}$$`
+&lt;br&gt;
+
+--
+
+.alert[
+`$$R^2 = \frac{\color{blue}{\text{Variation between groups (model)}}}{\color{green}{\text{Total variation}}} = \frac{\color{blue}{\sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2}}{\color{green}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}- \bar{y})^2}}$$`
+]
+
+---
+
+### Total Variation
+
+- Total variation = variation between and within groups 
+
+`$$SST =\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y})^2$$`
+--
+
+- Degrees of freedom
+`$$DFT = n-1$$`
+--
+
+- Estimate of the variance across all observations: 
+`$$\frac{SST}{DFT} = \frac{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y})^2}{n-1} = s_y^2$$`
+
+---
+
+### Between Variation (Model)
+
+- Variation in the group means
+
+`$$SSB = \sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2$$`
+--
+
+- **Degrees of freedom**
+`$$DFB = K-1$$`
+--
+
+- **Mean Squares Between**
+`$$MSB = \frac{SSB}{DFB} = \frac{\sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2}{K-1}$$`
+--
+
+- MSB is an estimate of the variance of the `\(\mu_i\)`'s 
+  
+  
+---
+
+### Within Variation (Residual)
+
+- Variation within each group
+
+`$$SSW=\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_k)^2$$`
+--
+
+- **Degrees of freedom**
+
+`$$DFW = n-K$$`
+--
+
+- **Mean Squares Within**
+`$$MSW = \frac{SSW}{DFW} = \frac{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2}{n-K}$$`
+--
+
+- MSW is the estimate of `\(\sigma^2\)`, the variance within each group
+
+---
+
+### Using ANOVA to test difference in means
+
+- &lt;font class="vocab"&gt;Question of interest &lt;/font&gt; Is the mean value of the response `\(y\)` the same for all groups, or is there at least one group with a significantly different mean value?
+
+- To answer this question, we will test the following hypotheses:
+
+.alert[
+$$
+`\begin{aligned}
+&amp;H_0: \mu_1 = \mu_2 = \dots =  \mu_K\\
+&amp;H_a: \text{At least one }\mu_i \text{ is not equal to the others}
+\end{aligned}`
+$$
+]
+
+--
+
+- &lt;font class = "vocab"&gt;How to think about it:&lt;/font&gt;  If the sample means are "far apart", " there is evidence against `\(H_0\)`
+
+- We will calculate a test statistic to quantify "far apart" in the context of the data
+
+---
+
+### Analysis of Variance (ANOVA)
+
+- **Main Idea: ** Decompose the &lt;font color="green"&gt;total variation&lt;/font&gt; in the data into the variation &lt;font color="blue"&gt;between groups&lt;/font&gt; and the variation &lt;font color="red"&gt;within each group&lt;/font&gt;
+
+`$$\color{green}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}- \bar{y})^2}=\color{blue}{\sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2} + \color{red}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2}$$`
+&lt;br&gt;
+
+--
+
+- If the variation &lt;font color="blue"&gt;between groups&lt;/font&gt; is significantly greater than the variation &lt;font color="red"&gt;within each group&lt;/font&gt;, then there is evidence against the null hypothesis.
+
+
+
+---
+
+### ANOVA table for comparing means
+
+.small[
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Between (Model) | `\(\sum\limits_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2\)` | `\(K-1\)` | `\(SSB/(K-1)\)` | `\(MSB/MSW\)` | `\(P(F &gt; \text{F-Stat})\)` |
+| Within (Residual) | `\(\sum\limits_{i=1}^{K}\sum\limits_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2\)` | `\(n-K\)` | `\(SSW/(n-K)\)` |  |  |
+| Total | `\(\sum\limits_{i=1}^{K}\sum\limits_{j=1}^{n_i}(y_{ij}-\bar{y})^2\)` | `\(n-1\)` | `\(SST/(n-1)\)` |  |  |
+]
+
+---
+
+### Using ANOVA to test difference in means
+
+.vocab[Hypotheses]: 
+$$
+`\begin{aligned}
+&amp;H_0: \mu_1 = \mu_2 = \dots =  \mu_K\\
+&amp;H_a: \text{At least one }\mu_i \text{ is not equal to the others}
+\end{aligned}`
+$$
+&lt;br&gt;&lt;br&gt;
+
+.vocab[Test statistic]: `$$\frac{MSB}{MSW} = \frac{\sum\limits_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2 / (K - 1)}{\sum\limits_{i=1}^{K}\sum\limits_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2 / (n-K)}$$`
+
+---
+
+### Calculate p-value
+
+Calculate the p-value using an F distribution with `\(K-1\)` and `\(n-K\)` degrees of freedom
+
+&lt;img src="05-anova_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Capital Bike Share: ANOVA
+
+
+|          | Df|    Sum Sq|  Mean Sq| F value| Pr(&gt;F)|
+|:---------|--:|---------:|--------:|-------:|------:|
+|season    |  3| 128202929| 42734310|  14.458|      0|
+|Residuals | 96| 283747246|  2955700|      NA|     NA|
+
+.question[
+
+- Go to http://bit.ly/sta210-sp20-anova and use the model to answer the questions
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+<div class="countdown" id="timer_5e375128" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+### Assumptions for ANOVA
+
+- &lt;font class="vocab"&gt;Normality: &lt;/font&gt; `\(y_{ij} \sim N(\mu_i, \sigma^2)\)`
+
+- &lt;font class="vocab"&gt;Constant variance: &lt;/font&gt; The population distribution for each group has a common variance, `\(\sigma^2\)`
+
+- &lt;font class="vocab"&gt;Independence: &lt;/font&gt; The observations are independent from one another
+    - This applies to observation within and between groups
+
+- We can typically check these assumptions in the exploratory data analysis
+
+---
+
+### Robustness to Assumptions
+
+- &lt;font class="vocab"&gt;Normality: &lt;/font&gt; `\(y_{ij} \sim N(\mu_i, \sigma^2)\)`
+  + ANOVA relatively robust to departures from Normality. 
+  + Concern when there are strongly skewed distributions with different sample sizes (especially if sample sizes are small, &lt; 10 in each group)
+  
+
+- &lt;font class="vocab"&gt;Independence: &lt;/font&gt; There is independence within and across groups
+  + If this doesn't hold, should use methods that account for correlated errors
+
+---
+
+### Robustness to Assumptions
+
+- &lt;font class="vocab"&gt;Constant variance: &lt;/font&gt; The population distribution for each group has a common variance, `\(\sigma^2\)`
+  + Critical assumption, since the pooled (combined) variance is important for ANOVA
+  + **General rule:** If the sample sizes within each group are approximately equal, the results of the F-test are valid if the largest variance is no more than 4 times the smallest variance (i.e. the largest standard deviation is no more than 2 times the smallest standard deviation)
+  
+---
+
+### Capital Bike Share: Normality
+
+
+```r
+ggplot(data = bikeshare, aes(x = count)) +
+  geom_histogram() + 
+  facet_wrap(~season) + 
+  labs(title = "Daily bike rentals by season")
+```
+
+&lt;img src="05-anova_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Capital Bike Share: Constant Variance
+
+
+```r
+bikeshare %&gt;%
+  group_by(season) %&gt;%
+  summarise(sd = sd(count))
+```
+
+```
+## # A tibble: 4 x 2
+##   season    sd
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 Fall   1848.
+## 2 Spring 1889.
+## 3 Summer 1662.
+## 4 Winter 1465.
+```
+
+---
+
+### Capital Bike Share: Independence
+
+- Recall that the data is 100 randomly selected days in 2011 and 2012. 
+- Let's look at the counts in date order to see if a pattern still exists
+
+&lt;img src="05-anova_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+--
+
+Though the days were randomly selected, it still appears the independence assumption is violated. 
+- Additional methods may be required to fully examine this data.
+
+---
+
+### Why not just use the model output?
+
+
+|term         |  estimate| std.error| statistic| p.value|  conf.low| conf.high|
+|:------------|---------:|---------:|---------:|-------:|---------:|---------:|
+|(Intercept)  |  5180.200|   343.843|    15.066|   0.000|  4497.677|  5862.723|
+|seasonSpring |  -256.591|   496.726|    -0.517|   0.607| -1242.585|   729.402|
+|seasonSummer |   558.911|   477.178|     1.171|   0.244|  -388.279|  1506.101|
+|seasonWinter | -2400.760|   486.267|    -4.937|   0.000| -3365.993| -1435.527|
+
+
+- The model coefficients and associated hypothesis test / confidence interval are interpreted in relation to the baseline level
+    - The coefficients, test statistics, confidence intervals, and p-values all change if the baseline category changes (more on this later!)
+
+- An ANOVA test gives indication if **&lt;u&gt;any&lt;/u&gt;** category has a significantly different mean regardless of the baseline
+    - The sum of squares, mean squares, test statistic, and p-value stay the same even if the baseline changes
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

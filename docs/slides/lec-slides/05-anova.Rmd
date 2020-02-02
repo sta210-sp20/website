@@ -1,0 +1,573 @@
+---
+author: Prof. Maria Tackett
+date: 02.03.20
+title: Analysis of Variance
+subtitle: (ANOVA
+output:
+  xaringan::moon_reader:
+    mathjax: https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML
+    css: sta210-slides.css
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: '%current%'
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+library(knitr)
+opts_chunk$set(fig.height = 2.65, dpi = 300) 
+# ggplot2 color palette with gray
+color_palette <- list(gray = "#999999", 
+                      salmon = "#E69F00", 
+                      lightblue = "#56B4E9", 
+                      green = "#009E73", 
+                      yellow = "#F0E442", 
+                      darkblue = "#0072B2", 
+                      red = "#D55E00", 
+                      purple = "#CC79A7")
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 3.5,
+	fig.width = 5.8333,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+class: middle, center
+
+## [Click for PDF of slides](05-anova.pdf)
+
+---
+
+### Announcements - UPDATE!!! 
+
+- Lab 03 - **due Tuesday at 11:59p**
+
+- Reading
+    
+---
+
+### rstudio::conf takeaways
+
+
+
+
+---
+
+
+### Today's Agenda
+
+- Comparing group means using Analysis of Variance (ANOVA)
+
+---
+
+### Capital Bike Share
+
+```{r packages, echo = F}
+library(tidyverse)
+library(broom)
+library(knitr)
+library(cowplot)
+library(modelr)
+```
+
+.pull-left[
+The Capital Bike Share is a bike share program in Washington D.C. where customers can rent a bike for a small fee, ride it around the city, and return it to a station located near their destination 
+]
+
+.pull-right[
+```{r, echo=FALSE,out.width = '80%'}
+knitr::include_graphics("img/05/bikeshare.jpg")
+```
+]
+
+<br><br>
+
+Bike riding is often correlated with environmental conditions, so we are going to analyze the relationship between season (.vocab[`season`]) and the number of daily bike rentals (.vocab[`count`])
+
+---
+
+### Capital Bike Share
+
+Our dataset contains the number of bikes rented and other information for **100 randomly selected days** in 2011 and 2012
+
+```{r}
+bikeshare <- read_csv("data/bikeshare-sample.csv")
+glimpse(bikeshare)
+```
+
+---
+
+### Bike rentals
+
+```{r echo = F, fig.height = 3}
+ggplot(data = bikeshare, aes(x = count)) + 
+  geom_histogram() + 
+  labs(title = "Number of Daily Bike Rentals", 
+       x = "Daily Bike Rentals")
+```
+
+```{r echo = F}
+bikeshare %>%
+  summarise(n = n(), mean = mean(count), sd = sd(count))
+```
+
+
+---
+
+class: middle
+
+.vocab[Question]: Is there a statistically significant difference in the mean number of bikes rented in each season? 
+
+---
+
+## Bike rentals by season 
+
+```{r echo = F}
+ggplot(data = bikeshare, aes(x = season, y = count)) +
+  geom_boxplot() + 
+    labs(x = "Season", 
+       y = "Daily Bike Rentals")
+```
+
+---
+
+## Bike rentals by season 
+
+```{r echo = F}
+ggplot(data = bikeshare, aes(x = count, fill = season)) +
+  geom_density(alpha = 0.4) + 
+  labs(x = "Daily Bike Rentals")
+```
+
+---
+
+### Bike rentals by season
+
+```{r echo = F}
+bikeshare %>%
+  group_by(season) %>%
+  summarise(n = n(), mean = mean(count), sd = sd(count))
+```
+
+---
+
+class: middle
+
+So far, we have used a .vocab[quantitative] predictor variable to understand the variation in a quantitative response variable.
+<br>
+
+
+Now, we will use a .vocab[categorical (qualitative)] predictor variable to understand the variation in a quantitative response variable.
+
+---
+
+### Let's fit a model
+
+```{r}
+bike_model <- lm(count ~ season, data = bikeshare)
+tidy(bike_model, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+---
+
+### In-class exercise 
+
+```{r echo = F}
+bike_model <- lm(count ~ season, data = bikeshare)
+tidy(bike_model, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+.question[
+
+- Go to http://bit.ly/sta210-sp20-bike and use the model to answer the questions
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+```{r echo = F}
+library(countdown)
+countdown(minutes = 4, seconds = 0, update_every = 1, warn_when = 30)
+```
+
+---
+
+### How much variation is explained by our model?
+
+**Question:** What proportion of the variation in number of daily bike rentals is explained by season? 
+
+--
+
+```{r}
+rsquare(bike_model, bikeshare)
+```
+
+About 31.12% of the variation in the number of daily bike rentals is explained by the season. 
+
+--
+
+.alert[
+How do we calculate this value?
+]
+
+---
+
+### Analysis of Variance (ANOVA)
+
+.alert[
+$$\small{\hat{\text{count}} = 5180.2 - 256.591 ~\text{Spring} + 558.911 ~\text{Summer} - 2400.760 ~\text{Winter}}$$
+]
+
+--
+
+.vocab[Analysis of Variance (ANOVA)] uses a single hypothesis test to check whether the means across many groups are equal* 
+
+```{r}
+anova(bike_model) %>%
+  kable(format = "markdown", digits = 3)
+```
+<br><br>
+
+.footnote[[\* *OpenIntro Statistics*](https://leanpub.com/openintro-statistics) pg. 285]
+
+---
+
+### Analysis of Variance
+
+```{r echo = F}
+anova(bike_model) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+---
+
+### Notation
+
+- $K$ is number of mutually exclusive groups. We index the groups as $i = 1,\dots, K$.
+<br>
+
+--
+
+- $n_i$ is number of observations in group $i$
+<br>
+
+--
+
+- $n = n_1 + n_2 + \dots + n_K$ is the total number of observations in the data
+<br>
+
+--
+  
+- $y_{ij}$ is the $j^{th}$ observation in group $i$, for all $i,j$
+<br>
+
+--
+
+- $\mu_i$ is the population mean for group $i$, for $i = 1,\dots, K$
+
+---
+
+### Motivating ANOVA
+
+.alert[
+$$y_{ij} = \mu_i + \epsilon_{ij}$$
+]
+
+.vocab[Assumption]: $\epsilon_{ij}$ follows a Normal distribution with mean 0 and constant variance $\sigma^2$
+$$\epsilon_{ij} \sim N(0,\sigma^2)$$
+
+- This is the same as $$y_{ij} \sim N(\mu_i, \sigma^2)$$
+
+---
+
+### Analysis of Variance (ANOVA)
+
+**Main Idea: ** Decompose the <font color="green">total variation</font> in the data into the variation <font color="blue">between groups (model)</font> and the variation <font color="red">within each group (residuals)</font>
+
+$$\color{green}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}- \bar{y})^2}=\color{blue}{\sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2} + \color{red}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2}$$
+<br>
+
+--
+
+.alert[
+$$R^2 = \frac{\color{blue}{\text{Variation between groups (model)}}}{\color{green}{\text{Total variation}}} = \frac{\color{blue}{\sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2}}{\color{green}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}- \bar{y})^2}}$$
+]
+
+---
+
+### Total Variation
+
+- Total variation = variation between and within groups 
+
+$$SST =\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y})^2$$
+--
+
+- Degrees of freedom
+$$DFT = n-1$$
+--
+
+- Estimate of the variance across all observations: 
+$$\frac{SST}{DFT} = \frac{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y})^2}{n-1} = s_y^2$$
+
+---
+
+### Between Variation (Model)
+
+- Variation in the group means
+
+$$SSB = \sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2$$
+--
+
+- **Degrees of freedom**
+$$DFB = K-1$$
+--
+
+- **Mean Squares Between**
+$$MSB = \frac{SSB}{DFB} = \frac{\sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2}{K-1}$$
+--
+
+- MSB is an estimate of the variance of the $\mu_i$'s 
+  
+  
+---
+
+### Within Variation (Residual)
+
+- Variation within each group
+
+$$SSW=\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_k)^2$$
+--
+
+- **Degrees of freedom**
+
+$$DFW = n-K$$
+--
+
+- **Mean Squares Within**
+$$MSW = \frac{SSW}{DFW} = \frac{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2}{n-K}$$
+--
+
+- MSW is the estimate of $\sigma^2$, the variance within each group
+
+---
+
+### Using ANOVA to test difference in means
+
+- <font class="vocab">Question of interest </font> Is the mean value of the response $y$ the same for all groups, or is there at least one group with a significantly different mean value?
+
+- To answer this question, we will test the following hypotheses:
+
+.alert[
+$$
+\begin{aligned}
+&H_0: \mu_1 = \mu_2 = \dots =  \mu_K\\
+&H_a: \text{At least one }\mu_i \text{ is not equal to the others}
+\end{aligned}
+$$
+]
+
+--
+
+- <font class = "vocab">How to think about it:</font>  If the sample means are "far apart", " there is evidence against $H_0$
+
+- We will calculate a test statistic to quantify "far apart" in the context of the data
+
+---
+
+### Analysis of Variance (ANOVA)
+
+- **Main Idea: ** Decompose the <font color="green">total variation</font> in the data into the variation <font color="blue">between groups</font> and the variation <font color="red">within each group</font>
+
+$$\color{green}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}- \bar{y})^2}=\color{blue}{\sum_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2} + \color{red}{\sum_{i=1}^{K}\sum_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2}$$
+<br>
+
+--
+
+- If the variation <font color="blue">between groups</font> is significantly greater than the variation <font color="red">within each group</font>, then there is evidence against the null hypothesis.
+
+
+
+---
+
+### ANOVA table for comparing means
+
+.small[
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Between (Model) | $\sum\limits_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2$ | $K-1$ | $SSB/(K-1)$ | $MSB/MSW$ | $P(F > \text{F-Stat})$ |
+| Within (Residual) | $\sum\limits_{i=1}^{K}\sum\limits_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2$ | $n-K$ | $SSW/(n-K)$ |  |  |
+| Total | $\sum\limits_{i=1}^{K}\sum\limits_{j=1}^{n_i}(y_{ij}-\bar{y})^2$ | $n-1$ | $SST/(n-1)$ |  |  |
+]
+
+---
+
+### Using ANOVA to test difference in means
+
+.vocab[Hypotheses]: 
+$$
+\begin{aligned}
+&H_0: \mu_1 = \mu_2 = \dots =  \mu_K\\
+&H_a: \text{At least one }\mu_i \text{ is not equal to the others}
+\end{aligned}
+$$
+<br><br>
+
+.vocab[Test statistic]: $$\frac{MSB}{MSW} = \frac{\sum\limits_{i=1}^{K}n_i(\bar{y}_i-\bar{y})^2 / (K - 1)}{\sum\limits_{i=1}^{K}\sum\limits_{j=1}^{n_i}(y_{ij}-\bar{y}_i)^2 / (n-K)}$$
+
+---
+
+### Calculate p-value
+
+Calculate the p-value using an F distribution with $K-1$ and $n-K$ degrees of freedom
+
+```{r, echo=F, fig.height = 4.2}
+x <- seq(from =0, to = 5, length = 100)
+
+# Evaluate the densities
+y_1 <- df(x, 1,2)
+y_2 <- df(x,2,2)
+y_3 <- df(x,10,2)
+y_4 <- df(x,10,10)
+
+# Plot the densities
+plot(x, y_1, col = 1, type = "l", ylab="",lwd=3)
+lines(x,y_2, col = 2,lwd=3)
+lines(x, y_3, col = 3,lwd=3)
+lines(x, y_4, col = 4,lwd=3)
+
+# Add the legend
+legend("topright", title = "F Distribution",
+       c("df = (1,2)", "df = (2,2)", "df = (10,2)", "df = (10,10)"), 
+       col = c(1, 2, 3, 4), lty = 1)
+```
+
+---
+
+### Capital Bike Share: ANOVA
+
+```{r echo = F}
+anova(bike_model) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+.question[
+
+- Go to http://bit.ly/sta210-sp20-anova and use the model to answer the questions
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+```{r echo = F}
+library(countdown)
+countdown(minutes = 4, seconds = 0, update_every = 1, warn_when = 30)
+```
+
+---
+
+### Assumptions for ANOVA
+
+- <font class="vocab">Normality: </font> $y_{ij} \sim N(\mu_i, \sigma^2)$
+
+- <font class="vocab">Constant variance: </font> The population distribution for each group has a common variance, $\sigma^2$
+
+- <font class="vocab">Independence: </font> The observations are independent from one another
+    - This applies to observation within and between groups
+
+- We can typically check these assumptions in the exploratory data analysis
+
+---
+
+### Robustness to Assumptions
+
+- <font class="vocab">Normality: </font> $y_{ij} \sim N(\mu_i, \sigma^2)$
+  + ANOVA relatively robust to departures from Normality. 
+  + Concern when there are strongly skewed distributions with different sample sizes (especially if sample sizes are small, < 10 in each group)
+  
+
+- <font class="vocab">Independence: </font> There is independence within and across groups
+  + If this doesn't hold, should use methods that account for correlated errors
+
+---
+
+### Robustness to Assumptions
+
+- <font class="vocab">Constant variance: </font> The population distribution for each group has a common variance, $\sigma^2$
+  + Critical assumption, since the pooled (combined) variance is important for ANOVA
+  + **General rule:** If the sample sizes within each group are approximately equal, the results of the F-test are valid if the largest variance is no more than 4 times the smallest variance (i.e. the largest standard deviation is no more than 2 times the smallest standard deviation)
+  
+---
+
+### Capital Bike Share: Normality
+
+```{r}
+ggplot(data = bikeshare, aes(x = count)) +
+  geom_histogram() + 
+  facet_wrap(~season) + 
+  labs(title = "Daily bike rentals by season")
+```
+
+---
+
+### Capital Bike Share: Constant Variance
+
+```{r}
+bikeshare %>%
+  group_by(season) %>%
+  summarise(sd = sd(count))
+```
+
+---
+
+### Capital Bike Share: Independence
+
+- Recall that the data is 100 randomly selected days in 2011 and 2012. 
+- Let's look at the counts in date order to see if a pattern still exists
+
+```{r echo = F, fig.height = 2}
+ggplot(data = bikeshare, aes(x = dteday, y = count)) +
+  geom_point() +
+  labs(x = "Date", 
+       y = "Number of daily bike rentals", 
+       title = "Number of daily bike rentals over time")
+```
+
+--
+
+Though the days were randomly selected, it still appears the independence assumption is violated. 
+- Additional methods may be required to fully examine this data.
+
+---
+
+### Why not just use the model output?
+
+```{r echo = F}
+bike_model <- lm(count ~ season, data = bikeshare)
+tidy(bike_model, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+
+- The model coefficients and associated hypothesis test / confidence interval are interpreted in relation to the baseline level
+    - The coefficients, test statistics, confidence intervals, and p-values all change if the baseline category changes (more on this later!)
+
+- An ANOVA test gives indication if **<u>any</u>** category has a significantly different mean regardless of the baseline
+    - The sum of squares, mean squares, test statistic, and p-value stay the same even if the baseline changes
+  
