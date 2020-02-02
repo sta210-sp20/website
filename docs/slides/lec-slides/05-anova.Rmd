@@ -1,8 +1,8 @@
 ---
-author: Prof. Maria Tackett
-date: 02.03.20
 title: Analysis of Variance
 subtitle: (ANOVA)
+author: Prof. Maria Tackett
+date: 02.03.20
 output:
   xaringan::moon_reader:
     mathjax: https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML
@@ -84,15 +84,8 @@ library(cowplot)
 library(modelr)
 ```
 
-.pull-left[
-The Capital Bike Share is a bike share program in Washington D.C. where customers can rent a bike for a small fee, ride it around the city, and return it to a station located near their destination 
-]
+The [Capital Bike Share](https://www.capitalbikeshare.com/) is a bike share program in Washington D.C. where customers can rent a bike for a small fee, ride it around the city, and return it to a station located near their destination 
 
-.pull-right[
-```{r, echo=FALSE,out.width = '80%'}
-knitr::include_graphics("img/05/bikeshare.jpg")
-```
-]
 
 <br><br>
 
