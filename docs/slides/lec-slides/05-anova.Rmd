@@ -52,12 +52,13 @@ class: middle, center
 
 ---
 
-### Announcements - UPDATE!!! 
+### Announcements 
 
 - Lab 03 - **due Tuesday at 11:59p**
 
-- Reading
-    
+- [Reading today](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-03.html)
+- [Reading for Wednesday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-04.html)
+
 ---
 
 ### rstudio::conf 2020 Tweets
@@ -87,6 +88,12 @@ class: middle, center
 --
 
 - "@SharlaGelfand Likewise, I often can't decipher my notes. As an R beginner, I thought this personality trait made me unfit to use R, but your talk has convinced otherwise. I'm inspired to implement R into my daily life from now on!"
+
+---
+
+class: middle, center
+
+### Questions?
 
 ---
 
