@@ -60,10 +60,33 @@ class: middle, center
     
 ---
 
-### rstudio::conf takeaways
+### rstudio::conf 2020 Tweets
 
+- As ML becomes ubiquitous in the industry, it is critical that we discover ways to explain the under-the-hood workings of ML in human terms (for non-technical users).
 
+<br> 
 
+--
+
+- "Presenters at rstudio::conf design and develop curriculum to democratize data science pedagogy beyond elite universities and highly educated people, aiming to promote data literacy and economic empowerment for many.""
+
+<br>
+
+--
+
+- "Jenny Bryan says that the smaller the 'haystack' is the easier it is to find the error. ie reduce amount of code that error could be located."
+
+---
+
+### rstudio::conf 2020 Tweets
+
+- "No matter how impactful your results are, your data/message will only be as good as the  visualization you create. Take the time and effort to make sure your story is conveyed clearly and ~beautifully~. Graph aesthetics are more important than you think!"
+
+<br> 
+
+--
+
+- "@SharlaGelfand Likewise, I often can't decipher my notes. As an R beginner, I thought this personality trait made me unfit to use R, but your talk has convinced otherwise. I'm inspired to implement R into my daily life from now on!"
 
 ---
 
