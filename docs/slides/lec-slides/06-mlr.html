@@ -90,12 +90,12 @@ class: middle, center
 ### Calculate p-value 
 
 - Calculate the p-value using an F distribution with `\(K-1\)` and `\(n-K\)` degrees of freedom. 
+    - We use F distribution since the test statistic is the ratio of two variances.
 
 - In the Capital Bike Share example, the p-value is calculated from the F distribution with 3 and 96 degrees of freedom. 
 
 &lt;img src="06-mlr_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
-**ADD LINK TO NOTES ABOUT F TEST STATISTIC**
 ---
 
 ### Assumptions for ANOVA
@@ -204,6 +204,25 @@ Though the days were randomly selected, it still appears the independence assump
 - An ANOVA test gives indication if **&lt;u&gt;any&lt;/u&gt;** category has a significantly different mean regardless of the baseline
     - The sum of squares, mean squares, test statistic, and p-value stay the same even if the baseline changes
 
+
+---
+
+### Muddiest Point
+
+.question[
+
+- Go to http://bit.ly/sta210-sp20-anova-q and write one question you have about simple linear regression or ANOVA.
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+<div class="countdown" id="timer_5e3acbaf" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+
 ---
 
 class: middle, center
@@ -268,20 +287,20 @@ glimpse(homes)
 
 ### EDA: Response variable
 
-&lt;img src="06-mlr_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-mlr_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 ### EDA: Predictor variables 
 
-&lt;img src="06-mlr_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-mlr_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ### EDA: Response vs. Predictors
 
-&lt;img src="06-mlr_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-mlr_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -491,7 +510,7 @@ predict(price_model, x0, interval = "prediction")
 - You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
 ]
 
-<div class="countdown" id="timer_5e3a152c" style="right:0;bottom:0;" data-warnwhen="30">
+<div class="countdown" id="timer_5e3acea9" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 

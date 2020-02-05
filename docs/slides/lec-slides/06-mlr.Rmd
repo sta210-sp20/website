@@ -103,10 +103,11 @@ anova(bike_model) %>%
 ### Calculate p-value 
 
 - Calculate the p-value using an F distribution with $K-1$ and $n-K$ degrees of freedom. 
+    - We use F distribution since the test statistic is the ratio of two variances.
 
 - In the Capital Bike Share example, the p-value is calculated from the F distribution with 3 and 96 degrees of freedom. 
 
-```{r echo = F}
+```{r echo = F, fig.height = 3}
 ggplot(NULL, aes(c(0, 20))) + 
   geom_area(stat = "function", fun = "df", args=list(df1=3, df2 = 96), fill = "grey80", xlim = c(0, 14.458)) + 
   geom_area(stat = "function", fun = "df", args=list(df1=3, df2 = 96), fill = "#00998a", xlim = c(14.458, 20)) +
@@ -116,7 +117,6 @@ ggplot(NULL, aes(c(0, 20))) +
        x = "x") 
 ```
 
-**ADD LINK TO NOTES ABOUT F TEST STATISTIC**
 ---
 
 ### Assumptions for ANOVA
@@ -214,6 +214,26 @@ tidy(bike_model, conf.int = TRUE) %>%
 
 - An ANOVA test gives indication if **<u>any</u>** category has a significantly different mean regardless of the baseline
     - The sum of squares, mean squares, test statistic, and p-value stay the same even if the baseline changes
+
+
+---
+
+### Muddiest Point
+
+.question[
+
+- Go to http://bit.ly/sta210-sp20-anova-q and write one question you have about simple linear regression or ANOVA.
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+```{r echo = F}
+library(countdown)
+countdown(minutes = 4, seconds = 0, update_every = 1, warn_when = 30)
+```
+
 
 ---
 
