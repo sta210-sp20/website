@@ -1,13 +1,14 @@
 ---
-title: "Lab 04: Comparing group means using ANOVA"
-subtitle: "Total: 70 points "
-date: "due Tuesday, September 24 at 11:59p"
+title: "Lab 04: Analysis of Variance"
+subtitle:  "due Tue, Feb 11 at 11:59p"
 output: 
   tufte::tufte_html:
     css: "./sta210-labs.css"
     tufte_variant: "envisioned"
     highlight: pygments
     fig_height: 10
+    toc: true
+    toc_depth: 1
 link-citations: yes
 ---
 
@@ -18,26 +19,22 @@ knitr::opts_chunk$set(echo = TRUE,
                       eval=FALSE)
 ```
 
+<!--
 <p><span class="marginnote shownote">
 <img src="img/04-anova/diamonds.png" alt=" " width="527"  />
 </span></p>
+-->
 <!-- Diamonds photo obtained from Google images: https://www.diamondbanc.com/ -->
 
-
-The goal of this lab is to use Analysis of Variance (ANOVA) to compare means in multiple groups. Additionally, you will be introduced to new R functions used for [wrangling](https://en.wikipedia.org/wiki/Data_wrangling) and summarizing data.
+The goal of this lab is to use Analysis of Variance (ANOVA) to understand the variation in price of diamonds that are 0.5 carats. Additionally, you will be introduced to new R fucntion used for [wrangling](https://en.wikipedia.org/wiki/Data_wrangling) and summarizing data.
 
 # Getting Started 
 
-- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **lab-04-anova-**. It contains the starter documents you need to complete the warmup exercise. 
+- Go to the sta210-sp20 organization on GitHub ([https://github.com/sta210-sp20](https://github.com/sta210-sp20)). Click on the repo with the prefix **lab-04-anova-**. It contains the starter documents you need to complete the warmup exercise. 
 
 - Clone the repo and create a new project in RStudio Cloud. 
 
-- Configure git by typing the following in the **console**.
-
-```{r eval=FALSE}
-library(usethis)
-use_git_config(user.name="github username", user.email="your email")
-```
+- See [Lab 01](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html) for full instructions on getting started.
 
 ## Packages
 
@@ -49,116 +46,105 @@ library(knitr)
 library(broom)
 ```
 
-## Project name: 
-
-Currently your project is called *Untitled Project*. Update the name of your project to be "Lab 04 - ANOVA".
-
-# Warm up
-
-Before we introduce the data, let's warm up with a simple exercise.
-
-## YAML: 
-
-- Pick one team member to update the *author* and *date* fields at the top of the R Markdown file. Knit, commit, and push all the updated documents to GitHub.
-
-- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
 
 ## Data 
 
-In today's lab, we will analyze the `diamonds` dataset from the ggplot2 package. Type `?diamonds` in the console to see a dictionary of the variables in the data set. This analysis will focus on the relationship between a diamond's carat weight and its color. 
+In today's lab, we will analyze the `diamonds` dataset from the ggplot2 package . Type `?diamonds` in the console to see a dictionary of the variables in the data set. The primary focus of this analysis will be examining the relationship between a diamond's cut and price.
 
 Before starting the exercises, take a moment to read more about the diamond attributes on the Gemological Institute of America webpage: [https://www.gia.edu/diamond-quality-factor](https://www.gia.edu/diamond-quality-factor).
 
 
 # Exercises 
 
-The diamonds dataset contains the price and other characteristics for over 50,000 diamonds price from $326 to $18823. In this lab, we will analyze the subset of diamonds that are priced $1200 or less. 
+The `diamonds` dataset contains the price and other characteristics for over 50,000 diamonds. For this analysis, we will only consider diamonds that have a carat weight of 0.5.
 
-1. Create a dataframe called `diamonds_low` that is the subset of diamonds priced $1200 or less. How many observations are in `diamonds_low`? 
+### Exploratory data analysis
 
-When using Analysis of Variance (ANOVA) to compare group means, it is ideal to have approximately the same number of observations in each group. Therefore, we will combine the worst two color groups, I and J, and create a new color category called "I/J". Since `color` is an ordinal (`<ord>`) variable, we need to use the `recode_factor` function in the dplyr package to create the new category. 
+1. Create a new data frame that is a subset of diamonds that are 0.5 carats. How many observations are in the new dataset? 
 
-```{marginfigure}
-Refer to the [dplyr Reference page](https://dplyr.tidyverse.org/reference/recode.html) for more information about the `recode_factor` function.
+**<i>You will use this subset for the remainder of lab.</i>**
+
+
+
+2. When using Analysis of Variance (ANOVA) to compare group means, it is ideal to have approximately the same number of observations for each group.
+    - Which two levels of `cut`  have the fewest number of observations? Show the code and output used to support this answer. 
+    ```{marginfigure}
+See the [forcats](https://forcats.tidyverse.org/index.html) reference page for ideas on recoding factor variables.
 ```
+    - Recode the variable `cut`, so that the two levels with the fewest number of observations are combined into one level. Be sure to give the new level an informative name and save the results to the data frame. **<i>You will use the recoded version of `cut` for the remainder of the lab.</i>**
 
-Fill in the code below to refactor `color` with the new combined category.
+3. Confirm that the variable `cut` was recoded as expected. Show the code and output used to check the recoding. 
 
-```{r}
-#create a new vector of the recoded values
-diamonds_low <- diamonds_low %>%
-  mutate(color = recode_factor(diamonds_low$color, "I" = "I/J", _____))
-```
+4. Create a plot to display the relationship between `cut` and `price`.  As a group, brainstorm plots that can be used to clearly display the relationship between the two variables, then make one of the plots. Be sure to include informative axes labels and an informative title.
 
-2. We begin by plotting the relationship between `color` and `carat`. As a group, brainstorm ways to plot the relationship between the two variables, then make one of the plots. Be sure to include informative axes labels and an informative title.
+5. For each level of `cut`, calculate the the number of observations at that level along with the mean and standard deviation of `price`. 
 
-3. For each level of `color`, calculate the the number of observations at that level, the mean value of `carat` and and the variance of `carat`. 
+6. Based on the plots and summary statistics from the previous exercises , does there appear to be a relationship between the cut and price for diamonds that are 0.5 carats? Briefly explain your reasoning.
 
-4. Based on the plots and summary statistics, does there appear to be a relationship between carat weight the color of diamonds? Briefly explain your reasoning.
+  
+## Analysis of Variance 
 
-5. When using ANOVA to compare means across groups, we make the following assumptions (note how similar they are to the assumptions for regression): 
+7. Display the ANOVA table used to examine the relationship between `cut` and `price`for diamonds that are 0.5 carats.
+
+8. Use the ANOVA table from the previous question to calculate the sample variance of `price`. Use R like a calculator and show your calculations in a code chunk. 
+
+9. What is $\hat{\sigma}^2$, the estimated variance of `price` within each level of `cut`. 
+
+10. State the null and alternative hypotheses for the test that can be conducted using the ANOVA table. 
+- State the hypotheses using both statistical notation and words in the context of the data.
+
+11. Based on the ANOVA table, what is your conclusion from the test of the hypotheses in the previous question? State the conclusion in the context of the data.
+
+12. When using ANOVA to compare means across groups, we make the following assumptions (note how similar they are to the assumptions for regression): 
 
   - **Normality**: The distribution of the response, $y$, is approximately normal within each category of the predictor, $x$ - in the $i^{th}$ category, the $y$'s follow a $N(\mu_i, \sigma^2)$ distribution. 
   - **Independence**: All observations are independent from one another, i.e. one observation does not affect another.
   - **Constant Variance**: The distribution of the response within each category of predictor, $x$ has a common variance, $\sigma^2$. 
 
-Are the assumptions for ANOVA met? Comment on each assumption using the summary statistics and/or plots from previous exercises to support your conclusion. You may also calculate any additional summary statistics or make additional plots as needed.
+Are the assumptions for ANOVA satisifed? Comment on each assumption, including an explanation for your reasoning and any summary statistics and/or plots used to make the conclusion. 
+
+## Additional Analysis
+
+13. Based on the conclusion of the ANOVA test, conduct further statistical analysis to provide more detail about which level(s) is(are) different and by how much. If further statistical anlaysis is not required, provide a brief explanation why it isn't based on the conclusion from the ANOVA test.
+
+*You're done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 4!", and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that <u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.*
+
+# Submitting the Assignment
+
+Once your work is finalized in your GitHub repo, you will submit it to Gradescope. **Your assignment must be submitted on Gradescope by the deadline to be considered "on time".**
+
+To submit your assignment: 
+
+- Go to http://www.gradescope.com and click *Log in* in the top right corner. 
+
+- Click *School Credentials* `r emo::ji("arrow_right")` *Duke NetID* and log in using your NetID credentials.
+
+- Click on the *STA 210 Regression Analysis* course. 
+
+- Click on the assignment, and you'll be prompted to submit it.
+    - If asked, login to your GitHub account.
+    - If asked, click to request access to the "sta210-sp20" GitHub organization. 
   
-*Regardless of your answer to Exercise 5, we will proceed with the remaining o f lab as if the assumptions are met.*
+- Select your assignment repo and choose "master" for the branch. 
 
-6. Use R to calculate and display the ANOVA table that can be used to assess if there is a statistically significant relationship the color and carat of diamonds.
+- **Make sure to include the names of all group members who participated in the assignment.** [Click here](https://www.gradescope.com/help#help-center-item-student-group-members) for help on adding group members to an assignment.
 
-7. Use the ANOVA table to calculate the "mean square total", i.e. the sample variance of `carat`. Show your calculations. You can put the calculations in a code chunk to use R like a calculator. 
+- Click *Upload*. You should receive an email to confirm that the assignment has been submitted.
 
-8. What is $\hat{\sigma}^2$, the estimated variance of `carat` within each level of `color`. 
+*Notes*: 
 
-9. We can use ANOVA to test if the true mean value of `carat` is equal for all levels of `color`, i.e. 
+- You can see what has been submitted by click "Code" at the top of the page. **We will be grading the PDF file**, so please make sure that has all of your final code, output, and narrative.
+- You are welcome to resubmit as many times as you'd like before the deadline (we will only grade the most recent version). Just click the "Resubmit" button at the bottom of the page and reselect your repo and master branch. 
 
-$$ H_0: \mu_1 = \mu_2 = \dots = \mu_6$$
+# Grading 
 
-State the alternative hypothesis is the context of the data. You may use "mu" to represent $\mu$.
-
-10. Based on the ANOVA table, what is your conclusion from the test of the hypotheses in the previous question? State the conclusion in the context of the data.
-
-11. Let's examine the data further by calculating confidence intervals to estimate the mean value of carat for each level of color. Below is code to calculate the individual confidence intervals and plot them for easy comparison. Fill in the values for $\hat{\sigma}$ and the probability needed to calculate the critical value $t^*$. We would like a 95% familywise confidence level. 
-
-*Recall: The probability in the `qt()` function should be the <u>cumulative</u> probability. For example, to find the critical value for a 90% confidence interval, we should input 0.95 for the probability.*
-
-
-The formula for the confidence interval for the mean of group $i$ is 
-
-```{marginfigure}
-The critical value $t^*$ is calculated using the *t* distribution with $n-K$ degrees of freedom. 
-```
-
-```{marginfigure}
-The standard error of the mean is calculated using $\hat{\sigma}$, the square root of the variance within each group calculated from the ANOVA table. This is the pooled standard deviation.
-```
-
-$$\bar{y}_i \pm t^* \frac{\hat{\sigma}}{\sqrt{n_i}}$$
-
-```{r eval=FALSE}
-n.groups <- diamonds_low %>% distinct(color) %>% count()
-crit.val <- qt(_______, (nrow(diamonds_low)-n.groups$n))
-sigma <- sqrt(_____)
-
-conf.intervals <- diamonds_low %>%
-  group_by(color) %>% 
-  summarise(mean_carat = mean(carat), n = n(), 
-            lower = mean_carat - crit.val * sigma/sqrt(n),
-            upper = mean_carat + crit.val * sigma/sqrt(n))
-```
-
-```{r eval=FALSE}
-ggplot(data=conf.intervals,aes(x=color,y=mean_carat)) +
-  geom_point() + 
-  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1) + 
-  labs(title="99% confidence interval for the mean value of carat",
-       subtitle="by color") +
-  coord_flip()
-```
-
-12. Based on this analysis, describe the relationship between the color and the mean carat weight in diamonds that cost $1200 or less. *Refer to the diamond documentation to recall what the color scale means.*
-
-*You're done! Commit all remaining changes, use the commit message "Done with Lab 4!", and push. Before you wrap up the assignment, make sure the .Rmd, .html, and .md documents are all updated on your GitHub repo.*
-
+|  	|  	|
+|----------------------------------------	|----	|
+| Exploratory Data Analysis | 15 	|
+| Analysis of Variance |  21	|
+| Additional Analysis |4	|
+| Merge conflict exercise | 3|
+| Lab attendance & participation 	| 3 	|
+| Narrative in full sentences 	| 2 	|
+| Commit messages from every member| 2 	|
+| **Total** | **50** |
