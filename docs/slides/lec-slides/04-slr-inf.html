@@ -612,7 +612,7 @@ class: regular
 
 ### Movies data: Predicting an individual response
 
-We wish to predict the &lt;font class="vocab"&gt;mean&lt;/font&gt; audience score for the subset of movies with a critics score of 60%. 
+We wish to predict the audience score for a single movie with critics score of 60%. 
 
 
 
@@ -620,6 +620,11 @@ We wish to predict the &lt;font class="vocab"&gt;mean&lt;/font&gt; audience scor
 x0 &lt;- data.frame(critics = c(60))
 *predict.lm(model, x0, interval = "prediction",
 *          conf.level = 0.95)
+```
+
+```
+##        fit      lwr      upr
+## 1 63.43619 38.56876 88.30362
 ```
 
 .instructions[
@@ -638,6 +643,11 @@ We wish to predict the &lt;font class="vocab"&gt;mean&lt;/font&gt; audience scor
 x0 &lt;- data.frame(critics = c(60))
 *predict.lm(model, x0, interval = "confidence",
 *          conf.level = 0.95)
+```
+
+```
+##        fit      lwr      upr
+## 1 63.43619 61.38435 65.48804
 ```
 
 .instructions[

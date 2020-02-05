@@ -62,6 +62,12 @@ statistics that will be helpful in carrying out this analysis.
 | Standard deviation | 15.81 | 14.97 | 18.1 | 13.62 | 15.51 | 15.17 |
 | n | 121 | 546 | 97 | 253 | 155 | 1172 |
 
+
+```{r echo = F, fig.align = "center"}
+include_graphics("img/hw-02-work-hours-ed.png")
+```
+
+
 We wish to test the following hypotheses: 
 
 $$\begin{align} &H_0: \mu_{<HS} = \mu_{HS} = \mu_{JC} = \mu_{B} = \mu_{G} \\
