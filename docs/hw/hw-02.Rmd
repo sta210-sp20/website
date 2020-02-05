@@ -22,12 +22,12 @@ knitr::opts_chunk$set(echo = TRUE,
 
 A brief outline of getting started is shown below. See the [Lab 01 Instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html) for more details about the steps. 
 
-- Go to the sta210-sp20 organization on GitHub ([https://github.com/sta210-sp20](https://github.com/sta210-sp20)). Click on the repo with the prefix **hw-01**. It contains the starter documents you need to complete the lab.
+- Go to the sta210-sp20 organization on GitHub ([https://github.com/sta210-sp20](https://github.com/sta210-sp20)). Click on the repo with the prefix **hw-02**. It contains the starter documents you need to complete the lab.
 - Clone the repo in RStudio Cloud
 
 ## Tips
 
-Here are some tips as you complete HW 01:
+Here are some tips as you complete HW 02:
 
 - Periodically knit your document and commit changes (the more often the better, for example, once per each new task)
 - Push all your changes back to your GitHub repo. The Git pane in RStudio should be empty after you push. You can also check your assignment repo on github.com to make sure it has updated.
@@ -51,7 +51,7 @@ If you need to install any of the packages, type `install.packages("package_name
 
 The *Conceptual* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
 
-The General Social Survey collects data on demographics, education, and work, among many other characteristics of US residents. \footfullcite{data:gss} Using ANOVA, we can consider 
+The General Social Survey collects data on demographics, education, and work, among many other characteristics of US residents. Using ANOVA, we can consider 
 educational attainment levels for all 1,172 respondents at once. Below are the 
 distributions of hours worked by educational attainment and relevant summary 
 statistics that will be helpful in carrying out this analysis.
@@ -109,7 +109,7 @@ anova <- bind_cols("Source" = source, "df" = df, "Sum of squares" = ss,
 kable(anova) 
 ```
 
-2. Check the assumptions for this test. Include your conclusion about whether the assumption is satisified and a brief explanation supporting your conclusion. 
+2. Check the assumptions for this test. Include your conclusion about whether the assumption is satisfied and a brief explanation supporting your conclusion. 
 
 3. State the conclusion of the test in the context of the data. You can use a significance level of $\alpha = 0.05$ to make your conclusion. 
 
@@ -122,7 +122,6 @@ In a 1991 study, Allen et. al sought to answer whether the presence of a close f
     - `C`: Control group, Alone
     - `F`: Close friend present
     - `P`: Pet present 
-
     
 To quantify stress level, they measured each woman's heart rate and blood pressure after she completed the task. For today's analysis, we will focus on the heart rate (`heart_rate`). 
 
@@ -160,26 +159,19 @@ To submit your assignment:
 
 | **Total** | **50** |
 |-------------------------------------------------------------|:--:|
-| Part 1: Conceptual Problems | 25 |
-| Part 2: Data Analysis | 20 |
-| Document has clear question headers and narrative written in complete sentences| 3 	|
+| Part 1: Conceptual problems | 18 |
+| Part 2: Data analysis | 20 |
+| rstudio::conf assignment | 10 |
 | At least 3 informative commit messages 	| 2 	|
 
-
-*Note there is a 10% penalty if the .pdf file is incomplete and the .Rmd file has to be knitted for grading.*
-
-
-# Grading
-
-| **Total** | **50** |
-|-------------------------------------------------------------|:--:|
-| Questions 1 - 5 | 20 |
-| Question 6 | 30 |
-| Documents neatly organized (.Rmd and .md files) | 5 |
-| Narrative in full sentences and neatly organized| 3 |
-| Regular and informative commit messages | 2 |
+*Note there is a 20% penalty if the .pdf file is incomplete and the .Rmd file has to be knitted for grading.*
 
 
-### References
 
-[Allen, K., Blascovich, J., Tomaka, J., and Kelsey, R., 1991, Presence of Human Friends and Pet Dogs as Moderators of Autonomic Responses to Stress in Women, *Journal of Personality and Social Psychology*, 61: 582-589.](https://search-ebscohost-com.proxy.lib.duke.edu/login.aspx?direct=true&db=pdh&AN=1992-04617-001&site=ehost-live&scope=site)
+### Acknowledgements & References
+
+1. Questions in Part 1 are from Ex. 7.42 in [*OpenIntro Statistics, 4th ed.*](https://leanpub.com/openintro-statistics). Some parts have been reworded.
+
+2. National Opinion Research Center, [General Social Survey, 2018.](http://gss.norc.org/get-the-data)
+
+3. [Allen, K., Blascovich, J., Tomaka, J., and Kelsey, R., 1991, Presence of Human Friends and Pet Dogs as Moderators of Autonomic Responses to Stress in Women, *Journal of Personality and Social Psychology*, 61: 582-589.](https://search-ebscohost-com.proxy.lib.duke.edu/login.aspx?direct=true&db=pdh&AN=1992-04617-001&site=ehost-live&scope=site)
