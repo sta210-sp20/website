@@ -130,7 +130,7 @@ Use Analysis of Variance to test whether there is an association between the pre
 - Complete exploratory data analysis 
 - Code and output for the Analysis of Variance table 
 - Check of assumptions including all supporting graphs, code, output, narrative, etc.
-- Use a model with `group` as the predictor to compare the predicted mean `heart_rate` for each group and discuss which groups (if any) have a significantly different mean from one another. 
+- *If needed based on results from ANOVA*: Use a model with `group` as the predictor to compare the predicted mean `heart_rate` for each group and discuss which groups (if any) have a significantly different mean from one another. 
 
 The data is available in  `stress-experiment.csv` in the `data` folder. 
 
@@ -170,8 +170,8 @@ To submit your assignment:
 
 ### Acknowledgements & References
 
-1. Questions in Part 1 are from Ex. 7.42 in [*OpenIntro Statistics, 4th ed.*](https://leanpub.com/openintro-statistics). Some parts have been reworded.
+- Questions in Part 1 are from Ex. 7.42 in [*OpenIntro Statistics, 4th ed.*](https://leanpub.com/openintro-statistics). Some parts have been reworded.
 
-2. National Opinion Research Center, [General Social Survey, 2018.](http://gss.norc.org/get-the-data)
+- National Opinion Research Center, [General Social Survey, 2018.](http://gss.norc.org/get-the-data)
 
-3. [Allen, K., Blascovich, J., Tomaka, J., and Kelsey, R., 1991, Presence of Human Friends and Pet Dogs as Moderators of Autonomic Responses to Stress in Women, *Journal of Personality and Social Psychology*, 61: 582-589.](https://search-ebscohost-com.proxy.lib.duke.edu/login.aspx?direct=true&db=pdh&AN=1992-04617-001&site=ehost-live&scope=site)
+- [Allen, K., Blascovich, J., Tomaka, J., and Kelsey, R., 1991, Presence of Human Friends and Pet Dogs as Moderators of Autonomic Responses to Stress in Women, *Journal of Personality and Social Psychology*, 61: 582-589.](https://search-ebscohost-com.proxy.lib.duke.edu/login.aspx?direct=true&db=pdh&AN=1992-04617-001&site=ehost-live&scope=site)
