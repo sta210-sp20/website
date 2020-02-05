@@ -38,7 +38,7 @@ class: middle, center
 
 - [Reading for today](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-04.html)
 
-- **READING FOR NEXT MONDAY**
+- [Reading for Monday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-05.html)
 
 ---
 
