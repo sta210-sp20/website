@@ -1,0 +1,537 @@
+---
+title: "Multiple Linear Regression"
+author: "Prof. Maria Tackett"
+date: "02.05.20"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height =5,
+	fig.width = 8,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+class: middle, center
+
+### [Click for PDF of slides](06-mlr.pdf)
+
+---
+
+### Announcements
+
+- [HW 02](https://www2.stat.duke.edu/courses/Spring20/sta210.001/hw/hw-02.html) **due Wed, Feb 12 at 11:59p**
+
+- [Reading for today](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-04.html)
+
+- **READING FOR NEXT MONDAY**
+
+---
+
+### Today's Agenda 
+
+- ANOVA
+
+- Introducing multiple linear regression 
+
+```{r echo = F}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(Sleuth3) # case 1202 dataset
+library(cowplot) # use plot_grid function
+```
+
+---
+
+### ANOVA
+
+```{r echo = F}
+bikeshare <- read_csv("data/bikeshare-sample.csv")
+bike_model <- lm(count ~ season, data = bikeshare)
+```
+
+.pull-left[
+```{r echo = F}
+ggplot(data = bikeshare, aes(x = season, y = count)) +
+  geom_boxplot() + 
+    labs(x = "Season", 
+       y = "Daily Bike Rentals")
+```
+]
+
+.pull-right[
+```{r echo = F}
+bikeshare %>%
+  group_by(season) %>%
+  summarise(n = n(), mean = mean(count), sd = sd(count))
+```
+]
+
+---
+
+### ANOVA for Capital Bike Share
+
+
+$$\begin{align}&H_0: \mu_W = \mu_{Sp} = \mu_{Su} = \mu_{F} \\
+&H_a: \text{at least 1 }\mu_i \text{ is not equal to the others} \\\end{align}$$
+<br>
+
+--
+
+```{r echo = F}
+anova(bike_model) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+---
+
+### Calculate p-value 
+
+- Calculate the p-value using an F distribution with $K-1$ and $n-K$ degrees of freedom. 
+
+- In the Capital Bike Share example, the p-value is calculated from the F distribution with 3 and 96 degrees of freedom. 
+
+```{r echo = F}
+ggplot(NULL, aes(c(0, 20))) + 
+  geom_area(stat = "function", fun = "df", args=list(df1=3, df2 = 96), fill = "grey80", xlim = c(0, 14.458)) + 
+  geom_area(stat = "function", fun = "df", args=list(df1=3, df2 = 96), fill = "#00998a", xlim = c(14.458, 20)) +
+  geom_vline(xintercept = 14.458, color = "red") +
+  labs(title = "Calculating p-value", 
+      subtitle = "P(F > 14.458)", 
+       x = "x") 
+```
+
+**ADD LINK TO NOTES ABOUT F TEST STATISTIC**
+---
+
+### Assumptions for ANOVA
+
+- <font class="vocab">Normality: </font> $y_{ij} \sim N(\mu_i, \sigma^2)$
+
+- <font class="vocab">Constant variance: </font> The population distribution for each group has a common variance, $\sigma^2$
+
+- <font class="vocab">Independence: </font> The observations are independent from one another
+    - This applies to observation within and between groups
+
+- We can typically check these assumptions in the exploratory data analysis
+
+---
+
+### Robustness to Assumptions
+
+- <font class="vocab">Normality: </font> $y_{ij} \sim N(\mu_i, \sigma^2)$
+  + ANOVA relatively robust to departures from Normality. 
+  + Concern when there are strongly skewed distributions with different sample sizes (especially if sample sizes are small, < 10 in each group)
+  
+
+- <font class="vocab">Independence: </font> There is independence within and across groups
+  + If this doesn't hold, should use methods that account for correlated errors
+
+---
+
+### Robustness to Assumptions
+
+- <font class="vocab">Constant variance: </font> The population distribution for each group has a common variance, $\sigma^2$
+  + Critical assumption, since the pooled (combined) variance is important for ANOVA
+  + **General rule:** If the sample sizes within each group are approximately equal, the results of the F-test are valid if the largest variance is no more than 4 times the smallest variance (i.e. the largest standard deviation is no more than 2 times the smallest standard deviation)
+  
+---
+
+### Capital Bike Share: Normality
+
+```{r}
+ggplot(data = bikeshare, aes(x = count)) +
+  geom_histogram() + 
+  facet_wrap(~season) + 
+  labs(title = "Daily bike rentals by season") + 
+  theme_light()
+```
+
+---
+
+### Capital Bike Share: Constant Variance
+
+```{r}
+bikeshare %>%
+  group_by(season) %>%
+  summarise(sd = sd(count))
+```
+
+<br>
+
+The largest variance $1889^2$ is `r round(1889^2/1465^2, 3)` times the smallest variance $1465^2$, so the constant variance assumption is satisified. 
+
+---
+
+### Capital Bike Share: Independence
+
+- Recall that the data is 100 randomly selected days in 2011 and 2012. 
+- Let's look at the counts in date order to see if a pattern still exists
+
+```{r echo = F, fig.height = 2}
+ggplot(data = bikeshare, aes(x = dteday, y = count)) +
+  geom_point() +
+  labs(x = "Date", 
+       y = "Number of daily bike rentals", 
+       title = "Number of daily bike rentals over time")
+```
+
+--
+
+Though the days were randomly selected, it still appears the independence assumption is violated. 
+- Additional methods may be required to fully examine this data.
+
+---
+
+### Why not just use the model output?
+
+```{r echo = F}
+bike_model <- lm(count ~ season, data = bikeshare)
+tidy(bike_model, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+
+- The model coefficients and associated hypothesis test / confidence interval are interpreted in relation to the baseline level
+    - The coefficients, test statistics, confidence intervals, and p-values all change if the baseline category changes (more on this later!)
+
+--
+
+- An ANOVA test gives indication if **<u>any</u>** category has a significantly different mean regardless of the baseline
+    - The sum of squares, mean squares, test statistic, and p-value stay the same even if the baseline changes
+
+---
+
+class: middle, center
+
+## Multiple Linear Regression
+
+---
+
+### House prices in Levittown, NY (section 1.4)
+ 
+- Public data on the sales of 85 homes in Levittown, NY from June 2010 to May 2011
+
+- Levittown was built right after WWI and was the first planned suburban community built using mass production techniques 
+
+<br>
+
+.alert[
+**Questions**: 
+- What is the relationship between the characteristics of a house in Levittown and its sale price? 
+- Given its characteristics, what is the expected sale price of a house in Levittown?  
+]
+
+---
+
+### Data
+
+```{r,echo=F}
+homes <- read_csv("data/homeprices.csv")
+```
+
+```{r}
+glimpse(homes)
+```
+
+---
+
+### Variables
+
+**Predictors**
+- .vocab[`bedrooms`]: Number of bedrooms
+- .vocab[`bathrooms`]: Number of bathrooms
+- .vocab[`living_area`]: Total living area of the house (in square feet)
+- .vocab[`lot_size`]: Total area of the lot (in square feet)
+- .vocab[`year_built`]: Year the house was built
+- .vocab[`property_tax`]: Annual property taxes (in U.S. dollars)
+
+**Response**
+- .vocab[`sale_price`]: Sales price (in U.S. dollars)
+
+---
+
+### EDA: Response variable
+
+```{r echo = F}
+ggplot(data = homes, aes(x = sale_price)) +
+  geom_histogram() + 
+  labs(title = "Distribution of Sale Price", 
+       x = "Sale Price (in US Dollars)")
+```
+
+
+---
+
+### EDA: Predictor variables 
+
+```{r echo = F}
+p1 <- ggplot(data = homes, aes(x = bedrooms)) +
+  geom_histogram()
+
+p2 <- ggplot(data = homes, aes(x = bathrooms)) +
+  geom_histogram()
+
+p3 <- ggplot(data = homes, aes(x = living_area)) +
+  geom_histogram()
+
+p4 <- ggplot(data = homes, aes(x = lot_size)) +
+  geom_histogram()
+
+p5 <- ggplot(data = homes, aes(x = year_built)) +
+  geom_histogram()
+
+p6 <- ggplot(data = homes, aes(x = property_tax)) +
+  geom_histogram()
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 3)
+```
+
+---
+
+### EDA: Response vs. Predictors
+
+```{r echo = F}
+p1 <- ggplot(data = homes, aes(x = bedrooms, y = sale_price)) +
+  geom_point()
+
+p2 <- ggplot(data = homes, aes(x = bathrooms, y = sale_price)) +
+  geom_point()
+
+p3 <- ggplot(data = homes, aes(x = living_area, y = sale_price)) +
+  geom_point()
+
+p4 <- ggplot(data = homes, aes(x = lot_size, y = sale_price)) +
+  geom_point()
+
+p5 <- ggplot(data = homes, aes(x = year_built, y = sale_price)) +
+  geom_point()
+
+p6 <- ggplot(data = homes, aes(x = property_tax, y = sale_price)) +
+  geom_point()
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 3)
+```
+
+---
+
+class: middle
+
+.question[
+What is a disadvantage to fitting a separate model for each predictor variable? 
+]
+
+---
+
+## Multiple Regression Model
+
+We will calculate a multiple linear regression model with the following form: 
+.alert[
+.small[
+$$\begin{aligned}\text{sale_price} ~ = & ~
+\beta_0 + \beta_1 \text{bedrooms} + \beta_2 \text{bathrooms} + \beta_3 \text{living_area} \\
+&+ \beta_4 \text{lot_size} + \beta_5 \text{year_built} + \beta_6 \text{property_tax}\end{aligned}$$
+]
+]
+
+<br>
+
+Similar to simple linear regression, this model assumes that at each combination of the predictor variables, the values **`sale_price`** follow a Normal distribution
+
+---
+
+### Regression Model
+
+- Recall: The simple linear regression model assumes 
+
+$$y|x\sim N(\beta_0 + \beta_1 x, \sigma^2)$$
+--
+
+- Similarly: The multiple linear regression model assumes 
+
+$$y|x_1, x_2, \ldots, x_p \sim N(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p, \sigma^2)$$
+--
+
+<br>
+
+
+.alert[
+For a given observation $(x_{i1}, x_{i2} \ldots, x_{iP}, y_i)$
+
+$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon_{i} \hspace{8mm} \epsilon_i \sim N(0,\sigma^2)$$
+]
+
+---
+
+### Regression Model 
+
+- At any combination of $x's$, the true mean value of $y$ is
+$$\mu_y = \beta_0 + \beta_1 x_{1} + \beta_2 x_2 + \dots + \beta_p x_p$$
+--
+
+<br>
+
+- We will use multiple linear regression to estimate the mean $y$ for any combination of $x's$
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_{1} + \hat{\beta}_2 x_2 + \dots + \hat{\beta}_p x_{p}$$
+
+---
+
+### Regression Output
+
+.small[
+```{r}
+price_model <- lm(sale_price ~ bedrooms + bathrooms + living_area + lot_size + year_built + property_tax, 
+                  data = homes)
+
+tidy(price_model, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+]
+
+---
+
+### Interpreting $\hat{\beta}_j$
+
+- An estimated coefficient $\hat{\beta}_j$ is the expected change in $y$ to change when $x_j$ increases by one unit **<u>holding the values of all other predictor variables constant</u>**.
+
+--
+
+<br>
+
+- *Example:* The estimated coefficient for **`living_area`** is 65.90. This means for each additional square foot of living area, we expect the sale price of a house in Levittown, NY to increase by $65.90, on average, holding all other predictor variables constant.
+
+---
+
+### Hypothesis Tests for $\hat{\beta}_j$
+
+- We want to test whether a particular coefficient has a value of 0 in the population, given all other variables in the model: 
+
+.alert[
+$$\begin{aligned}&H_0: \beta_j = 0 \\ &H_a: \beta_j \neq 0\end{aligned}$$
+]
+
+- The test statistic reported in R is the following: 
+
+$$\text{test statistic} = t =  \frac{\hat{\beta}_j - 0}{SE(\hat{\beta}_j)}$$
+
+- Calculate the p-value using the $t$ distribution with $n - p - 1$ degrees of freedom, where $p$ is the number of terms in the model (not including the intercept).
+
+---
+
+### UPDATE - In Class Activity 
+
+.question[
+Given the other variables in the model, are the following significant predictors of salary at time of hire (`Bsal`)? 
+
+- Education (`Educ`)
+- Experience (`Exper`)
+]
+
+---
+
+### Confidence Interval for $\beta_j$
+
+.alert[
+The $C%$ confidence interval for $\beta_j$ 
+$$\hat{\beta}_j \pm t^* SE(\hat{\beta}_j)$$
+where $t^*$ follows a $t$ distribution with with $(n - p - 1)$ degrees of freedom
+]
+
+- **General Interpretation**: We are $C%$ confident that the interval LB to UB contains the population coefficient of $x_j$. Therefore, for every one unit increase in $x_j$, we expect $y$ to change by LB to UB units, holding all else constant. 
+
+---
+
+### CI for `bedrooms`
+```{r,echo=F, eval = F}
+kable(tidy(bsal_model,conf.int=TRUE),format="html",digits=3)
+```
+
+.question[
+Interpret the 95% confidence interval for the coefficient of `Educ`.
+]
+
+
+---
+
+### Caution: Large sample sizes
+
+
+If the sample size is large enough, the test will likely result in rejecting $H_0: \beta_j=0$ even $x_j$ has a very small effect on $y$
+
+- Consider the <font class="vocab">practical significance</font> of the result not just the statistical significance 
+
+- Use the confidence interval to draw conclusions instead of p-values
+ 
+---
+
+### Caution: Small sample sizes
+
+If the sample size is small, there may not be enough evidence to reject $H_0: \beta_j=0$
+
+- When you fail to reject the null hypothesis, **DON'T** immediately conclude that the variable has no association with the response. 
+  
+- There may be a linear association that is just not strong enough to detect given your data, or there may be a non-linear association.
+    
+
+---
+
+### Prediction
+
+- We calculate predictions the same as with simple linear regression 
+
+- **Example:** What is the predicted sale price for a house in Levittown, NY with 3 bedrooms, 1 bathroom, 1050 square feet of living area, 6000 square foot lot size, built in 1948 with $6306 in property taxes?
+
+
+```{r}
+-7148818.957 - 12291.011 * 3 + 51699.236 * 1 + 
+  65.903 * 1050 - 0.897 * 6000 + 3760.898 * 1948 + 1.476 * 6306
+```
+
+--
+
+The predicted sale price for a house in Levittown, NY with 3 bedrooms, 1 bathroom, 1050 square feet of living area, 6000 square foot lot size, built in 1948 with $6306 in property taxes is **$265,360**.
+
+---
+
+### Predictions
+
+- Just like with simple linear regression, we can use the .vocab[`predict`] function in R to calculate the appropriate intervals for our predicted values 
+
+```{r eval = F}
+x0 <- data.frame(bedrooms = 3, bathrooms = 1, living_area = 1050, 
+                 lot_size = 6000, year_built = 1948, 
+                 property_tax = 6306)
+predict(price_model, x0, interval = "prediction")
+```
+
+--
+
+IN CLASS ACtIVITY - COMPARE INtERVALS AND EXTRAPOLATION
+
+---
+
+### Cautions
+
+- .vocab3[Do not extrapolate!] Because there are multiple explanatory variables, you can extrapolation in many ways
+
+--
+
+- The multiple regression model only shows .vocab3[association, not causality]
+  + To show causality, you must have a carefully designed experiment or carefully account for confounding variables in an observational study 
+
