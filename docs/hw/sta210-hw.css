@@ -120,9 +120,6 @@ ol {
 	/* Remove the default left padding */
 	padding-left: 0;
 	font-size: 13pt;
-	counter-increment: quest_counter
-
-
 }
 
 ol>li {
@@ -134,17 +131,18 @@ ol>li {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-right: 0;
-	padding-left: 97px;
+	padding-left: 90px;
 	font-size: 13pt;
-
-
 }
+
 
 ol>li:before {
 	/* Use the counter as content */
-	content: "Question " counter(quest_counter)".";
+	content: "Question " counter(li)".";
+	/* Increment the counter by 1 */
+	counter-increment: li;
 	position: absolute;
-	color: #00897B;
+	color: #339898;
 	left: -0.5px;
 	font-weight: bold;
 }
@@ -153,20 +151,12 @@ ol ol>li:before {
 	counter-reset: sub-item;
 		/* Use the counter as content */
 	/* Increment the counter by 1 */
-	content: " ";
 	position: absolute;
-	color: #00897B;
-	
+	color: #339898;
+	left: -0.5px;
+	font-weight: bold;
+	padding-left: 90px;
 }
-
-ol ol>li{
-  list-style: lower-alpha;
-  padding-top: 10px;
-	padding-bottom: 10px;
-	padding-right: 0;
-	padding-left: 0px;
-}
-
 
 .td {
   font-size: 10pt;
