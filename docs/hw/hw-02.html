@@ -1474,7 +1474,7 @@ content: "Question " counter(li)".";
 
 counter-increment: li;
 position: absolute;
-color: #00897B;
+color: #339898;
 left: -0.5px;
 font-weight: bold;
 }
@@ -1483,7 +1483,7 @@ counter-reset: sub-item;
 
 
 position: absolute;
-color: #00897B;
+color: #339898;
 left: -0.5px;
 font-weight: bold;
 padding-left: 90px;
@@ -1673,122 +1673,252 @@ div.tocify {
 
 
 <p><br><br></p>
-<p><em>Instructions will be available when the homework is assigned.</em></p>
-<!--
-# Getting Started
-
-- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **hw-02**. It contains the starter documents you need to complete the lab.
-- Clone the repo in RStudio Cloud
-- Configure git using the `use_git_config()` function.
-
-## Tips
-
-Here are some tips as you complete HW 02:
-
-- Name your code chunks to make it easier to find them in your Markdown file. Make sure there are no spaces in the code chunk names and the names are not repeated. 
-- Periodically knit, commit, and push all the updated documents to GitHub (the more often the better, for example, once per each new task).
-- Once you push your changes back you do not need to do anything else to “submit” your work, and you can (and should) push your changes to GitHub multiple times. We will consider the state of your repo at the deadline as the final submission. Therefore, even if you make mistakes along the way, you won't be penalized for them as long as the final state of your work is correct.  
-
-## Packages 
-
-We will use the following packages in this assignment: 
-
-
-```r
-library(tidyverse)
+<div id="getting-started" class="section level1">
+<h1>Getting Started</h1>
+<p>A brief outline of getting started is shown below. See the <a href="https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html">Lab 01 Instructions</a> for more details about the steps.</p>
+<ul>
+<li>Go to the sta210-sp20 organization on GitHub (<a href="https://github.com/sta210-sp20">https://github.com/sta210-sp20</a>). Click on the repo with the prefix <strong>hw-01</strong>. It contains the starter documents you need to complete the lab.</li>
+<li>Clone the repo in RStudio Cloud</li>
+</ul>
+<div id="tips" class="section level2">
+<h2>Tips</h2>
+<p>Here are some tips as you complete HW 01:</p>
+<ul>
+<li>Periodically knit your document and commit changes (the more often the better, for example, once per each new task)</li>
+<li>Push all your changes back to your GitHub repo. The Git pane in RStudio should be empty after you push. You can also check your assignment repo on github.com to make sure it has updated.</li>
+<li>Once you have completed your work, you will submit your assignment in Gradescope. You are welcome to resubmit multiple times until the assignment deadline. We will grade the most recent version of the .pdf file in Gradescope.</li>
+</ul>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>We will use the following packages in this assignment:</p>
+<pre class="r"><code>library(tidyverse)
 library(broom)
-library(knitr) 
-```
+library(knitr) </code></pre>
+<p>If you need to install any of the packages, type <code>install.packages(&quot;package_name&quot;)</code> in the console, where <code>package_name</code> is the package you need to install.</p>
+</div>
+</div>
+<div id="questions" class="section level1">
+<h1>Questions</h1>
+<div id="part-1-conceptual" class="section level2">
+<h2>Part 1: Conceptual</h2>
+<p>The <em>Conceptual</em> section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.</p>
+<p>The General Social Survey collects data on demographics, education, and work, among many other characteristics of US residents.  Using ANOVA, we can consider educational attainment levels for all 1,172 respondents at once. Below are the distributions of hours worked by educational attainment and relevant summary statistics that will be helpful in carrying out this analysis.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Less than High School</th>
+<th>High School</th>
+<th>Jr. College</th>
+<th>Bachelor’s</th>
+<th>Graduate</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean</td>
+<td>38.67</td>
+<td>39.6</td>
+<td>41.39</td>
+<td>42.55</td>
+<td>40.85</td>
+<td>40.45</td>
+</tr>
+<tr class="even">
+<td>Standard deviation</td>
+<td>15.81</td>
+<td>14.97</td>
+<td>18.1</td>
+<td>13.62</td>
+<td>15.51</td>
+<td>15.17</td>
+</tr>
+<tr class="odd">
+<td>n</td>
+<td>121</td>
+<td>546</td>
+<td>97</td>
+<td>253</td>
+<td>155</td>
+<td>1772</td>
+</tr>
+</tbody>
+</table>
+<p>We wish to test the following hypotheses:</p>
+<p><span class="math display">\[\begin{align} &amp;H_0: \mu_{&lt;HS} = \mu_{HS} = \mu_{JC} = \mu_{B} = \mu_{G} \\
+    &amp;H_a: \text{ at least one }\mu_i \text{ is not equal to the others} \end{align}\]</span></p>
+<ol style="list-style-type: decimal">
+<li>Part of the ANOVA table associated with this test is shown below. Use the code to fill in the missing values and display the completed table.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F-Stat</th>
+<th align="center">Pr(F &gt; F-Stat)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>degree</td>
+<td align="center">*</td>
+<td align="center">*</td>
+<td align="center">501.54</td>
+<td align="center">*</td>
+<td align="center">0.0682</td>
+</tr>
+<tr class="even">
+<td>Residuals</td>
+<td align="center">*</td>
+<td align="center">267382</td>
+<td align="center">*</td>
+<td align="center">*</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td align="center">*</td>
+<td align="center">*</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ssw &lt;- 267382 # sum of squares within (residuals)
+msb &lt;- 501.54 # mean square between (model)
+p_val &lt;- 0.0682</code></pre>
+<pre class="r"><code>dfb &lt;- _____ # degrees of freedom between (model)
+dfw &lt;- _____ # degrees of freedom within (residuals)
+dft &lt;- _____ # total degrees of freedom
+ssb &lt;- _____ # sum of squares between (model)
+sst &lt;- _____ # total sum of squares
+msw &lt;- _____  # mean square within (residuals)
+f_stat &lt;- _____  #F -statistic </code></pre>
+<pre class="r"><code>source &lt;- c(&quot;Degree (model)&quot;, &quot;Residuals&quot;, &quot;Total&quot;)
+df &lt;- c(dfb, dfw,dft)
+ss &lt;- c(ssb, ssw, sst)
+ms &lt;- c(msb, msw,NA)  
+f.statistic &lt;- c(f_stat, NA, NA)
+p.value &lt;- c(p_val,NA,NA)
 
-# Questions
-
-## Part 1: Computations & Concepts
-
-The *Computations & Concepts* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
-
-1. Analysis of Variance is used to compare means across multiple groups. Some of the values from an ANOVA table are provided; however, many are missing.
-
-
-```r
-dfw <- 125 # degrees of freedom within (residuals)
-dft <- 130 # total degress of freedom
-ssw <- 6.486 # sum of squares within (residuals)
-sst <- 19.386 # total sum of squares
-```
-
-Fill in the missing values from the ANOVA table, and use the code below to display the completed table. 
-
-
-```r
-dfb <- _____ # degrees of freedom between (model)
-ssb <- _____ # sum of squares between (model)
-msb <- _____  # mean square between
-msw <- _____  # mean square within (residuals)
-f_stat <- _____  #F -statistic 
-p_val <- 1-pf(____, _____, _____)  # F-Statistic, DF1, DF2
-```
-
-Use the code below to combine all of the values and print an ANOVA table. You will use this table for the next few questions.
-
-
-```r
-source <- c("Between Groups", "Within Groups", "Total")
-df <- c(dfb, dfw,dft)
-ss <- c(ssb, ssw, sst)
-ms <- c(msb, msw,NA)  
-f.statistic <- c(f_stat, NA, NA)
-p.value <- c(p_val,NA,NA)
-
-# combine the columns to make a table called "anova"
-anova <- bind_cols("Source"=source,"df"=df,"Sum of squares"=ss,
-            "Mean square"=ms,"F-statistic"=f.statistic,"p-value"=p.value)
+# combine the columns to make a table called &quot;anova&quot;
+anova &lt;- bind_cols(&quot;Source&quot; = source, &quot;df&quot; = df, &quot;Sum of squares&quot; = ss,
+            &quot;Mean square&quot; = ms, &quot;F-statistic&quot; = f.statistic, &quot;p-value&quot; = p.value)
 
 # print the table 
-kable(anova) 
-```
-
-2. How many observations are in the dataset? How many groups are being compared? 
-
-3. What is the estimate of $\sigma^2$? State the value and its definition, i.e what is quantified by $\sigma^2$. 
-
-4. State the hypotheses for the ANOVA test being shown in this table. You may use "mu" to represent $\mu$. 
-
-5. State your conclusion of the test stated in Question 4, including a brief explanation about how you came to that conclusion. 
-
-
-## Part 2: Data Analysis
-
-The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as "mini-projects".
-
-6. In a 1991 study, Allen et. al sought to answer whether the presence of a close friend or pet affected women's stress levels as they completed difficult tasks. To test this, they conducted an experiment in which 45 women were tasked with counting backwards by 13s or 17s under one of three test conditions (`group`):
-    - `C`: Control group, Alone
-    - `F`: Close friend present
-    - `P`: Pet present 
-    
-To quantify stress level, they measured each woman's heart rate and blood pressure after she completed the task. For today's analysis, we will focus on the heart rate (`heart_rate`). 
-
-Conduct an ANOVA test to test whether there is an association between the presence of a friend or pet and stress level when completing difficult tasks. In your analysis, also include answers to the following: 
-
-- If there is evidence of an effect, use confidence intervals or hypothesis tests to describe which group(s) differ from the others. Be sure to properly account for the multiple comparisons. 
-- If there is evidence of an effect, can we conclude that certain conditions cause changes in stress levels of women when completing difficult tasks? Why or why not? 
-
-As usual, be sure to include exploratory data analysis and an analysis of the model assumptions.
-
-# Grading
-
-| **Total** | **60** |
-|-------------------------------------------------------------|:--:|
-| Questions 1 - 5 | 20 |
-| Question 6 | 30 |
-| Documents neatly organized (.Rmd and .md files) | 5 |
-| Narrative in full sentences and neatly organized| 3 |
-| Regular and informative commit messages | 2 |
-
-
-### References
-
-[Allen, K., Blascovich, J., Tomaka, J., and Kelsey, R., 1991, Presence of Human Friends and Pet Dogs as Moderators of Autonomic Responses to Stress in Women, *Journal of Personality and Social Psychology*, 61: 582-589.](https://search-ebscohost-com.proxy.lib.duke.edu/login.aspx?direct=true&db=pdh&AN=1992-04617-001&site=ehost-live&scope=site)
--->
+kable(anova) </code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Check the assumptions for this test. Include your conclusion about whether the assumption is satisified and a brief explanation supporting your conclusion.</p></li>
+<li><p>State the conclusion of the test in the context of the data. You can use a significance level of <span class="math inline">\(\alpha = 0.05\)</span> to make your conclusion.</p></li>
+</ol>
+</div>
+<div id="part-2-data-analysis" class="section level2">
+<h2>Part 2: Data Analysis</h2>
+<p>The <em>Data Analysis</em> section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question(s) stated below, you should include exploratory data analysis and check the appropriate model assumptions. In short, these questions should be treated as “mini-projects”.</p>
+<p>In a 1991 study, Allen et. al sought to answer whether the presence of a close friend or pet affected women’s stress levels as they completed difficult tasks. To test this, they conducted an experiment in which 45 women were tasked with counting backwards by 13s or 17s under one of three test conditions (<code>group</code>): - <code>C</code>: Control group, Alone - <code>F</code>: Close friend present - <code>P</code>: Pet present</p>
+<p>To quantify stress level, they measured each woman’s heart rate and blood pressure after she completed the task. For today’s analysis, we will focus on the heart rate (<code>heart_rate</code>).</p>
+<p>Conduct an ANOVA test to test whether there is an association between the presence of a friend or pet and stress level when completing difficult tasks. In your analysis, also include answers to the following:</p>
+<ul>
+<li>If there is evidence of an effect, use confidence intervals or hypothesis tests to describe which group(s) differ from the others. Be sure to properly account for the multiple comparisons.</li>
+<li>If there is evidence of an effect, can we conclude that certain conditions cause changes in stress levels of women when completing difficult tasks? Why or why not?</li>
+</ul>
+<p>As usual, be sure to include exploratory data analysis and an analysis of the model assumptions.</p>
+</div>
+</div>
+<div id="submitting-your-assignment" class="section level1">
+<h1>Submitting Your Assignment</h1>
+<p>Once your work is finalized in your GitHub repo, you will submit it to Gradescope. <strong>Your assignment must be submitted on Gradescope by the deadline to be considered “on time”.</strong></p>
+<p>To submit your assignment:</p>
+<ul>
+<li><p>Go to <a href="http://www.gradescope.com" class="uri">http://www.gradescope.com</a> and click <em>Log in</em> in the top right corner.</p></li>
+<li><p>Click <em>School Credentials</em> ➡️ <em>Duke NetID</em> and log in using your NetID credentials.</p></li>
+<li><p>Click on the <em>STA 210 Regression Analysis</em> course.</p></li>
+<li><p>Click on the assignment, and you’ll be prompted to submit it.</p>
+<ul>
+<li>If asked, login to your GitHub account.</li>
+<li>If asked, click to request access to the “sta210-sp20” GitHub organization.</li>
+</ul></li>
+<li><p>Select your assignment repo and choose “master” for the branch.</p></li>
+<li><p>Click <em>Upload</em>. You should receive an email to confirm that the assignment has been submitted.</p></li>
+</ul>
+</div>
+<div id="grading" class="section level1">
+<h1>Grading</h1>
+<table>
+<colgroup>
+<col width="93%"></col>
+<col width="6%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Total</strong></th>
+<th align="center"><strong>50</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Part 1: Conceptual Problems</td>
+<td align="center">25</td>
+</tr>
+<tr class="even">
+<td>Part 2: Data Analysis</td>
+<td align="center">20</td>
+</tr>
+<tr class="odd">
+<td>Document has clear question headers and narrative written in complete sentences</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td>At least 3 informative commit messages</td>
+<td align="center">2</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note there is a 10% penalty if the .pdf file is incomplete and the .Rmd file has to be knitted for grading.</em></p>
+</div>
+<div id="grading-1" class="section level1">
+<h1>Grading</h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Total</strong></th>
+<th align="center"><strong>50</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Questions 1 - 5</td>
+<td align="center">20</td>
+</tr>
+<tr class="even">
+<td>Question 6</td>
+<td align="center">30</td>
+</tr>
+<tr class="odd">
+<td>Documents neatly organized (.Rmd and .md files)</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td>Narrative in full sentences and neatly organized</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td>Regular and informative commit messages</td>
+<td align="center">2</td>
+</tr>
+</tbody>
+</table>
+<div id="references" class="section level3">
+<h3>References</h3>
+<p><a href="https://search-ebscohost-com.proxy.lib.duke.edu/login.aspx?direct=true&amp;db=pdh&amp;AN=1992-04617-001&amp;site=ehost-live&amp;scope=site">Allen, K., Blascovich, J., Tomaka, J., and Kelsey, R., 1991, Presence of Human Friends and Pet Dogs as Moderators of Autonomic Responses to Stress in Women, <em>Journal of Personality and Social Psychology</em>, 61: 582-589.</a></p>
+</div>
+</div>
 
 
 
