@@ -3,7 +3,9 @@
   <head>
     <title>Multiple Linear Regression</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dr. Maria Tackett" />
+    <meta name="author" content="Prof. Maria Tackett" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
   </head>
   <body>
@@ -11,7 +13,7 @@
 class: center, middle, inverse, title-slide
 
 # Multiple Linear Regression
-### Dr. Maria Tackett
+### Prof. Maria Tackett
 ### 02.05.20
 
 ---
@@ -136,7 +138,8 @@ class: middle, center
 ggplot(data = bikeshare, aes(x = count)) +
   geom_histogram() + 
   facet_wrap(~season) + 
-  labs(title = "Daily bike rentals by season")
+  labs(title = "Daily bike rentals by season") + 
+  theme_light()
 ```
 
 &lt;img src="06-mlr_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
@@ -161,6 +164,10 @@ bikeshare %&gt;%
 ## 3 Summer 1662.
 ## 4 Winter 1465.
 ```
+
+&lt;br&gt;
+
+The largest variance `\(1889^2\)` is 1.663 times the smallest variance `\(1465^2\)`, so the constant variance assumption is satisfied.
 
 ---
 
@@ -192,6 +199,8 @@ Though the days were randomly selected, it still appears the independence assump
 - The model coefficients and associated hypothesis test / confidence interval are interpreted in relation to the baseline level
     - The coefficients, test statistics, confidence intervals, and p-values all change if the baseline category changes (more on this later!)
 
+--
+
 - An ANOVA test gives indication if **&lt;u&gt;any&lt;/u&gt;** category has a significantly different mean regardless of the baseline
     - The sum of squares, mean squares, test statistic, and p-value stay the same even if the baseline changes
 
@@ -202,15 +211,22 @@ class: middle, center
 ## Multiple Linear Regression
 
 ---
-### Example: House prices - UPDATE DESCRIPTION!! 
 
+### House prices in Levittown (sec. 1.4)
+ 
+- Public data on the sales of 85 homes in Levittown, NY from June 2010 to May 2011
 
-- **Question**: 
+- Levittown was built right after WWI and was the first planned suburban community built using mass production techniques 
 
+&lt;br&gt;
+
+.alert[
+**Questions**: 
+- What is the relationship between the characteristics of a house in Levittown and its sale price? 
+- Given its characteristics, what is the expected sale price of a house in Levittown?  
+]
 
 ---
-
- 
 
 ### Data
 
@@ -235,34 +251,35 @@ glimpse(homes)
 
 ---
 
-### Variables - UPDATE 
+### Variables
 
-**Explanatory**
-- &lt;font class="vocab"&gt;`Educ`: &lt;/font&gt;years of education
-- &lt;font class="vocab"&gt;`Exper`: &lt;/font&gt;months of previous work experience (before hire at bank)
-- &lt;font class="vocab"&gt;`Female`: &lt;/font&gt;1 if female, 0 if male
-- &lt;font class="vocab"&gt;`Senior`: &lt;/font&gt;months worked at bank since hire
-- &lt;font class="vocab"&gt;`Age`: &lt;/font&gt;age in months
+**Predictors**
+- .vocab[`bedrooms`]: Number of bedrooms
+- .vocab[`bathrooms`]: Number of bathrooms
+- .vocab[`living_area`]: Total living area of the house (in square feet)
+- .vocab[`lot_size`]: Total area of the lot (in square feet)
+- .vocab[`year_built`]: Year the house was built
+- .vocab[`property_tax`]: Annual property taxes (in U.S. dollars)
 
 **Response**
-- &lt;font class="vocab"&gt;`Bsal`: &lt;/font&gt;annual salary at time of hire
+- .vocab[`sale_price`]: Sales price (in U.S. dollars)
 
 ---
 
-### Exploratory data analysis
+### EDA: Response variable
 
 &lt;img src="06-mlr_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
-### Exploratory data analysis 
+### EDA: Predictor variables 
 
 &lt;img src="06-mlr_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Exploratory data anlaysis
+### EDA: Response vs. Predictors
 
 &lt;img src="06-mlr_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
@@ -287,7 +304,9 @@ We will calculate a multiple linear regression model with the following form:
 ]
 ]
 
-- Similar to simple linear regression, this model assumes that at each combination of the predictor variables, the values `sale_price` follow a Normal distribution
+&lt;br&gt;
+
+Similar to simple linear regression, this model assumes that at each combination of the predictor variables, the values **`sale_price`** follow a Normal distribution
 
 ---
 
@@ -309,7 +328,7 @@ We will calculate a multiple linear regression model with the following form:
 .alert[
 For a given observation `\((x_{i1}, x_{i2} \ldots, x_{iP}, y_i)\)`
 
-`$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon_{i} \hspace{5mm} \epsilon_i \sim N(0,\sigma^2)$$`
+`$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon_{i} \hspace{8mm} \epsilon_i \sim N(0,\sigma^2)$$`
 ]
 
 ---
@@ -319,6 +338,8 @@ For a given observation `\((x_{i1}, x_{i2} \ldots, x_{iP}, y_i)\)`
 - At any combination of `\(x's\)`, the true mean value of `\(y\)` is
 `$$\mu_y = \beta_0 + \beta_1 x_{1} + \beta_2 x_2 + \dots + \beta_p x_p$$`
 --
+
+&lt;br&gt;
 
 - We will use multiple linear regression to estimate the mean `\(y\)` for any combination of `\(x's\)`
 
@@ -381,17 +402,6 @@ tidy(price_model, conf.int = TRUE) %&gt;%
 
 ---
 
-### UPDATE - In Class Activity 
-
-.question[
-Given the other variables in the model, are the following significant predictors of salary at time of hire (`Bsal`)? 
-
-- Education (`Educ`)
-- Experience (`Exper`)
-]
-
----
-
 ### Confidence Interval for `\(\beta_j\)`
 
 .alert[
@@ -404,27 +414,35 @@ where `\(t^*\)` follows a `\(t\)` distribution with with `\((n - p - 1)\)` degre
 
 ---
 
-### CI for `bedrooms`
+### Confidence interval for `living_area`
+
 
 
 .question[
-Interpret the 95% confidence interval for the coefficient of `Educ`.
+Interpret the 95% confidence interval for the coefficient of `living_area`.
 ]
 
 
 ---
 
-### Notes about CI and Hypothesis Tests
+### Caution: Large sample sizes
 
-- If the sample size is large enough, the test will likely result in rejecting `\(H_0: \beta_j=0\)` even `\(x_j\)` has a very small effect on `\(y\)`
-  + Consider the &lt;font class="vocab"&gt;practical significance&lt;/font&gt; of the result not just the statistical significance 
-  + Use the confidence interval to draw conclusions instead of p-values
+
+If the sample size is large enough, the test will likely result in rejecting `\(H_0: \beta_j=0\)` even `\(x_j\)` has a very small effect on `\(y\)`
+
+- Consider the &lt;font class="vocab"&gt;practical significance&lt;/font&gt; of the result not just the statistical significance 
+
+- Use the confidence interval to draw conclusions instead of p-values
  
---
+---
 
-- If the sample size is small, there may not be enough evidence to reject `\(H_0: \beta_j=0\)`
-    - When you fail to reject the null hypothesis, **DON'T** immediately conclude that the variable has no association with the response. 
-    - There may be a linear association that is just not strong enough to detect given your data, or there may be a non-linear association.
+### Caution: Small sample sizes
+
+If the sample size is small, there may not be enough evidence to reject `\(H_0: \beta_j=0\)`
+
+- When you fail to reject the null hypothesis, **DON'T** immediately conclude that the variable has no association with the response. 
+  
+- There may be a linear association that is just not strong enough to detect given your data, or there may be a non-linear association.
     
 
 ---
@@ -452,20 +470,30 @@ The predicted sale price for a house in Levittown, NY with 3 bedrooms, 1 bathroo
 
 ---
 
-### Predictions
+### Intervals for predictions
 
 - Just like with simple linear regression, we can use the .vocab[`predict`] function in R to calculate the appropriate intervals for our predicted values 
 
 
 ```r
 x0 &lt;- data.frame(bedrooms = 3, bathrooms = 1, living_area = 1050, 
-                 lot_size = 6000, year_built = 1948, property_tax = 6306)
+                 lot_size = 6000, year_built = 1948, 
+                 property_tax = 6306)
 predict(price_model, x0, interval = "prediction")
 ```
 
---
+.question[
 
-IN CLASS ACtIVITY - COMPARE INtERVALS AND EXTRAPOLATION
+- Go to http://bit.ly/sta210-sp20-pred and use the model to answer the questions
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+<div class="countdown" id="timer_5e3a14b5" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 ---
 

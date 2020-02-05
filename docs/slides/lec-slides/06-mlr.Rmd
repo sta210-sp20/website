@@ -174,7 +174,7 @@ bikeshare %>%
 
 <br>
 
-The largest variance $1889^2$ is `r round(1889^2/1465^2, 3)` times the smallest variance $1465^2$, so the constant variance assumption is satisified. 
+The largest variance $1889^2$ is `r round(1889^2/1465^2, 3)` times the smallest variance $1465^2$, so the constant variance assumption is satisfied.
 
 ---
 
@@ -223,7 +223,7 @@ class: middle, center
 
 ---
 
-### House prices in Levittown, NY (section 1.4)
+### House prices in Levittown (sec. 1.4)
  
 - Public data on the sales of 85 homes in Levittown, NY from June 2010 to May 2011
 
@@ -434,17 +434,6 @@ $$\text{test statistic} = t =  \frac{\hat{\beta}_j - 0}{SE(\hat{\beta}_j)}$$
 
 ---
 
-### UPDATE - In Class Activity 
-
-.question[
-Given the other variables in the model, are the following significant predictors of salary at time of hire (`Bsal`)? 
-
-- Education (`Educ`)
-- Experience (`Exper`)
-]
-
----
-
 ### Confidence Interval for $\beta_j$
 
 .alert[
@@ -457,13 +446,15 @@ where $t^*$ follows a $t$ distribution with with $(n - p - 1)$ degrees of freedo
 
 ---
 
-### CI for `bedrooms`
+### Confidence interval for `living_area`
+
 ```{r,echo=F, eval = F}
-kable(tidy(bsal_model,conf.int=TRUE),format="html",digits=3)
+tidy(price_model, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
 ```
 
 .question[
-Interpret the 95% confidence interval for the coefficient of `Educ`.
+Interpret the 95% confidence interval for the coefficient of `living_area`.
 ]
 
 
@@ -509,7 +500,7 @@ The predicted sale price for a house in Levittown, NY with 3 bedrooms, 1 bathroo
 
 ---
 
-### Predictions
+### Intervals for predictions
 
 - Just like with simple linear regression, we can use the .vocab[`predict`] function in R to calculate the appropriate intervals for our predicted values 
 
@@ -520,9 +511,19 @@ x0 <- data.frame(bedrooms = 3, bathrooms = 1, living_area = 1050,
 predict(price_model, x0, interval = "prediction")
 ```
 
---
+.question[
 
-IN CLASS ACtIVITY - COMPARE INtERVALS AND EXTRAPOLATION
+- Go to http://bit.ly/sta210-sp20-pred and use the model to answer the questions
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+```{r echo = F}
+library(countdown)
+countdown(minutes = 3, seconds = 0, update_every = 1, warn_when = 30)
+```
 
 ---
 
@@ -534,4 +535,4 @@ IN CLASS ACtIVITY - COMPARE INtERVALS AND EXTRAPOLATION
 
 - The multiple regression model only shows .vocab3[association, not causality]
   + To show causality, you must have a carefully designed experiment or carefully account for confounding variables in an observational study 
-
+  
