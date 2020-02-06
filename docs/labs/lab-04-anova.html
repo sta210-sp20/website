@@ -498,7 +498,7 @@ font-size: 10pt;
 <ul>
 <li><p>Go to the sta210-sp20 organization on GitHub (<a href="https://github.com/sta210-sp20">https://github.com/sta210-sp20</a>). Click on the repo with the prefix <strong>lab-04-anova-</strong>. It contains the starter documents you need to complete the warmup exercise.</p></li>
 <li><p>Clone the repo and create a new project in RStudio Cloud.</p></li>
-<li><p>See <a href="https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html">Lab 01</a> for full instructions on getting started.</p></li>
+<li><p>See <a href="https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#getting-started">Lab 01</a> for full instructions on getting started.</p></li>
 </ul>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
@@ -519,35 +519,25 @@ font-size: 10pt;
 <div id="exploratory-data-analysis" class="section level3">
 <h3>Exploratory data analysis</h3>
 <ol style="list-style-type: decimal">
-<li>Create a new data frame that is a subset of diamonds that are 0.5 carats. How many observations are in the new dataset?</li>
+<li>Create a new data frame that is a subset of diamonds that weigh 0.5 carats. How many observations are in the new dataset?</li>
 </ol>
 <p><strong><i>You will use this subset for the remainder of lab.</i></strong></p>
 <ol start="2" style="list-style-type: decimal">
 <li><p>When using Analysis of Variance (ANOVA) to compare group means, it is ideal to have approximately the same number of observations for each group.</p>
 <ul>
-<li>Which two levels of <code>cut</code> have the fewest number of observations? Show the code and output used to support this answer. <label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://forcats.tidyverse.org/index.html">forcats</a> reference page for ideas on recoding factor variables.</span></span></li>
+<li>Which two levels of <code>cut</code> have the fewest number of observations? Show the code and output used to support your answer. <label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">See the <a href="https://forcats.tidyverse.org/index.html">forcats</a> reference page for ideas on recoding factor variables.</span></span></li>
 <li>Recode the variable <code>cut</code>, so that the two levels with the fewest number of observations are combined into one level. Be sure to give the new level an informative name and save the results to the data frame. <strong><i>You will use the recoded version of <code>cut</code> for the remainder of the lab.</i></strong></li>
 </ul></li>
 <li><p>Confirm that the variable <code>cut</code> was recoded as expected. Show the code and output used to check the recoding.</p></li>
-<li><p>Create a plot to display the relationship between <code>cut</code> and <code>price</code>. As a group, brainstorm plots that can be used to clearly display the relationship between the two variables, then make one of the plots. Be sure to include informative axes labels and an informative title.</p></li>
-<li><p>For each level of <code>cut</code>, calculate the the number of observations at that level along with the mean and standard deviation of <code>price</code>.</p></li>
+<li><p>Create a plot to display the relationship between <code>cut</code> and <code>price</code>. Be sure to include informative axes labels and an informative title.</p></li>
+<li><p>Calculate the number of observations along with the mean and standard deviation of <code>price</code> for each level of <code>cut</code>.</p></li>
 <li><p>Based on the plots and summary statistics from the previous exercises , does there appear to be a relationship between the cut and price for diamonds that are 0.5 carats? Briefly explain your reasoning.</p></li>
 </ol>
 </div>
 <div id="analysis-of-variance" class="section level2">
 <h2>Analysis of Variance</h2>
 <ol start="7" style="list-style-type: decimal">
-<li><p>Display the ANOVA table used to examine the relationship between <code>cut</code> and <code>price</code>for diamonds that are 0.5 carats.</p></li>
-<li><p>Use the ANOVA table from the previous question to calculate the sample variance of <code>price</code>. Use R like a calculator and show your calculations in a code chunk.</p></li>
-<li><p>What is <span class="math inline">\(\hat{\sigma}^2\)</span>, the estimated variance of <code>price</code> within each level of <code>cut</code>.</p></li>
-<li><p>State the null and alternative hypotheses for the test that can be conducted using the ANOVA table.</p></li>
-</ol>
-<ul>
-<li>State the hypotheses using both statistical notation and words in the context of the data.</li>
-</ul>
-<ol start="11" style="list-style-type: decimal">
-<li><p>Based on the ANOVA table, what is your conclusion from the test of the hypotheses in the previous question? State the conclusion in the context of the data.</p></li>
-<li><p>When using ANOVA to compare means across groups, we make the following assumptions (note how similar they are to the assumptions for regression):</p></li>
+<li>When using ANOVA to compare means across groups, we make the following assumptions (note how similar they are to the assumptions for regression):</li>
 </ol>
 <ul>
 <li><strong>Normality</strong>: The distribution of the response, <span class="math inline">\(y\)</span>, is approximately normal within each category of the predictor, <span class="math inline">\(x\)</span> - in the <span class="math inline">\(i^{th}\)</span> category, the <span class="math inline">\(y\)</span>’s follow a <span class="math inline">\(N(\mu_i, \sigma^2)\)</span> distribution.</li>
@@ -555,6 +545,13 @@ font-size: 10pt;
 <li><strong>Constant Variance</strong>: The distribution of the response within each category of predictor, <span class="math inline">\(x\)</span> has a common variance, <span class="math inline">\(\sigma^2\)</span>.</li>
 </ul>
 <p>Are the assumptions for ANOVA satisifed? Comment on each assumption, including an explanation for your reasoning and any summary statistics and/or plots used to make the conclusion.</p>
+<ol start="8" style="list-style-type: decimal">
+<li><p>Display the ANOVA table used to examine the relationship between <code>cut</code> and <code>price</code> for diamonds that are 0.5 carats.</p></li>
+<li><p>Use the ANOVA table from the previous question to calculate the sample variance of <code>price</code>. Show the code / formula used to calculate the sample variance.</p></li>
+<li><p>What is <span class="math inline">\(\hat{\sigma}^2\)</span>, the estimated variance of <code>price</code> within each level of <code>cut</code>.</p></li>
+<li><p>State the null and alternative hypotheses for the test conducted using the ANOVA table in Exercise 8. State the hypotheses using both statistical notation and words in the context of the data.</p></li>
+<li><p>What is your conclusion for the test specified in the previous question? State the conclusion in the context of the data.</p></li>
+</ol>
 </div>
 <div id="additional-analysis" class="section level2">
 <h2>Additional Analysis</h2>

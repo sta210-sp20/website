@@ -34,7 +34,7 @@ The goal of this lab is to use Analysis of Variance (ANOVA) to understand the va
 
 - Clone the repo and create a new project in RStudio Cloud. 
 
-- See [Lab 01](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html) for full instructions on getting started.
+- See [Lab 01](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#getting-started) for full instructions on getting started.
 
 ## Packages
 
@@ -60,14 +60,14 @@ The `diamonds` dataset contains the price and other characteristics for over 50,
 
 ### Exploratory data analysis
 
-1. Create a new data frame that is a subset of diamonds that are 0.5 carats. How many observations are in the new dataset? 
+1. Create a new data frame that is a subset of diamonds that weigh 0.5 carats. How many observations are in the new dataset? 
 
 **<i>You will use this subset for the remainder of lab.</i>**
 
 
 
 2. When using Analysis of Variance (ANOVA) to compare group means, it is ideal to have approximately the same number of observations for each group.
-    - Which two levels of `cut`  have the fewest number of observations? Show the code and output used to support this answer. 
+    - Which two levels of `cut`  have the fewest number of observations? Show the code and output used to support your answer.
     ```{marginfigure}
 See the [forcats](https://forcats.tidyverse.org/index.html) reference page for ideas on recoding factor variables.
 ```
@@ -75,33 +75,31 @@ See the [forcats](https://forcats.tidyverse.org/index.html) reference page for i
 
 3. Confirm that the variable `cut` was recoded as expected. Show the code and output used to check the recoding. 
 
-4. Create a plot to display the relationship between `cut` and `price`.  As a group, brainstorm plots that can be used to clearly display the relationship between the two variables, then make one of the plots. Be sure to include informative axes labels and an informative title.
+4. Create a plot to display the relationship between `cut` and `price`. Be sure to include informative axes labels and an informative title.
 
-5. For each level of `cut`, calculate the the number of observations at that level along with the mean and standard deviation of `price`. 
+5. Calculate the number of observations along with the mean and standard deviation of `price` for each level of `cut`. 
 
 6. Based on the plots and summary statistics from the previous exercises , does there appear to be a relationship between the cut and price for diamonds that are 0.5 carats? Briefly explain your reasoning.
 
   
 ## Analysis of Variance 
 
-7. Display the ANOVA table used to examine the relationship between `cut` and `price`for diamonds that are 0.5 carats.
-
-8. Use the ANOVA table from the previous question to calculate the sample variance of `price`. Use R like a calculator and show your calculations in a code chunk. 
-
-9. What is $\hat{\sigma}^2$, the estimated variance of `price` within each level of `cut`. 
-
-10. State the null and alternative hypotheses for the test that can be conducted using the ANOVA table. 
-- State the hypotheses using both statistical notation and words in the context of the data.
-
-11. Based on the ANOVA table, what is your conclusion from the test of the hypotheses in the previous question? State the conclusion in the context of the data.
-
-12. When using ANOVA to compare means across groups, we make the following assumptions (note how similar they are to the assumptions for regression): 
-
+7. When using ANOVA to compare means across groups, we make the following assumptions (note how similar they are to the assumptions for regression): 
   - **Normality**: The distribution of the response, $y$, is approximately normal within each category of the predictor, $x$ - in the $i^{th}$ category, the $y$'s follow a $N(\mu_i, \sigma^2)$ distribution. 
   - **Independence**: All observations are independent from one another, i.e. one observation does not affect another.
   - **Constant Variance**: The distribution of the response within each category of predictor, $x$ has a common variance, $\sigma^2$. 
 
 Are the assumptions for ANOVA satisifed? Comment on each assumption, including an explanation for your reasoning and any summary statistics and/or plots used to make the conclusion. 
+
+8. Display the ANOVA table used to examine the relationship between `cut` and `price` for diamonds that are 0.5 carats.
+
+9. Use the ANOVA table from the previous question to calculate the sample variance of `price`. Show the code / formula used to calculate the sample variance. 
+
+10. What is $\hat{\sigma}^2$, the estimated variance of `price` within each level of `cut`. 
+
+11. State the null and alternative hypotheses for the test conducted using the ANOVA table in Exercise 8. State the hypotheses using both statistical notation and words in the context of the data.
+
+12. What is your conclusion for the test specified in the previous question? State the conclusion in the context of the data.
 
 ## Additional Analysis
 
