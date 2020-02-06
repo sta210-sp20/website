@@ -143,6 +143,6 @@ To submit your assignment:
 | Additional Analysis |4	|
 | Merge conflict exercise | 3|
 | Lab attendance & participation 	| 3 	|
-| Narrative in full sentences 	| 2 	|
+| Narrative in full sentences & document neatly organized 	| 2 	|
 | Commit messages from every member| 2 	|
 | **Total** | **50** |
