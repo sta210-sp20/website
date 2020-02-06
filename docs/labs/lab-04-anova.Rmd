@@ -89,7 +89,7 @@ See the [forcats](https://forcats.tidyverse.org/index.html) reference page for i
   - **Independence**: All observations are independent from one another, i.e. one observation does not affect another.
   - **Constant Variance**: The distribution of the response within each category of predictor, $x$ has a common variance, $\sigma^2$. 
 
-Are the assumptions for ANOVA satisifed? Comment on each assumption, including an explanation for your reasoning and any summary statistics and/or plots used to make the conclusion. 
+Are the assumptions for ANOVA satisfied? Comment on each assumption, including an explanation for your reasoning and any summary statistics and/or plots used to make the conclusion. 
 
 8. Display the ANOVA table used to examine the relationship between `cut` and `price` for diamonds that are 0.5 carats.
 
@@ -103,7 +103,7 @@ Are the assumptions for ANOVA satisifed? Comment on each assumption, including a
 
 ## Additional Analysis
 
-13. Based on the conclusion of the ANOVA test, conduct further statistical analysis to provide more detail about which level(s) is(are) different and by how much. If further statistical anlaysis is not required, provide a brief explanation why it isn't based on the conclusion from the ANOVA test.
+13. Based on the conclusion of the ANOVA test, conduct further statistical analysis to provide more detail about which level(s) is(are) different and by how much. If further statistical analysis is not required, provide a brief explanation why it isn't based on the conclusion from the ANOVA test.
 
 *You're done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 4!", and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that <u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.*
 
