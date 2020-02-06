@@ -99,7 +99,7 @@ knitr::include_graphics("img/03/merge-conflict-identifiers.png")
 
 ---
 
-### Practce dealing with merge conflicts
+### Practice dealing with merge conflicts
 
 We will walk through an activity as a class to practice dealing with merge conflicts.
 
@@ -165,7 +165,7 @@ We will walk through an activity as a class to practice dealing with merge confl
 ### Team Member 4
 
 .alert[
-- Change the text **`This is line 2 of text`**. to something else, e.g. **`This is the last one!`**`
+- Change the text **`This is line 2 of text`**. to something else, e.g. **`This is the last one!`**
 - Commit and attempt to push. You should get an error.
 - Read the error message as a group.
 - Pull.
