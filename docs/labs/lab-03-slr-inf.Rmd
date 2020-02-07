@@ -265,7 +265,7 @@ To submit your assignment:
 |----------------------------------------	|----	|
 | Exploratory Data Analysis | 16 	|
 | Regression Model & Assumptions |  10	|
-| Statistical Inference | 15	|
+| Statistical Inference | 13	|
 | Prediction | 4 |
 | Lab attendance & participation 	| 3 	|
 | Narrative in full sentences 	| 2 	|
