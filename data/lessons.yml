@@ -78,7 +78,7 @@ lessons:
     lab: "lab-04-anova.html"
   - title: "Week 06"
   - date: "Mon, Feb 10"
-    title: "MLR: Categorical Predictors & Math Details"
+    title: "MLR: Special Predictors"
     reading: "reading-05.html"
     slides: "lec-slides/07-mlr-special-predictors.html"
   - date: "Wed, Feb 12"
