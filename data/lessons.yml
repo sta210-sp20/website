@@ -80,7 +80,7 @@ lessons:
   - date: "Mon, Feb 10"
     title: "MLR: Categorical Predictors & Math Details"
     reading: "reading-05.html"
-  #  slides: "lec-slides/10-model-assessment.html"
+    slides: "lec-slides/07-mlr-special-predictors.html"
   - date: "Wed, Feb 12"
     title: "MLR: Assumptions & Transformations"
     reading: "reading-05.html"
