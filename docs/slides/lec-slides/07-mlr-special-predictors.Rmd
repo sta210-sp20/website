@@ -1,6 +1,6 @@
 ---
 title: "Multiple Linear Regression"
-subtitle: "Assumptions & Special Predictors"
+subtitle: "Special Predictors"
 author: "Dr. Maria Tackett"
 date: "09.23.19"
 output:
