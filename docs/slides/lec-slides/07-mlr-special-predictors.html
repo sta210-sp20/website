@@ -38,6 +38,9 @@ class: middle, center
   
 - [Reading for today &amp; Wednesday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-05.html)
 
+- StatSci Majors Union: Careers at Research in Sports Analytics
+  - Tuesday at 7p
+  - Old Chem lobby
 
 ---
 
@@ -249,15 +252,7 @@ The predicted sale price for a house in Levittown, NY with 3 bedrooms, 1 bathroo
 
 ### Intervals for predictions
 
-- Just like with simple linear regression, we can use the .vocab[`predict`] function in R to calculate the appropriate intervals for our predicted values 
-
-
-```r
-x0 &lt;- data.frame(bedrooms = 3, bathrooms = 1, living_area = 1050, 
-                 lot_size = 6000, year_built = 1948, 
-                 property_tax = 6306)
-predict(price_model, x0, interval = "prediction")
-```
+- Predictions have uncertainity just like any other quantity that is estimated, so we so we want to report the appropriate interval along with the predicted value. 
 
 .question[
 
@@ -268,9 +263,47 @@ predict(price_model, x0, interval = "prediction")
 - You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
 ]
 
-<div class="countdown" id="timer_5e40d4a9" style="right:0;bottom:0;" data-warnwhen="30">
+<div class="countdown" id="timer_5e41695f" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
+
+---
+
+### Intervals for predcitions 
+
+
+```r
+x0 &lt;- data.frame(bedrooms = 3, bathrooms = 1, living_area = 1050, 
+                 lot_size = 6000, year_built = 1948, 
+                 property_tax = 6306)
+```
+--
+
+Predict the **mean** response for the **subset** of observations that have the given characteristics: 
+
+
+```r
+predict(price_model, x0, interval = "confidence")
+```
+
+```
+##        fit      lwr      upr
+## 1 265360.2 238481.7 292238.7
+```
+
+--
+
+Predict the response for an **individual** observation with the given characteristics: 
+
+
+```r
+predict(price_model, x0, interval = "prediction")
+```
+
+```
+##        fit      lwr      upr
+## 1 265360.2 167276.8 363443.6
+```
 
 ---
 
@@ -330,7 +363,7 @@ class: middle, center
 
 - One way to estimate the coefficients is by taking partial derivatives of the formula
 
-`$$\sum_{i=1}^n e_i^2 = \sum_{i=1}^{n}[y_i - (\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} \dots + \beta_p x_{ip})]^2$$`
+`$$\sum_{i=1}^n e_i^2 = \sum_{i=1}^{n}[y_{i} - (\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_{2} x_{i2} + \dots + \hat{\beta}_p x_{ip})]^2$$`
 
 --
 
@@ -444,10 +477,10 @@ homes &lt;- homes %&gt;%
 ```
 
 .pull-left[
-&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
-&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -477,7 +510,7 @@ Below is the original model:
 ]
 ]
 
-<div class="countdown" id="timer_5e40d4c3" style="right:0;bottom:0;" data-warnwhen="30">
+<div class="countdown" id="timer_5e416712" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 ---
@@ -516,7 +549,8 @@ homes &lt;- homes %&gt;%
     TRUE ~ "Fifties"
   ), 
   decade_built = factor(decade_built, 
-                        levels = c("Forties", "Fifties", "Sixties"))
+                        levels = c("Forties", "Fifties", 
+                                   "Sixties"))
   )
 ```
 ]
@@ -525,7 +559,7 @@ homes &lt;- homes %&gt;%
 
 ### `year_built` and `decade_built`
 
-&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 

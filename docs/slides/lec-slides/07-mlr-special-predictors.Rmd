@@ -43,6 +43,9 @@ class: middle, center
   
 - [Reading for today & Wednesday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-05.html)
 
+- StatSci Majors Union: Careers at Research in Sports Analytics
+  - Tuesday at 7p
+  - Old Chem lobby
 
 ---
 
@@ -290,14 +293,7 @@ The predicted sale price for a house in Levittown, NY with 3 bedrooms, 1 bathroo
 
 ### Intervals for predictions
 
-- Just like with simple linear regression, we can use the .vocab[`predict`] function in R to calculate the appropriate intervals for our predicted values 
-
-```{r eval = F}
-x0 <- data.frame(bedrooms = 3, bathrooms = 1, living_area = 1050, 
-                 lot_size = 6000, year_built = 1948, 
-                 property_tax = 6306)
-predict(price_model, x0, interval = "prediction")
-```
+- Predictions have uncertainity just like any other quantity that is estimated, so we so we want to report the appropriate interval along with the predicted value. 
 
 .question[
 
@@ -311,6 +307,31 @@ predict(price_model, x0, interval = "prediction")
 ```{r echo = F}
 library(countdown)
 countdown(minutes = 3, seconds = 0, update_every = 1, warn_when = 30)
+```
+
+---
+
+### Intervals for predcitions 
+
+```{r}
+x0 <- data.frame(bedrooms = 3, bathrooms = 1, living_area = 1050, 
+                 lot_size = 6000, year_built = 1948, 
+                 property_tax = 6306)
+```
+--
+
+Predict the **mean** response for the **subset** of observations that have the given characteristics: 
+
+```{r}
+predict(price_model, x0, interval = "confidence")
+```
+
+--
+
+Predict the response for an **individual** observation with the given characteristics: 
+
+```{r}
+predict(price_model, x0, interval = "prediction")
 ```
 
 ---
@@ -371,7 +392,7 @@ $$\hat{\sigma}^2  = \frac{RSS}{n-p-1} = \frac{\sum_{i=1}^ne_i^2}{n-p-1}$$
 
 - One way to estimate the coefficients is by taking partial derivatives of the formula
 
-$$\sum_{i=1}^n e_i^2 = \sum_{i=1}^{n}[y_i - (\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} \dots + \beta_p x_{ip})]^2$$
+$$\sum_{i=1}^n e_i^2 = \sum_{i=1}^{n}[y_{i} - (\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_{2} x_{i2} + \dots + \hat{\beta}_p x_{ip})]^2$$
 
 --
 
@@ -499,7 +520,8 @@ homes <- homes %>%
     TRUE ~ "Fifties"
   ), 
   decade_built = factor(decade_built, 
-                        levels = c("Forties", "Fifties", "Sixties"))
+                        levels = c("Forties", "Fifties", 
+                                   "Sixties"))
   )
 ```
 ]
