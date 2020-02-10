@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Multiple Linear Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Maria Tackett" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Multiple Linear Regression
+## Special Predictors
+### Prof. Maria Tackett
+### 02.10.20
+
+---
+
+
+
+
+class: middle, center
+
+### [Click for PDF of slides](07-mlr-special-predictors.pdf)
+
+---
+
+### Announcements
+
+- Lab 04 **due tomorrow at 11:59p**
+    - pdf of instructions in GitHub repo
+
+- HW 02 **due Wed, Feb 12 at 11:59p**
+  - pdf of instructions in GitHub repo
+  
+- [Reading for today &amp; Wednesday](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-05.html)
+
+
+---
+
+### Today's agenda 
+
+- Inference for regression coefficients
+
+- Prediction
+
+- Quick math details
+
+- Special predictors
+
+---
+ 
+### R packages
+
+
+
+---
+
+### House prices in Levittown (sec. 1.4)
+ 
+- Public data on the sales of 85 homes in Levittown, NY from June 2010 to May 2011
+
+- Levittown was built right after WWI and was the first planned suburban community built using mass production techniques 
+
+&lt;br&gt;
+
+.alert[
+**Questions**: 
+- What is the relationship between the characteristics of a house in Levittown and its sale price? 
+- Given its characteristics, what is the expected sale price of a house in Levittown?  
+]
+
+---
+
+### Data
+
+
+
+
+```r
+glimpse(homes)
+```
+
+```
+## Observations: 85
+## Variables: 7
+## $ bedrooms     &lt;dbl&gt; 4, 4, 4, 5, 5, 4, 4, 4, 4, 3, 4, 4, 3, 4, 3, 5, 4, …
+## $ bathrooms    &lt;dbl&gt; 1.0, 2.0, 2.0, 2.0, 2.5, 2.0, 1.0, 1.0, 1.5, 2.0, 2…
+## $ living_area  &lt;dbl&gt; 1380, 1761, 1564, 2904, 1942, 1830, 1585, 941, 1481…
+## $ lot_size     &lt;dbl&gt; 6000, 7400, 6000, 9898, 7788, 6000, 6000, 6800, 600…
+## $ year_built   &lt;dbl&gt; 1948, 1951, 1948, 1949, 1948, 1948, 1948, 1951, 194…
+## $ property_tax &lt;dbl&gt; 8360, 5754, 8982, 11664, 8120, 8197, 6223, 2448, 90…
+## $ sale_price   &lt;dbl&gt; 350000, 360000, 350000, 375000, 370000, 335000, 295…
+```
+
+---
+
+### Variables
+
+**Predictors**
+- .vocab[`bedrooms`]: Number of bedrooms
+- .vocab[`bathrooms`]: Number of bathrooms
+- .vocab[`living_area`]: Total living area of the house (in square feet)
+- .vocab[`lot_size`]: Total area of the lot (in square feet)
+- .vocab[`year_built`]: Year the house was built
+- .vocab[`property_tax`]: Annual property taxes (in U.S. dollars)
+
+**Response**
+- .vocab[`sale_price`]: Sales price (in U.S. dollars)
+
+---
+
+### EDA: Response variable
+
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+### EDA: Predictor variables 
+
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### EDA: Response vs. Predictors
+
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Regression Output
+
+.small[
+
+
+
+|term         |     estimate|   std.error| statistic| p.value|      conf.low|  conf.high|
+|:------------|------------:|-----------:|---------:|-------:|-------------:|----------:|
+|(Intercept)  | -7148818.957| 3820093.694|    -1.871|   0.065| -14754041.291| 456403.376|
+|bedrooms     |   -12291.011|    9346.727|    -1.315|   0.192|    -30898.915|   6316.893|
+|bathrooms    |    51699.236|   13094.170|     3.948|   0.000|     25630.746|  77767.726|
+|living_area  |       65.903|      15.979|     4.124|   0.000|        34.091|     97.715|
+|lot_size     |       -0.897|       4.194|    -0.214|   0.831|        -9.247|      7.453|
+|year_built   |     3760.898|    1962.504|     1.916|   0.059|      -146.148|   7667.944|
+|property_tax |        1.476|       2.832|     0.521|   0.604|        -4.163|      7.115|
+]
+
+---
+
+### Interpreting `\(\hat{\beta}_j\)`
+
+- An estimated coefficient `\(\hat{\beta}_j\)` is the expected change in `\(y\)` to change when `\(x_j\)` increases by one unit **&lt;u&gt;holding the values of all other predictor variables constant&lt;/u&gt;**.
+
+--
+
+&lt;br&gt;
+
+- *Example:* The estimated coefficient for **`living_area`** is 65.90. This means for each additional square foot of living area, we expect the sale price of a house in Levittown, NY to increase by $65.90, on average, holding all other predictor variables constant.
+
+---
+
+### Hypothesis Tests for `\(\hat{\beta}_j\)`
+
+- We want to test whether a particular coefficient has a value of 0 in the population, given all other variables in the model: 
+
+.alert[
+`$$\begin{aligned}&amp;H_0: \beta_j = 0 \\ &amp;H_a: \beta_j \neq 0\end{aligned}$$`
+]
+
+- The test statistic reported in R is the following: 
+
+`$$\text{test statistic} = t =  \frac{\hat{\beta}_j - 0}{SE(\hat{\beta}_j)}$$`
+
+- Calculate the p-value using the `\(t\)` distribution with `\(n - p - 1\)` degrees of freedom, where `\(p\)` is the number of terms in the model (not including the intercept).
+
+---
+
+### Confidence Interval for `\(\beta_j\)`
+
+.alert[
+The `\(C%\)` confidence interval for `\(\beta_j\)` 
+`$$\hat{\beta}_j \pm t^* SE(\hat{\beta}_j)$$`
+where `\(t^*\)` follows a `\(t\)` distribution with with `\((n - p - 1)\)` degrees of freedom
+]
+
+- **General Interpretation**: We are `\(C%\)` confident that the interval LB to UB contains the population coefficient of `\(x_j\)`. Therefore, for every one unit increase in `\(x_j\)`, we expect `\(y\)` to change by LB to UB units, holding all else constant. 
+
+---
+
+### Confidence interval for `living_area`
+
+
+
+.question[
+Interpret the 95% confidence interval for the coefficient of `living_area`.
+]
+
+
+---
+
+### Caution: Large sample sizes
+
+
+If the sample size is large enough, the test will likely result in rejecting `\(H_0: \beta_j=0\)` even `\(x_j\)` has a very small effect on `\(y\)`
+
+- Consider the &lt;font class="vocab"&gt;practical significance&lt;/font&gt; of the result not just the statistical significance 
+
+- Use the confidence interval to draw conclusions instead of p-values
+ 
+---
+
+### Caution: Small sample sizes
+
+If the sample size is small, there may not be enough evidence to reject `\(H_0: \beta_j=0\)`
+
+- When you fail to reject the null hypothesis, **DON'T** immediately conclude that the variable has no association with the response. 
+  
+- There may be a linear association that is just not strong enough to detect given your data, or there may be a non-linear association.
+    
+
+---
+
+### Prediction
+
+- We calculate predictions the same as with simple linear regression 
+
+- **Example:** What is the predicted sale price for a house in Levittown, NY with 3 bedrooms, 1 bathroom, 1050 square feet of living area, 6000 square foot lot size, built in 1948 with $6306 in property taxes?
+
+
+
+```r
+-7148818.957 - 12291.011 * 3 + 51699.236 * 1 + 
+  65.903 * 1050 - 0.897 * 6000 + 3760.898 * 1948 + 1.476 * 6306
+```
+
+```
+## [1] 265360.4
+```
+
+--
+
+The predicted sale price for a house in Levittown, NY with 3 bedrooms, 1 bathroom, 1050 square feet of living area, 6000 square foot lot size, built in 1948 with $6306 in property taxes is **$265,360**.
+
+---
+
+### Intervals for predictions
+
+- Just like with simple linear regression, we can use the .vocab[`predict`] function in R to calculate the appropriate intervals for our predicted values 
+
+
+```r
+x0 &lt;- data.frame(bedrooms = 3, bathrooms = 1, living_area = 1050, 
+                 lot_size = 6000, year_built = 1948, 
+                 property_tax = 6306)
+predict(price_model, x0, interval = "prediction")
+```
+
+.question[
+
+- Go to http://bit.ly/sta210-sp20-pred and use the model to answer the questions
+
+- Use **NetId@duke.edu** for your email address.
+
+- You are welcome (and encouraged!) to discuss these questions with 1 - 2 people around you, but **each person** must submit a response.
+]
+
+<div class="countdown" id="timer_5e40d4a9" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+### Cautions
+
+- .vocab3[Do not extrapolate!] Because there are multiple explanatory variables, you can extrapolation in many ways
+
+--
+
+- The multiple regression model only shows .vocab3[association, not causality]
+  + To show causality, you must have a carefully designed experiment or carefully account for confounding variables in an observational study 
+ 
+---
+
+class: middle, center
+
+## Math details
+
+---
+
+### Regression Model 
+
+- The multiple linear regression model assumes 
+
+.alert[
+`$$y|x_1, x_2,  \ldots, x_p \sim N(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p, \sigma^2)$$`
+]
+
+--
+
+- For a given observation `\((x_{i1}, x_{i2}, \ldots, x_{ip}, y_i)\)`, we can rewrite the previous statement as 
+
+.alert[
+`$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon_{i} \hspace{10mm} \epsilon_i \sim N(0,\sigma^2)$$`
+]
+---
+
+### Estimating `\(\sigma^2\)`
+
+- For a given observation `\((x_{i1}, x_{i2}, \ldots,x_{ip}, y_i)\)` the residual is 
+
+.alert[
+`$$e_i = y_{i} - (\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_{2} x_{i2} + \dots + \hat{\beta}_p x_{ip})$$`
+]
+
+--
+
+- The estimated value of the regression variance , `\(\sigma^2\)`, is 
+
+.alert[
+`$$\hat{\sigma}^2  = \frac{RSS}{n-p-1} = \frac{\sum_{i=1}^ne_i^2}{n-p-1}$$`
+]
+
+---
+
+### Estimating Coefficients 
+
+- One way to estimate the coefficients is by taking partial derivatives of the formula
+
+`$$\sum_{i=1}^n e_i^2 = \sum_{i=1}^{n}[y_i - (\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} \dots + \beta_p x_{ip})]^2$$`
+
+--
+
+- This produces messy formulas, so instead we can use matrix notation for multiple linear regression and estimate the coefficients using rules from linear algebra. 
+    - For more details, see Section 1.2 of the textbook and the supplemental notes [Matrix Notation for Multiple Linear Regression](https://github.com/sta210-sp20/supplemental-notes/blob/master/regression-basics-matrix.pdf)
+    - **Note:** You are **&lt;u&gt;not&lt;/u&gt;** required to know matrix notation for MLR in this class
+
+---
+
+class: middle, center
+
+## Special Predictors
+
+---
+
+### Interpreting the Intercept 
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -7148818.957 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3820093.694 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.871 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.065 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bedrooms &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -12291.011 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9346.727 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.315 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.192 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bathrooms &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 51699.236 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13094.170 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.948 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; living_area &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 65.903 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.979 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.124 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; lot_size &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.897 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.214 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.831 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; year_built &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3760.898 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1962.504 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.916 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.059 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; property_tax &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.476 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.832 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.521 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.604 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.question[
+- Interpret the intercept. 
+
+- Is this interpretation meaningful? Why or why not?
+]
+
+---
+
+
+### Mean-Centered Variables
+
+- To have a meaningful interpretation of the intercept, use **mean-centered** predictor variables in the model (quantitative predictors only)
+
+- A &lt;font class = "vocab"&gt;mean-centered variable&lt;/font&gt; is calculated by subtracting the mean from each value of the variable, i.e. `$$x_{ip} - \bar{x}_{.p}$$`
+
+- Now the intercept is interpreted as the expected value of the response at the mean value of all quantitative predictors
+
+---
+
+### Salary: Mean-Centered Variables
+
+
+```r
+homes &lt;- homes %&gt;%
+  mutate(bedroomsCent = bedrooms - mean(bedrooms), 
+         bathroomsCent = bathrooms - mean(bathrooms), 
+         living_areaCent = living_area - mean(living_area), 
+         lot_sizeCent = lot_size - mean(lot_size), 
+         year_builtCent = year_built - mean(year_built), 
+         property_taxCent = property_tax - mean(property_tax))
+```
+
+.pull-left[
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+
+### In-class exercise
+
+Below is the original model: 
+
+.small[
+
+|term         |     estimate|   std.error| statistic| p.value|
+|:------------|------------:|-----------:|---------:|-------:|
+|(Intercept)  | -7148818.957| 3820093.694|    -1.871|   0.065|
+|bedrooms     |   -12291.011|    9346.727|    -1.315|   0.192|
+|bathrooms    |    51699.236|   13094.170|     3.948|   0.000|
+|living_area  |       65.903|      15.979|     4.124|   0.000|
+|lot_size     |       -0.897|       4.194|    -0.214|   0.831|
+|year_built   |     3760.898|    1962.504|     1.916|   0.059|
+|property_tax |        1.476|       2.832|     0.521|   0.604|
+]
+
+.pull-left[
+.question[
+
+- Go to http://bit.ly/sta210-sp20-mean-center and describe how the model would change if mean-centere variables were used instead.
+]
+]
+
+<div class="countdown" id="timer_5e40d4c3" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+
+### How model changes with mean-centered variables
+
+---
+
+### Indicator (dummy) variables
+
+
+- Suppose there is a categorical variable with `\(k\)` levels (categories)
+
+- Make `\(k\)` indicator variables (also known as dummy variables)
+
+- Use `\(k-1\)` of the indicator variables in the model
+    - Can't uniquely estimate all `\(k\)` variables at once if the intercept is in the model
+    
+- Level that doesn't have a variable in the model is called the &lt;font class="vocab3"&gt;baseline&lt;/font&gt;
+
+- Coefficients interpreted as the change in the mean of the response over the baseline
+
+---
+
+### Indicator variables when `\(k &gt; 2\)`
+
+Suppose we create a new variable called **`decade_built`** that is the decade the house is built 
+
+.small[
+
+```r
+homes &lt;- homes %&gt;% 
+  mutate(decade_built = case_when(
+    year_built %in% c(1948, 1949) ~ "Forties", 
+    year_built %in% c(1961, 1962) ~ "Sixties",
+    TRUE ~ "Fifties"
+  ), 
+  decade_built = factor(decade_built, 
+                        levels = c("Forties", "Fifties", "Sixties"))
+  )
+```
+]
+
+---
+
+### `year_built` and `decade_built`
+
+&lt;img src="07-mlr-special-predictors_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Model with categorical predictor
+
+- Let's fit the model with `decade_built` instead of `year_built`
+
+
+|term                |   estimate| std.error| statistic| p.value|
+|:-------------------|----------:|---------:|---------:|-------:|
+|(Intercept)         | 171943.215| 49977.768|     3.440|   0.001|
+|bedrooms            | -12024.725|  9611.054|    -1.251|   0.215|
+|bathrooms           |  56179.551| 12993.791|     4.324|   0.000|
+|living_area         |     64.194|    16.241|     3.953|   0.000|
+|lot_size            |     -0.568|     4.264|    -0.133|   0.894|
+|property_tax        |      1.249|     2.885|     0.433|   0.666|
+|decade_builtFifties |  10492.738| 11325.820|     0.926|   0.357|
+|decade_builtSixties |  40300.518| 30393.515|     1.326|   0.189|
+
+
+
+---
+
+### Interaction Terms
+
+- **Case**: Relationship of the predictor variable with the response depends on the value of another predictor variable
+  + This is an .vocab[interaction effect]
+  
+- Create a new interaction variable that is one predictor variable times the other in the interaction 
+
+-  **Good Practice**: When including an interaction term, also *include the associated &lt;u&gt;main effects&lt;/u&gt;* (each predictor variable on its own) even if their coefficients are not statistically significant
+
+---
+
+### Interaction: decase_built * bathrooms
+
+.small[
+
+```r
+price_model &lt;- lm(sale_price ~ bedrooms + bathrooms + living_area +
+                    lot_size + property_tax + decade_built + 
+*                   decade_built * bathrooms,
+                  data = homes)
+```
+]
+
+
+|term                          |   estimate|  std.error| statistic| p.value|
+|:-----------------------------|----------:|----------:|---------:|-------:|
+|(Intercept)                   | 171675.745|  55663.287|     3.084|   0.003|
+|bedrooms                      | -12580.988|   9816.949|    -1.282|   0.204|
+|bathrooms                     |  56363.759|  18081.988|     3.117|   0.003|
+|living_area                   |     64.319|     16.478|     3.903|   0.000|
+|lot_size                      |     -0.357|      4.345|    -0.082|   0.935|
+|property_tax                  |      1.312|      2.929|     0.448|   0.655|
+|decade_builtFifties           |  12931.382|  46800.696|     0.276|   0.783|
+|decade_builtSixties           | -70531.549| 267991.500|    -0.263|   0.793|
+|bathrooms:decade_builtFifties |  -1263.513|  23798.721|    -0.053|   0.958|
+|bathrooms:decade_builtSixties |  50802.984| 122521.380|     0.415|   0.680|
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
