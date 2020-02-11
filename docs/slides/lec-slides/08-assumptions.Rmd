@@ -1,0 +1,328 @@
+---
+title: "Multiple Linear Regression"
+subtitle: "Special Predictors & Assumptions"
+author: "Prof. Maria Tackett"
+date: "02.12.20"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 3.5,
+	message = FALSE,
+	warning = FALSE, 
+	dpi = 300
+)
+```
+
+class: middle, center
+
+### [Click for PDF of slides](07-mlr-special-predictors.pdf)
+
+---
+
+### Announcements
+
+- HW 02 **due TODAY at 11:59p**
+
+- HW 03 **due Wed, Feb 19 at 11:59p**
+  
+
+---
+
+### Today's agenda 
+
+- Special predictors
+
+- Checking assumptions 
+
+```{r echo = F}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(cowplot) # use plot_grid function
+```
+
+---
+
+### Peer-to-peer lending club
+ 
+```{r}
+# loan50 dataset from the openintro package
+loans <- read_csv("data/loans.csv") %>%
+  mutate(bankruptcy = as.factor(bankruptcy))
+glimpse(loans)
+```
+
+---
+
+### Variables
+
+**Predictors**
+- .vocab[`verified_income`]: Whether borrower's income source and amount have been verified (`Not Verified`, `Source Verified`, `Verified`)
+- .vocab[`debt_to_income`]: Debt-to-income ratio, i.e. the percentage of a borrower's total debt divided by their total income
+- .vocab[`bankruptcy`]: Indicator of whether borrower has had a bankruptcy in the past (`0`: No, `1`: Yes)
+- .vocab[`term`]: Length of the loan in months
+- .vocab[`credit_util`]: What fraction of total credit a borrower is utilizing, i.e. total credit utilizied divided by total credit limit
+
+**Response**
+- .vocab[`interest_rate`]: Interest rate for the loan
+
+---
+
+### Response variable, `interest_rate`
+
+```{r echo = F}
+ggplot(data = loans, aes(x = interest_rate)) +
+  geom_histogram() + 
+  labs(x = "Interest rate", 
+       title = "Distribution of interest rate")
+```
+
+---
+
+### Predictor variables 
+
+```{r echo = F}
+library(patchwork)
+
+p1 <- ggplot(data = loans, aes(x = verified_income)) +
+  geom_bar() +
+  labs(title = "Verified Income", 
+       x = "", y = "") +
+  coord_flip()
+
+p2 <- ggplot(data = loans, aes(x = debt_to_income)) +
+  geom_histogram() + 
+  labs(title = "Debt to income ratio",
+       x = "", y = "")
+
+p3 <- ggplot(data = loans, aes(x = bankruptcy)) +
+  geom_bar() + 
+  labs(title = "Past Bankruptcy?",
+       x = "", y = "")
+
+p4 <- ggplot(data = loans, aes(x = term)) +
+  geom_histogram() + 
+  labs(title = "Loan term length", 
+       x = "", y = "")
+
+p5 <- ggplot(data = loans, aes(x = credit_util)) +
+  geom_histogram() + 
+  labs(title = "Credit Utilization", 
+       x = "", y = "")
+
+p1 + p2 + p3 + p4 + p5
+```
+
+---
+
+### Response vs. Predictors
+
+```{r echo = F}
+p1 <- ggplot(data = loans, aes(x = verified_income, y = interest_rate)) +
+  geom_boxplot() + 
+  labs()
+
+p2 <- ggplot(data = loans, aes(x = debt_to_income, y = interest_rate)) +
+  geom_point(alpha = 0.2) + 
+  labs(y = "")
+
+
+p3 <- ggplot(data = loans, aes(x = bankruptcy, y = interest_rate)) +
+  geom_boxplot() + 
+  labs(y = "")
+
+
+p4 <- ggplot(data = loans, aes(x = term, y = interest_rate)) +
+  geom_point(alpha = 0.2) + 
+  labs(y = "")
+
+
+p5 <- ggplot(data = loans, aes(x = credit_util, y = interest_rate)) +
+  geom_point(alpha = 0.2) + 
+  labs(y = "")
+
+
+p1 + p2 + p3 + p4 + p5
+```
+
+---
+
+### Regression Model 
+
+```{r echo = F}
+int_model <- lm(interest_rate ~ verified_income + debt_to_income + bankruptcy + term + credit_util, data = loans)
+tidy(int_model, conf.int = T) %>% kable(format = "markdown", digits = 3)
+```
+
+---
+
+class: middle, center
+
+## Special Predictors
+
+---
+
+### Interpreting the Intercept 
+
+```{r echo=FALSE}
+kable(tidy(int_model),format = "markdown", digits = 3)
+```
+
+.question[
+- Based on our model, what subset of borrowers do we expect to have an interest rate of 2.233%? In other words, what subset of borrowers are included in the intercept?
+
+- Is this interpretation meaningful? Why or why not?
+]
+
+---
+
+
+### Mean-Centered Variables
+
+- To have a meaningful interpretation of the intercept, use **mean-centered** predictor variables in the model (quantitative predictors only)
+
+- A <font class = "vocab">mean-centered variable</font> is calculated by subtracting the mean from each value of the variable, i.e. $$x_{ip} - \bar{x}_{.p}$$
+
+- Now the intercept is interpreted as the expected value of the response at the mean value of all quantitative predictors
+
+---
+
+### Loans: mean-centered variables
+
+.small[
+```{r}
+loans <- loans %>%
+  mutate(debt_inc_cent = debt_to_income - mean(debt_to_income), 
+         term_cent = term - mean(term), 
+         credit_util_cent = credit_util - mean(credit_util))
+```
+]
+
+.pull-left[
+```{r,echo=F}
+ggplot(data = loans, aes(x = credit_util)) + 
+  geom_histogram() + 
+labs(title = "Credit Utilization", x = "", y = "")
+loans %>%
+  summarise(mean = mean(credit_util, sd = sd(credit_util)))
+```
+
+.pull-right[
+```{r echo = F}
+p2 <- ggplot(data = loans, aes(x = credit_util_cent)) + 
+  geom_histogram() + 
+labs(title = "Mean-Centered Credit Util.", x = "", y = "")
+loans %>%
+  summarise(mean = mean(credit_util_cent, sd = sd(credit_util_cent)))
+```
+]
+
+---
+
+### In-class exercise
+.small[
+```{r echo = F}
+tidy(int_model) %>%
+  kable(format = "markdown", digits = 3)
+```
+]
+
+.question[
+- Go to http://bit.ly/sta210-sp20-mean-center and describe how the model would change if `debt_inc_cent`, `term_cent`, and `credit_util_cent` were used in the model instead of the original versions of these variables.
+]
+
+```{r echo = F}
+library(countdown)
+countdown(minutes = 3, seconds = 0, update_every = 1, warn_when = 30)
+```
+
+---
+
+### How model changes with mean-centered variables
+
+---
+
+### Indicator (dummy) variables
+
+
+- Suppose there is a categorical variable with $k$ levels (categories)
+
+- Make $k$ indicator variables (also known as dummy variables)
+
+- Use $k-1$ of the indicator variables in the model
+    - Can't uniquely estimate all $k$ variables at once if the intercept is in the model
+    
+- Level that doesn't have a variable in the model is called the <font class="vocab3">baseline</font>
+
+- Coefficients interpreted as the change in the mean of the response over the baseline
+
+---
+
+### Indicator variables: $k = 2$
+
+```{r echo = F}
+cent_model <- 
+tidy(int_model, conf.int = T) %>% 
+  kable(format = "markdown" , digits = 3)
+```
+
+---
+
+### Indicator variables: $k > 2$
+
+```{r echo = F}
+cent_model <- lm(interest_rate ~ verified_income + debt_inc_cent + bankruptcy + term_cent + credit_util_cent, data = loans)
+tidy(cent_model, conf.int = T) %>% kable(format = "markdown", digits = 3)
+```
+
+---
+
+### Interaction Terms
+
+- **Case**: Relationship of the predictor variable with the response depends on the value of another predictor variable
+  + This is an .vocab[interaction effect]
+  
+- Create a new interaction variable that is one predictor variable times the other in the interaction 
+
+-  **Good Practice**: When including an interaction term, also *include the associated <u>main effects</u>* (each predictor variable on its own) even if their coefficients are not statistically significant
+
+---
+
+### Add interaction term
+
+```{r}
+model_w_int <- lm(interest_rate ~ verified_income + debt_inc_cent + 
+                   bankruptcy + term_cent + credit_util_cent +
+                   debt_inc_cent * verified_income,
+                 data = loans)
+```
+
+```{r echo = F}
+tidy(model_w_int, conf.int = T) %>% kable(format = "markdown", digits = 3)
+```
+
+---
+
+class: middle, center
+
+### Checking model assumptions 
+
+---
+
+
+
+
