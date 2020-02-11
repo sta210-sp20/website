@@ -210,7 +210,7 @@ loans &lt;- loans %&gt;%
 - Go to http://bit.ly/sta210-sp20-mean-center and describe how the model would change if `debt_inc_cent`, `term_cent`, and `credit_util_cent` were used in the model instead of the original versions of these variables.
 ]
 
-<div class="countdown" id="timer_5e430e57" style="right:0;bottom:0;" data-warnwhen="30">
+<div class="countdown" id="timer_5e4317c1" style="right:0;bottom:0;" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -268,7 +268,7 @@ loans &lt;- loans %&gt;%
 
 ---
 
-### Interaction between `debt_inc_cent` * `verified_income`
+### Add interaction term
 
 
 ```r
@@ -293,8 +293,187 @@ model_w_int &lt;- lm(interest_rate ~ verified_income + debt_inc_cent +
 
 ---
 
+class: middle, center
+
+### Checking model assumptions 
 
 ---
+
+### Assumptions 
+
+Inference on the regression coefficients and predictions are reliable only when the regression assumptions are reasonably satisfied: 
+
+1. &lt;font class="vocab"&gt;Linearity: &lt;/font&gt; Response variable has a linear relationship with the predictor variables in the model
+
+2. &lt;font class="vocab"&gt;Constant Variance: &lt;/font&gt;The regression variance is the same for all set of predictor variables `\((x_1, \ldots, x_p)\)`
+
+3. &lt;font class="vocab"&gt;Normality: &lt;/font&gt; For a given set of predictors `\((x_1, \ldots, x_p)\)`, the response, `\(y\)`, follows a Normal distribution around its mean 
+
+4. &lt;font class="vocab"&gt;Independence: &lt;/font&gt;All observations are independent
+
+--
+.alert[
+We will use plots of the residuals to check these assumptions 
+]
+
+---
+
+### Checking linearity assumption
+
+- Make the following plots: 
+  - Plot the residuals vs. the predicted (fitted) values
+  - Plot the residuals vs. each predictor variable
+
+- These plots should have no systematic / obvious pattern, i.e there should be no apparent structure 
+
+- A systematic pattern may suggestion that interactions or higher-order terms (like quadratic terms) are required.
+
+---
+
+### Checking constant variance assumption 
+
+- Make a plot of the residuals vs. the predicted (fitted) values
+
+- The height of the cloud of points should be constant as you go from left to right on the plot
+
+---
+
+### Checking normality assumption 
+
+- Make the following plots: 
+    - Histogram of the residuals
+    - Normal QQ-Plot of the residuals 
+
+- The histogram should be approximately unimodal and symmetric. 
+
+- The points on the Normal QQ-Plot should generally follow a straight diagonal line
+    
+---
+
+### Checking independence assumption 
+
+- In the indepednece assumption, we assume the residuals are not correlated
+
+- If your data were collected over time, plot the residuals in time order 
+
+- There should be no pattern in the plot.
+  - A cyclical pattern indicates the residuals are correlated, a violation of the assumption. 
+  
+- Can generally conclude this assumption is resonably met unless there are clear violations
+
+---
+
+### `augment`
+
+- Use the .vocab[`augment`] function in the **broom** package to calculate residuals, predicted values, and other model diagnostics 
+
+
+```r
+loans_aug &lt;- augment(model_w_int)
+glimpse(loans_aug)
+```
+
+```
+## Observations: 9,974
+## Variables: 13
+## $ interest_rate    &lt;dbl&gt; 14.07, 12.61, 17.09, 6.72, 14.07, 6.72, 13.59, …
+## $ verified_income  &lt;chr&gt; "Verified", "Not Verified", "Source Verified", …
+## $ debt_inc_cent    &lt;dbl&gt; -1.3019882, -14.2719882, 1.8380118, -9.1519882,…
+## $ bankruptcy       &lt;fct&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0,…
+## $ term_cent        &lt;dbl&gt; 16.725887, -7.274113, -7.274113, -7.274113, -7.…
+## $ credit_util_cent &lt;dbl&gt; 0.14448914, -0.25307131, 0.25824229, -0.2063737…
+## $ .fitted          &lt;dbl&gt; 17.261500, 9.028191, 12.563387, 8.890419, 15.05…
+## $ .se.fit          &lt;dbl&gt; 0.11707102, 0.16010940, 0.08736166, 0.09266451,…
+## $ .resid           &lt;dbl&gt; -3.1914996, 3.5818088, 4.5266127, -2.1704190, -…
+## $ .hat             &lt;dbl&gt; 0.0007303468, 0.0013660418, 0.0004066981, 0.000…
+## $ .sigma           &lt;dbl&gt; 4.332063, 4.332032, 4.331944, 4.332127, 4.33217…
+## $ .cooksd          &lt;dbl&gt; 4.411042e-05, 1.040504e-04, 4.938101e-05, 1.277…
+## $ .std.resid       &lt;dbl&gt; -0.73700191, 0.82739787, 1.04514571, -0.5011389…
+```
+
+---
+
+### Check linearity: Residuals vs. Predicted
+
+
+```r
+ggplot(data = loans_aug, aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.3) + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Predicted", y = "Residuals", 
+       title = "Residuals vs. Predicted")
+```
+
+&lt;img src="08-assumptions_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Check linearity: Residuals vs. Predictors
+&lt;img src="08-assumptions_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Check constant variance
+
+&lt;img src="08-assumptions_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+### Check Normality
+
+.small[
+
+```r
+p1 &lt;- ggplot(data = loans_aug, aes(x = .resid)) +
+  geom_histogram() +
+  labs(x = "Residuals", y = "", 
+       title = "Distribution of Residuals")
+
+p2 &lt;- ggplot(data = loans_aug, aes(sample = .resid)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title = "Normal QQ-Plot of Residuals")
+
+p1 + p2 #using patchwork package
+```
+
+&lt;img src="08-assumptions_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Checking independence
+
+Can check residuals versus observation number if you think there is some structure / order to the dataset. Below is the code for this dataset:
+
+.small[
+
+```r
+loans_aug &lt;- loans_aug %&gt;%
+  mutate(obs_num = 1:nrow(loans_aug))
+```
+
+
+```r
+ggplot(data = loans_aug, aes(x = obs_num, y = .resid)) + 
+  geom_point(alpha = 0.3) +
+  labs(x = "Observation Number", y = "Residuals", 
+       title = "Residuals vs. Observation Number")
+```
+
+&lt;img src="08-assumptions_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Use the exploratory data analysis!
+
+- Look at a scatterplot of the response variable vs. each of the predictor variables in the exploratory data analysis before calculating the regression model 
+
+- This is a good way to check for obvious departures from linearity or constant variance
+
+- This is **&lt;u&gt;not&lt;/u&gt;** definitive, but it can give you an indication early on if you might need to use interactions, higher-order terms, or do a transformation (more on that next week)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

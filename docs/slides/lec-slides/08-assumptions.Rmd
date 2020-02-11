@@ -323,6 +323,186 @@ class: middle, center
 
 ---
 
+### Assumptions 
+
+Inference on the regression coefficients and predictions are reliable only when the regression assumptions are reasonably satisfied: 
+
+1. <font class="vocab">Linearity: </font> Response variable has a linear relationship with the predictor variables in the model
+
+2. <font class="vocab">Constant Variance: </font>The regression variance is the same for all set of predictor variables $(x_1, \ldots, x_p)$
+
+3. <font class="vocab">Normality: </font> For a given set of predictors $(x_1, \ldots, x_p)$, the response, $y$, follows a Normal distribution around its mean 
+
+4. <font class="vocab">Independence: </font>All observations are independent
+
+--
+.alert[
+We will use plots of the residuals to check these assumptions 
+]
+
+---
+
+### Checking linearity assumption
+
+- Make the following plots: 
+  - Plot the residuals vs. the predicted (fitted) values
+  - Plot the residuals vs. each predictor variable
+
+- These plots should have no systematic / obvious pattern, i.e there should be no apparent structure 
+
+- A systematic pattern may suggestion that interactions or higher-order terms (like quadratic terms) are required.
+
+---
+
+### Checking constant variance assumption 
+
+- Make a plot of the residuals vs. the predicted (fitted) values
+
+- The height of the cloud of points should be constant as you go from left to right on the plot
+
+---
+
+### Checking normality assumption 
+
+- Make the following plots: 
+    - Histogram of the residuals
+    - Normal QQ-Plot of the residuals 
+
+- The histogram should be approximately unimodal and symmetric. 
+
+- The points on the Normal QQ-Plot should generally follow a straight diagonal line
+    
+---
+
+### Checking independence assumption 
+
+- In the indepednece assumption, we assume the residuals are not correlated
+
+- If your data were collected over time, plot the residuals in time order 
+
+- There should be no pattern in the plot.
+  - A cyclical pattern indicates the residuals are correlated, a violation of the assumption. 
+  
+- Can generally conclude this assumption is resonably met unless there are clear violations
+
+---
+
+### `augment`
+
+- Use the .vocab[`augment`] function in the **broom** package to calculate residuals, predicted values, and other model diagnostics 
+
+```{r}
+loans_aug <- augment(model_w_int)
+glimpse(loans_aug)
+```
+
+---
+
+### Check linearity: Residuals vs. Predicted
+
+```{r}
+ggplot(data = loans_aug, aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.3) + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Predicted", y = "Residuals", 
+       title = "Residuals vs. Predicted")
+```
+
+---
+
+### Check linearity: Residuals vs. Predictors
+```{r echo = F}
+p2 <- ggplot(data = loans_aug, aes(x = verified_income, y = .resid)) +
+  geom_boxplot() + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(y = "Residuals")
+
+p3 <- ggplot(data = loans_aug, aes(x = debt_inc_cent, y = .resid)) +
+  geom_point(alpha = 0.3) + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Debt to Income", y = "Residuals")
+
+p4 <- ggplot(data = loans_aug, aes(x = bankruptcy, y = .resid)) +
+  geom_boxplot() + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(y = "Residuals")
+
+p5 <- ggplot(data = loans_aug, aes(x = term_cent, y = .resid)) +
+  geom_point(alpha = 0.3) + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Term", y = "Residuals")
+
+p6 <- ggplot(data = loans_aug, aes(x = credit_util_cent, y = .resid)) +
+  geom_point(alpha = 0.3) + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Credit Utility", y = "Residuals")
+
+p2 + p3 + p4 + p5 + p6
+```
+
+---
+
+### Check constant variance
+
+```{r echo  = F}
+ggplot(data = loans_aug, aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.3) + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Predicted", y = "Residuals", 
+       title = "Residuals vs. Predicted")
+```
+
+
+---
+
+### Check Normality
+
+.small[
+```{r, fig.height = 3}
+p1 <- ggplot(data = loans_aug, aes(x = .resid)) +
+  geom_histogram() +
+  labs(x = "Residuals", y = "", 
+       title = "Distribution of Residuals")
+
+p2 <- ggplot(data = loans_aug, aes(sample = .resid)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(title = "Normal QQ-Plot of Residuals")
+
+p1 + p2 #using patchwork package
+```
+]
+
+---
+
+### Checking independence
+
+Can check residuals versus observation number if you think there is some structure / order to the dataset. Below is the code for this dataset:
+
+.small[
+```{r}
+loans_aug <- loans_aug %>%
+  mutate(obs_num = 1:nrow(loans_aug))
+```
+
+```{r, fig.height = 2.5}
+ggplot(data = loans_aug, aes(x = obs_num, y = .resid)) + 
+  geom_point(alpha = 0.3) +
+  labs(x = "Observation Number", y = "Residuals", 
+       title = "Residuals vs. Observation Number")
+```
+]
+
+---
+
+### Use the exploratory data analysis!
+
+- Look at a scatterplot of the response variable vs. each of the predictor variables in the exploratory data analysis before calculating the regression model 
+
+- This is a good way to check for obvious departures from linearity or constant variance
+
+- This is **<u>not</u>** definitive, but it can give you an indication early on if you might need to use interactions, higher-order terms, or do a transformation (more on that next week)
+
 
 
 
