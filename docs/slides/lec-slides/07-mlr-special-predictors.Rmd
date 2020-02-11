@@ -59,10 +59,6 @@ class: middle, center
 
 - Special predictors
 
----
- 
-### R packages
-
 ```{r echo = F}
 library(tidyverse)
 library(knitr)
