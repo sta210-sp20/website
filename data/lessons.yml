@@ -84,7 +84,7 @@ lessons:
   - date: "Wed, Feb 12"
     title: "MLR: Special predictors & assumptions"
     reading: "reading-05.html"
-  #  slides: "lec-slides/11-model-diagnostics.html"
+    slides: "lec-slides/08-assumptions.html"
   #  reading: "reading-06.html"
   #  #slides: "lec-slides/09-model-assessment.html"
   - date: "Thu, Feb 13"

@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 class: middle, center
 
-### [Click for PDF of slides](07-mlr-special-predictors.pdf)
+### [Click for PDF of slides](08-assumptions.pdf)
 
 ---
 
@@ -38,6 +38,8 @@ class: middle, center
 - HW 02 **due TODAY at 11:59p**
 
 - HW 03 will be assigned Monday and due **Feb 24**
+
+- [Analysis of variance questions](https://github.com/sta210-sp20/muddiest-point-questions/blob/master/anova.md)
 
 ---
 
@@ -56,8 +58,10 @@ library(cowplot) # use plot_grid function
 
 ---
 
-### Peer-to-peer lending club
- 
+### Peer-to-peer lender
+
+Today's data is a sample of about 9900 applications to a peer-to-peer lending club. The full data is in the `loans_full_schema` dataframe in the `openintro` package.
+
 ```{r}
 # loan50 dataset from the openintro package
 loans <- read_csv("data/loans.csv") %>%
@@ -94,7 +98,7 @@ ggplot(data = loans, aes(x = interest_rate)) +
 
 ### Predictor variables 
 
-```{r echo = F}
+```{r echo = F, fig.height = 6, fig.width = 9}
 library(patchwork)
 
 p1 <- ggplot(data = loans, aes(x = verified_income)) +
@@ -110,7 +114,7 @@ p2 <- ggplot(data = loans, aes(x = debt_to_income)) +
 
 p3 <- ggplot(data = loans, aes(x = bankruptcy)) +
   geom_bar() + 
-  labs(title = "Past Bankruptcy?",
+  labs(title = "Past Bankruptcy",
        x = "", y = "")
 
 p4 <- ggplot(data = loans, aes(x = term)) +
@@ -130,7 +134,7 @@ p1 + p2 + p3 + p4 + p5
 
 ### Response vs. Predictors
 
-```{r echo = F}
+```{r echo = F, fig.height = 6, fig.width = 9}
 p1 <- ggplot(data = loans, aes(x = verified_income, y = interest_rate)) +
   geom_boxplot() + 
   labs()
@@ -216,17 +220,14 @@ loans <- loans %>%
 ggplot(data = loans, aes(x = credit_util)) + 
   geom_histogram() + 
 labs(title = "Credit Utilization", x = "", y = "")
-loans %>%
-  summarise(mean = mean(credit_util, sd = sd(credit_util)))
 ```
+]
 
 .pull-right[
 ```{r echo = F}
-p2 <- ggplot(data = loans, aes(x = credit_util_cent)) + 
+ggplot(data = loans, aes(x = credit_util_cent)) + 
   geom_histogram() + 
 labs(title = "Mean-Centered Credit Util.", x = "", y = "")
-loans %>%
-  summarise(mean = mean(credit_util_cent, sd = sd(credit_util_cent)))
 ```
 ]
 
@@ -253,6 +254,22 @@ countdown(minutes = 3, seconds = 0, update_every = 1, warn_when = 30)
 
 ### How model changes with mean-centered variables
 
+```{r echo = F}
+cent_model <- lm(interest_rate ~ verified_income + debt_inc_cent + bankruptcy + term_cent + credit_util_cent, data = loans)
+tidy(cent_model, conf.int = T) %>% 
+  kable(format = "markdown" , digits = 3)
+```
+
+
+
+```{r}
+ggplot(data = loans, aes(x = credit_util_cent, y = interest_rate)) +
+  geom_point()
+```
+
+
+
+
 ---
 
 ### Indicator (dummy) variables
@@ -265,7 +282,7 @@ countdown(minutes = 3, seconds = 0, update_every = 1, warn_when = 30)
 - Use $k-1$ of the indicator variables in the model
     - Can't uniquely estimate all $k$ variables at once if the intercept is in the model
     
-- Level that doesn't have a variable in the model is called the <font class="vocab3">baseline</font>
+- Level that doesn't have a term in the model is called the <font class="vocab3">baseline</font>
 
 - Coefficients interpreted as the change in the mean of the response over the baseline
 
@@ -274,10 +291,12 @@ countdown(minutes = 3, seconds = 0, update_every = 1, warn_when = 30)
 ### Indicator variables: $k = 2$
 
 ```{r echo = F}
-cent_model <- 
-tidy(int_model, conf.int = T) %>% 
+cent_model <- lm(interest_rate ~ verified_income + debt_inc_cent + bankruptcy + term_cent + credit_util_cent, data = loans)
+tidy(cent_model, conf.int = T) %>% 
   kable(format = "markdown" , digits = 3)
 ```
+
+Interpreting `bankruptcy` in the model: 
 
 ---
 
@@ -287,6 +306,8 @@ tidy(int_model, conf.int = T) %>%
 cent_model <- lm(interest_rate ~ verified_income + debt_inc_cent + bankruptcy + term_cent + credit_util_cent, data = loans)
 tidy(cent_model, conf.int = T) %>% kable(format = "markdown", digits = 3)
 ```
+
+Interpreting `verified_income` in the model: 
 
 ---
 
@@ -410,7 +431,8 @@ ggplot(data = loans_aug, aes(x = .fitted, y = .resid)) +
 ---
 
 ### Check linearity: Residuals vs. Predictors
-```{r echo = F}
+
+```{r echo = F, fig.height = 6, fig.width = 9}
 p2 <- ggplot(data = loans_aug, aes(x = verified_income, y = .resid)) +
   geom_boxplot() + 
   geom_hline(yintercept = 0, color = "red") +
@@ -456,8 +478,8 @@ ggplot(data = loans_aug, aes(x = .fitted, y = .resid)) +
 
 ### Check Normality
 
-.small[
-```{r, fig.height = 3}
+
+```{r echo = F, fig.height = 6, fig.width = 9}
 p1 <- ggplot(data = loans_aug, aes(x = .resid)) +
   geom_histogram() +
   labs(x = "Residuals", y = "", 
@@ -470,7 +492,7 @@ p2 <- ggplot(data = loans_aug, aes(sample = .resid)) +
 
 p1 + p2 #using patchwork package
 ```
-]
+
 
 ---
 
@@ -494,7 +516,7 @@ ggplot(data = loans_aug, aes(x = obs_num, y = .resid)) +
 
 ---
 
-### Use the exploratory data analysis!
+### Use EDA but don't solely rely on it
 
 - Look at a scatterplot of the response variable vs. each of the predictor variables in the exploratory data analysis before calculating the regression model 
 
