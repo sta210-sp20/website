@@ -142,7 +142,7 @@ Airbnb is most commonly used for travel purposes, i.e. as an alternative to trad
 
 # Submitting the Assignment
 
-See ["Submitting the Assignment"](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) from Lab 01 for detailed instrutions on how to upload the assignment on GitHub. 
+See ["Submitting the Assignment"](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) from Lab 01 for detailed instructions on how to upload the assignment on GitHub. 
 
 # Grading 
 
