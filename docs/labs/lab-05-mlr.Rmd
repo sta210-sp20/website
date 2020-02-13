@@ -104,7 +104,6 @@ We will use the following variables in this lab:
     - Recode `cleaning_fee`, so it is numeric in the data frame.
     
 Be sure to save the numeric version of `cleaning_fee` to use in the remainder of the lab. 
-    
 
 3. Visualize the distribution of `cleaning_fee` and display the appropriate summary statistics. Use the graph and summary statistics to describe the distribution of `cleaning_fee`.
 
@@ -131,9 +130,9 @@ Airbnb is most commonly used for travel purposes, i.e. as an alternative to trad
 
 8. Fit a regression model with the response variable from the previous question and the following predictor variables: `prop_type_simp`, `number_of_reviews`, and `review_scores_rating`. Display the model with the inferential statistics and confidence intervals for each coefficient.
 
-9. Interpret the coefficient  `number_of_reviews` and its 95% confidence interval in the context of the data.
+9. Interpret the coefficient of `number_of_reviews` and its 95% confidence interval in the context of the data.
 
-10. Interpret `prop_type_simpHouse` and its 95% confidence interval in the context of the data. 
+10. Interpret the coefficient of  `prop_type_simpHouse` and its 95% confidence interval in the context of the data. 
 
 11. Interpret the intercept in the context of the data. Does the intercept have a meaningful interpretation? Briefly explain why or why not. 
 
@@ -144,6 +143,18 @@ Airbnb is most commonly used for travel purposes, i.e. as an alternative to trad
 # Submitting the Assignment
 
 See ["Submitting the Assignment"](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) from Lab 01 for detailed instrutions on how to upload the assignment on GitHub. 
+
+# Grading 
+
+|  	|  	|
+|----------------------------------------	|----	|
+| Data Analysis & EDA | 19	|
+| Regression Analysis |  22	|
+| Lab attendance & participation 	| 3 	|
+| Narrative in full sentences | 2 	|
+| Document neatly organized with appropriate headers | 2	|
+| Commit messages from every member| 2 	|
+| **Total** | **50** |
 
 # Acknowledgement
 
