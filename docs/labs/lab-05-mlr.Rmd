@@ -1,5 +1,5 @@
 ---
-title: "Lab 05: Multiple Linear Regression"
+title: "Lab 05: Data Wrangling & Regression"
 subtitle:  "due Tue, Feb 18 at 11:59p"
 output: 
   tufte::tufte_html:
