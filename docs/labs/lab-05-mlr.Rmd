@@ -1,0 +1,150 @@
+---
+title: "Lab 05: Multiple Linear Regression"
+subtitle:  "due Tue, Feb 18 at 11:59p"
+output: 
+  tufte::tufte_html:
+    css: "./sta210-labs.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+    fig_height: 10
+    toc: true
+    toc_depth: 1
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE,
+                      eval=FALSE)
+```
+
+<!--
+<p><span class="marginnote shownote">
+<img src="img/04-anova/diamonds.png" alt=" " width="527"  />
+</span></p>
+-->
+<!-- Diamonds photo obtained from Google images: https://www.diamondbanc.com/ -->
+
+When doing statistical analyses in practice, there is often a lot of time spent on cleaning and preparing the data. The goal of today's lab is to practice cleaning messy data, so it can be used in a regression analysis. You will also practice interpreting the results from a regression model that has numeric and categorical predictors and a log-transformed response variable. 
+
+
+# Getting Started 
+
+- Go to the sta210-fa20 organization on GitHub ([https://github.com/sta210-fa20](https://github.com/sta210-fa20)). Click on the repo with the prefix **lab-05-**. It contains the starter documents you need to complete the warmup exercise. 
+
+- Clone the repo and create a new project in your RStudio Docker Container ([https://vm-manage.oit.duke.edu](https://vm-manage.oit.duke.edu)). 
+
+- Configure git by typing the following in the **console**.
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="github username", user.email="your email")
+```
+
+## Password caching
+
+If you would like your git password cached for a week for this project, type the following in the **Terminal**:
+
+```{bash eval=FALSE}
+git config --global credential.helper 'cache --timeout 604800'
+```
+
+You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
+
+
+## Packages
+
+We will use the following packages in today's lab. You may need to install the package `skimr` using the `install.packages()` command in your console.
+
+```{r load-packages}
+library(tidyverse)
+library(stringr)
+library(knitr)
+library(skimr)
+library(broom)
+```
+
+
+## Data 
+
+Today's data is about Airbnb listings in Nashville, TN. The data was obtained from [http://insideairbnb.com/](http://insideairbnb.com/index.html); it was originally scraped from [airbnb.com](https://www.airbnb.com/).  
+
+You can see a visualization of some of the data used in today's lab at [http://insideairbnb.com/nashville/](http://insideairbnb.com/nashville/).
+
+```{r}
+airbnb <- read.csv("data/nashville-airbnb.csv")
+```
+
+We will use the following variables in this lab: 
+
+- `price`: Cost per night (in U.S. dollars)
+- `cleaning_fee`: Cleaning fee (in U.S. dollars)
+- `property_type`: Type of dwelling (House, Apartment, etc.)
+- `room_type`: 
+    - *Entire home/apt* (guests have entire place to themselves)
+    - *Private room* (Guests have private room to sleep, all other rooms shared)
+    - *Shared room* (Guests sleep in room shared with others) 
+- `number_of_reviews`: Total number of reviews for the listing
+- `review_scores_rating`: Average review score (0 - 100)
+- `minimum_nights`: Number of nights required to book rental 
+
+
+# Exercises 
+
+## Data wrangling & EDA
+
+1. Some Airbnb rentals have cleaning fees, and we want to include the cleaning fee when we calculate the total rental cost. 
+
+- What type of variable is `cleaning_fee` (categorical / quantitative)? 
+- What type is it stored as in the data frame? Why is `cleaning_fee` stored in the data frame as this type? 
+
+2. Let's recode `cleaning_fee`, so it is stored correctly in the data frame. To do so, write code that completes the following tasks: 
+    - Use the [`str_replace`](https://stringr.tidyverse.org/reference/str_replace.html) function in the **stringr** package to remove the dollar sign, $, i.e. replace the dollar sign with a space. The dollar sign is a special character, so use `\\$` in your code to identify the dollar sign. 
+    - Recode `cleaning_fee`, so it is numeric in the data frame.
+    
+Be sure to save the numeric version of `cleaning_fee` to use in the remainder of the lab. 
+    
+
+3. Visualize the distribution of `cleaning_fee` and display the appropriate summary statistics. Use the graph and summary statistics to describe the distribution of `cleaning_fee`.
+
+4. Next, let's examine the `property_type`. 
+    - How many different categories of `property_type` are in the dataset? Show code and output to support your answer. 
+    - Which 4 property types are most common in the data? These 4 property types make up what percent of the observations in the data? Show code and output to support your answer.
+
+5. Since an overwhelming majority of the observations in the data are one of the top 4 property types, we would like to create a simplified version of the `property_type` variable that has 5 categories.
+
+Create a new variable called `prop_type_simp` that has 5 categories: the four categories from the previous question and "Other" for all other property types. Be sure to save the new variable in the data frame.
+
+6. What are the 4 most common values for the variable `minimum_nights`? Which value in the top 4 stands out? What is the likely intended purpose for Airbnb listings with this seemingly unusual value for `minimum_nights`? Show code and output to support your answer. 
+
+Airbnb is most commonly used for travel purposes, i.e. as an alternative to traditional hotels, so we only want to include Airbnb listings in our regression analysis that are intended for travel purposes. Filter `airbnb` so that it only includes observations with `minimum_nights` <= 3`. 
+
+**You will use this filtered dataset for the remainder of the lab.**
+
+### Regression 
+
+7. For the response variable, we will use the total cost to stay at an Airbnb location for 3 nights. Create a new variable called `price_3_nights` that uses `price` and `cleaning_fee` to calculate the total cost to stay at the Airbnb property for 3 nights. *Note that the cleaning fee is only applied one time per stay*. 
+
+  *Be sure `price` is in the correct format before calculating the new variable.*
+
+
+8. Fit a regression model with the response variable from the previous question and the following predictor variables: `prop_type_simp`, `number_of_reviews`, and `review_scores_rating`. Display the model with the inferential statistics and confidence intervals for each coefficient.
+
+9. Interpret the coefficient  `number_of_reviews` and its 95% confidence interval in the context of the data.
+
+10. Interpret `prop_type_simpHouse` and its 95% confidence interval in the context of the data. 
+
+11. Interpret the intercept in the context of the data. Does the intercept have a meaningful interpretation? Briefly explain why or why not. 
+
+11. Suppose you are planning to visit Nashville over Spring Break, and you want to stay in an Airbnb. You find an Airbnb that is a townhouse, has 10 reviews, and an average rating of 90. Use the model to predict the total cost to stay at this Airbnb for 3 nights. Include the appropriate 95% interval with your prediction.
+
+*You're done and ready to submit your work! Knit, commit, and push all remaining changes. You can use the commit message "Done with Lab 05!", and make sure you have pushed all the files to GitHub (your Git pane in RStudio should be empty) and that <u>all</u> documents are updated in your repo on GitHub. Then submit the assignment on Gradescope following the instructions below.*
+
+# Submitting the Assignment
+
+See ["Submitting the Assignment"](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) from Lab 01 for detailed instrutions on how to upload the assignment on GitHub. 
+
+# Acknowledgement
+
+The data from this lab is from [insideairbnb.com](http://insideairbnb.com/index.html)
