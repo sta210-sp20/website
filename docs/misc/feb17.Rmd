@@ -1,0 +1,19 @@
+---
+title: "Team Feedback #1"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Due Wed, Feb 19 at 11:59p
+
+### Required
+
+`r emo::ji("white_check_mark")` Fill out the Team Feedback #1 (check Inbox for email from Teammates). 
+
+  - Please proivde constructive and honest feedback. 
+  - Since this is the first team feedback, it will be graded for completion. 

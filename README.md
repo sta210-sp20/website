@@ -13,3 +13,4 @@ Course website is at https://www2.stat.duke.edu/courses/Spring20/sta210.001/.
 
 - Colors: #00897B
   - To change, search & replace in `themes/material/static/css/material-kit.css`
+- Uses Hugo version 0.59.1

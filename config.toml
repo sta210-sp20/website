@@ -42,6 +42,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   name = "schedule"
   pre = "<i class=\"material-icons\">calendar_today</i>"
   url = "/schedule.html"
+  
 [[menu.main]]
   weight = 3
   identifier = "syllabus"
