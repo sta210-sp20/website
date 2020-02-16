@@ -73,7 +73,7 @@ Today's data is about Airbnb listings in Nashville, TN. The data was obtained fr
 You can see a visualization of some of the data used in today's lab at [http://insideairbnb.com/nashville/](http://insideairbnb.com/nashville/).
 
 ```{r}
-airbnb <- read.csv("data/nashville-airbnb.csv")
+airbnb <- read_csv("data/nashville-airbnb.csv")
 ```
 
 We will use the following variables in this lab: 

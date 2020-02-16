@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
 
@@ -522,7 +521,7 @@ font-size: 10pt;
 <h2>Data</h2>
 <p>Today’s data is about Airbnb listings in Nashville, TN. The data was obtained from <a href="http://insideairbnb.com/index.html">http://insideairbnb.com/</a>; it was originally scraped from <a href="https://www.airbnb.com/">airbnb.com</a>.</p>
 <p>You can see a visualization of some of the data used in today’s lab at <a href="http://insideairbnb.com/nashville/">http://insideairbnb.com/nashville/</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>airbnb &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/nashville-airbnb.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>airbnb &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/nashville-airbnb.csv&quot;</span>)</span></code></pre></div>
 <p>We will use the following variables in this lab:</p>
 <ul>
 <li><code>price</code>: Cost per night (in U.S. dollars)</li>
