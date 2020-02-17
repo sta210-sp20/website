@@ -43,9 +43,10 @@ h2 {
 	color: #00897B;
 }
 
-h3.subtitle {
-	font-style: normal;
+h3 {
+	font-family: 'Source Sans Pro', sans-serif;
 	color: #00897B;
+	font-weight: 400;
 }
 
 h4 {
