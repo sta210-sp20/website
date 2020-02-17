@@ -175,6 +175,119 @@ class: middle, center
 .alert[
 `$$y = \exp\{\beta_0 + \beta_1 x\} = \exp\{\beta_0\}\exp\{\beta_1x\}$$`
 ]
+
+---
+
+### Mean and logs
+
+Suppose we have a set of values
+
+
+```r
+x &lt;- c(3, 5, 6, 8, 10, 14, 19)
+```
+
+--
+
+Let's find the mean of the logged values of x, i.e. `\(\overline{\log(x)}\)`
+
+
+```r
+log_x &lt;- log(x)
+mean(log_x)
+```
+
+```
+## [1] 2.066476
+```
+
+--
+
+Let's find mean of x and then log the mean value, i.e. `\(\log(\bar{x})\)`
+
+
+```r
+xbar &lt;- mean(x)
+log(xbar)
+```
+
+```
+## [1] 2.228477
+```
+
+---
+
+### Median and logs
+
+
+```r
+x &lt;- c(3, 5, 6, 8, 10, 14, 19)
+```
+
+--
+
+Let's find the median of the logged values of x, i.e. `\(\text{Median}(\log(x))\)`
+
+
+```r
+log_x &lt;- log(x)
+median(log_x)
+```
+
+```
+## [1] 2.079442
+```
+
+--
+
+Let's find median of x and then log the mean value, i.e. `\(\log(\text{Median}(x))\)`
+
+
+```r
+median_x &lt;- median(x)
+log(median_x)
+```
+
+```
+## [1] 2.079442
+```
+
+
+---
+
+### Mean, Median, and log
+
+
+```r
+x &lt;- c(3, 5, 6, 8, 10, 14, 19)
+```
+
+--
+
+`$$\overline{\log(x)} \neq \log(\bar{x})$$`
+
+
+```r
+mean(log_x) == log(xbar)
+```
+
+```
+## [1] FALSE
+```
+
+--
+
+`$$\text{Median}(\log(x)) = \log(\text{Median}(x))$$`
+
+```r
+median(log_x) == log(median_x)
+```
+
+```
+## [1] TRUE
+```
+
+
 ---
 
 ### Mean and median of `\(\log(y)\)`
@@ -234,7 +347,7 @@ class: middle, center
 respiratory &lt;- respiratory %&gt;% mutate(log_rate = log(Rate))
 ```
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -245,7 +358,7 @@ respiratory &lt;- respiratory %&gt;% mutate(log_rate = log(Rate))
 log_model &lt;- lm(log_rate ~ Age, data = respiratory)
 ```
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -355,11 +468,11 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of *
 ### Log Transformation on `\(x\)`
 
 .pull-left[
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 - Try a transformation on `\(X\)` if the scatterplot shows some curvature but the variance is constant for all values of `\(X\)`
@@ -386,7 +499,7 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of *
 
 ### Rate vs. log(Age)
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -450,7 +563,8 @@ See [Log Transformations in Linear Regression](https://github.com/sta210-sp20/su
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

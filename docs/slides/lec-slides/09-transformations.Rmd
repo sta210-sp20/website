@@ -13,6 +13,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -74,20 +75,18 @@ case1202 <- case1202 %>%
 p1 <- ggplot(data=case1202, aes(x=Senior,y=Bsal,color = Z)) +
   geom_point() +
   geom_smooth(method="lm", se=FALSE) + 
-  labs(title = "Y vs. X1",
-       subtitle = "by Z",
-       x = "X1", 
+  labs(x = "X1", 
        y = "Y", 
-       color = "Z")
+       color = "Z") + 
+  theme(legend.position = "bottom")
 
 p2 <- ggplot(data=case1202, aes(x=Exper,y=Bsal,color = Z)) +
   geom_point() +
   geom_smooth(method="lm", se=FALSE) + 
-  labs(title = "Y vs. X2",
-       subtitle = "by Z",
-       x = "X2", 
+  labs(x = "X2", 
        y = "Y", 
-       color = "Z")
+       color = "Z") + 
+  theme(legend.position = "bottom")
 
 patchwork <- p1 + p2
 patchwork + plot_annotation(tag_levels = 'A')
@@ -186,6 +185,86 @@ $$\log(y) = \beta_0 + \beta_1 x$$
 .alert[
 $$y = \exp\{\beta_0 + \beta_1 x\} = \exp\{\beta_0\}\exp\{\beta_1x\}$$
 ]
+
+---
+
+### Mean and logs
+
+Suppose we have a set of values
+
+```{r}
+x <- c(3, 5, 6, 8, 10, 14, 19)
+```
+
+--
+
+Let's find the mean of the logged values of x, i.e. $\overline{\log(x)}$
+
+```{r}
+log_x <- log(x)
+mean(log_x)
+```
+
+--
+
+Let's find mean of x and then log the mean value, i.e. $\log(\bar{x})$
+
+```{r}
+xbar <- mean(x)
+log(xbar)
+```
+
+---
+
+### Median and logs
+
+```{r}
+x <- c(3, 5, 6, 8, 10, 14, 19)
+```
+
+--
+
+Let's find the median of the logged values of x, i.e. $\text{Median}(\log(x))$
+
+```{r}
+log_x <- log(x)
+median(log_x)
+```
+
+--
+
+Let's find median of x and then log the mean value, i.e. $\log(\text{Median}(x))$
+
+```{r}
+median_x <- median(x)
+log(median_x)
+```
+
+
+---
+
+### Mean, Median, and log
+
+```{r}
+x <- c(3, 5, 6, 8, 10, 14, 19)
+```
+
+--
+
+$$\overline{\log(x)} \neq \log(\bar{x})$$
+
+```{r}
+mean(log_x) == log(xbar)
+```
+
+--
+
+$$\text{Median}(\log(x)) = \log(\text{Median}(x))$$
+```{r}
+median(log_x) == log(median_x)
+```
+
+
 ---
 
 ### Mean and median of $\log(y)$
