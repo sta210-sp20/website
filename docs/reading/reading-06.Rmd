@@ -1,5 +1,5 @@
 ---
-title: "Reading 06: Model Diagnostics"
+title: "Reading 06: Interactions & Transformations"
 output: 
   html_document: 
     theme: yeti
@@ -14,10 +14,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Required:
 
 - [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
-    - Section 3.1: Introduction
-    - Section 3.2: Concepts and Background Material
-    - Section 3.3: Methodology (**not** required to know matrix notation)
-    - Section 3.4: Example - Estimating Home Prices
-<br><br>
+      - Section 2.4: Indicator Variables and Modeling Interactions
+      - Section 4.3: Concepts and Background Material: Semilog Models
 
-[All STA 210 Readings](readings.html)    
+
+### Optional: 
+
+- [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
+      - Section 4.2: Concepts and Background Material: The Log-Log Model
+
+- [Log Transformations in Regression](https://github.com/sta210-sp20/supplemental-notes/blob/master/log-transformations.pdf)

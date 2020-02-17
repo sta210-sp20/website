@@ -96,6 +96,8 @@ lessons:
     title: "MLR: Interactions & Transformations"
     hw: "hw-03.html"
     misc: "feb17.html"
+    slides: "lec-slides/09-transformations.html"
+    reading: "reading-06.html"
   #  #reading: "reading-05.html"
   #  #slides: "lec-slides/10-model-diagnostics.html"
   - date: "Wed, Feb 19"
