@@ -18,16 +18,20 @@ knitr::opts_chunk$set(echo = TRUE,
 
 <br><br>
 
-*Instructions will be available when the homework is assigned.*
-
-
-<!--
-
 # Getting Started
 
-- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **hw-03**. It contains the starter documents you need to complete the lab.
+A brief outline of getting started is shown below. See the [Lab 01 Instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html) for more details about the steps. 
+
+- Go to the sta210-sp20 organization on GitHub ([https://github.com/sta210-sp20](https://github.com/sta210-sp20)). Click on the repo with the prefix **hw-03**. It contains the starter documents you need to complete the lab.
 - Clone the repo in RStudio Cloud
-- Configure git using the `use_git_config()` function. You can also cache your password.
+
+## Tips
+
+Here are some tips as you complete HW 03:
+
+- Periodically knit your document and commit changes (the more often the better, for example, once per each new task)
+- Push all your changes back to your GitHub repo. The Git pane in RStudio should be empty after you push. You can also check your assignment repo on github.com to make sure it has updated.
+- Once you have completed your work, you will submit your assignment in Gradescope. You are welcome to resubmit multiple times until the assignment deadline. We will grade the most recent version of the .pdf file in Gradescope.
 
 
 ## Packages 
@@ -40,113 +44,198 @@ library(broom)
 library(knitr) 
 ```
 
+If you need to install any of the packages, type `install.packages("package_name")` in the console, where `package_name` is the package you need to install. 
+
 
 ```{r echo=F}
-derby <- read_csv("data/derbyplus.csv")
-derby <- derby %>%
-  mutate(year=year-1896)
+library(openintro)
+mariokart <- mariokart %>%
+  filter(total_pr < 100) %>%
+  mutate(game_pr = total_pr - ship_pr)
 ```
 
 # Questions
 
-## Part 1: Computations & Concepts
+## Part 1: Conceptual
 
-The *Computations & Concepts* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
+The *Conceptual* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
 
-For Questions 1- 7, we will use data about the Kentucky Derby races 1896 - 2017. The Kentucky Derby is a 1.25 mile horse race held annually at the Churchill Downs race track in Louisville, Kentucky. This dataset contains information about 122 derbies held 1896 to 2017. We will use the following variables from the data:
+For Questions 1- 7, we will use on Ebay auctions for Mario Kart video games. The data was originally collected in October 2009. Click [here](https://www.openintro.org/data/index.php?data=mariokart) to read more details about the dataset and the variables in the data. 
 
-- `year`: year of race recorded as number of years since 1896
-    - e.g.: 2017 is recorded as `2017 - 1896 = 121`
-- `condition`: condition of the track - fast, good, and slow.
-    - "good" includes the official designations "good" and "dusty"
-    - "slow" includes the official designations "slow", "heavy", "muddy", and "sloppy"
-- `starters`: number of horses who raced
-- `speed`: average speed of the winner (in feet per second)
-
-Below is a regression model using `year`, `condition`, and `starters`, and `year * condition` to explain variation in `speed`. The model is shown in mathematical notation as well as in the output from R. Use the model to answer Questions 1 - 7. 
+Below is a regression model using `cond`, `stock_photo`, and `wheels`, `n_bids` and `cond * wheels` to explain variation in `game_pr`. The variable `game_pr` is calculated as `total_pr - ship_pr`, the difference in the total price and shipping price. The model is shown in mathematical notation as well as in the output from R. Use the model to answer Questions 1 - 7. 
 
 
-$$\hat{\text{speed}} = \hat{\beta}_0 + \hat{\beta}_1 \text{year} + \hat{\beta}_2 \text{starters} + \hat{\beta}_3 \text{good} + \hat{\beta}_4 \text{slow} + \hat{\beta}_5 (\text{year} \times \text{good}) + \hat{\beta}_6 (\text{year} \times \text{slow})$$  
+$$\hat{\text{game_pr}} = \hat{\beta}_0 + \hat{\beta}_1 \text{condition_used} + \hat{\beta}_2 \text{stock_photo_yes} + \hat{\beta}_3 \text{wheels} + \hat{\beta}_4 \text{n_bids} + \hat{\beta}_5 (\text{cond_used} \times \text{wheels})$$  
 
 ```{r echo=F}
-model <- lm(speed ~ year + starters + condition + year*condition, data=derby)
-kable(tidy(model),format="markdown", digits = 3)
+model <- lm(game_pr ~ cond + stock_photo + wheels + n_bids + cond * wheels, data = mariokart)
+
+tidy(model, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
 ```
 
-1. Write the equation of the model that can used to estimate  `speed` for fast track conditions. Write the equation using the estimated coefficients from R and the variable names. 
+1. Write the equation of the model that can used to estimate `game_pr` for *new* Mario Kart games sold on Ebay. Write the equation using the estimated coefficients from R and the variable names. 
 
-2.  Write the equation of the model that can used to estimate  `speed` for slow track conditions. Write the equation using the estimated coefficients from R and the variable names. 
+2.  Write the equation of the model that can used to estimate `game_pr` for *used* Mario Kart games. Write the equation using the estimated coefficients from R and the variable names. 
 
-3. What subset is described by the intercept? In other words, 52.387 feet per second is the average speed for the winner in what race(s)? Is the intercept meaningful? Explain.
+3. What subset is described by the intercept? In other words, $36.68 is the average selling price for which subset of games? Is the intercept meaningful? Explain why or why not.
 
-4. Suppose we want to test if the mean winning speed is the same for fast track and good track conditions when the number of starters is held constant and  `year = 0`. What is the p-value associated with the test? 
+4. Suppose we wish to test if there is a statistically significant difference in the mean selling price between new and used Mario Kart games with 0 wheels, a stock photo and 5 bids. What is the p-value associated with the test? State your conclusion in the context of the data.
 
-5. Interpret the coefficient of `conditionslow` in the context of the data. Assume `year = 0`. 
+5. Interpret the coefficient of `stock_photoyes` and it's 95% confidence interval in the context of the data.
 
-6. What is the p-value for the test that the slope of year is the same for fast track conditions and good track conditions, holding year and starters constant? 
+6. Suppose we wish to test whether there is a statistically significant difference in the slope of `wheels` for new and used Mario Kart games. What is the p-value for this test? State your conclusion in the context of the data.
 
-6. Use the information from the table to calculate the 95% confidence interval for the amount by which the slope of year for slow track conditions exceeds the slope of year for fast track conditions. *Hint: You can calculate t\* using the `qt()` function.*
-
-7. Let's conduct the nested F test to test whether the slope of year is the same for all three condition types. In other words, we wish to test the hypotheses
-
-$$ \begin{aligned} &H_0: \beta_5 = \beta_6 = 0 \\
-&H_a: \text{ at least one }\beta_j \text{ is not 0}\end{aligned}$$
-
-The residual sum of squares for the model shown above is 50.076 with 115 degrees of freedom. The residual sum of squares for the model that does not include the interaction terms between year and condition is 54.307 with 117 degrees of freedom. Calculate the F test statistic and p-value for this test. What is your conclusion? 
-
+7. Interpret the coefficient of `condused:wheels` in the context of the data.
 
 ## Part 2: Data Analysis
 
 The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as "mini-projects".
 
-8. `KingCountyHouses.csv` contains the price and other characteristics of over 20,000 houses sold in King County, Washington (the county that includes Seattle). The dataset includes the following variables:
+For the data analysis, we will return to the Airbnb data from Lab 05. Please see the [Lab 05 instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-05-mlr.html#getting-started) for a description of the dataset and variables. 
 
-- `price`: selling price of the house
-- `date`: date house was sold, measured in days since January 1, 2014
-- `bedrooms`: number of bedrooms
-- `bathrooms`: number of bathrooms
-- `sqft`: interior square footage
-- `floors`: number of floors
-- `waterfront`: 1 if the house has a view of the waterfront, 0 otherwise
-- `yr_built`: year the house was built
-- `yr_renovated`: 0 if the house was never renovated, the year the house was renovated if else
 
-Use the code below to load the data and prepare the data.
+```{r echo = F}
+airbnb <- read_csv("data/nashville-airbnb-mod.csv") %>%
+    filter(!is.na(price), !is.na(cleaning_fee), !is.na(review_scores_rating))
 
-```{r}
-houses <- read_csv("data/KingCountyHouses.csv")
-houses <- houses %>%
-  filter(bedrooms <= 5 ) %>%
-  mutate(floorsCat = as.factor(floors), 
-         sqftCent = sqft - mean(sqft), 
-         bedroomsCent = bedrooms - mean(bedrooms),
-         bathroomsCent = bathrooms-mean(bathrooms),
-         logprice = log(price))
 ```
 
-Fit a regression model with `logprice` as the response and `floorsCat`, `sqftCent`, `bedroomsCent`, `bathroomsCent`, and `waterfront` as predictor variables. In your analysis, include the following: 
+Recall in Lab 05 that you fit a model of the following form: 
 
-- Briefly explain why we should use the log-transformed version of `price` instead of the original version of the variable. 
-- Describe the relationship between a house's price and square footage, including the appropriate confidence intervals. 
-- Describe how the expected price differs based on the number of floors in the house. Include discussion about whether or not the differences are statistically significant.
-- Consider the interaction between `waterfront` and `bedroomsCent`. Is this interaction significant? If so, describe how the relationship between `price` and `bedroomsCent` changes based on whether the house has a waterfront view.
+$$\hat{\text{price_3_nights}} = \hat{\beta}_0 + \hat{\beta}_1 \text{prop_type_Condo} + \hat{\beta}_2 \text{prop_type_House} + \hat{\beta}_3 \text{prop_type_Townhouse} + \hat{\beta}_4 \text{numer_of_reviews} + \hat{\beta}_5 \text{review_scores_rating}$$  
+with `price_3_nights`, the total price to stay in an Airbnb for 3 nights. 
 
-As usual, be sure to include exploratory data analysis and an analysis of the model assumptions.
+```{r echo = F}
+model1 <- lm(price_3_nights ~ prop_type_simp + number_of_reviews + 
+               review_scores_rating, 
+             data = airbnb)
+```
+
+Below are plots of the residuals for this model: 
+
+```{r echo = F, fig.height = 9}
+library(patchwork)
+airbnb_aug <- augment(model1)
+
+p1 <- ggplot(data = airbnb_aug, aes(x = .fitted, y = .resid)) +
+  geom_point(alpha= 0.2) +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Predicted", y = "Residuals")
+
+p2 <- ggplot(data = airbnb_aug, aes(x = number_of_reviews, y = .resid)) + 
+  geom_point(alpha= 0.2) +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Number of Reviews", y = "Residuals")
+
+p3 <- ggplot(data = airbnb_aug, aes(x = review_scores_rating, y = .resid)) + 
+  geom_point(alpha= 0.2) +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Ratings Score", y = "Residuals")
+
+p4 <- ggplot(data = airbnb_aug, aes(x = prop_type_simp, y = .resid)) + 
+  geom_boxplot() + 
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Property Type", y = "Residuals")
+
+p5 <- ggplot(data = airbnb_aug, aes(x = .resid)) +
+  geom_histogram() + 
+  labs(x = "Residuals", y = "", 
+       title = "Distribution of Resdiuals")
+
+p6 <- ggplot(data = airbnb_aug, aes(sample = .resid)) +
+  stat_qq() + 
+  stat_qq_line() + 
+  labs(x = "Normal QQ-Plot of Residuals")
+
+p1 / ( p2 + p3  + p4) / (p5 + p6)
+```
+
+
+- Based on the above residual plots, which assumption(s) for regression is(are) violated? Briefly explain your reasoning, including which plot(s) you used to draw your conclusion. 
+
+
+- Let's address the violations in the assumptions by using the log-transformed version of `price_3_nights`, instead of the original variable, to fit the model. As usual, we must start with exploratory data analysis. Use the plots below to write the narrative for the exploratory data analysis. Include as much detail as possible from the plots. You do **<u>not</u>** need to recreate the plots.
+
+**<u>Univariate Analysis</u>**
+```{r echo = F}
+airbnb <- airbnb %>%
+  mutate(log_pr_3_nights = log(price_3_nights))
+```
+
+```{r echo = F}
+p7 <- ggplot(data = airbnb, aes(x = log_pr_3_nights)) + 
+  geom_histogram() + 
+  labs(title = "Log-Transformed Price for 3 Nights at Airbnb", 
+       x = "", y = "")
+
+p8 <- ggplot(data = airbnb, aes(x = number_of_reviews)) + 
+  geom_histogram() + 
+  labs(title = "# of Reviews", 
+       x = "", y = "")
+
+p9 <- ggplot(data = airbnb, aes(x = review_scores_rating)) + 
+  geom_histogram() + 
+  labs(title = "Avg. Score", 
+       x = "", y = "")
+
+p10 <- ggplot(data = airbnb, aes(x = prop_type_simp)) + 
+  geom_bar() + 
+  labs(title = "Property Type", 
+       x = "", y = "") + 
+  coord_flip()
+
+p11 <- ggplot(data = airbnb, aes(x = number_of_reviews, y = log_pr_3_nights)) + 
+                geom_point(alpha = 0.2) +
+                labs(x = "# of Reviews", 
+                     y = "Log(Price 3 Nights)")
+              
+p12 <- ggplot(data = airbnb, aes(x = review_scores_rating, y = log_pr_3_nights)) + 
+                geom_point(alpha = 0.2) +
+                labs(x = "Avg. Rating", 
+                     y = "Log(Price 3 Nights)")
+              
+p13 <- ggplot(data = airbnb, aes(x = prop_type_simp, y = log_pr_3_nights)) + 
+                geom_boxplot() +
+                labs(x = "Property Type", 
+                     y = "Log(Price 3 Nights)")  + 
+  coord_flip()
+  
+p7 / (p8 + p9 + p10) 
+```
+
+**<u>Bivariate Data Analysis</u>**
+
+```{r echo =  F}
+p11 / p12 / p13
+```
+
+
+- Refit the model from Lab 05 with the log-transformed version of `price_3_nights` as the response. Use the same predictor variables as those in the original model. Show the code and output for your model.
+- Check the model assumptions for your new model with the log-transformed response variable. Be sure to include all plots and narrative to support your conclusions. 
+
+- Use your model to answer the following. Write all responses in terms of the natural units, i.e. the price for 3 nights: 
+  - Interpret the 95% confidnece intervals for the coefficients of `number_of_reviews` and `review_scores_rating` in terms of `price_3_nights` in the context of the data. 
+  - Describe how the expected price 3 nights differs based on the property type of the Airbnb rental. Be sure to include appropriate confidence intervals in your interpretation. 
+  - Use your model to describe how the price for 3 nights changes when going from an Airbnb that's an Apartment, has 100 reviews, and an average rating of 90 to an Airbnb that's a Townhouse, has 200 reviews, and an average rating of 95. *Show all output/calculations/formulas/etc. used to derive your answer. You do <u>not</u> need to include a confidence interval.*
 
 
 # Grading
 
-| **Total** | **70** |
+|| **Total** | **50** |
 |-------------------------------------------------------------|:--:|
-| Questions 1 - 7 | 30 |
-| Question 8 | 30 |
-| Documents complete and neatly organized (Markdown and knitted documents) | 3 |
-| Answers written in complete sentences | 3 |
-| Regular and informative commit messages | 4 |
+| Part 1:  | 20  |
+| Part 2: Data analysis | 25 |
+| Document neatly organized with clear headers | 3 |
+| At least 3 informative commit messages 	| 2 	|
+
+# Submitting Your Assignment
+
+Once your work is finalized in your GitHub repo, you will submit it to Gradescope. **Your assignment must be submitted on Gradescope by the deadline to be considered on time.**
+
+See [Submitting the Assignment](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) for more details on how to submit the assignment on Gradescope.
 
 
-## Acknowledgement
+# Acknowledgement
 
-The data used in this assignment was obtained from [https://github.com/proback/BYSH](https://github.com/proback/BYSH).
-
--->
+- The data from Part I of the assignment is from Chapter 9 of *OpenIntro Statistics, 4th Ed*. 

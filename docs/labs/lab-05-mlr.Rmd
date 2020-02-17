@@ -100,7 +100,7 @@ We will use the following variables in this lab:
 - What type is it stored as in the data frame? Why is `cleaning_fee` stored in the data frame as this type? 
 
 2. Let's recode `cleaning_fee`, so it is stored correctly in the data frame. To do so, write code that completes the following tasks: 
-    - Use the [`str_replace`](https://stringr.tidyverse.org/reference/str_replace.html) function in the **stringr** package to remove the dollar sign, $, i.e. replace the dollar sign with a space. The dollar sign is a special character, so use `\\$` in your code to identify the dollar sign. 
+    - Use the [`str_replace`](https://stringr.tidyverse.org/reference/str_replace.html) function in the **stringr** package to remove the dollar sign, \$, i.e. replace the dollar sign with a space. The dollar sign is a special character, so use `\\$` in your code to identify the dollar sign. 
     - Recode `cleaning_fee`, so it is numeric in the data frame.
     
 Be sure to save the numeric version of `cleaning_fee` to use in the remainder of the lab. 
@@ -126,7 +126,6 @@ Airbnb is most commonly used for travel purposes, i.e. as an alternative to trad
 7. For the response variable, we will use the total cost to stay at an Airbnb location for 3 nights. Create a new variable called `price_3_nights` that uses `price` and `cleaning_fee` to calculate the total cost to stay at the Airbnb property for 3 nights. *Note that the cleaning fee is only applied one time per stay*. 
 
   *Be sure `price` is in the correct format before calculating the new variable.*
-
 
 8. Fit a regression model with the response variable from the previous question and the following predictor variables: `prop_type_simp`, `number_of_reviews`, and `review_scores_rating`. Display the model with the inferential statistics and confidence intervals for each coefficient.
 
