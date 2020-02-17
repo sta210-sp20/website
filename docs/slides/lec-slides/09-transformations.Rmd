@@ -66,6 +66,17 @@ class: middle, center
 
 ---
 
+### Interaction Terms
+
+- **Case**: Relationship of the predictor variable with the response depends on the value of another predictor variable
+  + This is an .vocab[interaction effect]
+  
+- Create a new interaction variable that is one predictor variable times the other in the interaction 
+
+-  **Good Practice**: When including an interaction term, also *include the associated <u>main effects</u>* (each predictor variable on its own) even if their coefficients are not statistically significant
+
+---
+
 ### Checking for interactions in the EDA
 
 ```{r,echo=F, fig.height = 3.5}
@@ -94,8 +105,50 @@ patchwork + plot_annotation(tag_levels = 'A')
 
 ---
 
-### Model with interactions 
+### The data 
 
+**Predictors**
+- .vocab[`verified_income`]: Whether borrower's income source and amount have been verified (`Not Verified`, `Source Verified`, `Verified`)
+- .vocab[`debt_to_income`]: Debt-to-income ratio, i.e. the percentage of a borrower's total debt divided by their total income
+- .vocab[`bankruptcy`]: Indicator of whether borrower has had a bankruptcy in the past (`0`: No, `1`: Yes)
+- .vocab[`term`]: Length of the loan in months
+- .vocab[`credit_util`]: What fraction of total credit a borrower is utilizing, i.e. total credit utilizied divided by total credit limit
+
+**Response**
+- .vocab[`interest_rate`]: Interest rate for the loan
+
+
+```{r echo = F}
+# loan50 dataset from the openintro package
+loans <- read_csv("data/loans.csv") %>%
+  mutate(bankruptcy = as.factor(bankruptcy))
+glimpse(loans)
+```
+
+---
+
+### Add interaction term
+
+```{r}
+model_w_int <- lm(interest_rate ~ verified_income + debt_inc_cent + 
+                   bankruptcy + term_cent + credit_util_cent +
+                   debt_inc_cent * verified_income,
+                 data = loans)
+```
+
+```{r echo = F}
+tidy(model_w_int) %>% 
+  kable(format = "markdown", digits = 3)
+```
+
+---
+
+### Understanding interactions 
+
+- **Different intercept**: `verified_incomeVerified` = 	2.704
+
+
+- **Different slope** `verified_incomeVerified:debt_inc_cent` = -0.019
 
 
 ---
@@ -351,14 +404,17 @@ ggplot(data=respiratory, aes(x=predict(log_model), y=resid(log_model))) +
 ### log(Rate) vs. Age
 
 ```{r echo = F}
-kable(tidy(log_model, conf.int=TRUE),format="html", digits=3)
+kable(tidy(log_model, conf.int=TRUE),format="markdown", digits=3)
 ```
 <br>
 
 .question[
-1. Write the model in terms of $\log(rate)$. 
-2. Write the model in terms of $rate$. Interpret the slope and intercept.
+- Go to http://bit.ly/sta210-sp20-logy and interpret the model.
 
+```{r echo = F}
+library(countdown)
+countdown(minutes = 4, seconds = 0, update_every = 1, warn_when = 30)
+```
 ]
 
 ---
@@ -445,8 +501,8 @@ $$y = \beta_0 + \beta_1 \log(x)$$
 ### Rate vs. log(Age)
 
 ```{r,echo=F}
-ex0824 <- ex0824 %>% mutate(log.age = log(Age))
-ggplot(data=ex0824,aes(x=log.age,y=Rate)) + 
+ex0824 <- ex0824 %>% mutate(log_age = log(Age))
+ggplot(data=ex0824,aes(x=log_age,y=Rate)) + 
   geom_point()  +
   ggtitle("Respiratory Rate vs. log(Age)") + 
   xlab("log(Age)")+
@@ -458,20 +514,19 @@ ggplot(data=ex0824,aes(x=log.age,y=Rate)) +
 ### Rate vs. Age
 
 ```{r,echo=F}
-mod3 <- lm(Rate ~ log.age,data=ex0824)
-kable(tidy(mod3, conf.int=TRUE),format="html")
+mod3 <- lm(Rate ~ log_age,data=ex0824)
+kable(tidy(mod3, conf.int=TRUE),format="markdown", digits = 3)
 ```
 <br> 
 
 .question[
+Go to http://bit.ly/sta210-sp20-logx and interpret the model.
 
-1. Write the equation for the model of $y$ regressed on $\log(x)$. 
+```{r echo = F}
+library(countdown)
+countdown(minutes = 4, seconds = 0, update_every = 1, warn_when = 30)
+```
 
-2. Interpret the intercept in the context of the problem. 
-
-3. Interpret the slope in terms of how the mean respiratory rate changes when a child's age doubles. 
-
-4. Suppose a doctor has a patient who is currently 3 years old. Will this model provide a reliable prediction of the child's respiratory rate when her age doubles? Why or why not?
 ]
 
 

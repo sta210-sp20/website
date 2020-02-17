@@ -4,6 +4,8 @@
     <title>Multiple Linear Regression</title>
     <meta charset="utf-8" />
     <meta name="author" content="Prof. Maria Tackett" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
   </head>
   <body>
@@ -53,14 +55,84 @@ class: middle, center
 
 ---
 
+### Interaction Terms
+
+- **Case**: Relationship of the predictor variable with the response depends on the value of another predictor variable
+  + This is an .vocab[interaction effect]
+  
+- Create a new interaction variable that is one predictor variable times the other in the interaction 
+
+-  **Good Practice**: When including an interaction term, also *include the associated &lt;u&gt;main effects&lt;/u&gt;* (each predictor variable on its own) even if their coefficients are not statistically significant
+
+---
+
 ### Checking for interactions in the EDA
 
 &lt;img src="09-transformations_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Model with interactions 
+### The data 
 
+**Predictors**
+- .vocab[`verified_income`]: Whether borrower's income source and amount have been verified (`Not Verified`, `Source Verified`, `Verified`)
+- .vocab[`debt_to_income`]: Debt-to-income ratio, i.e. the percentage of a borrower's total debt divided by their total income
+- .vocab[`bankruptcy`]: Indicator of whether borrower has had a bankruptcy in the past (`0`: No, `1`: Yes)
+- .vocab[`term`]: Length of the loan in months
+- .vocab[`credit_util`]: What fraction of total credit a borrower is utilizing, i.e. total credit utilizied divided by total credit limit
+
+**Response**
+- .vocab[`interest_rate`]: Interest rate for the loan
+
+
+
+```
+## Observations: 9,974
+## Variables: 9
+## $ verified_income  &lt;chr&gt; "Verified", "Not Verified", "Source Verified", "Not …
+## $ debt_to_income   &lt;dbl&gt; 18.01, 5.04, 21.15, 10.16, 57.96, 6.46, 23.66, 16.19…
+## $ bankruptcy       &lt;fct&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0…
+## $ term             &lt;dbl&gt; 60, 36, 36, 36, 36, 36, 60, 60, 36, 36, 60, 60, 36, …
+## $ credit_util      &lt;dbl&gt; 0.54759517, 0.15003472, 0.66134832, 0.19673228, 0.75…
+## $ interest_rate    &lt;dbl&gt; 14.07, 12.61, 17.09, 6.72, 14.07, 6.72, 13.59, 11.99…
+## $ debt_inc_cent    &lt;dbl&gt; -1.3019882, -14.2719882, 1.8380118, -9.1519882, 38.6…
+## $ term_cent        &lt;dbl&gt; 16.725887, -7.274113, -7.274113, -7.274113, -7.27411…
+## $ credit_util_cent &lt;dbl&gt; 0.14448914, -0.25307131, 0.25824229, -0.20637375, 0.…
+```
+
+---
+
+### Add interaction term
+
+
+```r
+model_w_int &lt;- lm(interest_rate ~ verified_income + debt_inc_cent + 
+                   bankruptcy + term_cent + credit_util_cent +
+                   debt_inc_cent * verified_income,
+                 data = loans)
+```
+
+
+|term                                         | estimate| std.error| statistic| p.value|
+|:--------------------------------------------|--------:|---------:|---------:|-------:|
+|(Intercept)                                  |   11.298|     0.074|   151.764|   0.000|
+|verified_incomeSource Verified               |    1.094|     0.100|    10.940|   0.000|
+|verified_incomeVerified                      |    2.704|     0.119|    22.730|   0.000|
+|debt_inc_cent                                |    0.032|     0.005|     6.527|   0.000|
+|bankruptcy1                                  |    0.525|     0.133|     3.954|   0.000|
+|term_cent                                    |    0.154|     0.004|    38.764|   0.000|
+|credit_util_cent                             |    4.841|     0.163|    29.689|   0.000|
+|verified_incomeSource Verified:debt_inc_cent |   -0.009|     0.007|    -1.243|   0.214|
+|verified_incomeVerified:debt_inc_cent        |   -0.019|     0.007|    -2.699|   0.007|
+
+---
+
+### Understanding interactions 
+
+- **Different intercept**: `verified_incomeVerified` = 	2.704
+
+
+- **Different slope** `verified_incomeVerified:debt_inc_cent` = -0.019
 
 
 ---
@@ -94,7 +166,7 @@ ggplot(data=respiratory, aes(x=Age, y=Rate)) +
   labs("Respiratory Rate vs. Age")
 ```
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -134,7 +206,7 @@ ggplot(data=respiratory, aes(x=Age, y=Rate)) +
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -347,7 +419,7 @@ median(log_x) == log(median_x)
 respiratory &lt;- respiratory %&gt;% mutate(log_rate = log(Rate))
 ```
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -358,51 +430,25 @@ respiratory &lt;- respiratory %&gt;% mutate(log_rate = log(Rate))
 log_model &lt;- lm(log_rate ~ Age, data = respiratory)
 ```
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ### log(Rate) vs. Age
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; conf.low &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; conf.high &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.845 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.013 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 304.500 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.82 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.870 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Age &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.019 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.001 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -25.839 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.02 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.018 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+
+|term        | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:-----------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept) |    3.845|     0.013|   304.500|       0|     3.82|     3.870|
+|Age         |   -0.019|     0.001|   -25.839|       0|    -0.02|    -0.018|
 &lt;br&gt;
 
 .question[
-1. Write the model in terms of `\(\log(rate)\)`. 
-2. Write the model in terms of `\(rate\)`. Interpret the slope and intercept.
+- Go to http://bit.ly/sta210-sp20-logy and interpret the model.
 
+<div class="countdown" id="timer_5e4a0a34" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 ]
 
 ---
@@ -468,11 +514,11 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of *
 ### Log Transformation on `\(x\)`
 
 .pull-left[
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 - Try a transformation on `\(X\)` if the scatterplot shows some curvature but the variance is constant for all values of `\(X\)`
@@ -499,56 +545,26 @@ Interpret the 95% confidence interval for the coefficient of `Age` in terms of *
 
 ### Rate vs. log(Age)
 
-&lt;img src="09-transformations_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="09-transformations_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ### Rate vs. Age
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; conf.low &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; conf.high &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 50.134533 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.6319775 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 79.32961 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 48.893441 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 51.375625 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; log.age &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -5.982434 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2626097 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -22.78070 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -6.498153 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -5.466715 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+
+|term        | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:-----------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept) |   50.135|     0.632|    79.330|       0|   48.893|    51.376|
+|log_age     |   -5.982|     0.263|   -22.781|       0|   -6.498|    -5.467|
 &lt;br&gt; 
 
 .question[
+Go to http://bit.ly/sta210-sp20-logx and interpret the model.
 
-1. Write the equation for the model of `\(y\)` regressed on `\(\log(x)\)`. 
+<div class="countdown" id="timer_5e4a0b1c" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
-2. Interpret the intercept in the context of the problem. 
-
-3. Interpret the slope in terms of how the mean respiratory rate changes when a child's age doubles. 
-
-4. Suppose a doctor has a patient who is currently 3 years old. Will this model provide a reliable prediction of the child's respiratory rate when her age doubles? Why or why not?
 ]
 
 
