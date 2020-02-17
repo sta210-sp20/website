@@ -1,5 +1,5 @@
 ---
-title: "HW 03"
+title: "HW 03: Multiple Linear Regression"
 subtitle: "due Mon, Feb 24 at 11:59p"
 author: ""
 date: ""
@@ -60,9 +60,9 @@ mariokart <- mariokart %>%
 
 The *Conceptual* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences.
 
-For Questions 1- 7, we will use on Ebay auctions for Mario Kart video games. The data was originally collected in October 2009. Click [here](https://www.openintro.org/data/index.php?data=mariokart) to read more details about the dataset and the variables in the data. 
+For Questions 1- 7, we will use data on Ebay auctions for Mario Kart video for the Wii. The data was originally collected in October 2009. Click [here](https://www.openintro.org/data/index.php?data=mariokart) to read more about the dataset and the variables.
 
-Below is a regression model using `cond`, `stock_photo`, and `wheels`, `n_bids` and `cond * wheels` to explain variation in `game_pr`. The variable `game_pr` is calculated as `total_pr - ship_pr`, the difference in the total price and shipping price. The model is shown in mathematical notation as well as in the output from R. Use the model to answer Questions 1 - 7. 
+Below is a regression model using `cond`, `stock_photo`, and `wheels`, `n_bids` and `cond * wheels` to explain variation in `game_pr`. The variable `game_pr` is calculated as `total_pr - ship_pr`, the difference in the total price and shipping price. The model is shown below in mathematical notation as well as in the output from R. Use the model to answer Questions 1 - 7. 
 
 
 $$\hat{\text{game_pr}} = \hat{\beta}_0 + \hat{\beta}_1 \text{condition_used} + \hat{\beta}_2 \text{stock_photo_yes} + \hat{\beta}_3 \text{wheels} + \hat{\beta}_4 \text{n_bids} + \hat{\beta}_5 (\text{cond_used} \times \text{wheels})$$  
@@ -74,13 +74,13 @@ tidy(model, conf.int = TRUE) %>%
   kable(format = "markdown", digits = 3)
 ```
 
-1. Write the equation of the model that can used to estimate `game_pr` for *new* Mario Kart games sold on Ebay. Write the equation using the estimated coefficients from R and the variable names. 
+1. Write the equation of the model that can used to predict `game_pr` for *new* Mario Kart games sold on Ebay. Write the equation using the estimated coefficients from R and the variable names. 
 
-2.  Write the equation of the model that can used to estimate `game_pr` for *used* Mario Kart games. Write the equation using the estimated coefficients from R and the variable names. 
+2.  Write the equation of the model that can used to predict `game_pr` for *used* Mario Kart games. Write the equation using the estimated coefficients from R and the variable names. 
 
-3. What subset is described by the intercept? In other words, $36.68 is the average selling price for which subset of games? Is the intercept meaningful? Explain why or why not.
+3. What subset of Mario Kart games is described by the intercept? In other words, $36.68 is the mean selling price for which subset of games? Is the intercept meaningful? Explain why or why not.
 
-4. Suppose we wish to test if there is a statistically significant difference in the mean selling price between new and used Mario Kart games with 0 wheels, a stock photo and 5 bids. What is the p-value associated with the test? State your conclusion in the context of the data.
+4. Suppose we wish to test if there is a statistically significant difference in the mean selling price between new and used Mario Kart games with 0 wheels, a stock photo and 5 bids. What is the p-value associated with the test? State your conclusion for the test in the context of the data.
 
 5. Interpret the coefficient of `stock_photoyes` and it's 95% confidence interval in the context of the data.
 
@@ -94,6 +94,12 @@ The *Data Analysis* section of homework contains open-ended data analysis questi
 
 For the data analysis, we will return to the Airbnb data from Lab 05. Please see the [Lab 05 instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-05-mlr.html#getting-started) for a description of the dataset and variables. 
 
+You will use the dataset `nashville-airbnb-mod.csv` found in the `data` folder of your repo. This dataset already includes the following modifications you made in Lab 05: 
+- Recode `price` and `cleaning_fee` to be numeric variables. 
+- Create the variable `prop_type_simp` which takes categories Apartment, Condominium, House, Townhouse, and Other.
+- Create the varible `price_3_nights` calculated as `price * 3 + cleaning fee`.
+
+<br><br>
 
 ```{r echo = F}
 airbnb <- read_csv("data/nashville-airbnb-mod.csv") %>%
@@ -104,7 +110,6 @@ airbnb <- read_csv("data/nashville-airbnb-mod.csv") %>%
 Recall in Lab 05 that you fit a model of the following form: 
 
 $$\hat{\text{price_3_nights}} = \hat{\beta}_0 + \hat{\beta}_1 \text{prop_type_Condo} + \hat{\beta}_2 \text{prop_type_House} + \hat{\beta}_3 \text{prop_type_Townhouse} + \hat{\beta}_4 \text{numer_of_reviews} + \hat{\beta}_5 \text{review_scores_rating}$$  
-with `price_3_nights`, the total price to stay in an Airbnb for 3 nights. 
 
 ```{r echo = F}
 model1 <- lm(price_3_nights ~ prop_type_simp + number_of_reviews + 
@@ -113,6 +118,8 @@ model1 <- lm(price_3_nights ~ prop_type_simp + number_of_reviews +
 ```
 
 Below are plots of the residuals for this model: 
+
+### Residual plots for model with `price_3_nights` as the response variable
 
 ```{r echo = F, fig.height = 9}
 library(patchwork)
@@ -146,18 +153,19 @@ p5 <- ggplot(data = airbnb_aug, aes(x = .resid)) +
 p6 <- ggplot(data = airbnb_aug, aes(sample = .resid)) +
   stat_qq() + 
   stat_qq_line() + 
-  labs(x = "Normal QQ-Plot of Residuals")
+  labs(title = "Normal QQ-Plot of Residuals")
 
 p1 / ( p2 + p3  + p4) / (p5 + p6)
 ```
 
 
-- Based on the above residual plots, which assumption(s) for regression is(are) violated? Briefly explain your reasoning, including which plot(s) you used to draw your conclusion. 
+- **Based on these residual plots, which assumption(s) for regression is(are) violated? Briefly explain your reasoning, including which plot(s) you used to draw your conclusion.**
 
 
-- Let's address the violations in the assumptions by using the log-transformed version of `price_3_nights`, instead of the original variable, to fit the model. As usual, we must start with exploratory data analysis. Use the plots below to write the narrative for the exploratory data analysis. Include as much detail as possible from the plots. You do **<u>not</u>** need to recreate the plots.
+- Let's address the violations in the assumptions by using the log-transformed version of `price_3_nights`, instead of the original variable, to fit the model. As usual, we must start with exploratory data analysis. **Use the plots below to write the narrative for the exploratory data analysis. Include as much detail as possible from the plots. You do <u>not</u> need to recreate the plots.**
 
-**<u>Univariate Analysis</u>**
+### Univariate Data Analysis
+
 ```{r echo = F}
 airbnb <- airbnb %>%
   mutate(log_pr_3_nights = log(price_3_nights))
@@ -176,7 +184,7 @@ p8 <- ggplot(data = airbnb, aes(x = number_of_reviews)) +
 
 p9 <- ggplot(data = airbnb, aes(x = review_scores_rating)) + 
   geom_histogram() + 
-  labs(title = "Avg. Score", 
+  labs(title = "Avg. Rating", 
        x = "", y = "")
 
 p10 <- ggplot(data = airbnb, aes(x = prop_type_simp)) + 
@@ -204,20 +212,23 @@ p13 <- ggplot(data = airbnb, aes(x = prop_type_simp, y = log_pr_3_nights)) +
 p7 / (p8 + p9 + p10) 
 ```
 
-**<u>Bivariate Data Analysis</u>**
+### Bivariate Data Analysis
 
 ```{r echo =  F}
 p11 / p12 / p13
 ```
 
 
-- Refit the model from Lab 05 with the log-transformed version of `price_3_nights` as the response. Use the same predictor variables as those in the original model. Show the code and output for your model.
-- Check the model assumptions for your new model with the log-transformed response variable. Be sure to include all plots and narrative to support your conclusions. 
+- **Refit the model from Lab 05 with the log-transformed version of `price_3_nights` as the response and `prop_type_simp`, `number_of_reviews`, and `review_scores_rating` as the predictor variables. Show the code and output for your model.**
 
-- Use your model to answer the following. Write all responses in terms of the natural units, i.e. the price for 3 nights: 
-  - Interpret the 95% confidnece intervals for the coefficients of `number_of_reviews` and `review_scores_rating` in terms of `price_3_nights` in the context of the data. 
-  - Describe how the expected price 3 nights differs based on the property type of the Airbnb rental. Be sure to include appropriate confidence intervals in your interpretation. 
-  - Use your model to describe how the price for 3 nights changes when going from an Airbnb that's an Apartment, has 100 reviews, and an average rating of 90 to an Airbnb that's a Townhouse, has 200 reviews, and an average rating of 95. *Show all output/calculations/formulas/etc. used to derive your answer. You do <u>not</u> need to include a confidence interval.*
+- **Check the model assumptions for your model. Be sure to include all plots and narrative to support your conclusions.**
+
+- Use your model to complete the following.  Write all responses in terms of the natural units, i.e. the price for 3 nights: 
+  - **Interpret the 95% confidence intervals for the coefficients of `number_of_reviews` and `review_scores_rating` in terms of `price_3_nights` in the context of the data. **
+  
+  - **Describe how the expected price for 3 nights differs based on the property type of the Airbnb. Be sure to include appropriate confidence intervals in your interpretation.**
+  
+  - **Use your model to describe how the price for 3 nights changes when going from an Airbnb that's an Apartment, has 100 reviews, and an average rating of 90 to an Airbnb that's a Townhouse, has 200 reviews, and an average rating of 95.** *Show all output/calculations/formulas/etc. used to derive your answer. You do <u>not</u> need to include a confidence interval.*
 
 
 # Grading
@@ -235,7 +246,3 @@ Once your work is finalized in your GitHub repo, you will submit it to Gradescop
 
 See [Submitting the Assignment](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) for more details on how to submit the assignment on Gradescope.
 
-
-# Acknowledgement
-
-- The data from Part I of the assignment is from Chapter 9 of *OpenIntro Statistics, 4th Ed*. 
