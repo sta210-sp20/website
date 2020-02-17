@@ -1,8 +1,8 @@
 ---
 title: "Multiple Linear Regression"
 subtitle: "Interactions & Transformations"
-author: "Dr. Maria Tackett"
-date: "09.25.19"
+author: "Prof. Maria Tackett"
+date: "02.17.20"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -35,161 +35,68 @@ class: middle, center
 
 ### Announcements
 
-- HW 02 **due TODAY at 11:59p**
-
-- Team Feedback #1 **due TODAY at 11:59p**
+- Team Feedback #1 **due Wed, Feb 19 at 11:59p**
+    - Check for email from Teammates 
     - Please provide honest and constructive feedback. This team feedback will be graded for completion.
-    
-- [Reading 05](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-05.html) for Monday 
-    
-- HW 03 due Wednesday, 10/1 at 11:59p
 
+- HW 03 **due Mon, Feb 24 at 11:59p**
 
 ---
 
 ### Today's Agenda
 
-- Categorical Predictors with $K > 2$ categories 
-
 - Interactions 
 
 - Log Transformations 
 
----
 
- 
-## R packages
-
-```{r}
+```{r echo = F}
 library(tidyverse)
 library(knitr)
 library(broom)
-library(cowplot) # use plot_grid function
 library(Sleuth3) 
+library(patchwork)
 ```
 ---
 
 class: middle, center
 
-## Categorical Predictors 
+## Interactions
 
 ---
 
-### Starting wages data
-
-**Explanatory**
-- <font class="vocab">`Educ`: </font>years of Education
-- <font class="vocab">`Exper`: </font>months of previous work Experience (before hire at bank)
-- <font class="vocab">`Female`: </font>1 if female, 0 if male
-- <font class="vocab">`Senior`: </font>months worked at bank since hire
-- <font class="vocab">`Age`: </font>Age in months
-
-**Response**
-- <font class="vocab">`Bsal`: </font>annual salary at time of hire
-
----
-
-### Starting wages: Education categorical 
-
-```{r echo = F}
-wages <- case1202 %>% 
-  mutate(Female = as.factor(ifelse(Sex=="Female",1,0))) %>%
-  select(-Sal77,-Sex)
-```
-
-```{r echo = F}
-wages <- wages %>%
-  mutate(SeniorCent = Senior - mean(Senior), 
-         AgeCent = Age-mean(Age), 
-         EducCat = as.factor(Educ), 
-         ExperCent = Exper - mean(Exper))
-```
-
-```{r echo = F}
-model <- lm(Bsal ~ SeniorCent + AgeCent + ExperCent + EducCat + Female, data = wages)
-kable(tidy(model), format = "markdown", digits = 3)
-```
-
----
-### EducCat Behind the scenes
-
-- The categorical variable `EducCat` has 5 levels, so there are 4 indicator variables for Education in the model. 
-
-- For a given observation, a value is assigned for each of thr 4 indicator variables based on the following scheme: 
-
-<table style="border-collapse:collapse;border-spacing:0" class="tg"><tr><th style="font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top"></th><th style="font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top" colspan="4"><span style="font-weight:bold">Indicator Variables </span></th></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:left;vertical-align:top">Observations</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top">EducCat10</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top">EducCat12</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top">EducCat15</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;font-weight:bold;text-align:center;vertical-align:top">EducCat16</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 8 (baseline)</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 10</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">1</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 12</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">1</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 15</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">1</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td></tr><tr><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:left;vertical-align:top">Education = 16</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">0</td><td style="font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:inherit;text-align:center;vertical-align:top">1</td></tr></table>
-
----
-
-### Application Exercise
-
-- Go to the **Wages** application exercise in RStudio Cloud. 
-- Fit a regression model with Education treated as a categorical variable. 
-
-.question[
-- What is the baseline for Education?
-
-- Interpret the coefficient for `EducCat16`.
-
-- What is your conclusion from the p-value of `EducCat16`?
-
-- Write the model equation for those with 8 years of education. 
-
-- Write the model equation for those with 16 years of education. 
-]
-
----
-
-class: middle, center
-
-
-## Interactions 
-
----
-
-### Checking for interactions
+### Checking for interactions in the EDA
 
 ```{r,echo=F, fig.height = 3.5}
-ggplot(data=wages, aes(x=Senior,y=Bsal,color = Female)) +
+case1202 <- case1202 %>%
+  mutate(Z = if_else(Sex == "Female", "Group 1", "Group 2"))
+
+p1 <- ggplot(data=case1202, aes(x=Senior,y=Bsal,color = Z)) +
   geom_point() +
   geom_smooth(method="lm", se=FALSE) + 
-  labs(title = "Starting Salary vs. Seniority",
-       subtitle = "Male vs. Female employees",
-       x = "Months at Company", 
-       y = "Starting Salary", 
-       color = "Female")
-```
+  labs(title = "Y vs. X1",
+       subtitle = "by Z",
+       x = "X1", 
+       y = "Y", 
+       color = "Z")
 
-.question[
-Do you think there is a significant interaction effect between `Female` and `Senior`? Why or why not?
-]
-
----
-
-### Checking for interactions
-
-```{r,echo=F, fig.height = 3.5}
-ggplot(data=wages, aes(x=Exper,y=Bsal,color = Female)) +
+p2 <- ggplot(data=case1202, aes(x=Exper,y=Bsal,color = Z)) +
   geom_point() +
   geom_smooth(method="lm", se=FALSE) + 
-  labs(title = "Starting Salary vs. Experience",
-       subtitle = "Male vs. Female employees",
-       x = "Months at Company", 
-       y = "Starting Salary", 
-       color = "Female")
+  labs(title = "Y vs. X2",
+       subtitle = "by Z",
+       x = "X2", 
+       y = "Y", 
+       color = "Z")
+
+patchwork <- p1 + p2
+patchwork + plot_annotation(tag_levels = 'A')
 ```
 
-.question[
-Do you think there is a significant interaction effect between `Female` and `Exper`? Why or why not?
-]
 ---
 
 ### Model with interactions 
 
-```{r}
-int_model <- lm(Bsal ~SeniorCent + AgeCent + ExperCent + EducCat + Female + ExperCent*Female, data = wages )
-kable(tidy(int_model), format = "markdown", digits = 3)
-```
 
 
 ---
@@ -243,6 +150,7 @@ ggplot(data=respiratory, aes(x=predicted, y=residuals)) +
 ---
 
 class: middle, center
+
 ## Log transformations
 
 ---
@@ -363,7 +271,7 @@ ggplot(data=respiratory, aes(x=predict(log_model), y=resid(log_model))) +
 
 ### log(Rate) vs. Age
 
-```{r}
+```{r echo = F}
 kable(tidy(log_model, conf.int=TRUE),format="html", digits=3)
 ```
 <br>
@@ -394,7 +302,7 @@ $$\exp\big\{\hat{\beta}_j \pm t^* SE(\hat{\beta_j})\big\}$$
 
 ### Coefficient of `Age`
 
-```{r }
+```{r echo = F}
 kable(tidy(log_model, conf.int=TRUE),format="html", digits=3)
 ```
 
@@ -492,13 +400,6 @@ kable(tidy(mod3, conf.int=TRUE),format="html")
 
 class: middle 
 
-See [Log Transformations in Linear Regression](https://github.com/sta210-fa19/supplemental-notes/blob/master/log-transformations.pdf) for more details about interpreting regression models with log-transformed variables.
-
----
-
-### Before Next Class
-
-- [Reading 05](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-05.html) for Monday 
-
+See [Log Transformations in Linear Regression](https://github.com/sta210-sp20/supplemental-notes/blob/master/log-transformations.pdf) for more details about interpreting regression models with log-transformed variables.
 
 
