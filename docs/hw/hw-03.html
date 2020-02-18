@@ -1796,7 +1796,12 @@ library(knitr) </code></pre>
 <h2>Part 2: Data Analysis</h2>
 <p>The <em>Data Analysis</em> section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as “mini-projects”.</p>
 <p>For the data analysis, we will return to the Airbnb data from Lab 05. Please see the <a href="https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-05-mlr.html#getting-started">Lab 05 instructions</a> for a description of the dataset and variables.</p>
-<p>You will use the dataset <code>nashville-airbnb-mod.csv</code> found in the <code>data</code> folder of your repo. This dataset already includes the following modifications you made in Lab 05: - Recode <code>price</code> and <code>cleaning_fee</code> to be numeric variables. - Create the variable <code>prop_type_simp</code> which takes categories Apartment, Condominium, House, Townhouse, and Other. - Create the varible <code>price_3_nights</code> calculated as <code>price * 3 + cleaning fee</code>.</p>
+<p>You will use the dataset <code>nashville-airbnb-mod.csv</code> found in the <code>data</code> folder of your repo. This dataset already includes the following modifications you made in Lab 05:</p>
+<ul>
+<li>Recode <code>price</code> and <code>cleaning_fee</code> to be numeric variables.</li>
+<li>Create the variable <code>prop_type_simp</code> which takes categories Apartment, Condominium, House, Townhouse, and Other.</li>
+<li>Create the varible <code>price_3_nights</code> calculated as <code>price * 3 + cleaning fee</code>.</li>
+</ul>
 <p><br><br></p>
 <p>Recall in Lab 05 that you fit a model of the following form:</p>
 <p><span class="math display">\[\hat{\text{price_3_nights}} = \hat{\beta}_0 + \hat{\beta}_1 \text{prop_type_Condo} + \hat{\beta}_2 \text{prop_type_House} + \hat{\beta}_3 \text{prop_type_Townhouse} + \hat{\beta}_4 \text{numer_of_reviews} + \hat{\beta}_5 \text{review_scores_rating}\]</span></p>
@@ -1823,7 +1828,7 @@ library(knitr) </code></pre>
 <ul>
 <li><p><strong>Interpret the 95% confidence intervals for the coefficients of <code>number_of_reviews</code> and <code>review_scores_rating</code> in terms of <code>price_3_nights</code> in the context of the data. </strong></p></li>
 <li><p><strong>Describe how the expected price for 3 nights differs based on the property type of the Airbnb. Be sure to include appropriate confidence intervals in your interpretation.</strong></p></li>
-<li><p><strong>Use your model to describe how the price for 3 nights changes when going from an Airbnb that’s an Apartment, has 100 reviews, and an average rating of 90 to an Airbnb that’s a Townhouse, has 200 reviews, and an average rating of 95.</strong> <em>Show all output/calculations/formulas/etc. used to derive your answer. You do <u>not</u> need to include a confidence interval.</em></p></li>
+<li><p><strong>Use your model to describe how the median price for 3 nights changes when going from an Airbnb that’s an Apartment, has 100 reviews, and an average rating of 90 to an Airbnb that’s a Townhouse, has 200 reviews, and an average rating of 95.</strong> <em>Show all output/calculations/formulas/etc. used to derive your answer. You do <u>not</u> need to include a confidence interval.</em></p></li>
 </ul></li>
 </ul>
 </div>
@@ -1840,7 +1845,7 @@ library(knitr) </code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Part 1:</td>
+<td>Part 1: Conceptual</td>
 <td align="center">20</td>
 </tr>
 <tr class="even">

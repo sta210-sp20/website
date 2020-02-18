@@ -95,6 +95,7 @@ The *Data Analysis* section of homework contains open-ended data analysis questi
 For the data analysis, we will return to the Airbnb data from Lab 05. Please see the [Lab 05 instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-05-mlr.html#getting-started) for a description of the dataset and variables. 
 
 You will use the dataset `nashville-airbnb-mod.csv` found in the `data` folder of your repo. This dataset already includes the following modifications you made in Lab 05: 
+
 - Recode `price` and `cleaning_fee` to be numeric variables. 
 - Create the variable `prop_type_simp` which takes categories Apartment, Condominium, House, Townhouse, and Other.
 - Create the varible `price_3_nights` calculated as `price * 3 + cleaning fee`.
@@ -228,14 +229,14 @@ p11 / p12 / p13
   
   - **Describe how the expected price for 3 nights differs based on the property type of the Airbnb. Be sure to include appropriate confidence intervals in your interpretation.**
   
-  - **Use your model to describe how the price for 3 nights changes when going from an Airbnb that's an Apartment, has 100 reviews, and an average rating of 90 to an Airbnb that's a Townhouse, has 200 reviews, and an average rating of 95.** *Show all output/calculations/formulas/etc. used to derive your answer. You do <u>not</u> need to include a confidence interval.*
+  - **Use your model to describe how the median price for 3 nights changes when going from an Airbnb that's an Apartment, has 100 reviews, and an average rating of 90 to an Airbnb that's a Townhouse, has 200 reviews, and an average rating of 95.** *Show all output/calculations/formulas/etc. used to derive your answer. You do <u>not</u> need to include a confidence interval.*
 
 
 # Grading
 
 || **Total** | **50** |
 |-------------------------------------------------------------|:--:|
-| Part 1:  | 20  |
+| Part 1: Conceptual  | 20  |
 | Part 2: Data analysis | 25 |
 | Document neatly organized with clear headers | 3 |
 | At least 3 informative commit messages 	| 2 	|
