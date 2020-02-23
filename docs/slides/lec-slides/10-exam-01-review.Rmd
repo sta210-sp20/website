@@ -110,7 +110,7 @@ class: middle, center
 
 - Write your responses to each question. 
 
-- You can download the .Rmd file here[10-exam-01-review-exercises.Rmd] and open it in RStudio if you wish to type your responses directly in the R Markdown file.
+- You can download the .Rmd file [here](http://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/10-exam-01-review-exercises.Rmd) and open it in RStudio if you wish to type your responses directly in the R Markdown file.
 
 - We will spend a few minutes on each section, then select a few groups to share their responses. 
 
@@ -118,7 +118,10 @@ class: middle, center
 
 class: middle, center
 
-### Part I: Analysis of Variance
+
+### [Part I: Analysis of Variance](http://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/10-exam-01-review-exercises.html)
+
+
 
 ```{r echo = F}
 library(countdown)
@@ -130,7 +133,7 @@ countdown(minutes = 10, seconds = 0, warn_when = 60, right = "33%", bottom = "20
 
 class: middle, center
 
-### Part II: Original Model
+### [Part II: Original Model](http://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/10-exam-01-review-exercises.html#part_ii:_original_model)
 
 ```{r echo = F}
 library(countdown)
@@ -142,7 +145,7 @@ countdown(minutes = 10, seconds = 0, warn_when = 60, right = "33%", bottom = "20
 
 class: middle, center
 
-### Part III: Model with Log-Transformed Response
+### [Part III: Model with Log-Transformed Response](http://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/10-exam-01-review-exercises.html#part_iii:_model_with_log-transformed_response)
 
 ```{r echo = F}
 library(countdown)

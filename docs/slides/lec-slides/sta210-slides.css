@@ -28,11 +28,12 @@ h1, h3 {
   font-weight: bold;
   color: #00897B;
 }
+
 a, a > code {
   font-family: 'Open Sans', sans-serif;
   color: #993399;
   text-decoration: underline;
-  font-size: 14pt;
+  font-size: 16pt;
 }
 
 .footnote {
