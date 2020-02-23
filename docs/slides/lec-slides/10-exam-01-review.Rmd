@@ -1,0 +1,151 @@
+---
+title: "Exam 01 Review"
+author: "Prof. Maria Tackett"
+date: "02.24.20"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 3,
+	message = FALSE,
+	warning = FALSE, 
+	dpi = 300
+)
+```
+
+class: middle, center
+
+### [Click for PDF of slides](10-exam-01-review.pdf)
+
+---
+
+### Announcements
+
+- HW 03 **due TODAY at 11:59p**
+
+- Lab 06 - Spatial regression due **Tuesday at 11:59p**
+
+- <font color = "blue">Sign Up for DataFest!</font>
+
+  `r emo::ji("spiral_calendar")` April 3 - 5
+  
+  `r emo::ji("round_pushpin")` Penn Pavilion
+  
+  `r emo::ji("link")` [stat.duke.edu/datafest](https://www.stat.duke.edu/datafest)
+
+
+```{r,echo=F}
+library(knitr)
+library(broom)
+library(tidyverse)
+```
+
+---
+
+### Exam I Outline
+
+- Multiple choice, true/fallse, short answer questions
+
+- Permitted to bring one sheet of <u>handwritten notes</u> (front and back)
+  + Must show your notes to me or TA when you turn in exam. 
+  + Points deducted if notes are not handwritten
+
+- Calculator **not** permitted on exam
+
+- Please use blue or black ink pen and write carefully!
+
+---
+
+### Topics 
+
+- Regression Basics
+  + Interpreting coefficients
+  + Inference for regression
+  + Predicted values and the appropriate interval
+  + Regression assumptions
+
+- ANOVA to compare group means
+
+---
+
+### Topics 
+
+- Indicator variables and interaction terms
+
+- Transformations on response variable
+  + Determining if transformation is required
+  + Interpreting coefficients on log-transformed and original scales
+  + Calculating predicted values on log-transformed and original scales
+
+---
+
+class: middle, center 
+
+## Questions?
+
+---
+
+class: middle, center
+
+## Practice 
+
+---
+
+### Diamonds analysis
+
+- Sit with your lab group. 
+
+- Write your responses to each question. 
+
+- You can download the .Rmd file here[10-exam-01-review-exercises.Rmd] and open it in RStudio if you wish to type your responses directly in the R Markdown file.
+
+- We will spend a few minutes on each section, then select a few groups to share their responses. 
+
+---
+
+class: middle, center
+
+### Part I: Analysis of Variance
+
+```{r echo = F}
+library(countdown)
+
+countdown(minutes = 10, seconds = 0, warn_when = 60, right = "33%", bottom = "20%")
+```
+
+---
+
+class: middle, center
+
+### Part II: Original Model
+
+```{r echo = F}
+library(countdown)
+
+countdown(minutes = 10, seconds = 0, warn_when = 60, right = "33%", bottom = "20%")
+```
+
+---
+
+class: middle, center
+
+### Part III: Model with Log-Transformed Response
+
+```{r echo = F}
+library(countdown)
+
+countdown(minutes = 10, seconds = 0, warn_when = 60, right = "33%", bottom = "20%")
+```
