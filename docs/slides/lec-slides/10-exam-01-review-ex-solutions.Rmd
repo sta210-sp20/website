@@ -1,0 +1,217 @@
+---
+title: "Exam 01 Review"
+subtitle: "Solutions"
+date: "02.24.20"
+output: pdf_document
+---
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,
+                   message=FALSE, 
+                   echo = FALSE)
+```
+
+```{r load-packages}
+library(tidyverse)
+library(broom)
+library(knitr)
+library(patchwork)
+```
+
+## The Data
+
+For this exam review, we will analyze a sample of 300 diamonds that weigh less than 1.1 carats. The data is from the `diamonds` data set in the ggplot2 R package. Type `?ggplot2::diamonds` in the console to read more about the variables in this data set.
+
+We load and prepare the data in the code below. 
+
+```{r prepare-data}
+set.seed(12)
+diamonds_samp <- ggplot2::diamonds %>% 
+  filter(carat < 1.1) %>%
+  sample_n(300) %>%
+  mutate(caratCent = carat - mean(carat), 
+         depthCent = depth - mean(depth), 
+         color = factor(as.character(color)), # to fix variable format in model output
+         clarity = factor(as.character(clarity)) # to fix variable format in model output
+)
+```
+
+## Part I: Analysis of Variance
+
+How much variation in `price` can be explained by the `clarity` of the diamond? 
+
+```{r}
+anova <- aov(price ~ clarity, data = diamonds_samp)
+kable(tidy(anova),digits = 3)
+```
+
+
+1. What is the estimated variance of the distribution of price within each level of clarity?
+
+    *The mean square within each group, i.e. mean square of the residuals, 3348609.*	
+
+
+2. State the null and alternative hypotheses for the test conducted in the ANOVA table.
+
+    *Let $\mu_1, \mu_2, \ldots, \mu_8$ represent the mean price in each level of clarity. Then the hypotheses are*
+    
+    $$\begin{aligned}&H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5 = \mu_6 = \mu_7 = \mu_8\\
+    &H_a: \text{at least one }\mu_i \text{ has a mean price that is not equal to the others}\\\end{aligned}$$
+
+3. Briefly explain how the F test statistic is calculated.
+
+    *The F test statistic is MSB / MSW = 11379984 / 3348609.*
+
+4. State your conclusion for the test in (2) in the context of the data.
+
+    *The p-value 0.002 is small, so we reject $H_0$ and conclude that the mean price is different for at least one level of clarity.*
+
+5. Briefly describe some of the next steps you would take in the analysis.
+    
+    *We could examine the coefficients and the corresponding p-values and confidence intervals for the model with price as the response and clarity as the predictor. This would give us an idea about how the mean price at each level compares to the baseline level of clarity in the model.*
+    
+    *Another option is to calculate confidence intervals for the mean price for each level of clarity and examine if there is overlap in the intervals.*
+
+
+## Part II: Original Model 
+
+To better understand how different characteristics of a diamond affect its price, we fit a model with `price` as the response and `caratCent`, `depthCent`, `color`, and the interaction between `caratCent` and `color` as the predictor variables. `caratCent` is the mean-centered version of `carat` and `depthCent` is the mean-centered version of `depth`. 
+
+```{r}
+model_orig <- lm(price ~ caratCent + depthCent + color + color * caratCent, 
+                 data = diamonds_samp)
+tidy(model_orig, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+1. Interpret `caratCent` and its 95% confidence interval in the context of the data.
+
+    *For each additional carat, we expect the price of a diamond to increase by about 7100.85, on average, holding the color and depth constant.*
+
+2. Suppose you fit a new model that includes `carat` instead of `caratCent` as a predictor. All other predictors remain the same as in the model output above. Briefly describe how the estimate of the coefficient of `carat`, the corresponding test statistic, p-value, and confidence interval would compare to those shown in the model output above.
+    
+    *Nothing would change for `carat`.*
+
+3. Interpret `colorF` and its 95% confidence interval in the context of the data.
+
+    *Holding carat and depth constant, we expect the mean price of diamonds of color F to be about $340.05 lower than the mean price of diamonds with color D* 
+    
+    *We are 95% confident that the mean price for diamonds with color F is between $29.78 to $650.53	lower than the mean price for diamonds with color D, holding carat and depth constant.*
+
+4. Interpret `caratCent:colorF` and its 95% confidence interval in the context of the data. 
+  
+    *We expect the change in the mean price for each additional carat to be about $1253.846 less for diamonds with color F than those with color D, holding depth constant.*
+    
+    *We are 95% confident that the change in the mean price for each additional carat to be about $80 to $2427.790 less for diamonds with color F than those with color D, holding depth constant.*
+
+5. Compare the interpretations in questions 3 and 4. Discuss the differences between `colorF` and `caratCent:colorF` and how they affect the model.
+
+    *The main effect `colorF` affects the intercept of the model and the interaction term `caratCent:colorF` affects the coefficient (slope) of `caratCent`.
+
+6. What are the assumptions of multiple linear regression? Some of the residuals plots used to check the model assumptions are shown below. For each plot, State the assumption(s) that can be assessed using that plot. Use the plot to determine if the assumption is satisfied.*
+
+```{r}
+model_orig_aug <- augment(model_orig)
+```
+
+```{r fig.height = 9, fig.width = 8}
+p1 <- ggplot(data = model_orig_aug, aes(x = .fitted, y = .resid)) + 
+  geom_point() +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Predicted", y = "Residuals")
+
+p2 <- ggplot(data = model_orig_aug, aes(x = caratCent, y = .resid)) + 
+  geom_point() +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Mean-Centered Carat", y = "Residuals")
+
+p3 <- ggplot(data = model_orig_aug, aes(x = depthCent, y = .resid)) + 
+  geom_point() +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Mean-Centered Depth", y = "Residuals")
+
+p4 <- ggplot(data = model_orig_aug, aes(x = color, y = .resid)) + 
+  geom_boxplot() +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Color", y = "Residuals")
+
+p5 <- ggplot(data = model_orig_aug, aes(x = .resid)) +
+  geom_histogram() +
+  labs(x = "Residuals")
+
+p6 <- ggplot(data = model_orig_aug, aes(sample = .resid)) +
+  stat_qq() +
+  stat_qq_line() 
+
+p1 / (p2 + p3 + p4) / p5 + p6
+```
+
+- **Linearity**: 
+  - *Use plots of residuals vs. predicted and residuals vs. each quantitative predictor. There is no obvious relationship between the values on the x axis and those on the y axis (i.e. a parabola), so we conclude that linearity is satisified.*
+ 
+- **Normality**: 
+  - *Use histogram and normal QQ plot of residuals. There seems to be some right-skewness and high outliers, so this assumption is not satisifed.*
+  
+- **Constant variance**: 
+  - *Use the plot of the residuals vs. predicted. There is a fan shape in this plot, so this assumption is not satisified. We should try a log-transformation on the response variable.*
+
+- **Independence**: 
+  - *Most of the time, you can use a description of the data to determine if the independence assumption is reasonably met. You can can also plot the residuals in time or location order (if relevant). Can also examine boxplots of the residuals vs. a categorical predictor to see if the model systematically over or under predicts for a group. There is nothing to indicate a violation of independence for this dataset, so we conclude this assumption is satisified.*
+
+
+## Part III: Model with Log-Transformed Response
+
+Next, we fit a model with the `log_price`, the log-transformed version of `price`, as the response variable. We use the same predictor variables as before. 
+
+```{r}
+diamonds_samp <- diamonds_samp %>%
+  mutate(log_price = log(price))
+```
+
+```{r}
+model_log <- lm(log_price ~ caratCent + depthCent + color + color * caratCent, 
+                 data = diamonds_samp)
+tidy(model_log, conf.int = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+
+1. Describe the subset of diamonds that are expected to have a median price of exp(7.533) = $`r round(exp(7.533), 2)`.
+    
+    *We are describing the intercept. These are diamonds of color D with average carat weight, and average depth.*
+
+2. Interpret the estimated coefficient of `depthCent` in terms of the price.
+    *For each percentage increase of depth, we expect the median price to multiply by a factor of $\exp\{-0.004\}$, holding color and carat constant.*
+
+3. Write the model equation to predict `log(price)` for a diamond that's color `D`.
+
+$$\widehat{\log(price)} = 7.533 + 2.948 \times caratCent - 0.004 \times depthCent$$
+
+4. Write the model equation to predict `log(price)` for a diamond that's color `F`.
+
+$$\widehat{\log(price)} = (7.533 - 0.100)+ (2.948 - 0.302)	 \times caratCent - 0.004 \times depthCent$$
+
+5. What is the slope of `caratCent` for a diamond with color `D`? Color `F`? 
+
+    *The slope is 2.948 for color D and (2.948 - 0.302) for color F.*
+
+5. Describe how the price changes when going from a 1 carat diamond that's color `D` with depth of 60 to a 0.5 carat diamond with color `F` and depth of 60. 
+
+  *The mean of carat is 0.602, and the mean of depth is 61.62*
+  
+  **Diamond1**
+  $$\widehat{\log(price)} = 7.533 + 2.948 \times (1 - 0.602) - 0.004 \times (60 - 61.62)$$
+  
+  **Diamond2**
+$$\widehat{\log(price)} = (7.533 - 0.100)+ (2.948 - 0.302)	 \times (0.5 - 0.602) - 0.004 \times (60 - 61.62)$$
+
+  **Difference in the log(price) between Diamond2 and Diamond1**
+  
+  $$\big[(7.533 - 0.100) + (2.948 - 0.302)	 \times (0.5 - 0.602) - 0.004 \times (60 - 61.62)\big]\\
+  - \big[7.533 + 2.948 \times (1 - 0.602) - 0.004 \times (60 - 61.62)\big]$$
+  
+  This equals 
+  $$-0.100 + 2.948*(0.5 - 1) + 0.302 * (0.602 - 0.5)$$
+  
+*Therefore, we expect the median price to be multiplied by a factor of $\exp\{-0.100 + 2.948\times(0.5 - 1) + 0.302 \times (0.602 - 0.5)\}$ when going from diamonds with the characteristics of Diamond 1 to those with the characteristics of Diamond 2.*
+
