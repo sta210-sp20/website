@@ -106,9 +106,9 @@ tidy(model_orig, conf.int = TRUE) %>%
 
 5. Compare the interpretations in questions 3 and 4. Discuss the differences between `colorF` and `caratCent:colorF` and how they affect the model.
 
-    *The main effect `colorF` affects the intercept of the model and the interaction term `caratCent:colorF` affects the coefficient (slope) of `caratCent`.
+    *The main effect `colorF` affects the intercept of the model and the interaction term `caratCent:colorF` affects the coefficient (slope) of `caratCent`.*
 
-6. What are the assumptions of multiple linear regression? Some of the residuals plots used to check the model assumptions are shown below. For each plot, State the assumption(s) that can be assessed using that plot. Use the plot to determine if the assumption is satisfied.*
+6. What are the assumptions of multiple linear regression? Some of the residuals plots used to check the model assumptions are shown below. For each plot, State the assumption(s) that can be assessed using that plot. Use the plot to determine if the assumption is satisfied.
 
 ```{r}
 model_orig_aug <- augment(model_orig)
@@ -147,16 +147,16 @@ p1 / (p2 + p3 + p4) / p5 + p6
 ```
 
 - **Linearity**: 
-  - *Use plots of residuals vs. predicted and residuals vs. each quantitative predictor. There is no obvious relationship between the values on the x axis and those on the y axis (i.e. a parabola), so we conclude that linearity is satisified.*
+  - *Use plots of residuals vs. predicted and residuals vs. each quantitative predictor. There is no obvious relationship between the values on the x axis and those on the y axis (i.e. a parabola), so we conclude that linearity is satisfied.*
  
 - **Normality**: 
-  - *Use histogram and normal QQ plot of residuals. There seems to be some right-skewness and high outliers, so this assumption is not satisifed.*
+  - *Use histogram and normal QQ plot of residuals. There seems to be some right-skewness and high outliers, so this assumption is not satisfied.*
   
 - **Constant variance**: 
-  - *Use the plot of the residuals vs. predicted. There is a fan shape in this plot, so this assumption is not satisified. We should try a log-transformation on the response variable.*
+  - *Use the plot of the residuals vs. predicted. There is a fan shape in this plot, so this assumption is not satisfied. We should try a log-transformation on the response variable.*
 
 - **Independence**: 
-  - *Most of the time, you can use a description of the data to determine if the independence assumption is reasonably met. You can can also plot the residuals in time or location order (if relevant). Can also examine boxplots of the residuals vs. a categorical predictor to see if the model systematically over or under predicts for a group. There is nothing to indicate a violation of independence for this dataset, so we conclude this assumption is satisified.*
+  - *Most of the time, you can use a description of the data to determine if the independence assumption is reasonably met. You can can also plot the residuals in time or location order (if relevant). Can also examine boxplots of the residuals vs. a categorical predictor to see if the model systematically over or under predicts for a group. There is nothing to indicate a violation of independence for this dataset, so we conclude this assumption is satisfied.*
 
 
 ## Part III: Model with Log-Transformed Response
@@ -181,6 +181,7 @@ tidy(model_log, conf.int = TRUE) %>%
     *We are describing the intercept. These are diamonds of color D with average carat weight, and average depth.*
 
 2. Interpret the estimated coefficient of `depthCent` in terms of the price.
+
     *For each percentage increase of depth, we expect the median price to multiply by a factor of $\exp\{-0.004\}$, holding color and carat constant.*
 
 3. Write the model equation to predict `log(price)` for a diamond that's color `D`.
