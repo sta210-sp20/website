@@ -59,11 +59,17 @@ library(rvest)
 
 ### Project ideas assignment 
 
-You will briefly write about a dataset you'd like to use for the project in the file `project-ideas.Rmd`. This includes 
+You will briefly write about a dataset you'd like to use for the project in the file `proposal.Rmd`. This includes 
 
-- Brief description of the observations / what the data is about
-- Link to a data dictionary (or type one if none is available one)
-- Import the data into the `data` folder and include a `glimpse` of the data
+- **Narrative** 
+  - What is the research question you wish to explore? What's your motivation for examining this question?
+  - Describe the dataset you wish to explore. 
+
+- **The Data**
+  - Data dictionary in the README of the `data` folder
+  - Import the data into the `data` folder and include a `glimpse` of the data
+
+See the [project instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) for more details 
 
 ---
 
@@ -116,7 +122,18 @@ You will briefly write about a dataset you'd like to use for the project in the 
 
 - If you are interested in this project, please let me know by filling out [this form](https://docs.google.com/forms/d/e/1FAIpQLSe1P-DbbT6RSx9qVVktXwwFp6UsbesjuSZGmSSBYf6Th7s0MA/viewform?usp=sf_link)
 
-- You will still need to complete the Topic Ideas assignment even if you are interested in this project
+- You will still need to complete the Proposal for another dataset even if you are interested in this project
+
+---
+
+### Submitting work for the project
+
+- To give you some experience with the type of workflow you’ll experience in practice, you will submit the proposal and all other components of the project by pushing your work to the project GitHub repo.
+
+- You do not need to submit anything for the project on Gradescope.
+
+- We will provide comment and feedback as an “issue” in your GitHub repo (more on this later)
+
 
 
 
