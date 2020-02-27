@@ -1,0 +1,123 @@
+---
+title: "STA 210 Project"
+subtitle: "Find Data!"
+author: ""
+date: "02.27.20"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+library(knitr)
+opts_chunk$set(fig.height = 2.65, dpi = 300) 
+# ggplot2 color palette with gray
+color_palette <- list(gray = "#999999", 
+                      salmon = "#E69F00", 
+                      lightblue = "#56B4E9", 
+                      green = "#009E73", 
+                      yellow = "#F0E442", 
+                      darkblue = "#0072B2", 
+                      red = "#D55E00", 
+                      purple = "#CC79A7")
+# For nonsese...
+library(emo)
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(rvest)
+```
+
+---
+
+### Project
+
+- The primary task for today's lab is to start identifying a dataset your group would like to analyze for the STA 210 project.
+
+-  You'll go over the project in more detail on Monday, but you can see an outline of the project instructions [here](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html)
+
+- You now have a GitHub repo with the prefix `project-`. This is where you will put all of the work for the final project. 
+
+
+---
+
+### Project ideas assignment 
+
+You will briefly write about a dataset you'd like to use for the project in the file `project-ideas.Rmd`. This includes 
+
+- Brief description of the observations / what the data is about
+- Link to a data dictionary (or type one if none is available one)
+- Import the data into the `data` folder and include a `glimpse` of the data
+
+---
+
+### General data guidelines 
+
+- It is best to start with the question of interest and finding the data second. In general, we are using a set of predictor variables to understand variations in a response variable.
+
+- Your response variable can be **quantitative** <u>or</u> **categorical** 
+    - We will talk about models for categorical response variables after spring break (in plently of time to do the project)!
+
+- Your dataset must have at least 100 observations and at least 10 variables (exceptions can be made but you must speak with me first). 
+  - The data set should include both quantitative and categorical variables.
+
+---
+
+### General data guidelines 
+
+- If you want to analyze data that will almost certainly have violations of assumptions, e.g. data collected over time, you will need to think of ways to address these violations in the project.
+
+-  As you’re looking for data, keep in mind your regression analysis must be done using R.
+  - Once you find a data set, you should make sure you are able to load it into RStudio, especially if it is in a format we haven’t used in class before.
+
+- **You may not reuse datasets used in in-class examples/homework/labs.**
+
+---
+
+### Project Option: Modeling attendance at a music venue in NC
+
+- This semester, we have data from a music venue in North Carolina that includes information about attendance at events along with info about social media prior to the event and some band characteristics 
+
+- **Goal**: Fit a regression model to help the venue understand which variables are most useful in understanding variation in attendance
+
+---
+
+### Project Option: Modeling attendance at a music venue in NC
+
+- **Main Data Challenges**: 
+  - *Serial Correlation*: the data is collected over time, so you will need to think about how to deal with this
+  - *Correlated Predictors*: a lot of the predictors are related to social media, so you will have to consider how to maximize the information you can get from the data (we'll talk more about correlated predictors next week!)
+
+- This data is good for groups who: 
+  - Are interested in music and/or social media
+  - Want to work on a messy but fun dataset! 
+
+---
+
+### Project Option: Modeling attendance at a music venue in NC
+
+- At most 8 groups will be able to work on this project. 
+
+- If you are interested in this project, please let me know by filling out [this form](https://docs.google.com/forms/d/e/1FAIpQLSe1P-DbbT6RSx9qVVktXwwFp6UsbesjuSZGmSSBYf6Th7s0MA/viewform?usp=sf_link)
+
+- You will still need to complete the Topic Ideas assignment even if you are interested in this project
+
+
+
+
