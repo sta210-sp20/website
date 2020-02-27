@@ -1,6 +1,6 @@
 ---
 title: "Lab 07:"
-subtitle: "Logistic Regression, Part 1"
+subtitle: "STA 210 Pr"
 author: ""
 date: "10.23.19"
 output:
