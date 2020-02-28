@@ -216,7 +216,7 @@ lessons:
     title: "DataFest"
   - title: "Week 14"
   - date: "Mon, Apr 6"
-    title: "TBD"
+    title: "Statistics in Practice with 2nd Order Solutions"
   # # #slides: "lec-slides/12a-web-scrape.html"
   - date: "Wed, Apr 8"
     title: "Weighted Least Squares"
