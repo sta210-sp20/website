@@ -20,7 +20,7 @@ The project will consist of
 
 - **Proposal**: due Thu, March 5 at 11:59p
 - **Analysis**: due Thu, Mar 26 at noon for peer review, due Thu, Apr 9 at 11:59p for grading
-- **Presentation**: Tue, Apr 28 9a - 12p (slides due Mon, Apr 27 at 11:59p)
+- **Presentation**: TBD
 - **Final write up**: due Tue, Apr 28 at 11:59p
 
 # Data
@@ -43,7 +43,7 @@ Other sources that may be helpful:
 
 # Components
 
-## Proposal (10 pt): due Thu, March 15 at 11:59p
+## Proposal (10 pt): due Thu, March 5 at 11:59p
 
 There are two main purposes of the project proposal:
 
@@ -119,7 +119,7 @@ The regression analysis will include the bulk of your analysis results. This wil
 - Additional work of other models or analysis not included in the final model.
 -->
 
-## Presentation (15 pt): slides due Mon, Apr 27 at 11:59p
+## Presentation (15 pt): due date TBD
 
 <!--
 **Your presentation should be no longer than 8 minutes, and each team member should say something substantial.**
