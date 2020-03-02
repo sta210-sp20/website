@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Required:
 
 - [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
+ - Section 8.1: Introduction
+    - Section 8.2: Concepts and Background Material 
     - Section 8.3.1: Maximum Likelihood Estimation
     - Section 8.3.2: Inference, Model Comparison, and Model Selection 
     - Section 8.3.3: Goodness-of-Fit

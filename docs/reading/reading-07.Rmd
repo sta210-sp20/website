@@ -1,5 +1,5 @@
 ---
-title: "Reading 07: Logistic Regression, Part 1"
+title: "Reading 07: Model Selection & Assessment"
 output: 
   html_document: 
     theme: yeti
@@ -9,13 +9,13 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Due Wed, Oct 23
+### for March 2 & 4 lectures
 
 ### Required:
 
 - [Handbook of Regression Analysis](http://sakai.duke.edu) (Available for download on Sakai)
-    - Section 8.1: Introduction
-    - Section 8.2: Concepts and Background Material 
+    - Section 2.2.1: Using Hypothesis Tests to Compare Models
+    - Section 2.2.2: Collinearity
+    - Section 2.3.1: Model Selection
 <br><br>
 
-[All STA 210 Readings](readings.html)    
