@@ -37,7 +37,7 @@ class: middle, center
 
 - [Project proposal](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) **due Thursday, March 5 at 11:59p**
 
-- [Reading 06](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-06.html) for Wednesday 
+- [Reading 07](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-07.html) for today & Wednesday
     
 
 - <font color = "blue">Sign Up for DataFest!</font>
@@ -251,11 +251,11 @@ kable(anova(model0, model1), format="markdown", digits = 3)
     - whether a categorical variable with $k$ levels is a significant predictor of the response
     - whether the interaction between a categorical and quantitative variable is significant
 
-- To do so, we will use the  <font class="vocab3">Nested F Test </font> 
+- To do so, we will use the  <font class="vocab3">Nested (Partial) F Test </font> 
 
 ---
 
-### Nested F Test
+### Nested (Partial) F Test
 
 - Suppose we have a full and reduced model: 
 
