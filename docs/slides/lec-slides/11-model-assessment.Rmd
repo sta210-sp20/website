@@ -1,0 +1,660 @@
+---
+title: "Multiple Linear Regression"
+subtitle: "Model Assessment & Selection"
+author: "Prof. Maria Tackett"
+date: "03.02.20"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 4,
+	message = FALSE,
+	warning = FALSE, 
+	dpi = 300
+)
+```
+
+class: middle, center
+
+### [Click for PDF of slides](11-model-assessment.pdf)
+
+---
+
+### Announcements
+
+- [Project proposal](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) **due Thursday, March 5 at 11:59p**
+
+- [Reading 06](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-06.html) for Wednesday 
+    
+
+- <font color = "blue">Sign Up for DataFest!</font>
+
+  `r emo::ji("spiral_calendar")` April 3 - 5
+  
+  `r emo::ji("round_pushpin")` Penn Pavilion
+  
+  `r emo::ji("link")` [stat.duke.edu/datafest](https://www.stat.duke.edu/datafest)
+
+---
+
+### R packages
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(patchwork)
+```
+
+---
+
+### Today's Agenda
+
+- ANOVA for Regression 
+
+- Nested F Test
+
+- Model Selection
+  - $R^2$ vs. Adj. $R^2$
+  - AIC & BIC
+  - Strategies
+  
+---
+
+class: middle, center
+
+### Model Assessment & Selection
+
+---
+
+### Restaurant tips
+
+What affects the amount customers tip at a restaurant?
+
+- **Response:**
+    - <font class="vocab">`Tip`</font>: amount of the tip
+    
+- **Predictors:**
+    - <font class="vocab">`Party`</font>: number of people in the party
+    - <font class="vocab">`Meal`</font>:  time of day (Lunch, Dinner, Late Night) 
+    - <font class="vocab">`Age`</font>: age category of person paying the bill (Yadult, Middle, SenCit)
+
+```{r echo = F}
+tips <- read_csv("data/tip-data.csv") %>%
+  filter(!is.na(Party))
+```
+
+---
+
+### Response Variable
+
+```{r echo = F}
+ggplot(data = tips, aes(x = Tip)) +
+  geom_histogram() +
+  labs("Distribution of Tips")
+```
+
+---
+
+### Predictor Variables
+
+```{r echo = F}
+p1 <- ggplot(data = tips, aes(x = Party)) +
+  geom_histogram() + 
+  labs(title = "Party Size", 
+       x = "", y = "")
+
+p2 <- ggplot(data = tips, aes(x = Meal)) +
+  geom_bar() + 
+  labs(title = "Meal Time", 
+       x = "", y = "")
+
+p3 <- ggplot(data = tips, aes(x = Age)) +
+  geom_bar() + 
+  labs(title = "Age of Payer", 
+       x = "", y = "")
+
+p1 + p2 + p3
+```
+
+
+---
+
+### Response vs. Predictors
+
+```{r echo = F}
+p1 <- ggplot(data = tips, aes(x = Party, y = Tip)) +
+  geom_point() +
+  labs(title = "Tips vs. Party")
+
+p2 <- ggplot(data = tips, aes(x = Meal, y = Tip)) +
+  geom_boxplot() +
+  labs(title = "Tips vs. Meal Time", 
+       x = "Time of Day")
+
+p3 <- ggplot(data = tips, aes(x = Age, y = Tip)) +
+  geom_boxplot() +
+  labs(title = "Tips vs. Age", 
+       x = "Age")
+
+p1 + p2  + p3
+```
+
+---
+
+### Restaurant tips: model
+
+```{r}
+model1 <- lm(Tip ~ Party +  Age , data = tips)
+tidy(model1, conf.int = TRUE) %>%
+  kable(format = "markdown", digits=3)
+```
+<br>
+
+.center[
+.alert[
+**Is this the best model to explain variation in Tips?**
+]
+]
+
+
+---
+
+### ANOVA table for regression
+
+We can use the Analysis of Variance (ANOVA) table to decompose the variability in our response variable
+
+
+|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
+|------------------|----------------|--------------------|-------------|-------------|--------------------|
+| Regression (Model) | $$\sum\limits_{i=1}^{n}(\hat{y}_i - \bar{y})^2$$ | $$p$$ | $$\frac{MSS}{p}$$ | $$\frac{MMS}{RMS}$$ | $$P(F > \text{F-Stat})$$ |
+| Residual | $$\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2$$ | $$n-p-1$$ | $$\frac{RSS}{n-p-1}$$ |  |  |
+| Total | $$\sum\limits_{i=1}^{n}(y_i - \bar{y})^2$$ | $$n-1$$ | $$\frac{TSS}{n-1}$$ |  |  |
+
+---
+
+### In-class exercise
+
+.question[
+Use the ANOVA table to answer the question at
+
+http://bit.ly/sta210-sp20-reg-anova.
+
+Use **NetId@duke.edu** for your email address.
+
+```{r echo = F}
+library(countdown)
+countdown(minutes = 3, seconds = 0, update_every = 1, warn_when = 30)
+```
+
+]
+
+---
+
+### ANOVA F Test
+
+- Using the ANOVA table, we can test whether any variable in the model is a significant predictor of the response. We conduct this test using the following hypotheses: 
+
+.alert[
+$$\begin{aligned}&H_0: \beta_{1} =  \beta_{2} = \dots = \beta_p = 0 \\ 
+&H_a: \text{at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$
+]
+
+<br>
+
+- The statistic for this test is the $F$ test statistic in the ANOVA table 
+
+- We calculate the p-value using an $F$ distribution with $p$ and $(n-p-1)$ degrees of freedom
+
+---
+
+### ANOVA F Test in R
+
+```{r}
+model0 <- lm(Tip ~ 1, data = tips)
+```
+
+--
+
+```{r}
+model1 <- lm(Tip ~ Party + Age , data = tips)
+```
+
+--
+
+```{r}
+kable(anova(model0, model1), format="markdown", digits = 3)
+```
+
+**At least one coefficient is non-zero, i.e. at least one predictor in the model is significant**
+
+---
+
+### Testing subset of coefficients
+
+- Sometimes we want to test whether a subset of coefficients are all equal to 0
+
+- This is often the case when we want test 
+    - whether a categorical variable with $k$ levels is a significant predictor of the response
+    - whether the interaction between a categorical and quantitative variable is significant
+
+- To do so, we will use the  <font class="vocab3">Nested F Test </font> 
+
+---
+
+### Nested F Test
+
+- Suppose we have a full and reduced model: 
+
+$$\begin{aligned}&\text{Full}: y = \beta_0 + \beta_1 x_1 + \dots + \beta_q x_q + \beta_{q+1} x_{q+1} + \dots \beta_p x_p \\
+&\text{Red}: y = \beta_0 + \beta_1 x_1 + \dots + \beta_q x_q\end{aligned}$$
+<br>
+
+- We want to test whether any of the variables $x_{q+1}, x_{q+2}, \ldots, x_p$ are significant predictors. To do so, we will test the hypothesis: 
+
+.alert[
+$$\begin{aligned}&H_0: \beta_{q+1} =  \beta_{q+2} = \dots = \beta_p = 0 \\ 
+&H_a: \text{at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$
+]
+
+---
+
+### Nested F Test
+
+- The test statistic for this test is 
+
+
+$$F = \frac{(RSS_{reduced} - RSS_{full})\big/(p_{full} - p_{reduced})}{RSS_{full}\big/(n-p_{full}-1)}$$
+<br> 
+
+- Calculate the p-value using the F distribution with $(p_{full} - p_{reduced})$ and $(n-p_{full}-1)$ degrees of freedom
+
+---
+
+### Is `Meal` a significant predictor of tips?
+
+```{r echo=F}
+model.tips <- lm(Tip ~ Party + Age + Meal, data = tips)
+tidy(model.tips) %>%
+  select(term, estimate) %>%
+  kable(format="html", digits=3)
+```
+
+---
+
+### Tips data:  Nested F Test
+
+$$\begin{aligned}&H_0: \beta_{late night} = \beta_{lunch} = 0\\
+&H_a: \text{ at least one }\beta_j \text{ is not equal to 0}\end{aligned}$$
+
+--
+
+```{r}
+reduced <- lm(Tip ~ Party + Age, data = tips)
+```
+
+--
+
+```{r}
+full <- lm(Tip ~ Party + Age + Meal, data = tips)
+```
+
+--
+
+```{r}
+kable(anova(reduced, full), format="markdown", digits = 3)
+```
+
+--
+
+**At least one coefficient associated with `Meal` is not zero. Therefore, `Meal` is a significant predictor of `Tips`.**
+
+---
+
+### Model with `Meal`
+
+```{r echo=F}
+model.tips <- lm(Tip ~ Party + Age + Meal, data = tips)
+tidy(model.tips, conf.int = TRUE) %>%
+  kable(format="html", digits=3)
+```
+---
+
+class: middle
+
+.question[
+Why is it not good practice to use the individual p-values to determine a categorical variable with $k > 2$ levels is significant? 
+
+*Hint*: What does it actually mean if none of the $k-1$ p-values are significant?
+]
+
+---
+
+### Including interactions 
+
+Does the effect of `Party` differ based on the `Meal` time? 
+
+```{r echo=F}
+full <- lm(Tip ~ Party + Age + Meal + Meal*Party, data = tips)
+tidy(full) %>%
+  select(term, estimate) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+---
+
+### Nested F test for interactions
+
+Let's use a Nested F test to determine if `Party*Meal` is statistically significant. 
+
+```{r}
+reduced <- lm(Tip ~ Party + Age + Meal, data = tips)
+```
+
+--
+
+```{r}
+full <- lm(Tip ~ Party + Age + Meal + Meal * Party, 
+           data = tips)
+```
+
+--
+
+```{r}
+kable(anova(reduced, full), format = "markdown", digits = 3)
+```
+
+---
+
+### Final model for now
+
+We conclude that the interaction between `Party` and `Meal` is not statistically significant.Therefore, we will use the original model that only included main effects. 
+
+
+```{r echo  =F}
+model.tips <- lm(Tip ~ Party + Age + Meal,data=tips)
+kable(tidy(model.tips),format="html", digits=3)
+```
+
+---
+
+class: middle, center
+
+### Model Selection 
+
+---
+
+### Which variables should be in the model?
+
+- This is a very hard question that is the subject of a lot of statistical research 
+
+- There are many different opinions about how to answer this question 
+
+- This lecture will mostly focus on how to approach variable selection
+    - We will introduce some specific methods, but there are many others out there
+
+---
+
+### Which variables should you include?
+
+- It depends on the goal of your analysis
+
+- Though a variable selection procedure will select one set of variables for the model, that set is usually one of several equally good sets
+
+- It is best to start with a well-defined purpose and question to help guide the variable selection
+
+---
+
+### Prediction 
+
+- <font class="vocab">Goal: </font> to calculate the most precise prediction of the response variable 
+
+- Interpreting coefficients is **not** important
+
+- Choose only the variables that are strong predictors of the response variable
+  + Excluding irrelevant variables can help reduce widths of the prediction intervals
+
+
+---
+
+### One variable's effect
+
+- <font class="vocab">Goal: </font>Understand one variable's effect on the response after adjusting for other factors
+
+- Only interpret the coefficient of the variable that is the focus of the study
+  + Interpreting the coefficients of the other variables is **not** important
+
+
+- Any variables not selected for the final model have still been adjusted for, since they had a chance to be in the model
+
+
+---
+
+### Explanation
+
+- <font class="vocab">Goal: </font>Identify variables that are important in explaining variation in the response
+
+- Interpret any variables of interest 
+
+- Include all variables you think are related to the response, even if they are not statistically significant 
+  + This improves the interpretation of the coefficients of interest
+  
+- Interpret the coefficients with caution, especially if there are problems with multicollinearity in the model
+
+---
+
+### Example: SAT Averages by State
+
+- This data set contains the average SAT score (out of 1600) and other variables that may be associated with SAT performance for each of the 50 U.S. states. The data is based on test takers for the 1982 exam.
+
+- <font class="vocab">Data: </font> `case1201` data set in the `Sleuth3` package
+
+- Response variable:
+  + <font class="vocab">`SAT`</font>: average total SAT score
+
+---
+
+### SAT Averages: Explanatory Variables
+
+- <font class="vocab">`State`</font>: U.S. State
+- <font class="vocab">`Takers`</font>: percentage of high school seniors who took exam
+- <font class="vocab">`Income`</font>: median income of families of test-takers ($ hundreds)
+- <font class="vocab">`Years`</font>: average number of years test-takers had formal education in social sciences, natural sciences, and humanities
+- <font class="vocab">`Public`</font>: percentage of test-takers who attended public high schools
+- <font class="vocab">`Expend`</font>: total state expenditure on high schools ($ hundreds per student)
+- <font class="vocab">`Rank`</font>: median percentile rank of test-takers within their high school classes
+
+---
+
+
+### In-Class Exercise: 
+
+.question[
+Select the primary modeling objective for each scenario
+
+http://bit.ly/sta210-sp20-selection
+
+Use **NetId@duke.edu** for your email address.
+
+If you finish early, discuss a modeling strategy for each scenario. 
+```{r echo = F}
+library(countdown)
+countdown(minutes = 4, seconds = 0, update_every = 1, warn_when = 30)
+```
+
+]
+
+
+---
+class: middle, center
+
+### Model selection criterion
+
+---
+
+### $R^2$ 
+
+- **Recall**: $R^2$ is the proportion of the variation in the response variable explained by the regression model
+
+<br>
+
+--
+
+- $R^2$ will always increase as we add more variables to the model 
+  + If we add enough variables, we can always achieve $R^2=100\%$
+
+<br>
+
+--
+
+- If we only use $R^2$ to choose a best fit model, we will be prone to choose the model with the most predictor variables
+
+---
+
+
+### Adjusted $R^2$
+
+- <font class="vocab">Adjusted $R^2$</font>: a version of $R^2$ that penalizes for unnecessary predictor variables
+
+<br> 
+
+- Similar to $R^2$, it is a measure of the amount of variation in the response that is explained by the regression model 
+
+<br>
+
+- Differs from $R^2$ by using the mean squares rather than sums of squares and therefore adjusting for the number of predictor variables
+
+---
+
+### $R^2$ and Adjusted $R^2$
+
+$$R^2 = \frac{\text{Total Sum of Squares} - \text{Residual Sum of Squares}}{\text{Total Sum of Squares}}$$
+<br>
+
+--
+
+.alert[
+$$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text{Total Mean Square}}$$
+]
+<br>
+
+--
+
+- $Adj. R^2$ can be used as a quick assessment to compare the fit of multiple models; however, it should not be the only assessment!
+
+--
+
+- Use $R^2$ when describing the relationship between the response and predictor variables
+
+
+---
+
+### SAT: ANOVA
+
+```{r}
+sat_data <- Sleuth3::case1201 %>%
+  select(-State)
+
+sat_model <- lm(SAT ~ ., data = sat_data)
+tidy(sat_model) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+---
+
+### SAT ANOVA
+
+```{r}
+anova(sat_model) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+---
+
+### SAT Scores: $R^2$ and Adj. $R^2$
+
+```{r}
+glance(sat_model)
+```
+<br>
+
+- Close values of $R^2$ and Adjusted $R^2$ indicate that the variables in the model are significant in understanding variation in the response, i.e. that there aren't a lot of unnecessary variables in the model
+
+---
+
+### Additional model selection criterion
+
+- <font class="vocab">Akaike's Information Criterion (AIC):</font>
+$$AIC = n\log(RSS) - n \log(n) + 2(p+1)$$
+<br> 
+
+- <font class="vocab">Schwarz's Bayesian Information Criterion (BIC): </font>
+$$BIC = n\log(RSS) - n\log(n) + log(n)\times(p+1)$$
+<br>
+<br>
+
+See the [supplemental note](https://github.com/sta210-sp20/supplemental-notes/blob/master/model-selection-criteria.pdf) on AIC & BIC for derivations.
+
+---
+
+### AIC & BIC
+
+$$\begin{aligned} & AIC = \color{blue}{n\log(RSS)} - \color{green}{n \log(n)} + \color{red}{2(p+1)} \\
+& BIC = \color{blue}{n\log(RSS)} - \color{green}{n\log(n)} + \color{red}{\log(n)\times(p+1)} \end{aligned}$$
+<br>
+<br>
+- <font color="blue">First Term: </font>Decreases as *p* increases
+- <font color="green">Second Term: </font> Fixed for a given sample size *n*
+- <font color="red">Third Term: </font> Increases as *p* increases
+
+---
+
+### Using AIC & BIC
+
+$$\begin{aligned} & AIC = n\log(RSS) - n \log(n) + \color{red}{2(p+1)} \\
+& BIC = n\log(RSS) - n\log(n) + \color{red}{\log(n)\times(p+1)} \end{aligned}$$
+<br>
+<br>
+
+- Choose model with smallest AIC or BIC
+
+- If $n \geq 8$, the <font color="red">penalty</font> for BIC is larger than that of AIC, so BIC tends to favor *more parsimonious* models (i.e. models with fewer terms)
+
+---
+
+### Backward Selection
+
+- Start with model that includes all variables of interest
+
+- Drop variables one at a time that are deemed irrelevant based on some criterion. Common criterion include 
+  + Drop variable with highest p-value over some threshold (e.g. 0.05, 0.1)
+  + Drop variable that leads to smallest value of AIC or BIC 
+
+- Stop when no more variables can be removed from the model based on the criterion
+
+---
+
+
+### Forward Selection
+
+- Start with the intercept-only model
+
+- Include variables one at a time based on some criterion. Common criterion include 
+  + Add variable with smallest p-value under some threshold (e.g. 0.05, 0.1)
+  + Add variable that leads to the smallest value of AIC or BIC 
+
+- Stop when no more variables can be added to the model based on the criterion
+

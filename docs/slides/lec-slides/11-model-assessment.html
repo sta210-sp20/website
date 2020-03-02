@@ -4,6 +4,8 @@
     <title>Multiple Linear Regression</title>
     <meta charset="utf-8" />
     <meta name="author" content="Prof. Maria Tackett" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
   </head>
   <body>
@@ -11,7 +13,7 @@
 class: center, middle, inverse, title-slide
 
 # Multiple Linear Regression
-## Model Assessment
+## Model Assessment &amp; Selection
 ### Prof. Maria Tackett
 ### 03.02.20
 
@@ -43,7 +45,7 @@ class: middle, center
 
 ---
 
-## R packages
+### R packages
 
 
 ```r
@@ -59,18 +61,22 @@ library(patchwork)
 
 - ANOVA for Regression 
 
-- `\(R^2\)` vs. Adj. `\(R^2\)`
-
 - Nested F Test
 
+- Model Selection
+  - `\(R^2\)` vs. Adj. `\(R^2\)`
+  - AIC &amp; BIC
+  - Strategies
+  
 ---
 
 class: middle, center
 
 ### Model Assessment &amp; Selection
+
 ---
 
-## Restaurant tips
+### Restaurant tips
 
 What affects the amount customers tip at a restaurant?
 
@@ -88,20 +94,20 @@ What affects the amount customers tip at a restaurant?
 
 ### Response Variable
 
-&lt;img src="10-model-assessment_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="11-model-assessment_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ### Predictor Variables
 
-&lt;img src="10-model-assessment_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="11-model-assessment_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 ### Response vs. Predictors
 
-&lt;img src="10-model-assessment_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="11-model-assessment_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -109,21 +115,19 @@ What affects the amount customers tip at a restaurant?
 
 
 ```r
-model1 &lt;- lm(Tip ~ Party + Meal + Age , data = tips)
+model1 &lt;- lm(Tip ~ Party +  Age , data = tips)
 tidy(model1, conf.int = TRUE) %&gt;%
   kable(format = "markdown", digits=3)
 ```
 
 
 
-|term           | estimate| std.error| statistic| p.value| conf.low| conf.high|
-|:--------------|--------:|---------:|---------:|-------:|--------:|---------:|
-|(Intercept)    |    1.254|     0.394|     3.182|   0.002|    0.476|     2.032|
-|Party          |    1.808|     0.121|    14.909|   0.000|    1.568|     2.047|
-|MealLate Night |   -1.632|     0.407|    -4.013|   0.000|   -2.435|    -0.829|
-|MealLunch      |   -0.612|     0.402|    -1.523|   0.130|   -1.405|     0.181|
-|AgeSenCit      |    0.390|     0.394|     0.990|   0.324|   -0.388|     1.168|
-|AgeYadult      |   -0.505|     0.412|    -1.227|   0.222|   -1.319|     0.308|
+|term        | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:-----------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept) |    0.838|     0.397|     2.112|   0.036|    0.055|     1.622|
+|Party       |    1.837|     0.124|    14.758|   0.000|    1.591|     2.083|
+|AgeSenCit   |    0.379|     0.410|     0.925|   0.356|   -0.430|     1.189|
+|AgeYadult   |   -1.009|     0.408|    -2.475|   0.014|   -1.813|    -0.204|
 &lt;br&gt;
 
 .center[
@@ -135,7 +139,7 @@ tidy(model1, conf.int = TRUE) %&gt;%
 
 ---
 
-## ANOVA table for regression
+### ANOVA table for regression
 
 We can use the Analysis of Variance (ANOVA) table to decompose the variability in our response variable
 
@@ -146,157 +150,26 @@ We can use the Analysis of Variance (ANOVA) table to decompose the variability i
 | Residual | `$$\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2$$` | `$$n-p-1$$` | `$$\frac{RSS}{n-p-1}$$` |  |  |
 | Total | `$$\sum\limits_{i=1}^{n}(y_i - \bar{y})^2$$` | `$$n-1$$` | `$$\frac{TSS}{n-1}$$` |  |  |
 
-
-The estimate of the regression variance, `\(\hat{\sigma}^2 = RMS\)`
-
 ---
 
-## `\(R^2\)` 
+### In-class exercise
 
-- **Recall**: `\(R^2\)` is the proportion of the variation in the response variable explained by the regression model
+.question[
+Use the ANOVA table to answer the question at
 
-&lt;br&gt;
+http://bit.ly/sta210-sp20-reg-anova.
 
---
+Use **NetId@duke.edu** for your email address.
 
-- `\(R^2\)` will always increase as we add more variables to the model 
-  + If we add enough variables, we can always achieve `\(R^2=100\%\)`
+<div class="countdown" id="timer_5e5c53e1" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
-&lt;br&gt;
-
---
-
-- If we only use `\(R^2\)` to choose a best fit model, we will be prone to choose the model with the most predictor variables
-
----
-
-
-## Adjusted `\(R^2\)`
-
-- &lt;font class="vocab"&gt;Adjusted `\(R^2\)`&lt;/font&gt;: a version of `\(R^2\)` that penalizes for unnecessary predictor variables
-
-&lt;br&gt; 
-
-- Similar to `\(R^2\)`, it is a measure of the amount of variation in the response that is explained by the regression model 
-
-&lt;br&gt;
-
-- Differs from `\(R^2\)` by using the mean squares rather than sums of squares and therefore adjusting for the number of predictor variables
-
----
-
-## `\(R^2\)` and Adjusted `\(R^2\)`
-
-`$$R^2 = \frac{\text{Total Sum of Squares} - \text{Residual Sum of Squares}}{\text{Total Sum of Squares}}$$`
-&lt;br&gt;
-
---
-
-.alert[
-`$$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text{Total Mean Square}}$$`
 ]
-&lt;br&gt;
-
---
-
-- `\(Adj. R^2\)` can be used as a quick assessment to compare the fit of multiple models; however, it should not be the only assessment!
-
---
-
-- Use `\(R^2\)` when describing the relationship between the response and predictor variables
-
 
 ---
 
-## Restaurant tips: ANOVA
-
-&lt;font class="vocab"&gt;R output&lt;/font&gt;
-
-
-```r
-kable(anova(model1), format = "markdown", digits = 3)
-```
-
-
-
-|          |  Df|   Sum Sq|  Mean Sq| F value| Pr(&gt;F)|
-|:---------|---:|--------:|--------:|-------:|------:|
-|Party     |   1| 1188.636| 1188.636| 311.002|  0.000|
-|Meal      |   2|   88.460|   44.230|  11.573|  0.000|
-|Age       |   2|   13.032|    6.516|   1.705|  0.185|
-|Residuals | 163|  622.979|    3.822|      NA|     NA|
-
---
-
-&lt;font class="vocab"&gt;ANOVA table&lt;/font&gt;
-
-|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
-|------------------|----------------|--------------------|-------------|-------------|--------------------|
-| Regression (Model) | 1290.12829 | 5 | 258.025658 | 67.5113618 | 0 |
-| Residual | 622.97932	 | 163 | 3.821959  |  |  |
-| Total | 1913.10761  | 168 |  |  |  |
-
----
-
-### Calculating `\(R^2\)` and Adj `\(R^2\)`
-
-|  | Sum of Squares | DF | Mean Square | F-Stat| p-value |
-|------------------|----------------|--------------------|-------------|-------------|--------------------|
-| Regression (Model) | 1290.12829 | 5 | 258.025658 | 67.5113618 | 0 |
-| Residual | 622.97932	 | 163 | 3.821959  |  |  |
-| Total | 1913.10761  | 168 |  |  |  |
-
-
-
-```r
-#r-squared
-mss &lt;- 1290.12829
-rss &lt;- 622.97932	
-tss &lt;- mss + rss
-(r_sq &lt;- (tss - rss)/tss)
-```
-
-```
-## [1] 0.6743626
-```
-
---
-
-
-```r
-#adj r-squared
-rms &lt;- 3.821959	
-tms &lt;- tss/(nrow(tips)-1)
-(adj_r_sq &lt;- (tms - rms)/tms)
-```
-
-```
-## [1] 0.6643738
-```
-
----
-
-### Restaurant tips: `\(R^2\)` and Adj. `\(R^2\)`
-
-
-```r
-glance(model1)
-```
-
-```
-## # A tibble: 1 x 11
-##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
-##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1     0.674         0.664  1.95      67.5 6.14e-38     6  -350.  714.  736.
-## # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;
-```
-&lt;br&gt;
-
-- Close values of `\(R^2\)` and Adjusted `\(R^2\)` indicate that the variables in the model are significant in understanding variation in the response, i.e. that there aren't a lot of unnecessary variables in the model
-
----
-
-## ANOVA F Test
+### ANOVA F Test
 
 - Using the ANOVA table, we can test whether any variable in the model is a significant predictor of the response. We conduct this test using the following hypotheses: 
 
@@ -313,7 +186,7 @@ glance(model1)
 
 ---
 
-## ANOVA F Test in R
+### ANOVA F Test in R
 
 
 ```r
@@ -357,7 +230,7 @@ kable(anova(model0, model1), format="markdown", digits = 3)
 
 ---
 
-## Nested F Test
+### Nested F Test
 
 - Suppose we have a full and reduced model: 
 
@@ -374,7 +247,7 @@ kable(anova(model0, model1), format="markdown", digits = 3)
 
 ---
 
-## Nested F Test
+### Nested F Test
 
 - The test statistic for this test is 
 
@@ -547,7 +420,7 @@ Why is it not good practice to use the individual p-values to determine a catego
 
 ---
 
-## Practice with Interactions 
+### Including interactions 
 
 Does the effect of `Party` differ based on the `Meal` time? 
 
@@ -658,6 +531,309 @@ We conclude that the interaction between `Party` and `Meal` is not statistically
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+
+---
+
+class: middle, center
+
+### Model Selection 
+
+---
+
+### Which variables should be in the model?
+
+- This is a very hard question that is the subject of a lot of statistical research 
+
+- There are many different opinions about how to answer this question 
+
+- This lecture will mostly focus on how to approach variable selection
+    - We will introduce some specific methods, but there are many others out there
+
+---
+
+### Which variables should you include?
+
+- It depends on the goal of your analysis
+
+- Though a variable selection procedure will select one set of variables for the model, that set is usually one of several equally good sets
+
+- It is best to start with a well-defined purpose and question to help guide the variable selection
+
+---
+
+### Prediction 
+
+- &lt;font class="vocab"&gt;Goal: &lt;/font&gt; to calculate the most precise prediction of the response variable 
+
+- Interpreting coefficients is **not** important
+
+- Choose only the variables that are strong predictors of the response variable
+  + Excluding irrelevant variables can help reduce widths of the prediction intervals
+
+
+---
+
+### One variable's effect
+
+- &lt;font class="vocab"&gt;Goal: &lt;/font&gt;Understand one variable's effect on the response after adjusting for other factors
+
+- Only interpret the coefficient of the variable that is the focus of the study
+  + Interpreting the coefficients of the other variables is **not** important
+
+
+- Any variables not selected for the final model have still been adjusted for, since they had a chance to be in the model
+
+
+---
+
+### Explanation
+
+- &lt;font class="vocab"&gt;Goal: &lt;/font&gt;Identify variables that are important in explaining variation in the response
+
+- Interpret any variables of interest 
+
+- Include all variables you think are related to the response, even if they are not statistically significant 
+  + This improves the interpretation of the coefficients of interest
+  
+- Interpret the coefficients with caution, especially if there are problems with multicollinearity in the model
+
+---
+
+### Example: SAT Averages by State
+
+- This data set contains the average SAT score (out of 1600) and other variables that may be associated with SAT performance for each of the 50 U.S. states. The data is based on test takers for the 1982 exam.
+
+- &lt;font class="vocab"&gt;Data: &lt;/font&gt; `case1201` data set in the `Sleuth3` package
+
+- Response variable:
+  + &lt;font class="vocab"&gt;`SAT`&lt;/font&gt;: average total SAT score
+
+---
+
+### SAT Averages: Explanatory Variables
+
+- &lt;font class="vocab"&gt;`State`&lt;/font&gt;: U.S. State
+- &lt;font class="vocab"&gt;`Takers`&lt;/font&gt;: percentage of high school seniors who took exam
+- &lt;font class="vocab"&gt;`Income`&lt;/font&gt;: median income of families of test-takers ($ hundreds)
+- &lt;font class="vocab"&gt;`Years`&lt;/font&gt;: average number of years test-takers had formal education in social sciences, natural sciences, and humanities
+- &lt;font class="vocab"&gt;`Public`&lt;/font&gt;: percentage of test-takers who attended public high schools
+- &lt;font class="vocab"&gt;`Expend`&lt;/font&gt;: total state expenditure on high schools ($ hundreds per student)
+- &lt;font class="vocab"&gt;`Rank`&lt;/font&gt;: median percentile rank of test-takers within their high school classes
+
+---
+
+
+### In-Class Exercise: 
+
+.question[
+Select the primary modeling objective for each scenario
+
+http://bit.ly/sta210-sp20-selection
+
+Use **NetId@duke.edu** for your email address.
+
+If you finish early, discuss a modeling strategy for each scenario. 
+<div class="countdown" id="timer_5e5c5636" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+]
+
+
+---
+class: middle, center
+
+### Model selection criterion
+
+---
+
+### `\(R^2\)` 
+
+- **Recall**: `\(R^2\)` is the proportion of the variation in the response variable explained by the regression model
+
+&lt;br&gt;
+
+--
+
+- `\(R^2\)` will always increase as we add more variables to the model 
+  + If we add enough variables, we can always achieve `\(R^2=100\%\)`
+
+&lt;br&gt;
+
+--
+
+- If we only use `\(R^2\)` to choose a best fit model, we will be prone to choose the model with the most predictor variables
+
+---
+
+
+### Adjusted `\(R^2\)`
+
+- &lt;font class="vocab"&gt;Adjusted `\(R^2\)`&lt;/font&gt;: a version of `\(R^2\)` that penalizes for unnecessary predictor variables
+
+&lt;br&gt; 
+
+- Similar to `\(R^2\)`, it is a measure of the amount of variation in the response that is explained by the regression model 
+
+&lt;br&gt;
+
+- Differs from `\(R^2\)` by using the mean squares rather than sums of squares and therefore adjusting for the number of predictor variables
+
+---
+
+### `\(R^2\)` and Adjusted `\(R^2\)`
+
+`$$R^2 = \frac{\text{Total Sum of Squares} - \text{Residual Sum of Squares}}{\text{Total Sum of Squares}}$$`
+&lt;br&gt;
+
+--
+
+.alert[
+`$$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text{Total Mean Square}}$$`
+]
+&lt;br&gt;
+
+--
+
+- `\(Adj. R^2\)` can be used as a quick assessment to compare the fit of multiple models; however, it should not be the only assessment!
+
+--
+
+- Use `\(R^2\)` when describing the relationship between the response and predictor variables
+
+
+---
+
+### SAT: ANOVA
+
+
+```r
+sat_data &lt;- Sleuth3::case1201 %&gt;%
+  select(-State)
+
+sat_model &lt;- lm(SAT ~ ., data = sat_data)
+tidy(sat_model) %&gt;%
+  kable(format = "markdown", digits = 3)
+```
+
+
+
+|term        | estimate| std.error| statistic| p.value|
+|:-----------|--------:|---------:|---------:|-------:|
+|(Intercept) |  -94.659|   211.510|    -0.448|   0.657|
+|Takers      |   -0.480|     0.694|    -0.692|   0.493|
+|Income      |   -0.008|     0.152|    -0.054|   0.957|
+|Years       |   22.610|     6.315|     3.581|   0.001|
+|Public      |   -0.464|     0.579|    -0.802|   0.427|
+|Expend      |    2.212|     0.846|     2.615|   0.012|
+|Rank        |    8.476|     2.108|     4.021|   0.000|
+
+---
+
+### SAT ANOVA
+
+
+```r
+anova(sat_model) %&gt;%
+  kable(format = "markdown", digits = 3)
+```
+
+
+
+|          | Df|     Sum Sq|    Mean Sq| F value| Pr(&gt;F)|
+|:---------|--:|----------:|----------:|-------:|------:|
+|Takers    |  1| 181024.092| 181024.092| 260.838|  0.000|
+|Income    |  1|    121.416|    121.416|   0.175|  0.678|
+|Years     |  1|  14661.165|  14661.165|  21.125|  0.000|
+|Public    |  1|   5154.528|   5154.528|   7.427|  0.009|
+|Expend    |  1|   3984.227|   3984.227|   5.741|  0.021|
+|Rank      |  1|  11222.976|  11222.976|  16.171|  0.000|
+|Residuals | 43|  29842.416|    694.010|      NA|     NA|
+
+---
+
+### SAT Scores: `\(R^2\)` and Adj. `\(R^2\)`
+
+
+```r
+glance(sat_model)
+```
+
+```
+## # A tibble: 1 x 11
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.879         0.862  26.3      51.9 4.16e-18     7  -231.  477.  493.
+## # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;
+```
+&lt;br&gt;
+
+- Close values of `\(R^2\)` and Adjusted `\(R^2\)` indicate that the variables in the model are significant in understanding variation in the response, i.e. that there aren't a lot of unnecessary variables in the model
+
+---
+
+### Additional model selection criterion
+
+- &lt;font class="vocab"&gt;Akaike's Information Criterion (AIC):&lt;/font&gt;
+`$$AIC = n\log(RSS) - n \log(n) + 2(p+1)$$`
+&lt;br&gt; 
+
+- &lt;font class="vocab"&gt;Schwarz's Bayesian Information Criterion (BIC): &lt;/font&gt;
+`$$BIC = n\log(RSS) - n\log(n) + log(n)\times(p+1)$$`
+&lt;br&gt;
+&lt;br&gt;
+
+See the [supplemental note](https://github.com/sta210-sp20/supplemental-notes/blob/master/model-selection-criteria.pdf) on AIC &amp; BIC for derivations.
+
+---
+
+### AIC &amp; BIC
+
+`$$\begin{aligned} &amp; AIC = \color{blue}{n\log(RSS)} - \color{green}{n \log(n)} + \color{red}{2(p+1)} \\
+&amp; BIC = \color{blue}{n\log(RSS)} - \color{green}{n\log(n)} + \color{red}{\log(n)\times(p+1)} \end{aligned}$$`
+&lt;br&gt;
+&lt;br&gt;
+- &lt;font color="blue"&gt;First Term: &lt;/font&gt;Decreases as *p* increases
+- &lt;font color="green"&gt;Second Term: &lt;/font&gt; Fixed for a given sample size *n*
+- &lt;font color="red"&gt;Third Term: &lt;/font&gt; Increases as *p* increases
+
+---
+
+### Using AIC &amp; BIC
+
+`$$\begin{aligned} &amp; AIC = n\log(RSS) - n \log(n) + \color{red}{2(p+1)} \\
+&amp; BIC = n\log(RSS) - n\log(n) + \color{red}{\log(n)\times(p+1)} \end{aligned}$$`
+&lt;br&gt;
+&lt;br&gt;
+
+- Choose model with smallest AIC or BIC
+
+- If `\(n \geq 8\)`, the &lt;font color="red"&gt;penalty&lt;/font&gt; for BIC is larger than that of AIC, so BIC tends to favor *more parsimonious* models (i.e. models with fewer terms)
+
+---
+
+### Backward Selection
+
+- Start with model that includes all variables of interest
+
+- Drop variables one at a time that are deemed irrelevant based on some criterion. Common criterion include 
+  + Drop variable with highest p-value over some threshold (e.g. 0.05, 0.1)
+  + Drop variable that leads to smallest value of AIC or BIC 
+
+- Stop when no more variables can be removed from the model based on the criterion
+
+---
+
+
+### Forward Selection
+
+- Start with the intercept-only model
+
+- Include variables one at a time based on some criterion. Common criterion include 
+  + Add variable with smallest p-value under some threshold (e.g. 0.05, 0.1)
+  + Add variable that leads to the smallest value of AIC or BIC 
+
+- Stop when no more variables can be added to the model based on the criterion
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
