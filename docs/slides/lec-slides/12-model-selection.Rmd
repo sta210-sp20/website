@@ -1,0 +1,826 @@
+---
+title: "Multiple Linear Regression"
+subtitle: "Model Selection & Diagnostics"
+author: "Prof. Maria Tackett"
+date: "03.04.20"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 4,
+	message = FALSE,
+	warning = FALSE, 
+	dpi = 300
+)
+```
+
+class: middle, center
+
+### [Click for PDF of slides](12-model-selection.pdf)
+
+---
+
+### Announcements
+
+- [Project proposal](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) **due Thursday, March 5 at 11:59p**
+
+- [Reading 07](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-07.html) today
+    
+
+- <font color = "blue">Sign Up for DataFest!</font>
+
+  `r emo::ji("spiral_calendar")` April 3 - 5
+  
+  `r emo::ji("round_pushpin")` Penn Pavilion
+  
+  `r emo::ji("link")` [stat.duke.edu/datafest](https://www.stat.duke.edu/datafest)
+
+<br>
+
+.center[
+.alert[
+Have a great spring break! `r emo::ji('sunny')`
+]
+]
+
+---
+
+### R packages
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(patchwork)
+```
+
+---
+
+### Today's Agenda
+
+- Model Selection
+  - $R^2$ vs. Adj. $R^2$
+  - AIC & BIC
+  - Strategies
+
+- Model diagnostics
+
+---
+
+class: middle, center
+
+### Model Selection 
+
+---
+
+### Which variables should be in the model?
+
+- This is a very hard question that is the subject of a lot of statistical research 
+
+- There are many different opinions about how to answer this question 
+
+- This lecture will mostly focus on how to approach variable selection
+    - We will introduce some specific methods, but there are many others out there
+
+---
+
+### Which variables should you include?
+
+- It depends on the goal of your analysis
+
+- Though a variable selection procedure will select one set of variables for the model, that set is usually one of several equally good sets
+
+- It is best to start with a well-defined purpose and question to help guide the variable selection
+
+---
+
+### Prediction 
+
+- <font class="vocab">Goal: </font> to calculate the most precise prediction of the response variable 
+
+- Interpreting coefficients is **not** important
+
+- Choose only the variables that are strong predictors of the response variable
+  + Excluding irrelevant variables can help reduce widths of the prediction intervals
+
+
+---
+
+### One variable's effect
+
+- <font class="vocab">Goal: </font>Understand one variable's effect on the response after adjusting for other factors
+
+- Only interpret the coefficient of the variable that is the focus of the study
+  + Interpreting the coefficients of the other variables is **not** important
+
+
+- Any variables not selected for the final model have still been adjusted for, since they had a chance to be in the model
+
+
+---
+
+### Explanation
+
+- <font class="vocab">Goal: </font>Identify variables that are important in explaining variation in the response
+
+- Interpret any variables of interest 
+
+- Include all variables you think are related to the response, even if they are not statistically significant 
+  + This improves the interpretation of the coefficients of interest
+  
+- Interpret the coefficients with caution, especially if there are problems with multicollinearity in the model
+
+---
+
+### Example: SAT Averages by State
+
+- This data set contains the average SAT score (out of 1600) and other variables that may be associated with SAT performance for each of the 50 U.S. states. The data is based on test takers for the 1982 exam.
+
+- <font class="vocab">Data: </font> `case1201` data set in the `Sleuth3` package
+
+- Response variable:
+  + <font class="vocab">`SAT`</font>: average total SAT score
+
+---
+
+### SAT Averages: Explanatory Variables
+
+- <font class="vocab">`State`</font>: U.S. State
+- <font class="vocab">`Takers`</font>: percentage of high school seniors who took exam
+- <font class="vocab">`Income`</font>: median income of families of test-takers ($ hundreds)
+- <font class="vocab">`Years`</font>: average number of years test-takers had formal education in social sciences, natural sciences, and humanities
+- <font class="vocab">`Public`</font>: percentage of test-takers who attended public high schools
+- <font class="vocab">`Expend`</font>: total state expenditure on high schools ($ hundreds per student)
+- <font class="vocab">`Rank`</font>: median percentile rank of test-takers within their high school classes
+
+---
+
+
+### In-Class Exercise: 
+
+.question[
+Select the primary modeling objective for each scenario
+
+http://bit.ly/sta210-sp20-selection
+
+Use **NetId@duke.edu** for your email address.
+
+If you finish early, discuss a modeling strategy for each scenario. 
+```{r echo = F}
+library(countdown)
+countdown(minutes = 4, seconds = 0, update_every = 1, warn_when = 30)
+```
+
+]
+
+
+---
+class: middle, center
+
+### Model selection criterion
+
+---
+
+### $R^2$ 
+
+- **Recall**: $R^2$ is the proportion of the variation in the response variable explained by the regression model
+
+<br>
+
+--
+
+- $R^2$ will always increase as we add more variables to the model 
+  + If we add enough variables, we can always achieve $R^2=100\%$
+
+<br>
+
+--
+
+- If we only use $R^2$ to choose a best fit model, we will be prone to choose the model with the most predictor variables
+
+---
+
+
+### Adjusted $R^2$
+
+- <font class="vocab">Adjusted $R^2$</font>: a version of $R^2$ that penalizes for unnecessary predictor variables
+
+<br> 
+
+- Similar to $R^2$, it is a measure of the amount of variation in the response that is explained by the regression model 
+
+<br>
+
+- Differs from $R^2$ by using the mean squares rather than sums of squares and therefore adjusting for the number of predictor variables
+
+---
+
+### $R^2$ and Adjusted $R^2$
+
+$$R^2 = \frac{\text{Total Sum of Squares} - \text{Residual Sum of Squares}}{\text{Total Sum of Squares}}$$
+<br>
+
+--
+
+.alert[
+$$Adj. R^2 = \frac{\text{Total Mean Square} - \text{Residual Mean Square}}{\text{Total Mean Square}}$$
+]
+<br>
+
+--
+
+- $Adj. R^2$ can be used as a quick assessment to compare the fit of multiple models; however, it should not be the only assessment!
+
+--
+
+- Use $R^2$ when describing the relationship between the response and predictor variables
+
+
+---
+
+### SAT:
+```{r echo = F}
+sat_data <- Sleuth3::case1201 %>%
+  select(-State)
+
+sat_model <- lm(SAT ~ ., data = sat_data)
+tidy(sat_model) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+--
+
+```{r}
+glance(sat_model)
+```
+
+---
+
+### Selection Criteria: AIC & BIC
+
+- <font class="vocab">Akaike's Information Criterion (AIC):</font>
+$$AIC = n\log(RSS) - n \log(n) + 2(p+1)$$
+<br> 
+
+- <font class="vocab">Schwarz's Bayesian Information Criterion (BIC): </font>
+$$BIC = n\log(RSS) - n\log(n) + log(n)\times(p+1)$$
+<br>
+<br>
+
+See the [supplemental note](https://github.com/sta210-sp20/supplemental-notes/blob/master/model-selection-criteria.pdf) on AIC & BIC for derivations.
+
+---
+
+### Selection Criteria: AIC & BIC
+
+$$\begin{aligned} & AIC = \color{blue}{n\log(RSS)} - \color{green}{n \log(n)} + \color{red}{2(p+1)} \\
+& BIC = \color{blue}{n\log(RSS)} - \color{green}{n\log(n)} + \color{red}{\log(n)\times(p+1)} \end{aligned}$$
+<br>
+<br>
+- <font color="blue">First Term: </font>Decreases as *p* increases
+- <font color="green">Second Term: </font> Fixed for a given sample size *n*
+- <font color="red">Third Term: </font> Increases as *p* increases
+
+---
+
+### Selection Criteria: Using AIC & BIC
+
+$$\begin{aligned} & AIC = n\log(RSS) - n \log(n) + \color{red}{2(p+1)} \\
+& BIC = n\log(RSS) - n\log(n) + \color{red}{\log(n)\times(p+1)} \end{aligned}$$
+<br>
+<br>
+
+- Choose model with smallest AIC or BIC
+
+- If $n \geq 8$, the <font color="red">penalty</font> for BIC is larger than that of AIC, so BIC tends to favor *more parsimonious* models (i.e. models with fewer terms)
+
+---
+
+### Selection Process: Backward Selection
+
+- Start with model that includes all variables of interest
+
+- Drop variables one at a time that are deemed irrelevant based on some criterion. Common criterion include 
+  + Drop variable that results in the model with the highest Adj. $R^$ **<i>or</i>**
+  + Drop variable that results in the model with the lowest value of AIC or BIC 
+
+- Stop when no more variables can be removed from the model based on the criterion
+
+---
+
+
+### Selection Process: Forward Selection
+
+- Start with the intercept-only model
+
+- Include variables one at a time based on some criterion. Common criterion include 
+  + Add variable that results in the model with highest Adj. $R^2$ **<i>or</i>**
+  + Add variable that results in the model with the lowest value of AIC or BIC 
+
+- Stop when no more variables can be added to the model based on the criterion
+
+---
+
+class: middle, center
+
+## Model Diagnostics
+
+---
+
+class: middle, center
+
+## Influential and Leverage Points
+
+---
+
+### Influential Observations
+
+An observation is <font class="vocab3">influential</font> if removing it substantially changes the coefficients of the regression model 
+
+```{r,echo=F}
+library(cowplot)
+set.seed(12)
+n <- 20
+x <- c(runif(n,0,1))
+y <- 3*x + rnorm(n,0,.5)
+new.pt <- data.frame(x=2,y=0)
+x.new <- c(x,2)
+y.new <- c(y,0)
+data <- bind_cols(x=x.new,y=y.new)
+p1<- ggplot(data=data,aes(x=x,y=y))+geom_point(alpha =0.5)  + 
+              geom_point(data=new.pt,color="red",size=3,shape=17) + 
+  geom_smooth(method="lm",se=F) + 
+  labs(title = "With Influential Point")+ theme_light()+
+  theme(title=element_text(hjust=0.5,size=14)) + 
+  scale_x_continuous(limits = c(0,2)) 
+
+data2 <- bind_cols(x=x,y=y)
+p2 <- ggplot(data=data2,aes(x=x,y=y))+geom_point(alpha=0.5) + geom_smooth(method="lm",se=F) + 
+  labs(title="Without Influential Point") + 
+  scale_x_continuous(limits = c(0, 2)) + theme_light() + theme(title=element_text(hjust=0.5,size=14))  
+plot_grid(p1,p2,ncol=2)
+```
+
+---
+
+### Influential Observations 
+
+- In addition to the coefficients, influential observations can have a large impact on the standard errors
+
+- Occasionally these observations can be identified in the scatterplot
+  + This is often not the case - especially when dealing with multivariate data
+
+- We will use measures to quantify an individual observation's influence on the regression model 
+  + **leverage**, **standardized residuals**, and **Cook's distance**
+  
+---
+
+### Model diagnostics in R
+
+- Use the <font class="vocab">`augment`</font> function in the broom package to output the model diagnostics (along with the predicted values and residuals)
+
+- Output from `augment` : 
+    - response and predictor variables in the model
+    - `.fitted`: predicted values
+    - `.se.fit`: standard errors of predicted values
+    - `.resid`: residuals
+    - .vocab[`.hat`]: leverage
+    - `.sigma`: estimate of residual standard deviation when corresponding observation is dropped from model
+    - .vocab[`.cooksd`]: Cook's distance
+    - .vocab[`.std.resid`]: standardized residuals
+
+---
+
+### SAT: Augmented Data
+
+```{r}
+sat_aug <- augment(sat_model) %>%
+  mutate(obs_num = row_number()) #add observation number for plots
+```
+
+```{r}
+glimpse(sat_aug)
+```
+
+---
+
+### Leverage
+
+- <font class="vocab3">Leverage: </font> measure of the distance between an observation's values of the predictor variables and the average values of the predictor variables for the whole data set
+  
+- An observation has high leverage if its combination of values for the predictor variables is very far from the typical combinations in the data 
+  + It is **<u>potentially</u>** an influential point, i.e. may have a large impact on the coefficient estimates and standard errors
+
+
+- **Note:** Identifying points with high leverage has nothing to do with the values of the response variables
+
+---
+
+### Calculating Leverage
+
+- <font class="vocab">Simple Regression:</font> leverage of the $i^{th}$ observation is 
+.alert[
+$$h_i =  \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum_{j=1}^{n}(x_j-\bar{x})^2}$$
+]
+
+<br>
+
+- <font class="vocab">Multiple Regression:</font> leverage of the $i^{th}$ observation is the $i^{th}$ diagonal of
+$$\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$$
+
+- .vocab[Note]: Leverage only depends on values of the **<u>predictor</u>** variables
+
+---
+
+### High Leverage
+
+- Values of leverage are between $\frac{1}{n}$ and 1 for each observation 
+
+- The average leverage for all observations in the data set is $\frac{(p+1)}{n}$
+
+.alert[
+An observation has **high leverage** if 
+$$h_i > \frac{2(p+1)}{n}$$
+]
+
+- Note: We can't rely on residuals alone to identify these points , since observations with high leverage tend to have small residuals
+
+---
+
+### High Leverage
+
+- Questions to check if you identify points with high leverage: 
+  + Are they a result of data entry errors?
+  + Are they in the scope for the individuals for which you want to make predictions?
+  + Are they impacting the estimates of the model coefficients, especially for interactions?
+
+- Just because a point has high leverage does not necessarily mean it will have a substantial impact on the regression. Therefore you should check other measures.
+
+---
+
+### SAT: Leverage
+
+```{r}
+(leverage_threshold <- 2*(7+1)/nrow(sat_aug))
+```
+
+```{r fig.height = 3}
+ggplot(data = sat_aug, aes(x = obs_num, y = .hat)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = leverage_threshold, color = "red")+
+  labs(x = "Observation Number",y = "Leverage",title = "Leverage") +
+  geom_text(aes(label=ifelse(.hat > leverage_threshold, as.character(obs_num), "")), nudge_x = 4)
+```
+
+---
+
+### Points with high leverage
+
+```{r}
+sat_aug %>% filter(.hat > leverage_threshold) %>% 
+  select(obs_num, Takers, Income, Years, Public, Expend, Rank)
+```
+
+.question[
+Why do you think these points have high leverage?
+]
+
+---
+
+### Standardized & Studentized Residuals
+
+- What is the best way to identify outliers (points that don't fit the pattern from the regression line)? 
+  
+--
+
+- Look for points that have large residuals
+
+--
+
+- We want a common scale, so we can more easily identify "large" residuals
+
+--
+
+- We will look at each residual divided by its standard error
+
+---
+
+### Standardized Residuals 
+
+.alert[
+$$std.res_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}$$
+]
+<br>
+
+--
+
+- The standard error of a residual, $\hat{\sigma}\sqrt{1-h_i}$ depends on the value of the predictor variables 
+
+--
+
+
+- Residuals for observations that are high leverage have smaller variance than residuals for observations that are low leverage 
+
+  + This is because the regression line tries to fit high leverage observations as closely as possible
+  
+---
+
+### Standardized Residuals 
+
+- Values with very large standardized residuals are outliers, since they don't fit the pattern determined by the regression model 
+
+- Observations with standardized residuals of magnitude $> 2$ should be examined more closely
+
+- Observations with large standardized residuals are outliers but may not have an impact on the regression line
+
+- <font class="vocab">Good Practice: </font>Make residual plots with standardized residuals
+    - It is easier to identify outliers and check for constant variance assumption
+
+---
+
+### SAT: Standardized Resdiuals vs. Predicted
+
+```{r fig.height = 3}
+ggplot(data = sat_aug, aes(x = .fitted,y = .std.resid)) +
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept = 0,color = "red") +
+  geom_hline(yintercept = -2,color = "red",linetype = "dotted") +
+  geom_hline(yintercept = 2,color = "red",linetype = "dotted") +
+  labs(x ="Predicted Value",y ="Standardized Residuals",title = "Standardized Residuals vs. Predicted") +
+  geom_text(aes(label = ifelse(abs(.std.resid) > 2,as.character(obs_num),"")), nudge_x = 0.3)
+```
+
+- Note: Use the the standardized residuals for the plot of of residuals vs. predictors and for the histogram and Normal QQ-Plot of residuals
+
+---
+
+### Motivating Cook's Distance
+
+- If a observation has a large impact on the estimated regression coefficients, when we drop that observation...
+  + The estimated coefficients should change 
+  + The predicted $Y$ value for that observation should change
+  
+- One way to determine each observation's impact could be to delete it, rerun the regression, compare the predicted $Y$ values from the new and original models
+  + This could be very time consuming 
+  
+- Instead, we can use <font class="vocab3">Cook's Distance</font> which gives a measure of the change in the predicted $Y$ value when an observation is dropped
+
+---
+
+### Cook's Distance
+
+- <font class="vocab3">Cook's Distance: </font> Measure of an observation's overall impact, i.e. the effect removing the observation has on the estimated coefficients
+
+- For the $i^{th}$ observation, we can calculate Cook's Distance as 
+.alert[
+$$D_i = \frac{1}{p}(std.res_i)^2\bigg(\frac{h_i}{1-h_i}\bigg)$$
+]
+
+- *Note:* Cook's distance, $D_i$, incorporates both the residual and the leverage for each observation
+
+- An observation with large $D_i$ is said to have a strong influence on the predicted values 
+
+
+---
+
+### Cook's Distance
+
+```{r fig.height = 3}
+ggplot(data = sat_aug, aes(x = obs_num, y = .cooksd)) + 
+  geom_point(alpha = 0.7) + 
+  geom_hline(yintercept=1,color = "red")+
+  labs(x= "Observation Number",y = "Cook's Distance",title = "Cook's Distance") +
+  geom_text(aes(label = ifelse(.cooksd > 1,as.character(obs_num),"")))
+```
+
+---
+
+### Influential point: Alaska
+
+```{r echo = F}
+sat_aug %>% filter(.cooksd > 1) %>% 
+  select(obs_num, Takers, Income, Years, Public, Expend, Rank)
+```
+
+.pull-left[
+**With Alaska**
+
+```{r echo = F}
+orig_data <- Sleuth3::case1201 %>%
+  select(-State) 
+  lm(SAT ~ ., data = orig_data) %>%
+    tidy() %>% 
+    select(term, estimate) %>%
+    kable(format = "markdown", digits = 3)
+```
+]
+
+.pull-right[
+**Without Alaska**
+```{r echo = F}
+new_data <- Sleuth3::case1201 %>%
+  filter(State != "Alaska") %>%
+  select(-State)
+  lm(SAT ~ ., data = new_data) %>%
+    tidy() %>%
+    select(term, estimate) %>%
+    kable(format = "markdown", digits = 3)
+```
+]
+
+---
+
+### Using these measures
+
+- Standardized residuals, leverage, and Cook's Distance should all be examined together 
+
+- Examine plots of the measures to identify observations that may have an impact on your regression model 
+
+- Some thresholds for flagging potentially influential observations:
+  + **Leverage**: $h_i > \frac{2(p+1)}{n}$ (some software uses $2p/n$)
+  + **Standardized Residuals**: $|std.res_i| > 2$
+  + **Cook's Distance**: $D_i > 1$
+
+---
+
+### What to do with outliers/influential observations?
+
+- It is **<font color="green">OK</font>** to drop an observation based on the **<u>predictor variables</u>** if...
+    - It is meaningful to drop the observation given the context of the problem 
+    - You intended to build a model on a smaller range of the predictor variables. Mention this in the write up of the results and be careful to avoid extrapolation when making predictions
+
+--
+
+- It is **<font color="red">not OK</font>** to drop an observation based on the response variable
+    - These are legitimate observations and should be in the model
+- You can try transformations or increasing the sample size by collecting more data
+
+--
+
+- In either instance, you can try building the model with and without the outliers/influential observations
+
+---
+
+
+
+
+---
+
+class: middle
+
+See the supplemental notes [Details on Model Diagnostics](https://github.com/sta210-sp20/supplemental-notes/blob/master/model-diagnostics-matrix.pdf) for more details about standardized residuals, leverage points, and Cook's distance.
+
+
+---
+
+class: middle, center
+
+## Multicollinearity
+
+---
+
+### Why multicollinearity is a problem
+
+- We can't include two variables that have a perfect linear association with each other
+
+- If we did so, we could not pick a unique best fit model
+
+
+---
+
+### Why multicollinearity is a problem
+
+- Ex. Suppose the true population regression equation is $y = 3 + 4x$
+
+--
+
+- Suppose we try estimating that regression model using the variables $x$ and $z = x/10$
+$$\begin{aligned}\hat{y}&= \hat{\beta}_0 + \hat{\beta}_1x  + \hat{\beta}_2\frac{x}{10}\\
+&= \hat{\beta}_0 + \bigg(\hat{\beta}_1 + \frac{\hat{\beta}_2}{10}\bigg)x\end{aligned}$$
+
+--
+
+- We can set $\hat{\beta}_1$ and $\hat{\beta}_2$ to any two numbers such that $\hat{\beta}_1 + \frac{\hat{\beta}_2}{10} = 4$
+  + We are unable then to choose the "best" combination of $\hat{\beta}_1$ and $\hat{\beta}_2$
+  
+---
+
+### Why multicollinearity is a problem
+
+- When we have almost perfect collinearities (i.e. highly correlated explanatory variables), the standard errors for our regression coefficients inflate
+
+- In other words, we lose precision in our estimates of the regression coefficients 
+  
+---
+ 
+### Detecting Multicollinearity
+
+Multicollinearity may occur when...
+- There are very high correlations $(r > 0.9)$ among two or more explanatory variables, especially for smaller sample sizes
+
+--
+
+- One (or more) explanatory variables is an almost perfect linear combination of the others 
+
+--
+
+- Include quadratic terms without first mean-centering the variables before squaring
+
+--
+
+- Including interactions with two or more continuous variables
+
+---
+
+ 
+
+### Detecting Multicollinearity 
+
+- Look at a correlation matrix of the predictor variables, including all indicator variables 
+  + Look out for values close to 1 or -1
+
+- If you think one predictor variable is an almost perfect linear combination of other predictor variables, you can run a regression of that predictor variable vs. the others and see if $R^2$ is close to 1
+
+---
+
+### Detecting Multicollinearity (VIF)
+
+- <font class="vocab">Variance Inflation Factor (VIF)</font>: Measure of multicollinearity 
+
+.alert[
+$$VIF(\hat{\beta}_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}$$
+]
+
+where $R^2_{X_j|X_{-j}}$ is the proportion of variation $X$ that is explained by the linear combination of the other explanatory variables in the model.
+
+
+- Typically $VIF > 10$ indicates concerning multicollinearity
+  - Variables with similar values of VIF are typically the ones correlated with each other
+
+- Use the <font class="vocab">`vif()`</font> function in the `rms` package to calculate VIF
+
+---
+
+### Tips VIF
+
+- Calculate VIF using the <font class="vocab">`vif`</font> function in the rms package 
+
+```{r}
+library(rms)
+tidy(vif(sat_model))
+```
+
+--
+
+.alert[
+`Takers` and `Rank` are correlated. Should refit the model with one of these variables removed.
+]
+
+---
+
+### Model without `Takers`
+
+```{r echo  = F}
+m1 <- lm(SAT ~ Income + Years + Public + Expend + Rank, data = sat_data) 
+m1 %>%
+  tidy() %>%
+  kable(format = "markdown", digits = 3)
+```
+<br>
+
+```{r echo = F}
+glance(m1) %>%
+  select(adj.r.squared, AIC)
+```
+
+---
+
+### Model without `Rank`
+
+```{r echo  = F}
+m2 <- lm(SAT ~ Income + Years + Public + Expend + Takers, data = sat_data) 
+m2 %>%
+  tidy() %>%
+  kable(format = "markdown", digits = 3)
+```
+<br>
+
+```{r echo = F}
+glance(m2) %>%
+  select(adj.r.squared, AIC)
+```
+
+
