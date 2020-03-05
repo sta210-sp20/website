@@ -38,7 +38,8 @@ class: middle, center
 - [Project proposal](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) **due Thursday, March 5 at 11:59p**
 
 - [Reading 07](https://www2.stat.duke.edu/courses/Spring20/sta210.001/reading/reading-07.html) today
-    
+
+
 
 - <font color = "blue">Sign Up for DataFest!</font>
 
@@ -397,10 +398,10 @@ plot_grid(p1,p2,ncol=2)
     - `.fitted`: predicted values
     - `.se.fit`: standard errors of predicted values
     - `.resid`: residuals
-    - .vocab[`.hat`]: leverage
+    - <font class = "vocab">`.hat`</font>: leverage
     - `.sigma`: estimate of residual standard deviation when corresponding observation is dropped from model
-    - .vocab[`.cooksd`]: Cook's distance
-    - .vocab[`.std.resid`]: standardized residuals
+    - <font class = "vocab">`.cooksd`</font>: Cook's distance
+    - <font class = "vocab">`.std.resid`</font>: standardized residuals
 
 ---
 
@@ -477,7 +478,7 @@ $$h_i > \frac{2(p+1)}{n}$$
 (leverage_threshold <- 2*(7+1)/nrow(sat_aug))
 ```
 
-```{r fig.height = 3}
+```{r fig.height = 3, echo = F}
 ggplot(data = sat_aug, aes(x = obs_num, y = .hat)) + 
   geom_point(alpha = 0.7) + 
   geom_hline(yintercept = leverage_threshold, color = "red")+
@@ -496,6 +497,34 @@ sat_aug %>% filter(.hat > leverage_threshold) %>%
 
 .question[
 Why do you think these points have high leverage?
+]
+
+---
+
+### Let's dig into the data
+
+.pull-left[
+```{r echo = F, fig.height = 4}
+sat_aug %>%
+  mutate(public_outlier = if_else(obs_num == 22, "Y", "N")) %>%
+  ggplot(aes(x = Public)) +
+  geom_dotplot(aes(fill = public_outlier)) + 
+  labs(x = "Takers", title = "Louisiana (22) has a low % of test takers from public schools") +
+  theme(legend.position = "none")
+```
+]
+
+--
+
+.pull-right[
+```{r echo = F, fig.height = 4}
+sat_aug %>%
+  mutate(expend_outlier = if_else(obs_num == 29, "Y", "N")) %>%
+  ggplot(aes(x = Expend)) +
+  geom_dotplot(aes(fill = expend_outlier)) + 
+  labs(x = "Expenditure", title = "Alaska (29) has a high state expenditure on high schools") +
+  theme(legend.position = "none")
+```
 ]
 
 ---
@@ -553,7 +582,7 @@ $$std.res_i = \frac{e_i}{\hat{\sigma}\sqrt{1-h_i}}$$
 
 ### SAT: Standardized Resdiuals vs. Predicted
 
-```{r fig.height = 3}
+```{r fig.height = 3, echo = F}
 ggplot(data = sat_aug, aes(x = .fitted,y = .std.resid)) +
   geom_point(alpha = 0.7) + 
   geom_hline(yintercept = 0,color = "red") +
