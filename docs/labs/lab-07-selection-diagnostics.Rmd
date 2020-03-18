@@ -1,0 +1,179 @@
+---
+title: "Lab 07: Model Selection + Diagnostics"
+subtitle: "due Tue, Mar 17 at 11:59p"
+output: 
+  tufte::tufte_html:
+    css: "./sta210-labs.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+    fig_height: 10
+    toc: true
+    toc_depth: 1
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE,
+                      eval=FALSE)
+```
+
+The goal of today’s lab is to gain practice with model selection and model diagnostic procedures in R. This includes 
+
+# Getting Started 
+
+- Go to the sta210-fa20 organization on GitHub ([https://github.com/sta210-fa20](https://github.com/sta210-fa20)). Click on the repo with the prefix **lab-05-**. It contains the starter documents you need to complete the warmup exercise. 
+
+- Clone the repo and create a new project in your RStudio Docker Container ([https://vm-manage.oit.duke.edu](https://vm-manage.oit.duke.edu)). 
+
+- Configure git by typing the following in the **console**.
+
+```{r eval=FALSE}
+library(usethis)
+use_git_config(user.name="github username", user.email="your email")
+```
+
+## Password caching
+
+If you would like your git password cached for a week for this project, type the following in the **Terminal**:
+
+```{bash eval=FALSE}
+git config --global credential.helper 'cache --timeout 604800'
+```
+
+You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
+
+
+## Packages
+
+You will need the following packages for today's lab: 
+
+```{r load-packages}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(leaps)
+library(rms)
+library(Sleuth3) #case1201 data
+```
+
+## Data
+
+The dataset in this lab contains the SAT score (out of 1600) and other variables that may be associated with SAT performance for each of the 50 states in the U.S. The data are based on test takers for the 1982 exam. The following variables are in the dataset: 
+
+- **`SAT`**: average total SAT score
+- **`State`**: U.S. State
+- **`Takers`**: percentage of high school seniors who took exam
+- **`Income`**: median income of families of test-takers ($ hundreds)
+- **`Years`**: average number of years test-takers had formal education in social sciences, natural sciences, and humanities
+- **`Public`**: percentage of test-takers who attended public high schools
+- **`Expend`**: total state expenditure on high schools ($ hundreds per student)
+- **`Rank`**: median percentile rank of test-takers within their high school classes
+
+This is the same dataset we used in class on March 4. 
+
+# Exercises
+
+## Part I: Model Selection
+
+We begin this lab by conducting model selection with various selection criteria to choose a final model from the SAT dataset. The code to load the data and create the full main effects model is shown below. The next few questions will walk you through backward model selection using different model selection criteria to select a model.
+
+```{r}
+sat_scores <- Sleuth3::case1201 
+```
+
+```{r}
+full_model <- lm(SAT ~ Takers + Income + Years + Public + Expend + Rank , data = sat_scores)
+tidy(full_model)
+```
+
+```{marginfigure}
+Type `??regsubsets` in the console for more information about the `regsubsets` function.`
+```
+
+1. We will use the `regsubsets` function in the *leaps* R package to perform backward selection on multiple linear regression models with $Adj. R^2$ or $BIC$ as the selection criteria.
+
+    Fill in the code to display the model selected from backward selection with $Adj. R^2$ as the selection criterion. 
+
+
+```{r}
+model_select <- regsubsets(SAT ~ Takers + Income + Years + Public + Expend + 
+                             Rank , data = sat_scores, method = "backward")
+select_summary <- summary(model_select)
+coef(_______________________) #display coefficients 
+```
+
+2. Fill in the code below to display the model selected from backward selection with $BIC$ as the selection criterion.
+
+```{r}
+coef(_______________________) #display coefficients 
+```
+
+```{marginfigure}
+Type `??step` in the console for more information about the `step` function. The output from the `step` function will show you the output from each step of the selection phase.
+```
+
+3. Next, let's select a model using $AIC$ as the selection criterion. To select a model using $AIC$, we will use the `step` function in R. The code below is to conduct backward selection using $AIC$ as the criterion and store the selected model in an object called `model_select_aic`. Use the `tidy` function to display the coefficients of the selected model. 
+
+```{r}
+model_select_aic <- step(full_model, direction = "backward")
+```
+
+
+4. Compare the final models selected by $Adj. R^2$, $AIC$, and $BIC$.
+    - Do the models have the same number of predictors? 
+    - If they don't have the same number of predictors, which selection criterion resulted in the model with the fewest number of predictors? Is this what you would expect? Briefly explain. 
+
+## Part II: Model Diagnostics
+
+**Let's choose `model_select_aic`, the model selected usng $AIC$, to be our final model. In this part of the lab, we will examine some model diagnostics for this model.**
+
+5. Use the `augment` function to create a data frame that contains model predictiosn and statistics for each observation.  Save the data frame, and add a variable called `obs_num` that contains the observation (row) number. Display the first 5 rows of the new data frame.
+
+6. Let’s examine the leverage for each observation. Based on the lecture notes, what threshold should we use to determine if observations in this dataset have high leverage? *Report the value and show the quation you used to calculate it.*
+
+7. Plot the leverage (`.hat`) vs. the observation number. Add a line on the plot marking the threshold from the previous exercise. Be sure to include an informative title and clearly label the axes. *You can use `geom_hline` to the add the threshold line to the plot.*
+
+8. Which states (if any) in the dataset are considered high leverage? Show the code used to determine the states. *Hint: You may need to get `State` from `sat_data`.*
+
+9. Next, we will examine the standardized residuals. Plot the standardized residuals (`.std.resid`) versus the predicted values. Include horizontal lines at $y = 2$ and $y = -2$ indicating the thresholds used to determine if standardized residuals have a large magnitude. Be sure to include an informative title and clearly label the axes.*You can use `geom_hline` to the add the threshold lines to the plot.*
+
+10. Based on our thresholds, which states (if any) are considered to have standardized residuals with large magnitude? Show the code used to determine the states. *Hint: You may need to get `State` from `sat_data`.*
+
+11. Let's determine if any of these states with high leverage and/or high standardized residuals are influential points, i.e. are significantly impacting the coefficients of the model. Plot the Cook's Distance (`.cooksd`) vs. the observation number. Add a line on the plot marking the threshold to determine a point is influential. Be sure to include an informative title and clearly label the axes. *You can use `geom_hline` to the add the threshold line to the plot.*
+    - Which states (if any) are considered to be influential points? 
+    - If there are influential points, briefly describe strategies to deal with them in your regression analysis.
+
+12. Lastly, let's examine the Variance Inflation Factor (VIF) used to determine if the predictor variables in the model are correlated with each other.
+$$VIF(\hat{\beta}_j) = \frac{1}{1 - R^2_{x_j|x_{-j}}}$$
+
+   Let's start by manually calculating VIF for the variable `Expend`. 
+  
+  - Begin by fitting a model with `Expend` as the response variable and the other predictor variables in `model_select_aic` as the predictors. 
+  - Calculate $R^2$ for this model. 
+  - Use this $R^2$ to calculate VIF for `Expend`. 
+  - Does `Expend` appear to be highly correlated with any other predictor variables? Briefly explain.
+
+12. Now, let's use the `vif` function in the *rms* package to calculate VIF for all of the variables in the model. You can use the `tidy` function to output the results neatly in a data frame. Are there any obvious concerns with multicollinearity in this model? Briefly explain.
+
+```{r}
+vif(model_select_aic)
+```
+
+# Submitting the Assignment
+
+See ["Submitting the Assignment"](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) from Lab 01 for detailed instructions on how to upload the assignment on GitHub. 
+
+<!--
+# Grading 
+
+|  	|  	|
+|----------------------------------------	|----	|
+| Part I | 19	|
+| Part II |  22	|
+| Lab attendance & participation 	| 3 	|
+| Document neatly organized with appropriate headers | 2	|
+| Commit messages from every member| 2 	|
+| **Total** | **50** |
+-->
