@@ -42,37 +42,44 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   name = "schedule"
   pre = "<i class=\"material-icons\">calendar_today</i>"
   url = "/schedule.html"
-  
+
 [[menu.main]]
   weight = 3
+  identifier = "Updates"
+  name = "Remote Learning Updates"
+  pre = "<i class=\"material-icons\">notification_important</i>"
+  url = "/covid-19-updates.html"
+
+[[menu.main]]
+  weight = 4
   identifier = "syllabus"
   name = "Syllabus"
   pre = "<i class='fa fa-check fa-lg'></i>"
   url = "/syllabus.html"
 
 [[menu.main]]
-  weight = 4
+  weight = 5
   identifier = "rstudio"
   name = "RStudio"
   pre = "<i class=\"material-icons\">cloud</i>"
   url = "https://vm-manage.oit.duke.edu/containers"
   
 [[menu.main]]
-  weight = 5
+  weight = 6
   identifier = "github"
   name = "GitHub"
   pre = "<i class='fab fa-github fa-lg'></i>"
   url = "https://github.com/sta210-sp20"
 
 [[menu.main]]
-  weight = 6
+  weight = 7
   identifier = "sakai"
   name = "Sakai"
   pre = "<i class=\"material-icons\">school</i>"
   url = "http://sakai.duke.edu"
   
 [[menu.main]]
-  weight = 7
+  weight = 8
   identifier = "help"
   name = "Piazza"
   pre = "<i class=\"material-icons\">help</i>"
