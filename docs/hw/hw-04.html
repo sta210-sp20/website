@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -1392,9 +1391,10 @@ font-family: 'Source Sans Pro', sans-serif;
 font-weight: 400;
 color: #00897B;
 }
-h3.subtitle {
-font-style: normal;
+h3 {
+font-family: 'Source Sans Pro', sans-serif;
 color: #00897B;
+font-weight: 400;
 }
 h4 {
 font-style: normal;
@@ -1474,7 +1474,7 @@ content: "Question " counter(li)".";
 
 counter-increment: li;
 position: absolute;
-color: #00897B;
+color: #339898;
 left: -0.5px;
 font-weight: bold;
 }
@@ -1483,7 +1483,7 @@ counter-reset: sub-item;
 
 
 position: absolute;
-color: #00897B;
+color: #339898;
 left: -0.5px;
 font-weight: bold;
 padding-left: 90px;
@@ -1568,6 +1568,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1596,6 +1597,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1667,13 +1674,12 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">HW 04</h1>
-<h3 class="subtitle">due Wed, Mar 25 at 11:59p</h3>
+<h3 class="subtitle">due Wed, Apr 8 at 11:59p EDT</h3>
 
 </div>
 
 
-<p><br><br></p>
-<p><em>Instructions will be available when the homework is assigned.</em></p>
+<p><br><br> <em>Instructions will be available when the homework is assigned.</em></p>
 <!--
 # Getting Started
 

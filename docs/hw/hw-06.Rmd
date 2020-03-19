@@ -1,6 +1,6 @@
 ---
 title: "HW 06"
-subtitle: "due Wed, Apr 8 at 11:59p"
+subtitle: "due Wed, Apr 22 at 11:59p EDT"
 author: ""
 date: ""
 output: 

@@ -1,6 +1,6 @@
 ---
 title: "HW 04"
-subtitle: "due Wed, Mar 25 at 11:59p"
+subtitle: "due Wed, Apr 8 at 11:59p EDT"
 author: ""
 date: ""
 output: 
@@ -17,7 +17,6 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 <br><br>
-
 *Instructions will be available when the homework is assigned.*
 
 
