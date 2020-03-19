@@ -3,6 +3,13 @@ title: "Syllabus"
 markup: "mmark"
 ---
 
+<p style="border:3px; border-style:solid; border-color:#FF0000; padding: 1em; font-size:25px; font-family: Arial">
+
+Portions of the course schedule and syllabus have been updated due to the transition to remote learning. Please see the <a href = "https://www2.stat.duke.edu/courses/Spring20/sta210.001/covid-19-updates.html">Remote Learning Updates</a> and <a href = "https://www2.stat.duke.edu/courses/Spring20/sta210.001/schedule.html"> Schedule</a> for the most up-to-date information about the course.
+</p>
+
+<br><br>
+
 **[Click here](syllabus.pdf) to download a PDF copy of the syllabus.**
 
 ### Course Learning Objectives

@@ -1,4 +1,11 @@
-<b>Note:</b> This schedule may be updated as the semester progresses. Due dates for the exams and project will <u>not</u> be changed.
+<p style="border:3px; border-style:solid; border-color:#FF0000; padding: 1em; font-size:25px; font-family: Arial">
+
+The schedule has been updated to accommodate the transition to remote learning.
+<br><br> 
+
+For each date, the topic lists what will be discussed during the live lecture or lab session. The items under "Class Prep" <i class="fa fa-video fa-lg"></i> are intended to be completed <u>before</u> that day's lectures session.
+</p>
+
 
 <br><br>
 
@@ -7,7 +14,7 @@
     <th style="width:15%;text-align:right">Date</th>
     <th style="width:45%">Lesson</th>
     <th style="width:5%;text-align:center">Slides</th>
-    <th style="width:5%;text-align:center">Reading</th>
+    <th style="width:5%;text-align:center">Class Prep</th>
     <th style="width:5%;text-align:center">Lab</th>
     <th style="width:5%;text-align:center">HW</th>
     <th style="width:5%;text-align:center">Misc</th>
@@ -32,10 +39,10 @@
       
       {{ if .reading }}
       <td align="center"><a href="{{ .Site.baseurl }}/reading/{{ .reading  }}">
-          <i class="fa fa-book fa-lg"></i></a></td>
+          <i class="fa fa-video fa-lg"></i></a></td>
       {{ else }}
         <td align="center"><font color="f1f1f1">
-          <i class="fa fa-book fa-lg"></i></font></td>
+          <i class="fa fa-video fa-lg"></i></font></td>
       {{ end }}
 
       {{ if .lab }}

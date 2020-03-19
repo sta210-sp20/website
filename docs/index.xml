@@ -16,9 +16,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/schedule.html</guid>
-      <description>Note: This schedule may be updated as the semester progresses. Due dates for the exams and project will not be changed.
-
- Date Lesson Slides Reading Lab HW Misc Project    Week 01         Wed, Jan 8 Welcome to Regression Analysis         Thu, Jan 9 No Lab          Week 02         Mon, Jan 13 Review: Confidence Intervals         Wed, Jan 15 Review: Hypothesis Tests         Thu, Jan 16 Lab 01: Review R         UNIT 01 CONTINUOUS RESPONSE VARIABLES          Week 03         Mon, Jan 20 NO CLASS - Martin Luther King, Jr.</description>
+      <description>The schedule has been updated to accommodate the transition to remote learning. For each date, the topic lists what will be discussed during the live lecture or lab session. The items under &#34;Class Prep&#34;  are intended to be completed before that day&#39;s lectures session. 
+ Date Lesson Slides Class Prep Lab HW Misc Project    Week 01         Wed, Jan 8 Welcome to Regression Analysis         Thu, Jan 9 No Lab          Week 02         Mon, Jan 13 Review: Confidence Intervals         Wed, Jan 15 Review: Hypothesis Tests         Thu, Jan 16 Lab 01: Review R         UNIT 01 CONTINUOUS RESPONSE VARIABLES          Week 03         Mon, Jan 20 NO CLASS - Martin Luther King, Jr.</description>
     </item>
     
     <item>
@@ -27,7 +26,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/syllabus.html</guid>
-      <description>Click here to download a PDF copy of the syllabus.
+      <description>Portions of the course schedule and syllabus have been updated due to the transition to remote learning. Please see the Remote Learning Updates and Schedule for the most up-to-date information about the course. 
+Click here to download a PDF copy of the syllabus.
 Course Learning Objectives By the end of the semester, you will…
  know methods for analyzing multivariate datasets, with an emphasis on interpretation know how to check whether proposed statistical models are appropriate for given data develop proficiency in addressing complex research questions using statistical evidence develop proficiency in computing tools used to conduct reproducible statistical analyses, specifically R and Git understand the process of data-based research by working on an independent research project  Activities &amp;amp; Assessments The following activities and assessments will help you successfully achieve the course learning objectives.</description>
     </item>
