@@ -40,10 +40,14 @@ Office hours will be held via Zoom. You can find the link to the office hours se
 Professor Tackett | Tue 8:30a - 10a, Thu 10:30a - 12p
 Youngsoo Baek | Mon 1p - 3p 
 Cody Coombs | Tue 1p - 3p 
-Sophie Dalldorf | Fri 1p - 3p 
+Sophie Dalldorf | TBD
 Jonathan Klus | Mon 3p - 5p
 Matty Pahren | Tue 3p - 5p
 Ethan Shen | Wed 5p - 7p
+
+When you get to office hours, you will be put in a "waiting room" until someone is available to help you. While in office hours, you may find it useful to utilize some of the features in Zoom, such as [sharing your screen](https://support.zoom.us/hc/en-us/articles/201362153-How-Do-I-Share-My-Screen-) or using the [whiteboard](https://support.zoom.us/hc/en-us/articles/205677665-Sharing-a-whiteboard) while getting help with your questions.
+
+We will also answer questions on Piazza during office hours. We will priortize helping students in the Zoom meeting room; however, we will answer questions in Piazza as time allows. 
 
 *Note this schedule may be updated as we get more information about everyone's timezone.*
 
@@ -73,9 +77,11 @@ The higher grade of Exam 01 & Exam 02 will be worth 25% of the final course. The
 
 ## Project
 
+<!--
 You will continue to work on the final project with your lab group. Some of the due dates for the project have been adjusted; see the [project instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) for the updated project timeline. Most of the remaining lab sessions will be assignments specifically geared towards helping you finish the project. 
 
 If you have circumstances that will make working in the group unfeasible and would like to complete the project individually, please fill out the [Request for Individual Project form](https://duke.qualtrics.com/jfe/form/SV_5Bj47c7BSKH5oUJ). I will follow-up with you over email with next steps.
+--> 
 
 ## Teamwork & Engagement
 
