@@ -15,6 +15,15 @@ Please note that this is a living document that is likely to change as we adjust
 
 If you have any general questions about the remainder of the semester, please post them using the "remote-learning" tag on [Piazza](https://piazza.com/class/k532nlvarim38u). If you have a question or comment you prefer to share privately, please email Professor Tackett. 
 
+## Resources to Transition to Remote Learning
+
+- Up-to-date information from the Duke Administration: https://keeplearning.duke.edu/
+
+- [Learning Online - Student Guide](https://arc.duke.edu/sites/arc.duke.edu/files/FINAL%20-%20Learning%20Online%20Student%20Guide.pdf) by the Academic Resource Center
+
+- [Study Connect](https://arc.duke.edu/study-connect) through the Academic Resource Center: Find a virtual study group! 
+
+
 ## Lectures
 
 Lectures going through the course content will be pre-recorded and made available in the *Recorded Lectures & Discussions* tab in Sakai. You should watch the content videos **<u>before</u>** for our regularly scheduled meeting. See the "Class Prep" column in the [course schedule](https://www2.stat.duke.edu/courses/Spring20/sta210.001/schedule.html) for details about how to prepare for each live lecture session.
@@ -43,7 +52,7 @@ Cody Coombs | Tue 1p - 3p
 Sophie Dalldorf | TBD
 Jonathan Klus | Mon 3p - 5p
 Matty Pahren | Tue 3p - 5p
-Ethan Shen | Wed 5p - 7p
+Ethan Shen | Wed 3p - 5p
 
 When you get to office hours, you will be put in a "waiting room" until someone is available to help you. While in office hours, you may find it useful to utilize some of the features in Zoom, such as [sharing your screen](https://support.zoom.us/hc/en-us/articles/201362153-How-Do-I-Share-My-Screen-) or using the [whiteboard](https://support.zoom.us/hc/en-us/articles/205677665-Sharing-a-whiteboard) while getting help with your questions.
 
@@ -77,7 +86,12 @@ The higher grade of Exam 01 & Exam 02 will be worth 25% of the final course. The
 
 ## Project
 
+The primary objective of the project is to give you the opportunity to apply what you've learned in the class to a real-world analysis. 
+
+During the week of March 23, I will be soliciting feedback from each group and at the individual level to get your thoughts on the best option to still achieve the objectives of the project while taking into account our new learning evironment.
+
 <!--
+
 You will continue to work on the final project with your lab group. Some of the due dates for the project have been adjusted; see the [project instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) for the updated project timeline. Most of the remaining lab sessions will be assignments specifically geared towards helping you finish the project. 
 
 If you have circumstances that will make working in the group unfeasible and would like to complete the project individually, please fill out the [Request for Individual Project form](https://duke.qualtrics.com/jfe/form/SV_5Bj47c7BSKH5oUJ). I will follow-up with you over email with next steps.
@@ -119,15 +133,7 @@ D | 63 - 66.99
 D- | 60 - 62.99 
 F  | < 60
 
-## Additional Resources
-
-- Up-to-date information from the Duke Administration: https://keeplearning.duke.edu/
-
-- [Learning Online - Student Guide](https://arc.duke.edu/sites/arc.duke.edu/files/FINAL%20-%20Learning%20Online%20Student%20Guide.pdf) by the Academic Resource Center
-
 <br><br>
-
-
 
 [Click here](https://www2.stat.duke.edu/courses/Spring20/sta210.001/index.html) to get back to the STA 210 homepage.
 
