@@ -1,0 +1,25 @@
+---
+title: "Class Prep for March 23"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- See [Preparing for Class on March 23](https://sakai.duke.edu/portal/site/7910c7f6-38be-4607-865d-adf5b0156d4c/tool/162ed866-22a7-47f7-8021-ebd130edbf0a/discussionForum/message/dfViewThread) under the "Recording & Discussions" tab for details on Sakai. 
+
+**In short:**
+
+- Active your Duke Zoom account: https://oit.duke.edu/what-we-do/applications/zoom-meetings
+  - If you need help getting access to Zoom, call or chat with a member of the OIT Help Desk: https://oit.duke.edu/help
+  
+- If you have't already, please fill out the course survey about your learning environment for the rest of the semester:  http://bit.ly/sta210-remote-survey
+
+- Read through the course updates and write down any questions:
+
+  - [Remote Learning Updates](https://www2.stat.duke.edu/courses/Spring20/sta210.001/covid-19-updates.html)
+  - [Updated Course Schedule](https://www2.stat.duke.edu/courses/Spring20/sta210.001/schedule.html)
+
