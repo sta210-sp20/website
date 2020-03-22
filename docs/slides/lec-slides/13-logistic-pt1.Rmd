@@ -1,7 +1,7 @@
 ---
 title: "Logistic Regression"
-author: "Dr. Maria Tackett"
-date: "10.21.19"
+author: "Prof. Maria Tackett"
+date: "03.25.20"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -49,13 +49,13 @@ class: middle, center
 
 .vocab[Quantitative response variable]: 
 - Sales price of a house in Levittown, NY
-- **Model**: <font color = "blue"> mean sales price</font> given certain values of the predictor variables (`bedrooms`, `lot_size`, `year_built`, etc.) 
+- **Model**: variation in the <font color = "blue"> mean sales price</font> given values of the predictor variables (`bedrooms`, `lot_size`, `year_built`, etc.) 
 
 --
 
 .vocab[Categorical response variable]: 
 - Patient at risk of coronary heart disease (Yes/No)
-- **Model**: <font color = "blue">probability a patient is at risk of coronary heart disease</font> given certain values of the predictor variables (`age`, `currentSmoker`, `cholesterol`, etc.)
+- **Model**: variation in the <font color = "blue">probability a patient is at risk of coronary heart disease</font> given values of the predictor variables (`age`, `currentSmoker`, `totChol`, etc.)
 
 ---
 
@@ -98,12 +98,12 @@ include_graphics("img/13/live-win-prob.png")
 ]
 
 .pull-right[
-[FiveThirtyEight 2019: Sweet Sixteen Live Win Probabilities](https://projects.fivethirtyeight.com/2019-march-madness-predictions/)
+[FiveThirtyEight: 2019 March MadnessLive Win Probabilities](https://projects.fivethirtyeight.com/2019-march-madness-predictions/)
 ]
 
 <br>
 
-*"These probabilities are derived using logistic regression analysis, which lets us plug the current state of a game into a model to produce the probability that either team will win the game.*
+*"These probabilities are derived using .vocab[logistic regression analysis], which lets us plug the current state of a game into a model to produce the probability that either team will win the game.*
 <br>
 <div align="right">
 - <a href=https://fivethirtyeight.com/features/how-our-march-madness-predictions-work-2/ target="_blank">"How Our March Madness Predictions Work"<a/>
@@ -158,8 +158,8 @@ class: middle, center
 
 --
 
-- $\text{Odds(Y=1)} = \pi/(1-\pi)$
-  + Sample odds: $\hat{\pi}/(1-\hat{\pi})$
+- $\text{Odds(Y=1)} = \frac{\pi}{1-\pi}$
+  + Sample odds: $\frac{\hat{\pi}}{1-\hat{\pi}}$
 
 ---
 
@@ -175,7 +175,7 @@ $$\omega = \frac{\pi}{1-\pi}$$
 --
 
 - Ex: Suppose the sample proportion $\hat{\pi} = 0.3$. Then, the sample odds are 
-$$\hat{\omega} = \frac{0.3}{1-0.03} = 0.4286$$
+$$\hat{\omega} = \frac{0.3}{1-0.03} = 0.4286 \approx \text{ 2 in 5}$$
 
 ---
 
@@ -199,7 +199,7 @@ $$\hat{\omega} = \frac{0.3}{1-0.03} = 0.4286$$
 
 ### Risk of coronary heart disease 
 
-This dataset is from an ongoing cardiovascular study on residents of the town of Framingham, Massachusetts. The goal is to predict whether a patient has a 10-year risk of future coronary heart disease.
+This dataset is from an ongoing cardiovascular study on residents of the town of Framingham, Massachusetts. We want to predict if a patient has a high risk of getting coronary heart disease in the next 10 years. 
 
 **Response**: 
 
@@ -314,9 +314,22 @@ $$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$
 $$0 \leq \pi \leq 1 \hspace{5mm} \Rightarrow \hspace{5mm} -\infty < 
 \log\Big(\frac{\pi}{1-\pi}\Big) < \infty$$
 
-```{r  echo = F, fig.align = "center", fig.cap="OpenIntro Statistics, 4th ed (pg. 373)"}
+```{r  echo = F, fig.align = "center", fig.cap="OpenIntro Statistics, 4th ed (pg. 373)", out.width = "90%"}
 include_graphics("img/13/logit.png")
 ```
+
+
+---
+
+### Estimating the coefficients
+
+- Estimate coefficients using **maximum likelihood estimation**
+
+- <font class="vocab">Basic Idea: </font>
+  + Find values of $\hat{\beta}_0$ and $\hat{\beta}_1$ that give observed data the maximum probability of occuring
+  + More details pg. 156 - 157 of the textbook
+
+- We will fit logistic regression models using R
 
 ---
 
@@ -370,18 +383,6 @@ If $x$ is a <u>categorical</u> predictor. Suppose $x_i = k$
 
 ---
 
-### Estimating the coefficients
-
-- Estimate coefficients using **maximum likelihood estimation**
-
-- <font class="vocab">Basic Idea: </font>
-  + Find values of $\beta_0$ and $\beta_1$ that make observed values of $y$ the most likely to have occurred
-  + More details pg. 156 - 157 of the textbook
-
-- We will fit logistic regression models using R
-
----
-
 ### Modeling risk of coronary heart disease
 
 Let's use the mean-centered variables for `age` and `totChol`. 
@@ -404,6 +405,6 @@ $$\small{\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = -2.111 + 0.081 \text{ageC
 Use the model to interpret the following. Write all interpretations in terms of the odds of a patient being high risk for coronary heart disease.
 
 1. Interpret the intercept.
-2. Interpret `ageCent` and it's 95% confidence interval.
-3. Interpret `currentSmoker1` and it's 95% confidence interval.
+2. Interpret `ageCent` and its 95% confidence interval.
+3. Interpret `currentSmoker1` and its 95% confidence interval.
 ]
