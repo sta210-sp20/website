@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Logistic Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Logistic Regression
+### Dr. Maria Tackett
+### 10.21.19
+
+---
+
+
+
+
+class: middle, center
+
+### [Click for PDF of slides](13-logistic-pt1.pdf)
+
+
+
+---
+
+class: middle, center
+
+### Part I: Categorical Response Variables
+
+---
+
+### Quantitative vs. Categorical Response Variables
+
+.vocab[Quantitative response variable]: 
+- Sales price of a house in Levittown, NY
+- **Model**: &lt;font color = "blue"&gt; mean sales price&lt;/font&gt; given certain values of the predictor variables (`bedrooms`, `lot_size`, `year_built`, etc.) 
+
+--
+
+.vocab[Categorical response variable]: 
+- Patient at risk of coronary heart disease (Yes/No)
+- **Model**: &lt;font color = "blue"&gt;probability a patient is at risk of coronary heart disease&lt;/font&gt; given certain values of the predictor variables (`age`, `currentSmoker`, `cholesterol`, etc.)
+
+---
+
+### Models for categorical response variables
+
+.pull-left[
+.vocab[Logistic Regression]
+
+2 Outcomes
+
+Agree/Disagree
+]
+
+--
+
+.pull-right[
+.vocab[Multinomial Logistic Regression]
+
+3+ Outcomes 
+
+Strongly Agree, Agree, Disagree, Strongly Disagree
+]
+
+&lt;br&gt;&lt;br&gt;
+
+--
+
+.center[
+**Let's focus on logistic regression models for now.**
+]
+
+---
+
+### FiveThirtyEight Live Win Probabilities
+
+.pull-left[
+&lt;img src="img/13/live-win-prob.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+[FiveThirtyEight 2019: Sweet Sixteen Live Win Probabilities](https://projects.fivethirtyeight.com/2019-march-madness-predictions/)
+]
+
+&lt;br&gt;
+
+*"These probabilities are derived using logistic regression analysis, which lets us plug the current state of a game into a model to produce the probability that either team will win the game.*
+&lt;br&gt;
+&lt;div align="right"&gt;
+- &lt;a href=https://fivethirtyeight.com/features/how-our-march-madness-predictions-work-2/ target="_blank"&gt;"How Our March Madness Predictions Work"&lt;a/&gt;
+&lt;/div&gt;
+
+---
+
+### 2018 Election Forecasts
+
+&lt;center&gt;
+&lt;img src="img/13/fivethirtyeight_senate.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;a href="https://projects.fivethirtyeight.com/2018-midterm-election-forecast/senate/?ex_cid=irpromo"&gt;FiveThirtyEight.com Senate forecast&lt;/a&gt;
+&lt;br&gt; 
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;img src="img/13/fivethirtyeight_house.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;a href="https://projects.fivethirtyeight.com/2018-midterm-election-forecast/house/?ex_cid=irpromo"&gt;FiveThirtyEight.com House forecast&lt;/a&gt;
+&lt;/center&gt;
+
+---
+class: middle, center
+
+*Our models are probabilistic in nature; we do a lot of thinking about these probabilities, and the goal is to develop &lt;font class="vocab"&gt;probabilistic estimates&lt;/font&gt; that hold up well under real-world conditions.*
+&lt;br&gt;
+&lt;div align="right"&gt;
+&lt;a href="https://fivethirtyeight.com/methodology/how-fivethirtyeights-house-and-senate-models-work/" target="_blank"&gt;-"How FiveThirtyEight's House, Senate, and Governor Models Work"&lt;a/&gt;
+&lt;/div&gt;
+
+---
+
+### Response Variable, `\(Y\)` 
+
+- `\(Y\)` is a binary response variable 
+  + 1: yes (success)
+  + 0: no (failure)
+
+--
+
+- `\(\text{Mean}(Y) = \pi\)`
+  + `\(\pi\)` is the proportion of "yes" responses in the population
+  + `\(\hat{\pi}\)` is the proportion of "yes" responses in the sample 
+
+--
+
+- `\(\text{Variance}(Y) = \pi(1-\pi)\)`
+  + Sample variance: `\(\hat{\pi}(1-\hat{\pi})\)`
+
+--
+
+- `\(\text{Odds(Y=1)} = \pi/(1-\pi)\)`
+  + Sample odds: `\(\hat{\pi}/(1-\hat{\pi})\)`
+
+---
+
+### Odds
+
+- Given `\(\pi\)`, the population proportion of "yes" responses (i.e. "success"), the corresponding &lt;font class="vocab3"&gt;odds&lt;/font&gt; of a "yes" response is 
+
+`$$\omega = \frac{\pi}{1-\pi}$$`
+
+
+- The *sample odds* are `\(\hat{\omega} = \frac{\hat{\pi}}{1-\hat{\pi}}\)`
+
+--
+
+- Ex: Suppose the sample proportion `\(\hat{\pi} = 0.3\)`. Then, the sample odds are 
+`$$\hat{\omega} = \frac{0.3}{1-0.03} = 0.4286$$`
+
+---
+
+### Properties of the odds
+
+- `\(\text{odds} \geq 0\)`
+
+--
+
+- If `\(\pi = 0.5\)`, then odds `\(= 1\)`
+
+--
+
+- If odds of "yes" `\(=\omega\)`, then the odds of "no" `\(=\frac{1}{\omega}\)`
+
+--
+
+- If odds of "yes" `\(=\omega\)`, then `\(\pi = \frac{\omega}{(1+\omega)}\)`
+
+---
+
+### Risk of coronary heart disease 
+
+This dataset is from an ongoing cardiovascular study on residents of the town of Framingham, Massachusetts. The goal is to predict whether a patient has a 10-year risk of future coronary heart disease.
+
+**Response**: 
+
+.vocab[`TenYearCHD`]: 
+- 0 = Patient is not high risk of having coronary heart disease in the next 10 years 
+- 1 = Patient is high risk of having coronary heart disease in the next 10 years 
+
+**Predictors**: 
+
+- .vocab[`age`]: Age at exam time.
+- .vocab[`currentSmoker`]: 0 = nonsmoker; 1 = smoker
+- .vocab[`totChol`]: total cholesterol (mg/dL)
+
+
+
+
+---
+
+### Response Variable, `TenYearCHD`
+
+
+```
+## # A tibble: 2 x 3
+##   TenYearCHD     n proportion
+##   &lt;fct&gt;      &lt;int&gt;      &lt;dbl&gt;
+## 1 0           3101      0.848
+## 2 1            557      0.152
+```
+
+
+
+- `\(\hat{\pi}\)` = 0.152
+
+--
+
+- Sample variance = 0.152 * (1- 0.152) =  0.128896
+
+--
+
+- Odds(Y = 1) = 0.152/(1 - 0.152) =  0.1792453
+
+--
+
+- Odds(Y = 0) = 1 / 0.1792453 = 5.5789474
+
+---
+
+### Let's incorporate more variables 
+
+- We want to use information about a patient's age, cholesterol, and whether or they are a smoker to understand the probability they're high risk of having coronary heart disease.
+
+- To do this, we need to fit a model! 
+
+---
+
+### Consider possible models 
+
+- `\(y\)`: Whether a patient in the sample is high risk of having coronary heart disease.
+--
+
+- `\(\pi_i = P(y_i = 1 | \text{age}_i, \text{currentSmoker}_i, \text{totChol}_i)\)`: probability a patient `\(i\)` is high risk  for coronary heart disease given their age, smoking status, and total cholesterol 
+
+--
+
+.question[
+.small[
+Let's consider fitting a multiple linear regression model. Below are 3 possible response variables. For each response variable, briefly explain why a multiple linear regression model is &lt;u&gt;**not**&lt;/u&gt; appropriate.
+
+**Model 1**: `\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 \text{age} + \hat{\beta}_2 \text{currentSmoker} + \hat{\beta}_3 \text{totChol}\)`
+
+**Model 2**: `\(\hat{\pi}_i = \hat{\beta}_0 + \hat{\beta}_1 \text{age} + \hat{\beta}_2 \text{currentSmoker} + \hat{\beta}_3 \text{totChol}\)`
+
+**Model 3**: `\(\widehat{\log(\pi)}_i = \hat{\beta}_0 + \hat{\beta}_1 \text{age} + \hat{\beta}_2 \text{currentSmoker} + \hat{\beta}_3 \text{totChol}\)`
+]
+]
+
+---
+
+class: middle, center
+
+### Part 2: Basics of logistic regression
+
+---
+
+### Logistic Regression Model 
+
+- Suppose `\(P(y_i = 1|x_i) = \pi_i\)` and `\(P(y_i = 0|x_i) = 1 - \pi_i\)`
+
+- The &lt;font class="vocab3"&gt;logistic regression model &lt;/font&gt; is
+
+`$$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$`
+&lt;br&gt; 
+
+
+- `\(\log\Big(\frac{\pi_i}{1-\pi_i}\Big)\)` is called the &lt;font class="vocab3"&gt;logit&lt;/font&gt; function
+
+---
+
+### Logit function 
+
+`$$0 \leq \pi \leq 1 \hspace{5mm} \Rightarrow \hspace{5mm} -\infty &lt; 
+\log\Big(\frac{\pi}{1-\pi}\Big) &lt; \infty$$`
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/13/logit.png" alt="OpenIntro Statistics, 4th ed (pg. 373)" width="1400" /&gt;
+&lt;p class="caption"&gt;OpenIntro Statistics, 4th ed (pg. 373)&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+### Interpreting the intercept: `\(\beta_0\)`
+
+.alert[
+`$$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$`
+]
+
+--
+
+- When `\(x=0\)`, log-odds of `\(y\)` are `\(\beta_0\)`
+    - Won't use this interpretation in practice
+
+- **When `\(x=0\)`, odds of `\(y\)` are `\(\exp\{\beta_0\}\)`**
+
+---
+
+### Interpreting slope coefficient `\(\beta_1\)`
+
+.alert[
+`$$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$`
+]
+
+If `\(x\)` is a &lt;u&gt;quantitative&lt;/u&gt; predictor
+
+- As `\(x_i\)` increases by 1 unit, we expect the log-odds of `\(y\)` to increase by `\(\beta_1\)`
+
+- **As `\(x_i\)` increases by 1 unit, the odds of `\(y\)` multiply by a factor of `\(\exp\{\beta_1\}\)`**
+
+--
+
+If `\(x\)` is a &lt;u&gt;categorical&lt;/u&gt; predictor. Suppose `\(x_i = k\)`
+
+- The difference in the log-odds between group `\(k\)` and the baseline is `\(\beta_1\)`
+- **The odds of `\(y\)` for group `\(k\)` are `\(\exp\{\beta_1\}\)` times the odds of `\(y\)` for the baseline group.**
+
+---
+
+### Inference for coefficients
+
+- The standard error is the estimated standard deviation of the sampling distribution of `\(\hat{\beta}_1\)`
+
+- We can calculate the `\(\color{blue}{C%}\)` &lt;font color="blue"&gt;confidence interval&lt;/font&gt; based on the large-sample Normal approximations
+
+- **CI for `\(\boldsymbol{\beta}_1\)`**: `$$\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)$$`
+
+.alert[
+**CI for `\(\exp\{\boldsymbol{\beta}_1\}\)`**: `$$\exp\{\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)\}$$`
+  ]
+
+---
+
+### Estimating the coefficients
+
+- Estimate coefficients using **maximum likelihood estimation**
+
+- &lt;font class="vocab"&gt;Basic Idea: &lt;/font&gt;
+  + Find values of `\(\beta_0\)` and `\(\beta_1\)` that make observed values of `\(y\)` the most likely to have occurred
+  + More details pg. 156 - 157 of the textbook
+
+- We will fit logistic regression models using R
+
+---
+
+### Modeling risk of coronary heart disease
+
+Let's use the mean-centered variables for `age` and `totChol`. 
+
+
+|term           | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:--------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept)    |   -2.111|     0.077|   -27.519|   0.000|   -2.264|    -1.963|
+|ageCent        |    0.081|     0.006|    13.477|   0.000|    0.070|     0.093|
+|currentSmoker1 |    0.447|     0.099|     4.537|   0.000|    0.255|     0.641|
+|totCholCent    |    0.003|     0.001|     2.339|   0.019|    0.000|     0.005|
+
+`$$\small{\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = -2.111 + 0.081 \text{ageCent} + 0.447 \text{currentSmoker} + 0.003 \text{totChol}}$$`
+
+---
+
+### Modeling risk of coronary heart disease
+
+`$$\small{\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = -2.111 + 0.081 \text{ageCent} + 0.447 \text{currentSmoker} + 0.003 \text{totChol}}$$`
+
+.question[
+Use the model to interpret the following. Write all interpretations in terms of the odds of a patient being high risk for coronary heart disease.
+
+1. Interpret the intercept.
+2. Interpret `ageCent` and it's 95% confidence interval.
+3. Interpret `currentSmoker1` and it's 95% confidence interval.
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

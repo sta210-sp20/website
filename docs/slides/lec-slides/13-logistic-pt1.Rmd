@@ -1,5 +1,5 @@
 ---
-title: "Comparing proportions & odds"
+title: "Logistic Regression"
 author: "Dr. Maria Tackett"
 date: "10.21.19"
 output:
@@ -28,26 +28,9 @@ knitr::opts_chunk$set(
 
 class: middle, center
 
-### [Click for PDF of slides](15-proportions-odds.pdf)
+### [Click for PDF of slides](13-logistic-pt1.pdf)
 
----
-
-### Announcements
-
-- Lab 06 due **Tuesday, Oct 22 at 11:59p**
-
-- [Reading 07](https://www2.stat.duke.edu/courses/Fall19/sta210.001/reading/reading-07.html) for Wednesday
-
-- Project Proposal **due Wed, Oct 30 at 11:59p**
-
-- Evan's Office hours: 
-    - Complete the poll: [https://doodle.com/poll/e4teb3d38cgvshwc](https://doodle.com/poll/e4teb3d38cgvshwc)
-    - Ignore the specific dates. This is for your general availability during each time slot. 
----
-
-### Packages
-
-```{r,echo=T}
+```{r, echo=F}
 library(tidyverse)
 library(knitr)
 library(broom)
@@ -58,24 +41,75 @@ library(fivethirtyeight)
 
 class: middle, center
 
-### Modeling Binary Outcomes
+### Part I: Categorical Response Variables
 
 ---
 
-### FiveThirtyEight March Madness 
-<center>
-<a href=https://projects.fivethirtyeight.com/2018-march-madness-predictions/ target="_blank" class="link">2018 March Madness Predictions</a>
-</center>
+### Quantitative vs. Categorical Response Variables
+
+.vocab[Quantitative response variable]: 
+- Sales price of a house in Levittown, NY
+- **Model**: <font color = "blue"> mean sales price</font> given certain values of the predictor variables (`bedrooms`, `lot_size`, `year_built`, etc.) 
+
+--
+
+.vocab[Categorical response variable]: 
+- Patient at risk of coronary heart disease (Yes/No)
+- **Model**: <font color = "blue">probability a patient is at risk of coronary heart disease</font> given certain values of the predictor variables (`age`, `currentSmoker`, `cholesterol`, etc.)
+
+---
+
+### Models for categorical response variables
+
+.pull-left[
+.vocab[Logistic Regression]
+
+2 Outcomes
+
+Agree/Disagree
+]
+
+--
+
+.pull-right[
+.vocab[Multinomial Logistic Regression]
+
+3+ Outcomes 
+
+Strongly Agree, Agree, Disagree, Strongly Disagree
+]
+
+<br><br>
+
+--
+
+.center[
+**Let's focus on logistic regression models for now.**
+]
+
+---
+
+### FiveThirtyEight Live Win Probabilities
+
+.pull-left[
+```{r echo = F, fig.align = "center", out.width = '100%'}
+include_graphics("img/13/live-win-prob.png")
+```
+]
+
+.pull-right[
+[FiveThirtyEight 2019: Sweet Sixteen Live Win Probabilities](https://projects.fivethirtyeight.com/2019-march-madness-predictions/)
+]
+
 <br>
 
-*Live Win Probabilities are "derived using <font color=#9B02BD>**logistic regression analysis**</font>, which lets us plug the current state of a game into a model to produce the probability that either team will win the game."*
+*"These probabilities are derived using logistic regression analysis, which lets us plug the current state of a game into a model to produce the probability that either team will win the game.*
 <br>
 <div align="right">
-<a href=https://fivethirtyeight.com/features/how-our-march-madness-predictions-work/ target="_blank">-"How Our March Madness Predictions Work"<a/>
+- <a href=https://fivethirtyeight.com/features/how-our-march-madness-predictions-work-2/ target="_blank">"How Our March Madness Predictions Work"<a/>
 </div>
----
 
- 
+---
 
 ### 2018 Election Forecasts
 
@@ -105,358 +139,271 @@ class: middle, center
 
 ---
 
-### Is it rude to recline your seat on a plane?
-
-
-```{r}
-flying <- flying %>%
-  filter(!is.na(recline_rude)) %>%
-  mutate(rude = if_else(recline_rude %in% 
-                          c("Somewhat", "Very"), 1, 0))
-```
-
-<br><br>
-
-Source: [*41 Percent of Fliers Think You're Rude If You Recline Your Seat*](https://fivethirtyeight.com/features/airplane-etiquette-recline-seat/)
-
-
----
-
 ### Response Variable, $Y$ 
 
 - $Y$ is a binary response variable 
-  + 1: yes
-  + 0: no
-
-- $Mean(Y) = p$
-  + $p$ is the proportion of "yes" responses in the population
-  
-- $Variance(Y) = p(1-p)$
-
----
-
-### Sampling Distribution of Sample Proportion 
-
-- $\color{blue}{\hat{p}}$ : average of binary responses in the sample
-  + Called the <font color="blue">sample proportion</font>
-  + This is the statistic, i.e. the estimate of $p$
-  
-- Given $\hat{p}$ is the sample proportion based on a sample of size $n$ from a population with population proportion $p$: 
-
-$$\hat{p} \sim N\bigg(p, \frac{p(1-p)}{n}\bigg)$$
-
-...assuming $n$ is "large" (more than 5 "yes" and 5 "no")
-
----
-
-### Confidence Interval for a Single Proportion 
-
-- Approximate $C$% confidence interval for $p$ is 
-
-.alert[
-$$\begin{aligned}&\hat{p} \pm z^* SE(\hat{p})\\[15pt]
-= &\hat{p} \pm z^* \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\\\end{aligned}$$
-]
+  + 1: yes (success)
+  + 0: no (failure)
 
 --
 
-where $z^*$ is the critical value calculated from the $N(0,1)$ distribution 
+- $\text{Mean}(Y) = \pi$
+  + $\pi$ is the proportion of "yes" responses in the population
+  + $\hat{\pi}$ is the proportion of "yes" responses in the sample 
 
 --
 
-```{r}
-# Critical value for 90% CI
-qnorm(0.95)
-```
-
----
-
-### Opinions about reclining: 90% CI
-
-```{r}
-crit.val <- qnorm(0.95)
-```
-
-```{r}
-flying %>%
-  summarise(n = n(), 
-            p_hat = sum(rude)/n, 
-            se = sqrt(p_hat*(1-p_hat)/n), 
-            lb = p_hat - crit.val*se,
-            ub = p_hat + crit.val*se)
-```
-
-```{r echo=F}
-lb <- flying %>%
-  summarise(n = n(), 
-            p_hat = sum(rude)/n, 
-            se = sqrt(p_hat*(1-p_hat)/n), 
-            LB = p_hat - crit.val*se) %>% pull()
-
-ub <- flying %>%
-  summarise(n = n(), 
-            p_hat = sum(rude)/n, 
-            se = sqrt(p_hat*(1-p_hat)/n), 
-            UB = p_hat + crit.val*se) %>% pull()
-```
-
-We are 90% confident that the interval `r round(lb,3)` to `r round(ub,3)` contains the true proportion of fliers who think reclining your seat on a plane is rude.
- 
----
-
-### Sampling Distribution for Difference in Two Proportions
-
-- Let $\hat{p}_1$ and $\hat{p}_2$ be sample proportions from independent random samples of size $n_1$ and $n_2$, respectively: 
-
-$$\hat{p}_1 - \hat{p}_2 \sim N\bigg(p_1 - p_2, \frac{p_1(1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}\bigg)$$
-<br>
-
-... assuming $n_1$ and $n_2$ are "large" (at least 5 "yes" and "no" in each sample)
----
-
-### Confidence Interval for Difference in Proportions
-
-- Approximate $C$% confidence interval for $p_1 - p_2$ is 
-
-$$\begin{aligned}&(\hat{p}_1 - \hat{p}_2) \pm z^* \times SE(\hat{p}_1 - \hat{p}_2)\\[15pt]
-=~ &(\hat{p}_1 - \hat{p}_2) \pm z^* \times \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}\end{aligned}$$
-
-<br>
+- $\text{Variance}(Y) = \pi(1-\pi)$
+  + Sample variance: $\hat{\pi}(1-\hat{\pi})$
 
 --
 
-where $z^*$ is the critical value calculated from the $N(0,1)$ distribution 
+- $\text{Odds(Y=1)} = \pi/(1-\pi)$
+  + Sample odds: $\hat{\pi}/(1-\hat{\pi})$
 
 ---
 
-### Opinions about reclining by age
+### Odds
+
+- Given $\pi$, the population proportion of "yes" responses (i.e. "success"), the corresponding <font class="vocab3">odds</font> of a "yes" response is 
+
+$$\omega = \frac{\pi}{1-\pi}$$
+
+
+- The *sample odds* are $\hat{\omega} = \frac{\hat{\pi}}{1-\hat{\pi}}$
+
+--
+
+- Ex: Suppose the sample proportion $\hat{\pi} = 0.3$. Then, the sample odds are 
+$$\hat{\omega} = \frac{0.3}{1-0.03} = 0.4286$$
+
+---
+
+### Properties of the odds
+
+- $\text{odds} \geq 0$
+
+--
+
+- If $\pi = 0.5$, then odds $= 1$
+
+--
+
+- If odds of "yes" $=\omega$, then the odds of "no" $=\frac{1}{\omega}$
+
+--
+
+- If odds of "yes" $=\omega$, then $\pi = \frac{\omega}{(1+\omega)}$
+
+---
+
+### Risk of coronary heart disease 
+
+This dataset is from an ongoing cardiovascular study on residents of the town of Framingham, Massachusetts. The goal is to predict whether a patient has a 10-year risk of future coronary heart disease.
+
+**Response**: 
+
+.vocab[`TenYearCHD`]: 
+- 0 = Patient is not high risk of having coronary heart disease in the next 10 years 
+- 1 = Patient is high risk of having coronary heart disease in the next 10 years 
+
+**Predictors**: 
+
+- .vocab[`age`]: Age at exam time.
+- .vocab[`currentSmoker`]: 0 = nonsmoker; 1 = smoker
+- .vocab[`totChol`]: total cholesterol (mg/dL)
+
 
 ```{r echo = F}
-flying %>% 
-  filter(age %in% c("18-29", "30-44")) %>%
-  group_by(age, rude) %>%
-  summarise(n = n()) %>%
-  spread(rude, n) %>%
-  kable(format="markdown")
+heart_data <- read_csv("data/framingham.csv") %>%
+  drop_na() %>%
+  mutate(currentSmoker = as.factor(currentSmoker), 
+         TenYearCHD = as.factor(TenYearCHD), 
+         ageCent = age - mean(age), 
+         totCholCent = totChol - mean(totChol))
 ```
-
---
-
-**Is there a significant difference in the proportion of 18-29 year olds versus 30-44 year olds who think reclining a seat on a plane is rude?**
 
 ---
 
-### Opinions about reclining by age: 90% CI
+### Response Variable, `TenYearCHD`
 
-```{r}
-flying %>% 
-  filter(age %in% c("18-29", "30-44")) %>%
-  group_by(age) %>%
-  summarise(n = n(), 
-            p_hat = round(sum(rude)/n,3)) %>% kable(format="markdown")
+```{r echo = F}
+heart_data %>%
+  count(TenYearCHD) %>%
+  mutate(proportion  = n/sum(n))
 ```
 
-.question[
-1. Calculate a 90% confidence interval for the difference in proportion of 18-29 year olds and 30-44 year olds who think reclining a seat on a plane is rude. Interpret the interval. 
+```{r echo = F}
+phat <- heart_data %>%
+  count(TenYearCHD) %>%
+  mutate(proportion  = n/sum(n)) %>%
+  filter(TenYearCHD == 1) %>%
+  select(proportion) %>%
+  pull() %>% round(3)
+```
 
-3. Based on the interval, is there evidence of a significant difference in proportions between the two groups?
+- $\hat{\pi}$ = `r phat`
+
+--
+
+- Sample variance = 0.152 * (1- 0.152) =  `r phat*(1-phat)`
+
+--
+
+- Odds(Y = 1) = 0.152/(1 - 0.152) =  `r phat/(1-phat)`
+
+--
+
+- Odds(Y = 0) = 1 / 0.1792453 = `r (1-phat)/phat`
+
+---
+
+### Let's incorporate more variables 
+
+- We want to use information about a patient's age, cholesterol, and whether or they are a smoker to understand the probability they're high risk of having coronary heart disease.
+
+- To do this, we need to fit a model! 
+
+---
+
+### Consider possible models 
+
+- $y$: Whether a patient in the sample is high risk of having coronary heart disease.
+--
+
+- $\pi_i = P(y_i = 1 | \text{age}_i, \text{currentSmoker}_i, \text{totChol}_i)$: probability a patient $i$ is high risk  for coronary heart disease given their age, smoking status, and total cholesterol 
+
+--
+
+.question[
+.small[
+Let's consider fitting a multiple linear regression model. Below are 3 possible response variables. For each response variable, briefly explain why a multiple linear regression model is <u>**not**</u> appropriate.
+
+**Model 1**: $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 \text{age} + \hat{\beta}_2 \text{currentSmoker} + \hat{\beta}_3 \text{totChol}$
+
+**Model 2**: $\hat{\pi}_i = \hat{\beta}_0 + \hat{\beta}_1 \text{age} + \hat{\beta}_2 \text{currentSmoker} + \hat{\beta}_3 \text{totChol}$
+
+**Model 3**: $\widehat{\log(\pi)}_i = \hat{\beta}_0 + \hat{\beta}_1 \text{age} + \hat{\beta}_2 \text{currentSmoker} + \hat{\beta}_3 \text{totChol}$
+]
 ]
 
 ---
 
 class: middle, center
 
-**What are some potential difficulties with reporting results using the difference in proportions? Or proportions/percentages in general?**
+### Part 2: Basics of logistic regression
 
 ---
 
-### Odds
+### Logistic Regression Model 
 
-- Given $p$, the population proportion of "yes" responses, the corresponding <font class="vocab3">odds</font> of a "yes" response is 
+- Suppose $P(y_i = 1|x_i) = \pi_i$ and $P(y_i = 0|x_i) = 1 - \pi_i$
 
-$$\omega = \frac{p}{1-p}$$
+- The <font class="vocab3">logistic regression model </font> is
+
+$$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$
+<br> 
 
 
-- The *sample odds* are $\hat{\omega} = \frac{\hat{p}}{1-\hat{p}}$
+- $\log\Big(\frac{\pi_i}{1-\pi_i}\Big)$ is called the <font class="vocab3">logit</font> function
 
-```{r echo=F}
-p_hat <- flying %>% 
-  summarise(n = n(), 
-            p_hat = round(sum(rude)/n,3)) %>% pull()
+---
+
+### Logit function 
+
+$$0 \leq \pi \leq 1 \hspace{5mm} \Rightarrow \hspace{5mm} -\infty < 
+\log\Big(\frac{\pi}{1-\pi}\Big) < \infty$$
+
+```{r  echo = F, fig.align = "center", fig.cap="OpenIntro Statistics, 4th ed (pg. 373)"}
+include_graphics("img/13/logit.png")
 ```
 
-- **Ex.**
-  + proportion of fliers who think reclining is rude: `r p_hat`.
-  + odds a flier thinking reclining is rude: `r round(p_hat/(1-p_hat),3)` to 1
-
 ---
 
-### Properties of the odds
-
-- $\text{odds } \geq 0$
-
-- If $\hat{p} = 0.5$, then odds $=1$
-
-- If odds of "yes" $=\omega$, then the odds of "no" $=\frac{1}{\omega}$
-
-- If odds of "yes" $=\omega$, then $\hat{p} = \frac{\omega}{(1+\omega)}$ 
-
----
-
-### Odds ratio
-
-- Suppose we have two populations with proportions $p_1$ and $p_2$ and odds $\omega_1$ and $\omega_2$
-
-- The <font class="vocab">odds ratio</font> is $\phi = \frac{\omega_1}{\omega_2}$
-  + *Estimate*: $\hat{\phi} = \frac{\hat{\omega}_1}{\hat{\omega}_2}$
-
-- Good alternative to the difference in proportions
-
-- .vocab[Intepretation]: The odds of "yes" in group 1 is $\phi$ times the odds of "yes" in group 2
-
----
-
-### Why use Odds Ratio? 
-
-- In practice, the odds ratio is more consistent across levels of confounding variables 
-
-- The odds ratio is more easily interpreted / understood 
-
-- The odds ratio can be easily extended to regression analysis
-
----
-
-### Sampling distribution of log(odds ratio)
-
-- Let $\hat{\omega}_1$ and $\hat{\omega}_2$ be sample odds from independent random samples of size $n_1$ and $n_2$, respectively: 
-
-$$\log(\hat{\phi}) = \log\bigg(\frac{\hat{\omega}_1}{\hat{\omega}_2}\bigg) \approx N\bigg(\log\bigg(\frac{\omega_1}{\omega_2}\bigg), \frac{1}{n_1p_1(1-p_1)} + \frac{1}{n_2p_2(1-p_2)}\bigg)$$
-<br>
-
-... assuming $n_1$ and $n_2$ are "large" based on the thresholds for difference in proportions
-
-
----
-
-### Confidence Interval for Log Odds Ratio
-
-- Approximate $C$% confidence interval for $\log(\phi)$ is 
+### Interpreting the intercept: $\beta_0$
 
 .alert[
-$$\begin{aligned}&\log(\hat{\phi}) \pm z^* \times SE[\log(\hat{\phi})]\\[15pt]
-=\hspace{2mm} &\log(\hat{\phi}) \pm z^* \times \sqrt{\frac{1}{n_1\hat{p}_1(1-\hat{p}_1)} + \frac{1}{n_2\hat{p}_2(1-\hat{p}_2)}}\\\end{aligned}$$
+$$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$
 ]
 
 --
 
-where $z^*$ is the critical value calculated from the $N(0,1)$ distribution 
+- When $x=0$, log-odds of $y$ are $\beta_0$
+    - Won't use this interpretation in practice
+
+- **When $x=0$, odds of $y$ are $\exp\{\beta_0\}$**
 
 ---
 
-### Confidence Interval for Odds Ratio
-
-Suppose $LB$ and $UB$ are the lower and upper bounds of the $C$% confidence interval for the log odds ratio, $\log(\phi)$
+### Interpreting slope coefficient $\beta_1$
 
 .alert[
-The $C$% confidence interval for the odds ratio, $\phi$ is 
-
-$$\exp\{LB\} \text{ to }\exp\{UB\}$$
+$$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$
 ]
+
+If $x$ is a <u>quantitative</u> predictor
+
+- As $x_i$ increases by 1 unit, we expect the log-odds of $y$ to increase by $\beta_1$
+
+- **As $x_i$ increases by 1 unit, the odds of $y$ multiply by a factor of $\exp\{\beta_1\}$**
+
+--
+
+If $x$ is a <u>categorical</u> predictor. Suppose $x_i = k$
+
+- The difference in the log-odds between group $k$ and the baseline is $\beta_1$
+- **The odds of $y$ for group $k$ are $\exp\{\beta_1\}$ times the odds of $y$ for the baseline group.**
 
 ---
 
-### Opinions about reclining seat
+### Inference for coefficients
 
-```{r}
-flying %>% 
-  filter(age %in% c("18-29", "30-44")) %>%
-  group_by(age) %>%
-  summarise(n = n(), 
-            p_hat = round(sum(rude)/n,3),
-            odds = round(p_hat/(1-p_hat),3))
+- The standard error is the estimated standard deviation of the sampling distribution of $\hat{\beta}_1$
+
+- We can calculate the $\color{blue}{C%}$ <font color="blue">confidence interval</font> based on the large-sample Normal approximations
+
+- **CI for $\boldsymbol{\beta}_1$**: $$\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)$$
+
+.alert[
+**CI for $\exp\{\boldsymbol{\beta}_1\}$**: $$\exp\{\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)\}$$
+  ]
+
+---
+
+### Estimating the coefficients
+
+- Estimate coefficients using **maximum likelihood estimation**
+
+- <font class="vocab">Basic Idea: </font>
+  + Find values of $\beta_0$ and $\beta_1$ that make observed values of $y$ the most likely to have occurred
+  + More details pg. 156 - 157 of the textbook
+
+- We will fit logistic regression models using R
+
+---
+
+### Modeling risk of coronary heart disease
+
+Let's use the mean-centered variables for `age` and `totChol`. 
+
+```{r echo = F}
+risk_m <- glm(TenYearCHD ~ ageCent + currentSmoker + totCholCent, data = heart_data, 
+         family = binomial)
+tidy(risk_m, conf.int = TRUE) %>% kable(format = "markdown", digits = 3)
 ```
+
+$$\small{\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = -2.111 + 0.081 \text{ageCent} + 0.447 \text{currentSmoker} + 0.003 \text{totChol}}$$
+
+---
+
+### Modeling risk of coronary heart disease
+
+$$\small{\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = -2.111 + 0.081 \text{ageCent} + 0.447 \text{currentSmoker} + 0.003 \text{totChol}}$$
 
 .question[
-1. Calculate a 90% confidence interval for the odds ratio of 18-29 versus 30-44 year olds who think reclining a seat on a plane is rude. Interpret the interval.
+Use the model to interpret the following. Write all interpretations in terms of the odds of a patient being high risk for coronary heart disease.
 
-2. Based on the interval, is there evidence of a significant difference in the odds between the two groups?
+1. Interpret the intercept.
+2. Interpret `ageCent` and it's 95% confidence interval.
+3. Interpret `currentSmoker1` and it's 95% confidence interval.
 ]
-
----
-
-### Hypothesis Test for Odds Ratio
-
-- We want to test whether two groups have equal odds, i.e. $\phi = \frac{\omega_1}{\omega_2} =1$
-
-- <font class="vocab">Null Hypothesis: </font> $H_0: \log(\phi) = \log\big(\frac{\omega_1}{\omega_2}\big) = 0$
-
-- <font class="vocab">Test Statistic: </font>
-$$ z = \frac{\log(\hat{\phi}) - 0}{SE_0[\log(\hat{\phi})]} = \frac{\log(\hat{\phi}) - 0}{\sqrt{\frac{1}{n_1\hat{p}_c(1-\hat{p}_c)} + \frac{1}{n_2\hat{p}_c(1-\hat{p}_c)}}}$$
-
-
-- <font class="vocab">p-value: </font>proportion of $N(0,1)$ distribution as extreme or more extreme than the test statistic 
-
----
-
-### Standard error $SE_0[\log(\hat{\phi})]$
-
-- The null hypothesis is that odds ratio is 1, i.e.  the proportions are equal
-
-- To calculate standard error, we estimate $\hat{\pi}_c$, the sample proportion from the combined data
- 
-$$SE_0[\log(\hat{\phi})] =SE_0\bigg[\log\bigg(\frac{\hat{\omega}_1}{\hat{\omega}_2}\bigg)\bigg] = \sqrt{ \frac{1}{n_1\hat{p}_c(1-\hat{p}_c)} + \frac{1}{n_2\hat{p}_c(1-\hat{p}_c)}}$$
-
----
-
-### Opinions about reclining seat
-
-**Do the odds of thinking it's rude to recline a seat on a plane differ between 18-29 and 30-44 year olds?**
-
-```{r echo=F}
-p_c <- flying %>% 
-  filter(age %in% c("18-29", "30-44")) %>%
-  summarise(p_c = round(sum(rude)/n(),3)) %>% pull()
-```
-
-```{r echo=F}
-n <- flying %>% 
-  filter(age %in% c("18-29", "30-44")) %>%
-  group_by(age) %>%
-  summarise(n = n()) %>% pull()
-
-odds <- flying %>% 
-  filter(age %in% c("18-29", "30-44")) %>%
-  group_by(age) %>%
-  summarise(n = n(), p_hat = round(sum(rude)/n,3),
-            odds = round(p_hat/(1-p_hat),3)) %>% pull()
-```
-
-$$\begin{aligned}&H_0: \log(\phi) = 0\\
-&H_a: \log(\phi) \neq 0\\\end{aligned}$$
-
-- $\hat{p}_c$ = `r p_c`
-
-- **18 - 29**: $n =$ `r n[1]`, $\hat{\omega} =$ `r odds[1]`
-
-- **30 - 44**: $n =$ `r n[2]`, $\hat{\omega} =$ `r odds[2]`
-
-.question[
-1. Calculate the test statistic. 
-2. Calculate p-value and make a conclusion.
-]
-
----
-
-### Exam 01: 
-
-- Grades will be released after class
-
-- Notes will be returned in this week's lab
-
-- Solutions available in the Resources folder on Sakai
-
-- Attend office hours to ask about the solutions and any feedback 
-
-- Topics: 
-    - Variance of $y$ from ANOVA
-    - Violation of assumption vs. robustness
