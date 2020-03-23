@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - **Office hours start tomorrow (Tuesday, March 24)** See "Zoom Class Meetings" on [Sakai](https://sakai.duke.edu) for link to office hours
 
+- Lab 07 due Monday, March 30 at 11:59p EDT
+
 - Want to form a 210 study group? Use [Study Connect](https://arc.duke.edu/study-connect) through the Academic Resource Center
 
 ## Agenda
