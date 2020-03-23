@@ -122,7 +122,7 @@ The final letter grades will be assigned as follows:
  <span></span>     | <span></span>  
 -----------|---------------------------------
 A | $\geq$ 93
-A- | 90 - 92.22
+A- | 90 - 92.99
 B+ | 87 - 89.99
 B | 83 - 86.99
 B- | 80 - 82.99

@@ -23,7 +23,9 @@ knitr::opts_chunk$set(echo = TRUE)
   - Change your display name (First or Preferred Name, Last Initial)
   - Raise your hand
   - How to ask questions / participate in discussion
-  
+
+### Mid-semester feedback
+
 ### Updated course policies 
 
 - See [Remote Learning Updates](https://www2.stat.duke.edu/courses/Spring20/sta210.001/covid-19-updates.html) on the course website
@@ -41,7 +43,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### For Wednesday, March 25
 
-- See [Preparing for Class on March 25](https://sakai.duke.edu/portal/site/7910c7f6-38be-4607-865d-adf5b0156d4c/tool/162ed866-22a7-47f7-8021-ebd130edbf0a/discussionForum/message/dfViewThread) under the "Recordings & Discussion" tab on Sakai
+- See "Preparing for Class on March 25" under the "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
  
 - If you have't already, please fill out the course survey about your learning environment for the rest of the semester:  http://bit.ly/sta210-remote-survey
 
