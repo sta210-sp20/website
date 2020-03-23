@@ -1,0 +1,45 @@
+---
+title: "Live Lecture - March 23"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Announcements: 
+
+- **Office hours start tomorrow (Tuesday, March 24)** See "Zoom Class Meetings" on [Sakai](https://sakai.duke.edu) for link to office hours
+
+- Want to form a 210 study group? Use [Study Connect](https://arc.duke.edu/study-connect) through the Academic Resource Center
+
+## Agenda
+
+### Using Zoom 
+  - Change your display name (First or Preferred Name, Last Initial)
+  - Raise your hand
+  - How to ask questions / participate in discussion
+  
+### Updated course policies 
+
+- See [Remote Learning Updates](https://www2.stat.duke.edu/courses/Spring20/sta210.001/covid-19-updates.html) on the course website
+
+### Where to find info
+  - Slides + assignments + course materials: [Schedule page](https://www2.stat.duke.edu/courses/Spring20/sta210.001/schedule.html) on the course website
+  - Class prep + content videos: "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
+  - Live class sessions (lectures, labs, office hours): "Zoom Class Meetings" tab on [Sakai](https://sakai.duke.edu)
+  - Recording of live lecture sessions: "Zoom Class Meetings" -> "Cloud Recordings" on [Sakai](https://sakai.duke.edu)
+
+### Content recap
+
+[Regression Concept Map](regression-concept-map.pdf)
+
+
+### For Wednesday, March 25
+
+- See [Preparing for Class on March 25](https://sakai.duke.edu/portal/site/7910c7f6-38be-4607-865d-adf5b0156d4c/tool/162ed866-22a7-47f7-8021-ebd130edbf0a/discussionForum/message/dfViewThread) under the "Recordings & Discussion" tab on Sakai
+ 
+- If you have't already, please fill out the course survey about your learning environment for the rest of the semester:  http://bit.ly/sta210-remote-survey
+
