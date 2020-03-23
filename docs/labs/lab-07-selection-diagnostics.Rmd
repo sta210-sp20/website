@@ -1,6 +1,6 @@
 ---
 title: "Lab 07: Model Selection + Diagnostics"
-subtitle: "due Tue, Mar 17 at 11:59p"
+subtitle: "due Mon, Mar 30 at 11:59p"
 output: 
   tufte::tufte_html:
     css: "./sta210-labs.css"
