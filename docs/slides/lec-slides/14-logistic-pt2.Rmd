@@ -31,11 +31,7 @@ class: middle, center
 
 ### [Click for PDF of slides](14-logistic-pt2.pdf)
 
----
-
-### Packages
-
-```{r,echo=T}
+```{r,echo=F}
 library(tidyverse)
 library(knitr)
 library(broom)
@@ -44,17 +40,31 @@ library(pROC) #ROC curves
 
 ---
 
-### Review
+### Risk of coronary heart disease 
 
-- $y$: binary response
-  + 1: yes
-  + 0: no
-  
-- $Mean(y) = \pi$
+This data is from an [ongoing cardiovascular study](https://framinghamheartstudy.org/fhs-about/) on residents of the town of Framingham, Massachusetts. The goal is to predict whether a patient has a 10-year risk of future coronary heart disease.
 
-- $Var(y) = \pi(1-\pi)$
+**Response**: 
 
-- **Odds of "yes"**: $\omega = \frac{\pi}{1-\pi}$
+.vocab[`TenYearCHD`]: 
+- 0 = Patient doesn’t have 10-year risk of future coronary heart disease
+- 1 = Patient has 10-year risk of future coronary heart disease
+
+**Predictor**: 
+
+- .vocab[`age`]: Age at exam time.
+- .vocab[`currentSmoker`]: 0 = nonsmoker; 1 = smoker
+- .vocab[`totChol`]: total cholesterol (mg/dL)
+
+```{r echo = F}
+heart_data <- read_csv("data/framingham.csv") %>%
+  drop_na() %>%
+  mutate(currentSmoker = as.factor(currentSmoker), 
+         TenYearCHD = as.factor(TenYearCHD), 
+         ageCent = age - mean(age), 
+         totCholCent = totChol - mean(totChol))
+```
+
 
 ---
 
@@ -69,34 +79,6 @@ $$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$
 
 
 - $\log\Big(\frac{\pi_i}{1-\pi_i}\Big)$ is called the <font class="vocab">logit</font> function
-
----
-
-### Risk of coronary heart disease 
-
-This data is from an ongoing cardiovascular study on residents of the town of Framingham, Massachusetts. The goal is to predict whether a patient has a 10-year risk of future coronary heart disease.
-
-**Response**: 
-
-.vocab[`TenYearCHD`]: 
-- 0 = Patient doesn’t have 10-year risk of future coronary heart disease
-- 1 = Patient has 10-year risk of future coronary heart disease
-
-**Predictor**: 
-
-- .vocab[`age`]: Age at exam time.
-- .vocab[`currentSmoker`]: 0 = nonsmoker; 1 = smoker
-- .vocab[`totChol`]: total cholesterol (mg/dL)
-
-
-```{r echo = F}
-heart_data <- read_csv("data/framingham.csv") %>%
-  drop_na() %>%
-  mutate(currentSmoker = as.factor(currentSmoker), 
-         TenYearCHD = as.factor(TenYearCHD), 
-         ageCent = age - mean(age), 
-         totCholCent = totChol - mean(totChol))
-```
 
 ---
 
@@ -115,7 +97,7 @@ $$\small{\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = -2.111 + 0.081 \text{ageC
 
 class: middle, center
 
-### Part 1: Predictions & Model Fit
+### Part 1: Prediction
 
 ---
 
@@ -126,9 +108,9 @@ class: middle, center
 --
 
 - To do so
-  - We use the logistic regression model to find the predicted log-odds that an observation has a "yes" response.
-  - Then use the log-odds to calculate the predicted probability of a "yes" response.
-  - Then use the predicted probabilities to classify the observation as having a "yes" or "no" response
+  - Use the logistic regression model to calculate the predicted log-odds that an observation has a "yes" response
+  - Then, use the log-odds to calculate the predicted probability of a "yes" response
+  - Then, use the predicted probabilities to classify the observation as having a "yes" or "no" response
 
 ---
 
@@ -150,12 +132,13 @@ $$\Rightarrow \exp\bigg\{\log\Big(\frac{\hat{\pi}_i}{1-\hat{\pi}_i}\Big)\bigg\} 
 $$\Rightarrow \frac{\hat{\pi}_i}{1-\hat{\pi}_i} = \exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}$$
 --
 
-$$\Rightarrow \hat{\pi}_i = \frac{\exp\{\hat{\beta}_0 + \hat{\beta}_1 X_i\}}{1+\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}}$$
+$$\Rightarrow \hat{\pi}_i = \frac{\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}}{1+\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}}$$
+
 ---
 
 ### $\hat{\pi}$ vs. $\widehat{\text{log-odds}}$
 
-$$\hat{\pi}_i = \frac{\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}}{1 + \exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}} = \frac{\exp\{\widehat{\text{log-odds}}\}}{1 + \exp\{\widehat{\text{log-odds}}\}} $$
+$$\hat{\pi}_i = \frac{\exp(hat{\beta}_0 + \hat{\beta}_1 x_i)}{1 + \exp(\hat{\beta}_0 + \hat{\beta}_1 x_i)} = \frac{\exp(\widehat{\text{log-odds})}}{1 + \exp(\widehat{\text{log-odds}})} $$
 
 ```{r echo = F}
 
@@ -201,7 +184,8 @@ $$\hat{\pi}_i = \frac{\exp\{-1.186\}}{1 +  \exp\{-1.186\}} = 0.234$$
 ### Predictions in R
 
 ```{r}
-x0 <- data_frame(ageCent = (60 - 49.552), totCholCent = (263 - 236.848), 
+x0 <- data_frame(ageCent = (60 - 49.552), 
+                 totCholCent = (263 - 236.848), 
 currentSmoker = as.factor(0))
 ```
 
@@ -243,7 +227,7 @@ Based on this probability, would you consider this patient as being high risk fo
 
 --
 
-- **How**: Establish a threshold such that $y=1$ if predicted probability is greater than the threshold ($y=0$ otherwise)
+- **How**: Establish a threshold such that $y=1$ if predicted probability is greater than the threshold $(y = 0 \text{ otherwise})$
 
 --
 
@@ -262,7 +246,8 @@ Suppose we use 0.3 as the threshold to classify observations
 
 ```{r}
 threshold <- 0.3
-risk_m_aug <- augment(risk_m, type.predict = "response")
+risk_m_aug <- augment(risk_m, type.predict = "response", 
+                      type.residuals = "response")
 ```
 
 ```{r}
@@ -309,7 +294,7 @@ risk_m_aug %>%
 
 ---
 
-### ROC curve: considering many thresholds
+#### Receiver Operating Characteristic (ROC) curve
 
 ```{r, fig.height = 4}
 library(plotROC) #extension of ggplot2
@@ -327,42 +312,29 @@ library(plotROC) #extension of ggplot2
 ### Sensitivity & Specificity
 
 - <font class="vocab">Sensitivity: </font>Proportion of observations with $y=1$ that have predicted probability above a specified threshold
-  + Called true positive rate
+  + Called **true positive rate** (y-axis)
 
 - <font class="vocab">Specificity: </font>Proportion of observations with $y=0$ that have predicted probability below a specified threshold
-  + (1 - specificity) called **false positive rate**
+  + (1 - specificity) called **false positive rate** (x-axis)
 
 --
 
 - What we want: 
   + High sensitivity
   + Low values of 1-specificity
-
----
-
-### ROC Curve
-
-- <font class="vocab">Receive Operating Characteristic (ROC) curve </font>: 
-  + *x-axis*: False positive rate (1 - Specificity)
-  + *y-axis*: True positive rate (Sensitivity)
- 
---
- 
-- We can think of each point on the curve as representing a confusion matrix at a given threshold
-
---
-
-- We can use the area under the curve (AUC) as one way to assess how well the logistic model fits the data
-  - $AUC = 0.5$ very bad fit (no better than a coin flip)
-  - $AUC$ close to 1: good fit
   
 ---
 
-### Area under curve
+### Area under curve (AUC)
 
-```{r echo = F}
+We can use the area under the curve (AUC) as one way to assess how well the logistic model fits the data
+- $AUC = 0.5$ very bad fit (no better than a coin flip)
+- $AUC$ close to 1: good fit
+
+```{r echo = F, fig.height = 3.25}
 roc_curve
 ```
+
 
 ```{r}
 calc_auc(roc_curve)$AUC
@@ -389,15 +361,15 @@ class: middle, center
 
 We want to check the following assumptions for the logistic regression model: 
 
-1. .vocab[Linearity]: Is there a linear relationship between the log-odds and the predictor variables 
+- .vocab[Linearity]: Is there a linear relationship between the log-odds and the predictor variables?
 
 <br>
 
-2. .vocab[Randomness]: Was the sample randomly selected? Or can we reasonably treat it as random? 
+- .vocab[Randomness]: Was the sample randomly selected? Or can we reasonably treat it as random? 
 
 <br>
 
-3. .vocab[Independence]: The outcome of one observation does not affect the outcome of another observation
+- .vocab[Independence]: There is no obvious relationship between observations
 
 ---
 
@@ -420,9 +392,9 @@ We want to check the following assumptions for the logistic regression model:
 
 - Use the <font class="vocab">`binnedplot`</font> function in the **arm** package. 
     - *Tip: Don't load the **arm** package to avoid conflicts with tidyverse*
-    
+
 .small[
-```{r}
+```{r, fig.height = 4}
 arm::binnedplot(x = risk_m_aug$.fitted, y = risk_m_aug$.resid,
                 xlab = "Predicted Probabilities", 
                 main = "Binned Residual vs. Predicted Values", 
@@ -434,7 +406,7 @@ arm::binnedplot(x = risk_m_aug$.fitted, y = risk_m_aug$.resid,
 
 ### Making binned residual plot
 
-- Calculate raw residuals
+- Calculate raw residuals $(y_i - \hat{\pi}_i)$
 
 - Order observations either by the values of the predicted probabilities (or by numeric predictor variable)
 
@@ -501,13 +473,13 @@ What do you conclude about the randomness assumption for our dataset?
 
 ### Independence
 
-Assess randomness based on a description of the data collection
+Assess independence based on a description of the data collection
 
-- Does the outcome of one observation affect the outcome of the other? 
+- Is there an obvious relationship between observations? 
   - This assumption is most often violated when data was collected over time or there is a spatial relationship between observations? 
   
 .question[
-What do you conclude about the randomness assumption for our dataset?
+What do you conclude about the independence assumption for our dataset?
 ]
 
 
