@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Logistic regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Logistic regression
+## Model Predictions &amp; Assumptions
+### Prof. Maria Tackett
+### 03.30.20
+
+---
+
+
+
+
+class: middle, center
+
+### [Click for PDF of slides](14-logistic-pt2.pdf)
+
+---
+
+### Packages
+
+
+```r
+library(tidyverse)
+library(knitr)
+library(broom)
+library(pROC) #ROC curves
+```
+
+---
+
+### Review
+
+- `\(y\)`: binary response
+  + 1: yes
+  + 0: no
+  
+- `\(Mean(y) = \pi\)`
+
+- `\(Var(y) = \pi(1-\pi)\)`
+
+- **Odds of "yes"**: `\(\omega = \frac{\pi}{1-\pi}\)`
+
+---
+
+### Logistic Regression Model 
+
+- Suppose `\(P(y_i=1|x_i) = \pi_i\)` and `\(P(y_i=0|x_i) = 1-\pi_i\)`
+
+- The &lt;font class="vocab"&gt;logistic regression model &lt;/font&gt; is
+
+`$$\log\Big(\frac{\pi_i}{1-\pi_i}\Big) = \beta_0 + \beta_1 x_i$$`
+&lt;br&gt; 
+
+
+- `\(\log\Big(\frac{\pi_i}{1-\pi_i}\Big)\)` is called the &lt;font class="vocab"&gt;logit&lt;/font&gt; function
+
+---
+
+### Risk of coronary heart disease 
+
+This data is from an ongoing cardiovascular study on residents of the town of Framingham, Massachusetts. The goal is to predict whether a patient has a 10-year risk of future coronary heart disease.
+
+**Response**: 
+
+.vocab[`TenYearCHD`]: 
+- 0 = Patient doesn’t have 10-year risk of future coronary heart disease
+- 1 = Patient has 10-year risk of future coronary heart disease
+
+**Predictor**: 
+
+- .vocab[`age`]: Age at exam time.
+- .vocab[`currentSmoker`]: 0 = nonsmoker; 1 = smoker
+- .vocab[`totChol`]: total cholesterol (mg/dL)
+
+
+
+
+---
+
+### Modeling risk of coronary heart disease
+
+
+```r
+risk_m &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totCholCent, 
+              data = heart_data, family = binomial)
+tidy(risk_m, conf.int = TRUE) %&gt;% 
+  kable(format = "markdown", digits = 3)
+```
+
+
+
+|term           | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:--------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept)    |   -2.111|     0.077|   -27.519|   0.000|   -2.264|    -1.963|
+|ageCent        |    0.081|     0.006|    13.477|   0.000|    0.070|     0.093|
+|currentSmoker1 |    0.447|     0.099|     4.537|   0.000|    0.255|     0.641|
+|totCholCent    |    0.003|     0.001|     2.339|   0.019|    0.000|     0.005|
+
+`$$\small{\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = -2.111 + 0.081 \text{ageCent} + 0.447 \text{currentSmoker} + 0.003 \text{totCholCent}}$$`
+
+---
+
+class: middle, center
+
+### Part 1: Predictions &amp; Model Fit
+
+---
+
+### Using the model for prediction
+
+- We are often interested in predicting whether a given observation will have a "yes" response 
+
+--
+
+- To do so
+  - We use the logistic regression model to find the predicted log-odds that an observation has a "yes" response.
+  - Then use the log-odds to calculate the predicted probability of a "yes" response.
+  - Then use the predicted probabilities to classify the observation as having a "yes" or "no" response
+
+---
+
+### Calculating the predicted probability
+
+.alert[
+`$$\hat{\pi}_i = \frac{\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}}{1 + \exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}}$$`
+]
+
+--
+
+`$$\log\Big(\frac{\hat{\pi}_i}{1-\hat{\pi}_i}\Big) = \hat{\beta}_0 + \hat{\beta}_1 x_i$$`
+
+--
+
+`$$\Rightarrow \exp\bigg\{\log\Big(\frac{\hat{\pi}_i}{1-\hat{\pi}_i}\Big)\bigg\} = \exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}$$`
+--
+
+`$$\Rightarrow \frac{\hat{\pi}_i}{1-\hat{\pi}_i} = \exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}$$`
+--
+
+`$$\Rightarrow \hat{\pi}_i = \frac{\exp\{\hat{\beta}_0 + \hat{\beta}_1 X_i\}}{1+\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}}$$`
+---
+
+### `\(\hat{\pi}\)` vs. `\(\widehat{\text{log-odds}}\)`
+
+$$\hat{\pi}_i = \frac{\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}}{1 + \exp\{\hat{\beta}_0 + \hat{\beta}_1 x_i\}} = \frac{\exp\{\widehat{\text{log-odds}}\}}{1 + \exp\{\widehat{\text{log-odds}}\}} $$
+
+&lt;img src="14-logistic-pt2_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+### Predicted response for a patient
+
+- Suppose a patient comes in who is 60 years old, does not currently smoke, and has a total cholesterol of 263 mg/dL.
+
+--
+
+- Predicted log-odds that this person is high risk for coronary heart disease in the next 10 years: 
+`$$\small{\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = -2.111 + 0.081 \text{ageCent} + 0.447 \text{currentSmoker} + 0.003 \text{totCholCent}}$$`
+
+--
+
+`$$\begin{aligned}\log\bigg(\frac{\hat{\pi}_i}{1-\hat{\pi}_i}\bigg) = &amp;-2.111 + 0.081\times(60 - 49.552) + 0.447 \times 0 \\
+&amp;+ 0.003 \times (263 - 236.848)\approx -1.186 \end{aligned}$$`
+
+--
+
+- The probability this patient is high risk for coronary heart disease in the next 10 years: 
+
+`$$\hat{\pi}_i = \frac{\exp\{-1.186\}}{1 +  \exp\{-1.186\}} = 0.234$$`
+
+---
+
+### Predictions in R
+
+
+```r
+x0 &lt;- data_frame(ageCent = (60 - 49.552), totCholCent = (263 - 236.848), 
+currentSmoker = as.factor(0))
+```
+
+- **Predicted log-odds**
+
+
+```r
+predict(risk_m, x0) 
+```
+
+```
+##         1 
+## -1.192775
+```
+
+- **Predicted probabilities**
+
+
+```r
+predict(risk_m, x0, type = "response") 
+```
+
+```
+##         1 
+## 0.2327631
+```
+
+---
+
+### Is this patient high risk?
+
+
+
+```r
+predict(risk_m, x0, type = "response") 
+```
+
+```
+##         1 
+## 0.2327631
+```
+
+The probability the patient is at risk for coronary heart disease is 0.233.
+
+--
+
+.question[
+Based on this probability, would you consider this patient as being high risk for getting coronary heart disease in the next 10 years? Why or why not?
+]
+
+---
+
+### Confusion Matrix
+
+- We can use the predicted probability to predict the outcome for a given observation
+  - In other words, we can classify the observations into two groups: "yes" and "no"
+
+--
+
+- **How**: Establish a threshold such that `\(y=1\)` if predicted probability is greater than the threshold ($y=0$ otherwise)
+
+--
+
+- To assess the accuracy of our predictions, we can make a table of the observed (actual) response versus the predicted response.
+  + This table is the .vocab[confusion matrix]
+
+--
+
+- We can use this table to calculate the proportion of observations that were misclassifed. This is the .vocab[misclassification rate]. 
+
+---
+
+### Confusion Matrix
+
+Suppose we use 0.3 as the threshold to classify observations
+
+
+```r
+threshold &lt;- 0.3
+risk_m_aug &lt;- augment(risk_m, type.predict = "response")
+```
+
+
+```r
+risk_m_aug %&gt;%
+  mutate(risk_predict = if_else(.fitted &gt; threshold, "Yes", "No")) %&gt;%
+  group_by(TenYearCHD, risk_predict) %&gt;%
+  summarise(n = n()) %&gt;%
+  kable(format="markdown")
+```
+
+
+
+|TenYearCHD |risk_predict |    n|
+|:----------|:------------|----:|
+|0          |No           | 2899|
+|0          |Yes          |  202|
+|1          |No           |  457|
+|1          |Yes          |  100|
+
+---
+
+### Confusion matrix
+
+
+|TenYearCHD |risk_predict |    n|
+|:----------|:------------|----:|
+|0          |No           | 2899|
+|0          |Yes          |  202|
+|1          |No           |  457|
+|1          |Yes          |  100|
+&lt;br&gt;&lt;br&gt;
+
+.question[ 
+What proportion of observations were misclassified?
+
+What is the disadvantage of relying on the confusion matrix to assess the accuracy of the model?
+]
+
+---
+
+### Confusion matrix: 2 X 2 table 
+
+In practice, you often see the confusion matrix presented as a 2 `\(\times\)` 2 table as shown below: 
+
+
+```r
+risk_m_aug %&gt;%
+  mutate(risk_predict = if_else(.fitted &gt; threshold, "Yes", "No")) %&gt;%
+  group_by(TenYearCHD, risk_predict) %&gt;%
+  summarise(n = n()) %&gt;%
+  spread(risk_predict, n) %&gt;%
+  kable(format="markdown")
+```
+
+
+
+|TenYearCHD |   No| Yes|
+|:----------|----:|---:|
+|0          | 2899| 202|
+|1          |  457| 100|
+
+---
+
+### ROC curve: considering many thresholds
+
+
+```r
+library(plotROC) #extension of ggplot2
+(roc_curve &lt;- ggplot(risk_m_aug, 
+                     aes(d = as.numeric(TenYearCHD) - 1, 
+                         m = .fitted)) +
+  geom_roc(n.cuts = 10, labelround = 3) + 
+  geom_abline(intercept = 0) + 
+  labs(x = "False Positive Rate (1 - Specificity)", 
+       y = "True Positive Rate (Sensitivity)") )
+```
+
+&lt;img src="14-logistic-pt2_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Sensitivity &amp; Specificity
+
+- &lt;font class="vocab"&gt;Sensitivity: &lt;/font&gt;Proportion of observations with `\(y=1\)` that have predicted probability above a specified threshold
+  + Called true positive rate
+
+- &lt;font class="vocab"&gt;Specificity: &lt;/font&gt;Proportion of observations with `\(y=0\)` that have predicted probability below a specified threshold
+  + (1 - specificity) called **false positive rate**
+
+--
+
+- What we want: 
+  + High sensitivity
+  + Low values of 1-specificity
+
+---
+
+### ROC Curve
+
+- &lt;font class="vocab"&gt;Receive Operating Characteristic (ROC) curve &lt;/font&gt;: 
+  + *x-axis*: False positive rate (1 - Specificity)
+  + *y-axis*: True positive rate (Sensitivity)
+ 
+--
+ 
+- We can think of each point on the curve as representing a confusion matrix at a given threshold
+
+--
+
+- We can use the area under the curve (AUC) as one way to assess how well the logistic model fits the data
+  - `\(AUC = 0.5\)` very bad fit (no better than a coin flip)
+  - `\(AUC\)` close to 1: good fit
+  
+---
+
+### Area under curve
+
+&lt;img src="14-logistic-pt2_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+
+```r
+calc_auc(roc_curve)$AUC
+```
+
+```
+## [1] 0.6972743
+```
+
+---
+
+### Which threshold would you choose?
+
+.question[
+A doctor plans to use the results from your model to help select patients for a new heart disease prevention program. She asks you which threshold would be best to select patients for this program. Based on the ROC curve from the previous slide, which threshold would you recommend to the doctor? Why?
+]
+
+
+---
+
+class: middle, center
+
+### Part 2: Checking Assumptions 
+
+---
+
+### Assumptions for logistic regression 
+
+We want to check the following assumptions for the logistic regression model: 
+
+1. .vocab[Linearity]: Is there a linear relationship between the log-odds and the predictor variables 
+
+&lt;br&gt;
+
+2. .vocab[Randomness]: Was the sample randomly selected? Or can we reasonably treat it as random? 
+
+&lt;br&gt;
+
+3. .vocab[Independence]: The outcome of one observation does not affect the outcome of another observation
+
+---
+
+### Linearity: binned residual plots
+
+- It is not useful to plot the raw residuals, so we will examine binned residual plots 
+
+**When examining binned residuals**
+    
+- Plot should have no discernible pattern or trend
+  - Nonlinear trend may be indication that squared term or log transformation of predictor variable required
+
+- If bins have average residuals with large magnitude
+  + Look at averages of other predictor variables across bins
+  + Interaction may be required if large magnitude residuals correspond to certain combinations of predictor variables
+  
+---
+
+### Binned plot vs. predicted values
+
+- Use the &lt;font class="vocab"&gt;`binnedplot`&lt;/font&gt; function in the **arm** package. 
+    - *Tip: Don't load the **arm** package to avoid conflicts with tidyverse*
+    
+.small[
+
+```r
+arm::binnedplot(x = risk_m_aug$.fitted, y = risk_m_aug$.resid,
+                xlab = "Predicted Probabilities", 
+                main = "Binned Residual vs. Predicted Values", 
+                col.int = FALSE)
+```
+
+&lt;img src="14-logistic-pt2_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Making binned residual plot
+
+- Calculate raw residuals
+
+- Order observations either by the values of the predicted probabilities (or by numeric predictor variable)
+
+- Use the ordered data to create *g* bins of approximately equal size. Default value: `\(g = \sqrt{n}\)`
+
+- Calculate average residual value in each bin
+
+- Plot average residuals vs. average predicted probability (or average predictor value)
+
+---
+
+###  Residuals vs. `Age`
+
+Make binned plot with predictor on `\(x\)` axis
+
+
+```r
+arm::binnedplot(x = risk_m_aug$ageCent, 
+                y = risk_m_aug$.resid, 
+                col.int = FALSE,
+                xlab = "Age (Mean-Centered)", 
+                main = "Binned Residual vs. Age")
+```
+
+&lt;img src="14-logistic-pt2_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Residuals vs. `totChol`
+
+
+
+```r
+arm::binnedplot(x = risk_m_aug$totCholCent, 
+                y = risk_m_aug$.resid, 
+                col.int = FALSE,
+                xlab = "Total Cholesterol (Mean-Centered)", 
+                main = "Binned Residual vs. Total Cholesterol")
+```
+
+&lt;img src="14-logistic-pt2_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Residuals vs. categorical predictors 
+
+- Calculate average residual for each level of the predictor
+    - Are all means close to 0? If not, there is a problem with model fit.
+    
+
+```r
+risk_m_aug %&gt;%
+  group_by(currentSmoker) %&gt;%
+  summarise(mean_resid = mean(.resid))
+```
+
+```
+## # A tibble: 2 x 2
+##   currentSmoker mean_resid
+##   &lt;fct&gt;              &lt;dbl&gt;
+## 1 0                 -0.178
+## 2 1                 -0.175
+```
+
+---
+
+### Randomness
+
+Assess randomness based on a description of the data collection
+
+- Was the sample randomly selected?
+- If the sample was not randomly selected, is there reason to believe the observations in the sample differ systematically from the population of interest? 
+
+.question[
+What do you conclude about the randomness assumption for our dataset?
+]
+
+---
+
+### Independence
+
+Assess randomness based on a description of the data collection
+
+- Does the outcome of one observation affect the outcome of the other? 
+  - This assumption is most often violated when data was collected over time or there is a spatial relationship between observations? 
+  
+.question[
+What do you conclude about the randomness assumption for our dataset?
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
