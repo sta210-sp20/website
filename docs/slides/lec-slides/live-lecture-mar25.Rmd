@@ -1,0 +1,55 @@
+---
+title: "Live Lecture - March 25"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Announcements: 
+
+- Labs resume tomorrow. See "Zoom Class Meetings" on Sakai for the link to your lab. 
+  - Please let your lab group know if you are unable to attend lab.
+  
+- **Office hours**: See "Zoom Class Meetings" on [Sakai](https://sakai.duke.edu) for link to office hours
+
+- Lab 07 due **Monday, March 30 at 11:59p EDT**
+
+- Want to form a 210 study group? Use [Study Connect](https://arc.duke.edu/study-connect) through the Academic Resource Center
+
+## Agenda
+
+### Recap: Using Zoom
+  - Change your display name (First or Preferred Name, Last Initial)
+  - Raise your hand
+  - How to ask questions / participate in discussion
+
+### Questions about updated course policies?
+
+### Logistic Regression: The Basics 
+
+
+
+
+### For Monday, March 30
+
+- See "Preparing for Class on March 30" under the "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
+ 
+- Complete survey about project (will be emailed later this week)
+
+
+<hr>
+
+
+
+### Where to find info
+- See [Remote Learning Updates](https://www2.stat.duke.edu/courses/Spring20/sta210.001/covid-19-updates.html) on the course website
+- Slides + assignments + course materials: [Schedule page](https://www2.stat.duke.edu/courses/Spring20/sta210.001/schedule.html) on the course website
+- Class prep + content videos: "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
+- Live class sessions (lectures, labs, office hours): "Zoom Class Meetings" tab on [Sakai](https://sakai.duke.edu)
+- Recording of live lecture sessions: "Zoom Class Meetings" -> "Cloud Recordings" on [Sakai](https://sakai.duke.edu)
+
+
