@@ -42,19 +42,20 @@ library(pROC) #ROC curves
 
 ### Risk of coronary heart disease 
 
-This data is from an [ongoing cardiovascular study](https://framinghamheartstudy.org/fhs-about/) on residents of the town of Framingham, Massachusetts. The goal is to predict whether a patient has a 10-year risk of future coronary heart disease.
+This dataset is from an ongoing cardiovascular study on residents of the town of Framingham, Massachusetts. We want to predict if a patient has a high risk of getting coronary heart disease in the next 10 years. 
 
 **Response**: 
 
 .vocab[`TenYearCHD`]: 
-- 0 = Patient doesn’t have 10-year risk of future coronary heart disease
-- 1 = Patient has 10-year risk of future coronary heart disease
+- 0 = Patient is not high risk of having coronary heart disease in the next 10 years 
+- 1 = Patient is high risk of having coronary heart disease in the next 10 years 
 
-**Predictor**: 
+**Predictors**: 
 
 - .vocab[`age`]: Age at exam time.
 - .vocab[`currentSmoker`]: 0 = nonsmoker; 1 = smoker
 - .vocab[`totChol`]: total cholesterol (mg/dL)
+
 
 ```{r echo = F}
 heart_data <- read_csv("data/framingham.csv") %>%

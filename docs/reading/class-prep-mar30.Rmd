@@ -1,0 +1,22 @@
+---
+title: "Class Prep for March 30"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- See Preparing for Class on March 30 under the "Recording & Discussions" tab for details on [Sakai](https://sakai.duke.edu). 
+
+**In short:**
+
+- Watch the 2 lecture content videos (on Sakai)
+  
+- Slides for lecture content videos: [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/14-logistic-pt2.html) or [PDF](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/14-logistic-pt2.pdf)
+
+- Reading: Handbook on Regression Analysis (available on Sakai)
+  - Sections 8.1, 8.2.1, 8.2.2, 8.3.1
+  

@@ -1,0 +1,32 @@
+---
+title: "Lab: Group Planning"
+subtitle: ""
+output:
+    html_document: 
+      theme: yeti
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning=FALSE, 
+                      message=FALSE,
+                      eval=FALSE)
+```
+
+There are two goals for today's lab:
+
+1. To finish Lab 07 (due Monday, March 30 at 11:59p EDT)
+2. To determine the feasibility of working as a group on the project. Ideally you can continue working with the same lab group, but I understand we may need to make adjustments given the new circumstances.
+
+See [this guide](https://online.drexel.edu/news/group-tips.aspx) for working on group projects remotely. You can use it as a reference as your group discusses a strategy for the rest of the semester. 
+
+A few questions you help guide your group discussion: 
+
+1. What are the group members' time zones for the rest of the semester? Are at least two group members able to attend the live lab session during the regularly scheduled time? 
+
+2. Is there a time available where the group can meet using [Zoom](https://oit.duke.edu/what-we-do/applications/zoom-meetings), [Slack](https://slack.com/), [MS Teams](https://teamsdemo.office.com/) or another collaboration platform to work together on assignments? Take some times to try to establish a day and time your group can meet.
+
+3. What will be the primary method of group communication - email, Slack, MS Teams, etc.?
+
+During lab, your TA will drop into your breakout room to see how the planning is going, answer any questions or concerns, and help you think through options for working together. 
