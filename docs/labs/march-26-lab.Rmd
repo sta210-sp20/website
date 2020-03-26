@@ -16,8 +16,10 @@ knitr::opts_chunk$set(echo = TRUE,
 
 There are two goals for today's lab:
 
-1. To finish Lab 07 (due Monday, March 30 at 11:59p EDT)
-2. To determine the feasibility of working as a group on the project. Ideally you can continue working with the same lab group, but I understand we may need to make adjustments given the new circumstances.
+1. To finish [Lab 07](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-07-selection-diagnostics.html) (due Monday, March 30 at 11:59p EDT)
+2. To determine the feasibility of working as a group on the project. Ideally you can continue working with the same lab group, but I understand we may need to make adjustments given the new circumstances. 
+
+Once you talk with your group, please fill out this  [short survey](https://duke.qualtrics.com/jfe/form/SV_7TEvnkNgh6fQHXv) about your preference for doing group work, primarily the project, going forward.
 
 See [this guide](https://online.drexel.edu/news/group-tips.aspx) for working on group projects remotely. You can use it as a reference as your group discusses a strategy for the rest of the semester. 
 
@@ -30,3 +32,6 @@ A few questions you help guide your group discussion:
 3. What will be the primary method of group communication - email, Slack, MS Teams, etc.?
 
 During lab, your TA will drop into your breakout room to see how the planning is going, answer any questions or concerns, and help you think through options for working together. 
+
+Please fill out this [short survey](https://duke.qualtrics.com/jfe/form/SV_7TEvnkNgh6fQHXv) about your preference for doing group work, primarily the project, going forward.
+

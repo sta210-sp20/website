@@ -9,6 +9,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+[Timestamped slides from the live session](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/mar-25-live-lecture-timestamped.pdf)
+
 ## Announcements: 
 
 - Labs resume tomorrow. See "Zoom Class Meetings" on Sakai for the link to your lab. 
@@ -32,7 +34,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Logistic Regression: The Basics 
 
 - Slides: [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/13-logistic-pt1.html) or [PDF](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/13-logistic-pt1.pdf)
-
 
 ### For Monday, March 30
 
