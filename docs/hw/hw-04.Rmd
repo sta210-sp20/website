@@ -1,5 +1,5 @@
 ---
-title: "HW 04"
+title: "HW 04: Logistic Regression"
 subtitle: "due Wed, Apr 8 at 11:59p EDT"
 author: ""
 date: ""
@@ -16,17 +16,21 @@ knitr::opts_chunk$set(echo = TRUE,
                       message=FALSE)
 ```
 
-<br><br>
-*Instructions will be available when the homework is assigned.*
 
-
-<!--
 # Getting Started
 
-- Go to the sta210-fa19 organization on GitHub ([https://github.com/sta210-fa19](https://github.com/sta210-fa19)). Click on the repo with the prefix **hw-04**. It contains the starter documents you need to complete the lab.
-- Clone the repo in RStudio Cloud
-- Configure git using the `use_git_config()` function. You can also cache your password.
+A brief outline of getting started is shown below. See the [Lab 01 Instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html) for more details about the steps. 
 
+- Go to the sta210-sp20 organization on GitHub ([https://github.com/sta210-sp20](https://github.com/sta210-sp20)). Click on the repo with the prefix **hw-04**. It contains the starter documents you need to complete the lab.
+- Clone the repo in RStudio Cloud
+
+## Tips
+
+Here are some tips as you complete HW 04:
+
+- Periodically knit your document and commit changes (the more often the better, for example, once per each new task)
+- Push all your changes back to your GitHub repo. The Git pane in RStudio should be empty after you push. You can also check your assignment repo on github.com to make sure it has updated.
+- Once you have completed your work, you will submit your assignment in Gradescope. You are welcome to resubmit multiple times until the assignment deadline. We will grade the most recent version of the .pdf file in Gradescope.
 
 ## Packages 
 
@@ -36,89 +40,110 @@ We will use the following packages in this assignment:
 library(tidyverse)
 library(broom)
 library(knitr) 
-library(rms)
+library(pROC)
+
+#include other packages as needed
 ```
 
-## Data 
-
-The data for this homework assignment is based on the data from [Lab 05](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/lab-05-mlr-airbnb.html) - the  Airbnb listings in Asheville, NC. See the Lab 05 instructions for more information about the original data source. 
-
-```{r eval = F}
-airbnb_mod <- read_csv("data/airbnb_mod.csv")
-```
-
-This dataset only contains Airbnb listings with a with a minimum night $\leq 3$. We will use the following variables
-
-- `price`: Cost per night (in U.S. dollars)
-- `cleaning_fee`: Cleaning fee (in U.S. dollars)
-- `price_3_nights`: Total cost for 3 nights, calculated as `3 * price + cleaning_fee`
-- `prop_type_simp`: Type of dwelling (House, Apartment, Guest suite, Other)
-- `room_type`: 
-    - *Entire home/apt* (guests have entire place to themselves)
-    - *Private room* (Guests have private room to sleep, all other rooms shared)
-    - *Shared room* (Guests sleep in room shared with others) 
-- `number_of_reviews`: Total number of reviews for the listing
-- `review_scores_rating`: Average review score (0 - 100)
 
 
 # Questions
 
-This homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences. You are only required to do what is asked for each question. You are *not* required to include any additional analysis.
+## Part 1: Conceptual 
 
-**Consider only the observations that have no missing values for `price_3_nights`, `prop_type_simp`, `room_type`, `number_of_reviews`, and `review_scores_rating`.**
+The *Conceptual* section of homework contains short answer questions about the concepts discussed in class. Some of these questions may also require short chunks of code to produce the output needed to answer the question. Answers should be written in complete sentences. (The questions in this section are from [*Broadening Your Statistical Horizons*](https://bookdown.org/roback/bookdown-bysh/).)
 
-1. Fit a regression model using the variables `prop_type_simp`, `number_of_reviews`, and `review_scores_rating` to predict the `log_price_3`, the log-transformed version of `price_3_nights`. Display the model output. 
 
-2. Interpret the coefficient of `review_scores_rating` in terms of `price_3_nights`.
+1. In an article by  Roskes et. al. 2011, the authors report on the success rate of penalty kicks that were on-target, so that either the keeper saved the shot or the shot scored, for FIFA World Cup shootouts between 1982 and 2010. They found that 18 out of 20 shots were scored when the goalkeeper’s team was behind, 71 out of 90 shots were scored when the game was tied, and 55 out of 75 shots were scored with the goalkeeper’s team ahead.
 
-3. Fit a regression model that includes `room_type` in addition to all of the predictor variables in the model from Question 1. Display the model output. 
+    - Calculate the odds of a successful penalty kick for games in which the goalkeeper’s team was (i) behind, (ii) tied, or (iii) ahead.
 
-4.  We want to determine if `room_type` is a statistically significant predictor of the cost for 3 nights, given the other variables in the model. Conduct the appropriate test to determine if `room_type` is a statistically significant predictor of the price for 3 nights. Include the following in your response: 
+    - Calculate the odds ratios for successful penalty kicks for (i) behind versus tied, and (ii) tied versus ahead.
 
-    - State the null and alternative hypotheses in statistical notation. You can use "beta_j" for $\beta_j$.
-    
-    - Show the code and output for the appropriate test. 
-    
-    - State the conclusion in the context of the problem.
-  
-**<u>Regardless of your answer to Question 4, use the model from Question 3 for the remainder of the assignment.</u>**  
 
-5. Use the `augment` function to create a data frame that contains model output and statistics for each observation. Display the first five observations of the new data frame.
+2. An article in the *Journal of Animal Ecology* by Bishop (1972) investigated whether moths provide evidence of "survival of the fittest" with their camouflage traits. Researchers glued equal numbers of light and dark morph moths in lifelike positions on tree trunks at 7 locations from 0 to 51.2 km from Liverpool. They then recorded the numbers of moths removed after 24 hours, presumably by predators. The hypothesis was that, since tree trunks near Liverpool were blackened by pollution, light morph moths would be more likely to be removed near Liverpool. The following variables are used in this analysis: 
 
-6. Let's examine the leverage for each observation. 
+    - `morph` = light or dark
+    - `distance` = kilometers from Liverpool
+    - `placed` = number of moths of a specific morph glued to trees at that location
+    - `removed` = number of moths of a specific morph removed after 24 hours
+    - `log_odds_removed` = log odds of being removed
 
-    - Based on the lecture notes, what threshold will we use to determine if observations are high leverage points? 
-    
-    - Plot the leverage vs. the observation number (you may need to create a new variable that contains the observation number). Include a line in the plot marking the threshold from the previous part. 
-    
-    - How many observations are considered high leverage? 
-    
-    - Based on Cook's distance, do these points have a significant influence on the model coefficients? Briefly explain.   
+The model with `log_odds_removed` as the response and `distance`, `morph`, the interaction `distance*morph` as the predictor variables is shown below. 
 
-7. Next, we will examine the standardized residuals.  
+```{r echo = F}
+moth <- read_csv("data/moth.csv")
+moth <- mutate(moth, notremoved = PLACED - REMOVED, 
+               log_odds_removed = log(REMOVED / notremoved),
+               prop_removed = REMOVED / PLACED, 
+               dark = ifelse(MORPH=="dark",1,0), 
+               distance = DISTANCE, 
+               morph = MORPH)
+```
 
-    - Plot the standardized residuals versus the predicted values. Include lines at 2 and -2 indicating the thresholds used to determine if standardized residuals have a large magnitude.
-    
-    - Based on our thresholds, how many observations are considered to have standardized residuals with large magnitude?
-    
-    - We can approximate the distribution of standardized residuals using a $N(0,1)$ distribution. Based on this, what proportion of observations do you expect to have standardized residuals with magnitude $> 2$? Consider your answer from part the previous part. Do you think there is a concern with the number of observations flagged as having standardized residuals with large magnitude? Briefly explain. 
-    
-8. Use the `vif` function in the *rms* package to find the variance inflation factor for each predictor variable in the model. Are there any obvious concerns with multicollinearity in this model? Briefly explain. 
+```{r echo=F}
+model1 <- lm(log_odds_removed ~ distance + morph + distance * morph, data = moth)
+kable(tidy(model1, conf.int = FALSE),format = "markdown", digits = 3)
+```
+
+Interpret the coefficients for `distance` and `morphlight` in terms of the  **log odds** of a moth being removed.
+
+3. Using the model in Question 2, Interpret the coefficients for `distance` and `morphlight` in terms of the **odds** of a moth being removed.
+
+4. Using the model in Question 2, interpret the intercept in terms of the **odds** of a moth being removed.
+
+5. Using the model in Question 2, interpret the 95% confidence intervals for the coefficients  of `distance` and `morphlight` in terms of the odds of a moth being removed.
+
+6. Use the model in Question 2 to calculate the predicted odds of being removed for a light moth that is glued to the trunk of a tree that is 6.2 km from Liverpool. 
+
+7. Calculate the predicted probability the moth described in the previous question is removed. 
+
+## Part 2: Data Analysis
+
+The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as "mini-projects".
+
+For this portion of the homework, we will look at the `email50.csv` located in the `data` folder. Click [here](https://www.openintro.org/data/index.php?data=email50) to read more about the data set and the variable definitions. The goal of this analysis is to create a simple spam filter that uses characteristics of an email to determine if an email is considered spam. We will use the following variables in the analysis: 
+
+- `spam`: Indicator for whether the email was spam.
+- `to_multiple`: Indicator for whether the email was addressed to more than one recipient.
+- `num_char`: The number of characters in the email, in thousands.
+- `number`: Factor variable saying whether there was no number, a small number (under 1 million), or a big number.
+
+Include the following in your analysis: 
+
+- Univariate and bivariate exploratory data analysis. 
+  - Briefly describe the relationship between the response variable `spam` and each of the predictor variables.
+- Fit a model with `to_mutiple` and `num_char` as the predictor variables and check the model assumptions. 
+- Use a drop-in-deviance test to determine if `number` should be included in the model. Display the output from the test and write your conclusion in the context of the problem. 
+- Calculate the ROC curve and AUC for the model you chose based on the drop-in-deviance test. 
+- Let's suppose you're a data scientist developing a spam filter. Based on your model, what threshold will you use to determine it would be reasonable to put an email in the spam folder (which the user is unlikely to check)? What trade offs did you consider to make your decision? 
+
+# Submitting Your Assignment
+
+Once your work is finalized in your GitHub repo, you will submit it to Gradescope. **Your assignment must be submitted on Gradescope by the deadline to be considered on time.**
+
+See [Submitting the Assignment](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) for more details on how to submit the assignment on Gradescope.
+
 
 
 # Grading
 
-| **Total** | **60** |
+| **Total** | **50** |
 |-------------------------------------------------------------|:--:|
-| Questions 1 - 8 | 50 |
-| Documents complete and neatly organized (Markdown and knitted documents) | 5 |
-| Answers written in complete sentences | 3 |
-| Regular and informative commit messages | 2 |
+| Part 1: Conceptual | 20 |
+|Part 2: Data analysis |  25   |
+| Document neatly organized with clear headers | 3 |
+| At least 3 informative commit messages 	| 2 	|
 
 
-## Acknowledgement
+# Acknowledgement
 
-The data used in this homework is from [insideairbnb.com](http://insideairbnb.com/index.html)
+The questions in Part 1 are modified from exercises in Chapter 6 of  [*Broadening Your Statistical Horizons*](https://bookdown.org/roback/bookdown-bysh/).
 
--->
+The questions and data in Part 2 are modified from exercises in Chapter 9 of [*OpenIntro Statistics, 4th ed*](https://leanpub.com/openintro-statistics).
+
+# References
+
+Roskes, Marieke, Daniel Sligte, Shaul Shalvi, and Carsten K. W. De Dreu. 2011. “The Right Side? Under Time Pressure, Approach Motivation Leads to Right-Oriented Bias.” *Psychology Science*, 22 (11): 1403–7. doi:10.1177/0956797611418677.
+
 
