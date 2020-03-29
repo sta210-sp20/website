@@ -1682,9 +1682,13 @@ div.tocify {
 <p>The goal of the final project is to apply what you’ve learned in this course to conduct a statistical analysis. It should be an in-depth regression analysis of a question that interests your group. This question may come from one of your other courses, your research interests, your future career interests, etc.</p>
 <p>The project will consist of</p>
 <ul>
-<li><strong>Proposal</strong>: due Thu, March 5 at 11:59p</li>
-<li><strong>Analysis</strong>: due Thu, Mar 26 at noon for peer review, due Thu, Apr 9 at 11:59p for grading</li>
-<li><strong>Presentation</strong>: TBD</li>
+<li><strong>Proposal</strong>: due Thu, March 5 at 11:59p EDT</li>
+<li><strong>Analysis</strong>: due Thu, April 16 at 11:59p EDT</li>
+<li><strong>Presentation</strong>: due Mon, April 27 at 11:59p EDT
+<ul>
+<li><strong>Watch presentations</strong>: Tue, April 28 - Wed, April 29</li>
+<li><strong>Respond to questions</strong>: Thu, April 30 - Fri, May 1</li>
+</ul></li>
 <li><strong>Final write up</strong>: due Tue, Apr 28 at 11:59p</li>
 </ul>
 <div id="data" class="section level1">
@@ -1720,17 +1724,6 @@ div.tocify {
 <li>Describe the dataset you wish to explore. This includes describing the observations in the data, a general description of the variables, and how the data was originally collected (not how you found the data but how the original curator of the data collected it.)</li>
 </ul>
 <!--
-#### Section 2 - Exploratory Data Analysis
-
-In this section, you will describe your data set, including the data source. This section will include 
-
-- Overall description of the dataset (how it was collected, what each observation represents, etc.)
-- Description of the response variable and its variable type
-- Description of the predictor variables being considered for the final model
-- Description of any other variables relevant to the analysis, if needed
-- Preliminary exploratory data analysis, including some summary statistics and visualizations, along with some explanation on how they help you learn more about your data. (You can add to these later as you work on your project..)
--->
-<!--
 #### Section 3 - Regression Analysis Plan
 
 Description of the approach you will use to model the data. This includes 
@@ -1757,91 +1750,99 @@ Description of the approach you will use to model the data. This includes
 <thead>
 <tr class="header">
 <th>Total</th>
-<th>10 pts</th>
+<th>10 pt</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Narrative</td>
-<td>5 pts</td>
+<td>5 pt</td>
 </tr>
 <tr class="even">
 <td>Data (glimpse &amp; dataset in <code>data</code> folder)</td>
-<td>1 pts</td>
+<td>1 pt</td>
 </tr>
 <tr class="odd">
 <td>Data dictionary</td>
-<td>2 pts</td>
+<td>2 pt</td>
 </tr>
 <tr class="even">
 <td>Organization and formatting</td>
-<td>2 pts</td>
+<td>2 pt</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="analysis" class="section level2">
-<h2>Analysis</h2>
-<div id="peer-review-10-pt-due-thu-mar-26-at-noon" class="section level3">
-<h3>Peer review (10 pt): due Thu, Mar 26 at noon</h3>
+<div id="analysis-20-pt-due-thu-april-16-at-1159p-edt" class="section level2">
+<h2>Analysis (20 pt): due Thu, April 16 at 11:59p EDT</h2>
+<p>For this portion of the project, you will conduct the regression analysis and begin to derive your final conclusions. This will become the main portion of your final write up. The regression analysis should include the following:</p>
+<ul>
+<li>Statement of the research question and modeling objective (prediction, inference, etc.)</li>
+<li>Description of the data and response variable</li>
+<li>Exploratory data analysis - univariate, bivariate, multivariate (i.e. visualizing potential interaction terms)
+<ul>
+<li>The EDA should include visualizations (with informative titles and axes labels) and summary statistics as you describe the main results from the visualizations.</li>
+</ul></li>
+<li>Brief explanation of the modeling approach and why you chose the model type. This should include the model type, model selection procedure, and interaction terms you’re considering for the final model.</li>
+<li>Output of the final model. <em>Note: The final model will be the result of numerous iterations and trying different models. You can include the other models you consider in the “Additional work” section at the end of the analysis write up.</em></li>
+<li>Discussion of the assumptions for the final model</li>
+<li>Interpretations and interesting findings from the model coefficients</li>
+<li>Additional work of other models or analysis not included in the final model.</li>
+</ul>
+<p>The regression analysis should be written as a report. Write your analysis in a .Rmd file called “analysis.Rmd” in your <code>project</code> folder on GitHub and output a PDF. Use <code>proposal.Rmd</code> to see an example YAML.</p>
 </div>
-<div id="revised-analysis-20-pt-due-thu-apr-9-at-1159p" class="section level3">
-<h3>Revised analysis 20 pt): due Thu, Apr 9 at 11:59p</h3>
-<!--
-The regression analysis will include the bulk of your analysis results. This will become the main portion of your final write up. The regression anlaysis should include the following: 
-
-- Statement of the research question and modeling objective (prediction, inference, etc.)
-- Description of the response variable
-- Updated exploratory data analysis, incorporating any feedback from the proposal
-- Explanation of the modeling process and why you chose those methods, incorporating any feedback from the proposal 
-- Output of the final model
-- Discussion of the assumptions for the final model
-- Interpretations / interesting findings from the model coefficients
-- Additional work of other models or analysis not included in the final model.
--->
+<div id="presentation-15-pt-due-mon-april-27-at-1159p-edt" class="section level2">
+<h2>Presentation (15 pt): due Mon, April 27 at 11:59p EDT</h2>
+<p><strong>Your presentation should be no longer than 10 minutes, and each team member should say something substantial.</strong></p>
+<p>You will record a presentation (no longer than 10 minutes) and upload the recording and presentation slides to the discussion forum in Sakai. Both must be uploaded by <strong>Mon, April 27 at 11:59p EDT</strong>.</p>
+<p>The format of You can use any software you like to make the presentation, including R Markdown to create your slides. There isn’t a limit to how many slides you can use, just a time limit (10 minutes total). Each team member should get a chance to speak during the presentation. Your presentation should not just be an account of everything you tried (“then we did this, then we did this, etc.”), instead it should convey what choices you made, and why, and what you found.</p>
+<p>More tips about how to record the presentation will be provided at a later date.</p>
 </div>
+<div id="watch-comment-on-presentations-10-pt-tue-april-28---wed-april-29" class="section level2">
+<h2>Watch + comment on presentations (10 pt): Tue, April 28 - Wed, April 29</h2>
+<p>You will be assigned 3 presentations to watch. For each presentation, you will post a question to the discussion thread for the group to answer. You may not post a question that’s already been asked on the discussion thread.</p>
+<p>All questions must be posted by <strong>Wed, April 29 at 11:59p EDT</strong>.</p>
 </div>
-<div id="presentation-15-pt-due-date-tbd" class="section level2">
-<h2>Presentation (15 pt): due date TBD</h2>
-<!--
-**Your presentation should be no longer than 8 minutes, and each team member should say something substantial.**
-
-You can use any software you like for your final presentation, including R Markdown
-to create your slides. There isn't a limit to how many slides you can use, just a 
-time limit (8 minutes total). Each team member should get a chance to speak during 
-the presentation. Your presentation should not just be an account of everything you 
-tried ("then we did this, then we did this, etc."), instead it should convey what 
-choices you made, and why, and what you found.
-
-**Presentation schedule**: All teams will present during the university scheduled time of the final exam for this course, on Wed, Dec 11 9a - 12p. The presentation schedule is below; however, the write up and presentations are due on Tue, Dec 10 at 5p <u>all teams</u>.
-
-- Section 01L: 9a - 10:30a
-- Section 02L: 10:30a - 12p
--->
+<div id="respond-to-questions-10-pt-thu-april-30---fri-may-1" class="section level2">
+<h2>Respond to questions (10 pt): Thu, April 30 - Fri, May 1</h2>
+<p>As a group, you will respond to the questions about your presentation.</p>
+<p>All responses must be submitted by <strong>Fri, May 1 at 11:59p EDT</strong>.</p>
+<div id="grading-1" class="section level4">
+<h4>Grading</h4>
+<p>A rubric will be provided for the final presentation.</p>
+</div>
 </div>
 <div id="final-write-up-30-pt-due-tue-apr-28-at-1159p" class="section level2">
 <h2>Final Write Up (30 pt): due Tue, Apr 28 at 11:59p</h2>
-<!--
-The goal of the write up is to demonstrate your ability to ask meaningful questions and answer them with the results from regression analysis, that
-you are proficient in using R, and that you are proficient at interpreting and 
-presenting the results. Focus on methods that help you begin to answer your research 
-questions. You do not have to apply every statistical procedure we learned.
-Also pay attention to your presentation. Neatness, coherency, and clarity will count. 
-
-**You should incorporate the feedback you've received throughout the process in your write up.**
-
-You can add sections as you see fit to the template in your project repo. At a minimum, your write up should have the following sections: 
-
-- **Section 1: Introduction**
-    - This is basically a revised version of what is in the project proposal. This should include your research question, hypotheses, and a description of the data. It should also include the exploratory data analysis. 
-    
-- **Section 2: Regression Analysis**
-    - This section includes the results of your final regression model. In addition to displaying the model output, you should include a brief description of why you chose that type of model and any interpretations/ interesting findings from the coefficients. You should also include a discussion of the model assumptions and model fit analysis. 
-
-
-#### Grading
-
+<p>The goal of the write up is to demonstrate your ability to ask meaningful questions and answer them with the results from regression analysis, that you are proficient in using R, and that you are proficient at interpreting and presenting the results. Focus on methods that help you begin to answer your research questions. You do not have to apply every statistical procedure we learned. Also pay attention to your presentation. Neatness, coherency, and clarity will count.</p>
+<p><strong>You should incorporate the feedback you’ve received throughout the process in your write up.</strong></p>
+<p>You can add sections as you see fit to the template in your project repo. At a minimum, your write up should have the following sections:</p>
+<ul>
+<li><strong>Section 1: Introduction</strong>
+<ul>
+<li>This section includes an introduction to the project motivation, data, and research question. It should also include the exploratory data analysis.</li>
+</ul></li>
+<li><strong>Section 2: Regression Analysis</strong>
+<ul>
+<li>This section includes the results of your final regression model. In addition to displaying the model output, you should include a brief description of why you chose that type of model and any interpretations/ interesting findings from the coefficients. You should also include a discussion of the model assumptions and model fit analysis.</li>
+</ul></li>
+<li><strong>Section 3: Discussion &amp; Limitations</strong>
+<ul>
+<li>This section includes any relevant predictions and/or conclusions drawn from the model. Also critique your own methods and provide suggestions for improving your analysis. Issues pertaining to the reliability and validity of your data and appropriateness of the regression analysis should also be discussed here. A paragraph on what you would do differently if you were able to start over with the project or what you would do next if you were going to continue work on the project should also be included.</li>
+</ul></li>
+<li><strong>Section 4: Conclusion</strong>
+<ul>
+<li>This section includes a summary of your key results and highlight any final points you wish the reader to learn from the project.</li>
+</ul></li>
+<li><strong>Section 5: Additional Work</strong>
+<ul>
+<li>This section includes any other models you tried, a check of the assumptions, and a brief explanation of why you didn’t select the model.</li>
+</ul></li>
+</ul>
+<div id="grading-2" class="section level4">
+<h4>Grading</h4>
+<p>A rubric will be provided for the final write up. <!--
 For each component, points will be awarded as follows: 
 
 - *Full points*: Item is fully, thoroughly, and accurately addressed.
@@ -1851,11 +1852,12 @@ For each component, points will be awarded as follows:
 | **Component**     | **Total**     | **Assessment**    |
 |-------------------------- |-----------    |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------    |
 | Introduction & EDA    | 5     | Is the research question, motivation for regression analysis, and data clearly described Are univariate distributions in the data clearly visualized and described using the appropriate summary statistics? Are relevant and interesting bivariate relationships clearly visualized and described using the appropriate summary statistics?  |
-| Regression Analysis   | 10    | Is the final regression model appropriate for the data and the original research question/objective? Was a model beyond the main effects model considered? Does it appear the model fitting process was carefully thought out and executed?   |
+| Regression Analysis   | 20    | Is the final regression model appropriate for the data and the original research question/objective? Was a model beyond the main effects model considered? Does it appear the model fitting process was carefully thought out and executed?   |
 | Model Assumptions     | 3     | Are the assumptions and model diagnostics thoroughly and accurately assessed? If there are violations, are they accurately identified? Is there a reasonable attempt (i.e. based on what we’ve learned this semester) to correct violations in the assumptions?   |
-| Discussion & Limitations  | 4     | Are interesting findings from the model clearly described? If model is used for prediction, is the model’s predictive power thoroughly explored? Is there thorough discussion on model performance? Are the limitations carefully considered and described?   |
+| Discussion & Limitations  | 2     | Are interesting findings from the model clearly described? If model is used for prediction, is the model’s predictive power thoroughly explored? Is there thorough discussion on model performance? Are the limitations carefully considered and described?   |
 | Writing & Organization    | 3     | What is the quality of the statistical presentation, writing, and explanations? Does write up tell a story? Is document neatly organized?,This includes appropriate section headers, figures appropriately sized with informative labels, all code suppressed in .md document, all R messages and warnings suppressed, narrative and output neatly organized.     |
-| **Total**     | **25**    |   |
+| **Total**     | ****  |   |
+--?> 
 
 #### Grading
 <br>
@@ -1895,7 +1897,8 @@ Your submission should include
 Style and format does count for this assignment, so please take the time to make 
 sure everything looks good and your data and code are properly formatted.
 
--->
+--></p>
+</div>
 </div>
 </div>
 <div id="overall-grading" class="section level1">
@@ -1913,32 +1916,32 @@ sure everything looks good and your data and code are properly formatted.
 <td>10 pt</td>
 </tr>
 <tr class="even">
-<td>Analysis: Peer Review</td>
-<td>10 pt</td>
+<td>Analysis</td>
+<td>20 pt</td>
 </tr>
 <tr class="odd">
-<td>Analysis: Revised Submission</td>
-<td>20 pt</td>
+<td>Final Write up</td>
+<td>30 pt</td>
 </tr>
 <tr class="even">
 <td>Presentation</td>
 <td>15 pt</td>
 </tr>
 <tr class="odd">
-<td>Final Writeup</td>
-<td>30 pt</td>
+<td>Watch + comment on presentations</td>
+<td>10 pt</td>
 </tr>
 <tr class="even">
-<td>Classmates’ presentation scores</td>
-<td>5 pts</td>
+<td>Respond to questions</td>
+<td>10 pt</td>
 </tr>
 <tr class="odd">
 <td>Team peer evaluation</td>
-<td>10 pts</td>
+<td>5 pt</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Team peer evaluation:</strong> You will be asked to fill out a survey where you rate the contribution and teamwork of each team member out of 10 points. You will additionally report a contribution percentage for each team member. Filling out the survey is a prerequisite for getting credit on the team member evaluation. If you are suggesting that an individual did less than 20% of the work, please provide some explanation. If any individual gets an average peer score indicating that they did less than 10% of the work, this person will receive half the grade of the rest of the group.</p>
+<p><strong>Team peer evaluation:</strong> You will be asked to fill out a survey where you rate the contribution and teamwork of each team member out of 5 points. You will additionally report a contribution percentage for each team member. Filling out the survey is a prerequisite for getting credit on the team member evaluation. If you are suggesting that an individual did less than 20% of the work, please provide some explanation. If any individual gets an average peer score indicating that they did less than 10% of the work, this person will receive half the grade of the rest of the group.</p>
 <p>The project will be graded based on the following criteria:</p>
 <ul>
 <li><strong>Consistency: </strong>Did you clearly answer the question of interest?</li>
@@ -2048,7 +2051,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
