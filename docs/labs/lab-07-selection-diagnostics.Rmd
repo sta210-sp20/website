@@ -23,7 +23,7 @@ The goal of today’s lab is to gain practice with model selection and model dia
 
 # Getting Started 
 
-- Go to the sta210-fa20 organization on GitHub ([https://github.com/sta210-fa20](https://github.com/sta210-fa20)). Click on the repo with the prefix **lab-05-**. It contains the starter documents you need to complete the warmup exercise. 
+- Go to the sta210-sp20 organization on GitHub ([https://github.com/sta210-sp20](https://github.com/sta210-sp20)). Click on the repo with the prefix **lab-07-**. It contains the starter documents you need to complete the warmup exercise. 
 
 - Clone the repo and create a new project in your RStudio Docker Container ([https://vm-manage.oit.duke.edu](https://vm-manage.oit.duke.edu)). 
 
