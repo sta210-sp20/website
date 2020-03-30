@@ -41,6 +41,7 @@ library(tidyverse)
 library(broom)
 library(knitr) 
 library(pROC)
+library(plotROC)
 
 #include other packages as needed
 ```
