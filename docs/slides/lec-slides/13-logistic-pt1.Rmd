@@ -215,7 +215,7 @@ This dataset is from an ongoing cardiovascular study on residents of the town of
 
 
 ```{r echo = F}
-heart_data <- read_csv("data/framingham.csv") %>%
+heart_data <- read_csv("https://raw.githubusercontent.com/sta210-sp20/datasets/master/framingham.csv") %>%
   drop_na() %>%
   mutate(currentSmoker = as.factor(currentSmoker), 
          TenYearCHD = as.factor(TenYearCHD), 

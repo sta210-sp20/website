@@ -29,21 +29,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - Slides: [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/14-logistic-pt2.html) or [PDF](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/14-logistic-pt2.pdf)
 
-- Framinghmam analysis
+- Logistic Analysis: [Rmd](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/logistic.Rmd) or [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/logistic.html)
 
 ### Project update
 
 - [Project instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html)
 
+
 ### For Wed, April 1
 
-- See "April 1" under the "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
-  - 
- 
+- See  [Sakai](https://sakai.duke.edu)
+
+- See "Preparing for Class on April1" under "April 1 - Class Prep and Lecture Videos" in the Recording & Discussions" tab for details on [Sakai](https://sakai.duke.edu). 
 
 
 <hr>
-
 
 
 ### Where to find info
