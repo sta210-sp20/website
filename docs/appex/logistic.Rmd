@@ -145,6 +145,56 @@ calc_auc(roc_curve)$AUC
 A doctor plans to use the results from your model to help select patients for a new heart disease prevention program. She asks you which threshold would be best to select patients for this program. Based on the ROC curve from the previous slide, which threshold would you recommend to the doctor? Why?
 </font>
 
+## Assumptions 
+
+### Why we don't plot raw residuals 
+
+```{r}
+ggplot(data = risk_m_aug, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(x = "Predicted Values", y = "Raw Residuals")
+```
+
+### Binned residual plots
+
+```{r}
+arm::binnedplot(x = risk_m_aug$.fitted, y = risk_m_aug$.resid,
+                xlab = "Predicted Probabilities", 
+                main = "Binned Residual vs. Predicted Values", 
+                col.int = FALSE)
+```
+
+```{r}
+arm::binnedplot(x = risk_m_aug$ageCent, 
+                y = risk_m_aug$.resid, 
+                col.int = FALSE,
+                xlab = "Age (Mean-Centered)", 
+                main = "Binned Residual vs. Age")
+```
+
+
+```{r}
+arm::binnedplot(x = risk_m_aug$totCholCent, 
+                y = risk_m_aug$.resid, 
+                col.int = FALSE,
+                xlab = "Total Cholesterol (Mean-Centered)", 
+                main = "Binned Residual vs. Total Cholesterol")
+```
+
+```{r}
+risk_m_aug %>%
+  group_by(currentSmoker) %>%
+  summarise(mean_resid = mean(.resid))
+```
+
+### Check assumptions: 
+
+- Linearity? 
+- Randomness? 
+- Independence? 
+
+
 ## References
 
 Data obtained from [https://www.kaggle.com/amanajmera1/framingham-heart-study-dataset](https://www.kaggle.com/amanajmera1/framingham-heart-study-dataset)
