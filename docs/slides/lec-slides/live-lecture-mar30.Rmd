@@ -1,0 +1,56 @@
+---
+title: "Live Lecture - March 30"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+[Timestamped slides from the live session](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/mar-25-live-lecture-timestamped.pdf)
+
+## Announcements: 
+
+- Lab 07 due today!
+
+- **Office hours**: See "Zoom Class Meetings" on [Sakai](https://sakai.duke.edu) for link to office hours
+
+- Want to form a 210 study group? Use [Study Connect](https://arc.duke.edu/study-connect) through the Academic Resource Center
+
+## Agenda
+
+### Questions from last class? 
+
+### Questions from the content videos? 
+
+### Logistic Regression: Prediction & Model Assessment
+
+- Slides: [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/14-logistic-pt2.html) or [PDF](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/14-logistic-pt2.pdf)
+
+- Framinghmam analysis
+
+### Project update
+
+- [Project instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html)
+
+### For Wed, April 1
+
+- See "April 1" under the "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
+  - 
+ 
+
+
+<hr>
+
+
+
+### Where to find info
+- See [Remote Learning Updates](https://www2.stat.duke.edu/courses/Spring20/sta210.001/covid-19-updates.html) on the course website
+- Slides + assignments + course materials: [Schedule page](https://www2.stat.duke.edu/courses/Spring20/sta210.001/schedule.html) on the course website
+- Class prep + content videos: "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
+- Live class sessions (lectures, labs, office hours): "Zoom Class Meetings" tab on [Sakai](https://sakai.duke.edu)
+- Recording of live lecture sessions: "Zoom Class Meetings" -> "Cloud Recordings" on [Sakai](https://sakai.duke.edu)
+
+

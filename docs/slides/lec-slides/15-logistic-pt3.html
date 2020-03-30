@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Logistic regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Logistic regression
+## Inference &amp; Model selection
+### Prof. Maria Tackett
+### 04.01.20
+
+---
+
+
+
+
+class: middle, center
+
+### [Click for PDF of slides](15-logistic-pt3.pdf)
+
+
+
+---
+
+### Risk of coronary heart disease 
+
+This dataset is from an ongoing cardiovascular study on residents of the town of Framingham, Massachusetts. We want to predict if a patient has a high risk of getting coronary heart disease in the next 10 years. 
+
+**Response**: 
+
+.vocab[`TenYearCHD`]: 
+- 0 = Patient is not high risk of having coronary heart disease in the next 10 years 
+- 1 = Patient is high risk of having coronary heart disease in the next 10 years 
+
+**Predictors**: 
+
+- .vocab[`age`]: Age at exam time.
+- .vocab[`currentSmoker`]: 0 = nonsmoker; 1 = smoker
+- .vocab[`totChol`]: total cholesterol (mg/dL)
+
+
+
+
+---
+
+### Modeling risk of coronary heart disease
+
+
+|term           | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:--------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept)    |   -2.111|     0.077|   -27.519|   0.000|   -2.264|    -1.963|
+|ageCent        |    0.081|     0.006|    13.477|   0.000|    0.070|     0.093|
+|currentSmoker1 |    0.447|     0.099|     4.537|   0.000|    0.255|     0.641|
+|totCholCent    |    0.003|     0.001|     2.339|   0.019|    0.000|     0.005|
+
+---
+
+### Hypothesis test for `\(\beta_j\)`
+
+`$$\log\Big(\frac{\hat{\pi}}{1-\hat{\pi}}\Big) = \hat{\beta}_0 + \hat{\beta}_1 x_{1} + \hat{\beta}_2 x_{2} + \dots + \hat{\beta}_p x_{p}$$`
+
+The test of significance for the coefficient `\(\beta_j\)` is 
+
+.alert[
+
+**Hypotheses**: `\(H_0: \beta_j = 0 \hspace{2mm} \text{ vs } \hspace{2mm} H_a: \beta_j \neq 0\)`
+
+**Test Statistic**: `$$z = \frac{\hat{\beta}_j - 0}{SE(\hat{\beta_j})}$$`
+
+**P-value**: `\(P(|Z| &gt; |z|)\)`, 
+
+where `\(Z \sim N(0, 1)\)`, the Standard Normal distribution
+]
+
+---
+
+### Confidence interval for `\(\beta_j\)`
+
+- We can calculate the .vocab[C\% confidence interval] for `\(\beta_j\)` using the following:
+
+`$$\hat{\beta}_j \pm z^* SE(\hat{\beta}_j)$$`
+where `\(z^*\)` is calculated from the `\(N(0,1)\)` distribution
+
+.alert[
+We are `\(C\%\)` confident that for every one unit change in `\(x_j\)`, the odds multiply by a factor of `\(\exp\{\hat{\beta}_j - z^* SE(\hat{\beta}_j)\}\)` to `\(\exp\{\hat{\beta}_j + z^* SE(\hat{\beta}_j)\}\)`, holding all else constant.
+  ]
+
+---
+
+### Modeling risk of coronary heart disease
+
+
+|term           | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:--------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept)    | -2.11059|   0.07670| -27.51865| 0.00000| -2.26360|  -1.96285|
+|ageCent        |  0.08150|   0.00605|  13.47651| 0.00000|  0.06973|   0.09344|
+|currentSmoker1 |  0.44743|   0.09862|   4.53705| 0.00001|  0.25461|   0.64134|
+|totCholCent    |  0.00254|   0.00108|   2.33919| 0.01933|  0.00040|   0.00465|
+
+.question[
+1. How is the test statistic for `currentSmoker1` calculated? 
+2. Is `totCholCent` a statistically significant predictor of the odds a person is high risk for coronary heart disease? 
+  - Justify your answer using the test statistic and p-value.
+  - Justify your answer using the confidence interval. 
+]
+
+---
+
+class: middle, center
+
+### Model Selection 
+---
+
+### Comparing Nested Models 
+
+- Suppose there are two models: 
+    - Reduced Model includes predictors `\(x_1, \ldots, x_q\)`
+    - Full Model includes predictors `\(x_1, \ldots, x_q, x_{q+1}, \ldots, x_p\)`
+
+- We want to test the hypotheses
+`$$\begin{aligned}&amp;H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+&amp; H_a: \text{ at least 1 }\beta_j \text{ is not} 0\end{aligned}$$`
+
+- To do so, we will use the .vocab[Drop-in-Deviance test] (also known as the Nested Likelihood test) 
+
+---
+
+### Deviance residual 
+
+- The .vocab[deviance residual] is the a measure of how much the observed data differs from what is measured using the likelihood ratio 
+
+- The deviance residual for the `\(i^{th}\)` observation is 
+
+.alert[
+`$$d_i = \text{sign}(y_i - \hat{\pi}_i)\sqrt{2\bigg[y_i \log\Big(\frac{y_i}{\hat{\pi}_i}\Big) + (1-y_i)\log\Big(\frac{1-y_i}{1-\hat{\pi}_i}\Big)\bigg]}$$`
+where `\(\text{sign}(y_i - \hat{\pi}_i)\)` is positive when `\(y_i = 1\)` and negative when `\(y_i = 0\)`.
+]
+
+---
+
+### Drop-in-Deviance Test
+
+- The .vocab[deviance statistic for Model *k*] is `\(G^2_k = \sum\limits_{i=1}^n d_i^2\)`
+
+--
+
+- To test the hypotheses
+`$$\begin{aligned}&amp;H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+&amp; H_a: \text{ at least one }\beta_j \text{ is not} 0\end{aligned}$$`
+
+--
+
+the &lt;font class="vocab"&gt; drop-in-deviance statistic &lt;/font&gt; is `\(G^2_{reduced}- G^2_{full}\)`
+
+--
+
+The p-value for the test is calculated using a Chi-square distribution `\((\chi^2)\)` with degrees of freedm equal to the difference in the number of parameters in the full and reduced models
+
+---
+
+### `\(\chi^2\)` distribution 
+
+&lt;img src="15-logistic-pt3_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+Calculate p-value for the drop-in-deviance test as `\(P(\chi^2 &gt; \text{test statistic})\)`
+---
+
+### Should we add `education` to the model?
+
+.small[
+
+```r
+model_red &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totChol, 
+              data = heart_data, family = binomial)
+model_full &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totChol + 
+               education, 
+              data = heart_data, family = binomial)
+```
+]
+
+
+|term           | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:--------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|(Intercept)    |   -2.617|     0.277|    -9.448|   0.000|   -3.161|    -2.074|
+|ageCent        |    0.078|     0.006|    12.701|   0.000|    0.066|     0.091|
+|currentSmoker1 |    0.449|     0.099|     4.540|   0.000|    0.255|     0.643|
+|totChol        |    0.003|     0.001|     2.503|   0.012|    0.001|     0.005|
+|education2     |   -0.266|     0.119|    -2.233|   0.026|   -0.502|    -0.034|
+|education3     |   -0.319|     0.144|    -2.215|   0.027|   -0.607|    -0.041|
+|education4     |   -0.116|     0.160|    -0.725|   0.468|   -0.436|     0.192|
+
+---
+
+### Should we add `education` to the model?
+
+
+```r
+# Deviances
+(dev_red &lt;- glance(model_red)$deviance)
+```
+
+```
+## [1] 2894.989
+```
+
+--
+
+
+```r
+(dev_full &lt;- glance(model_full)$deviance)
+```
+
+```
+## [1] 2887.206
+```
+
+--
+
+
+```r
+# Drop-in-deviance test statistic
+(test_stat &lt;- dev_red - dev_full)
+```
+
+```
+## [1] 7.783615
+```
+
+---
+
+### Should we add `education` to the model?
+
+
+```r
+# p-value
+1 - pchisq(test_stat, 3) #3 = number of new model terms in model2
+```
+
+```
+## [1] 0.05070196
+```
+
+
+.question[
+What is your conclusion for the test?
+]
+
+---
+
+### Drop-in-Deviance test in R
+
+- We can use the **`anova`** function to conduct this test 
+    - Add **`test = "Chisq"`** to conduct the drop-in-deviance test
+
+
+```r
+anova(model_red, model_full, test = "Chisq")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model 1: TenYearCHD ~ ageCent + currentSmoker + totChol
+## Model 2: TenYearCHD ~ ageCent + currentSmoker + totChol + education
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
+## 1      3654     2895.0                       
+## 2      3651     2887.2  3   7.7836   0.0507 .
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+### Model selection 
+
+- Use AIC or BIC for model selection 
+
+.alert[
+`$$AIC = - 2 * L - \color{red}{n\log(n)}+ 2(p +1)$$`
+`$$BIC =- 2 * L - \color{red}{n\log(n)} + log(n)\times(p+1)$$`
+
+where `\(L = \sum\limits_{i=1}^n[y_i \log(\hat{\pi}_i) + (1 - y_i)\log(1 - \hat{\pi}_i)]\)`
+]
+---
+
+### AIC from `glance` function
+
+Let's look at the AIC for the model that includes `ageCent`, `currentSmoker`, and `totCholCent`
+
+```r
+glance(model_red)$AIC
+```
+
+```
+## [1] 2902.989
+```
+
+--
+
+**Calculating AIC**
+
+
+```r
+(L &lt;- glance(model_red)$logLik)
+```
+
+```
+## [1] -1447.495
+```
+
+
+```r
+- 2 * L + 2 * (3 + 1)
+```
+
+```
+## [1] 2902.989
+```
+
+---
+
+### Should we add education to the model? 
+
+**Recall:**
+- Reduced Model includes `AgeCent`, `currentSmoker`, `totCholCent`
+- Full Model includes `AgeCent`, `currentSmoker`, `totCholCent`, `education` (categorical)
+
+
+```r
+glance(model_red)$AIC
+```
+
+```
+## [1] 2902.989
+```
+
+```r
+glance(model_full)$AIC
+```
+
+```
+## [1] 2901.206
+```
+
+.question[
+Based on the AIC, which model would you choose?
+]
+
+
+---
+
+class: middle, center
+
+### What remaining questions do you have about logistic regression?
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
