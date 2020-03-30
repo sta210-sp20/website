@@ -31,8 +31,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - Logistic Analysis: [Rmd](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/logistic.Rmd) or [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/logistic.html)
 
-### Project update
+### Course updates
 
+- Exam 02: Available Apr 17, 12a EDT through Apr 19, 11:59p EDT
+  - You will have 2 hours to complete the exam
 - [Project instructions](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html)
 
 
