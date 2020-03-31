@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Multinomial Logistic Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Multinomial Logistic Regression
+## The Basics
+### Prof. Maria Tackett
+### 04.06.20
+
+---
+
+
+
+
+class: middle, center
+
+### [Click for PDF of slides](16-multinom-logistic-pt1.pdf)
+
+
+
+---
+
+### Generalized Linear Models (GLM)
+
+- In practice, there are many different types of response variables including:
+
+  + **Binary**: Win or Lose
+  + **Nominal**: Democrat, Republican or Third Party candidate
+  + **Ordered**: Movie rating (1 - 5 stars)
+  + and others...
+
+- These are all examples of **generalized linear models**, a broader class of models that generalize the multiple linear regression model 
+
+- See [*Generalized Linear Models: A Unifying Theory*](https://bookdown.org/roback/bookdown-bysh/ch-glms.html) for more details about GLMs
+
+
+---
+
+### Binary Response (Logistic)
+
+- Given `\(P(y_i=1|x_i)= \hat{\pi}_i\hspace{5mm} \text{ and } \hspace{5mm}P(y_i=0|x_i) = 1-\hat{\pi}_i\)`
+
+`$$\log\Big(\frac{\hat{\pi}_i}{1-\hat{\pi}_i}\Big) = \hat{\beta}_0 + \hat{\beta}_1 x_{i}$$`
+&lt;br&gt; 
+
+- We can calculate `\(\hat{\pi}_i\)` by solving the logit equation: 
+
+`$$\hat{\pi}_i = \frac{\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_{i}\}}{1 + \exp\{\hat{\beta}_0 + \hat{\beta}_1 x_{i}\}}$$`
+
+---
+
+### Binary Response (Logistic)
+
+- Suppose we consider `\(y=0\)` the .vocab[baseline category] such that 
+
+`$$P(y_i=1|x_i) = \pi_{i1} \hspace{2mm}  \text{ and } \hspace{2mm} P(y_i=0|x_i) = \pi_{i0}$$`
+
+--
+
+- Then the logistic regression model is 
+
+`$$\log\bigg(\frac{\hat{\pi}_{i1}}{1- \hat{\pi}_{i1}}\bigg) = \log\bigg(\frac{\hat{\pi}_{i1}}{\hat{\pi}_{i0}}\bigg) = \hat{\beta}_0 + \hat{\beta}_1 x_i$$`
+
+--
+
+- &lt;font class="vocab"&gt;Slope, `\(\hat{\beta}_1\)`&lt;/font&gt;: When `\(x\)` increases by one unit, the predicted odds of `\(y=1\)` versus the baseline `\(y=0\)` are multiply by a factor of `\(\exp\{\hat{\beta}_1\}\)`
+
+- &lt;font class="vocab"&gt;Intercept, `\(\hat{\beta}_0\)`&lt;/font&gt;: When `\(x=0\)`, the predicted odds of `\(y=1\)` versus the baseline `\(y=0\)` are `\(\exp\{\hat{\beta}_0\}\)`
+
+---
+
+### Multinomial response variable
+
+- Suppose the response variable `\(y\)` is categorical and can take values `\(1, 2, \ldots, K\)` such that `\((K &gt; 2)\)`
+
+- &lt;font class="vocab"&gt;Multinomial Distribution: &lt;/font&gt;
+
+`$$P(y=1) = \pi_1, P(y=2) = \pi_2, \ldots, P(y=K) = \pi_K$$`
+
+such that `\(\sum\limits_{k=1}^{K} \pi_k = 1\)`
+
+---
+
+### Multinomial Logistic Regression
+
+- If we have an explanatory variable `\(x\)`, then we want to fit a model such that `\(P(y = k) = \pi_k\)` is a function of `\(x\)`
+
+--
+
+- Choose a baseline category. Let's choose `\(y=1\)`.  Then, 
+
+`$$\log\bigg(\frac{\pi_{ik}}{\pi_{i1}}\bigg) = \beta_{0k} + \beta_{1k} x_i$$`
+&lt;br&gt;
+
+--
+
+- In the multinomial logistic model, we have a separate equation for each category of the response relative to the baseline category
+    - If the response has `\(K\)` possible categories, there will be `\(K-1\)` equations as part of the multinomial logistic model
+
+---
+
+### Multinomial Logistic Regression 
+
+- Suppose we have a response variable `\(y\)` that can take three possible outcomes that are coded as "A", "B", "C"
+
+- Let "A" be the baseline category. Then 
+
+`$$\log\bigg(\frac{\pi_{iB}}{\pi_{iA}}\bigg) = \beta_{0B} + \beta_{1B}x_i \\[10pt]
+\log\bigg(\frac{\pi_{iC}}{\pi_{iA}}\bigg) = \beta_{0C} + \beta_{1C} x_i$$`
+
+---
+
+### NHANES Data
+
+- [National Health and Nutrition Examination Survey](https://www.cdc.gov/nchs/nhanes/index.htm) is conducted by the National Center for Health Statistics (NCHS) 
+
+- The goal is to *"assess the health and nutritional status of adults and children in the United States"*
+
+- This survey includes an interview and a physical examination
+
+---
+
+### NHANES Data
+
+- We will use the data from the &lt;font class="vocab"&gt;`NHANES`&lt;/font&gt; R package
+
+- Contains 75 variables for the 2009 - 2010 and 2011 - 2012 sample years
+
+- The data in this package is modified for educational purposes and should **not** be used for research
+
+- Original data can be obtained from the [NCHS website](https://www.cdc.gov/nchs/data_access/index.htm) for research purposes
+
+- Type &lt;font class="vocab"&gt;`?NHANES`&lt;/font&gt; in console to see list of variables and definitions
+
+---
+
+### NHANES: Health Rating vs. Age &amp; Physical Activity
+
+- **Question**: Can we use a person's age and whether they do regular physical activity to predict their self-reported health rating?
+
+- We will analyze the following variables: 
+
+  + &lt;font class="vocab"&gt;`HealthGen`: &lt;/font&gt;Self-reported rating of participant's health in general.  Excellent, Vgood, Good, Fair, or Poor.
+  
+    + &lt;font class="vocab"&gt;`Age`: &lt;/font&gt;Age at time of screening (in years). Participants 80 or older were recorded as 80.
+    
+  + &lt;font class="vocab"&gt;`PhysActive`: &lt;/font&gt;Participant does moderate to vigorous-intensity sports, fitness or recreational activities
+
+ 
+---
+
+### The data
+
+
+```r
+ library(NHANES)
+
+nhanes_adult &lt;- NHANES %&gt;%
+  filter(Age &gt;= 18) %&gt;%
+  select(HealthGen, Age, PhysActive) %&gt;%
+  drop_na() %&gt;%
+  mutate(obs_num = 1:n())
+```
+
+
+```r
+glimpse(nhanes_adult)
+```
+
+```
+## Observations: 6,710
+## Variables: 4
+## $ HealthGen  &lt;fct&gt; Good, Good, Good, Good, Vgood, Vgood, Vgood, Vgood, Vgood,…
+## $ Age        &lt;int&gt; 34, 34, 34, 49, 45, 45, 45, 66, 58, 54, 50, 33, 60, 56, 56…
+## $ PhysActive &lt;fct&gt; No, No, No, No, Yes, Yes, Yes, Yes, Yes, Yes, Yes, No, No,…
+## $ obs_num    &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+```
+
+---
+
+### Exploratory data analysis
+
+&lt;img src="16-multinom-logistic-pt1_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Exploratory data analysis
+
+&lt;img src="16-multinom-logistic-pt1_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Model in R
+
+- Use the &lt;font class="vocab"&gt;`multinom()`&lt;/font&gt; function in the `nnet` package 
+
+
+```r
+library(nnet)
+health_m &lt;- multinom(HealthGen ~ Age + PhysActive, 
+                     data = nhanes_adult)
+```
+
+- Put `results = "hide"` in the code chunk header to suppress convergence output 
+
+---
+
+### `HealthGen` vs. `Age` and `PhysActive`
+
+
+```r
+tidy(health_m, conf.int = TRUE, exponentiate = FALSE) %&gt;%
+  kable(digits = 3, format = "markdown")
+```
+
+
+
+|y.level |term          | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:-------|:-------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|Vgood   |(Intercept)   |    1.205|     0.145|     8.325|   0.000|    0.922|     1.489|
+|Vgood   |Age           |    0.001|     0.002|     0.369|   0.712|   -0.004|     0.006|
+|Vgood   |PhysActiveYes |   -0.321|     0.093|    -3.454|   0.001|   -0.503|    -0.139|
+|Good    |(Intercept)   |    1.948|     0.141|    13.844|   0.000|    1.672|     2.223|
+|Good    |Age           |   -0.002|     0.002|    -0.977|   0.329|   -0.007|     0.002|
+|Good    |PhysActiveYes |   -1.001|     0.090|   -11.120|   0.000|   -1.178|    -0.825|
+|Fair    |(Intercept)   |    0.915|     0.164|     5.566|   0.000|    0.592|     1.237|
+|Fair    |Age           |    0.003|     0.003|     1.058|   0.290|   -0.003|     0.009|
+|Fair    |PhysActiveYes |   -1.645|     0.107|   -15.319|   0.000|   -1.856|    -1.435|
+|Poor    |(Intercept)   |   -1.521|     0.290|    -5.238|   0.000|   -2.090|    -0.952|
+|Poor    |Age           |    0.022|     0.005|     4.522|   0.000|    0.013|     0.032|
+|Poor    |PhysActiveYes |   -2.656|     0.236|   -11.275|   0.000|   -3.117|    -2.194|
+
+---
+
+### Interpreting coefficients
+
+.question[
+1. What is the baseline category for the model?
+
+2. Write the model for the odds that a person rates themselves as having "Fair" health versus the baseline category.
+
+3. Interpret the coefficient of `Age` in terms of the odds that a person rates themselves as having "Poor" health versus baseline category.
+
+4. Interpret the coefficient of `PhysActiveYes` in terms of the odds that a person rates themselves as having "Very Good" health versus baseline category.
+]
+
+---
+
+### Hypothesis test for `\(\beta_{jk}\)`
+
+Let `\(y=1\)` be the baseline category for the model. 
+
+`$$\log\bigg(\frac{\hat{\pi}_{ik}}{\hat{\pi}_{i1}}\bigg) = \hat{\beta}_{0k} +  \hat{\beta}_{1k} x_{i1} + \dots + \hat{\beta}_{pk} x_{ip}$$`
+
+The test of significance for the coefficient `\(\beta_{jk}\)` is 
+
+.alert[
+
+**Hypotheses**: `\(H_0: \beta_{jk} = 0 \hspace{2mm} \text{ vs } \hspace{2mm} H_a: \beta_{jk} \neq 0\)`
+
+**Test Statistic**: `$$z = \frac{\hat{\beta}_{jk} - 0}{SE(\hat{\beta_{jk}})}$$`
+
+**P-value**: `\(P(|Z| &gt; |z|)\)`, 
+
+where `\(Z \sim N(0, 1)\)`, the Standard Normal distribution
+]
+
+---
+
+### Confidence interval for `\(\beta_{jk}\)`
+
+- We can calculate the .vocab[C\% confidence interval] for `\(\beta_{jk}\)` using the following:
+
+`$$\hat{\beta}_{jk} \pm z^* SE(\hat{\beta}_{jk})$$`
+where `\(z^*\)` is calculated from the `\(N(0,1)\)` distribution
+
+.alert[
+We are `\(C\%\)` confident that for every one unit change in `\(x_{j}\)`, the predicted odds of `\(y = k\)` versus the baseline `\(y = 1\)` multiply by a factor of `\(\exp\{\hat{\beta}_{jk} - z^* SE(\hat{\beta}_{jk})\}\)` to `\(\exp\{\hat{\beta}_{jk} + z^* SE(\hat{\beta}_{jk})\}\)`, holding all else constant.
+  ]
+
+---
+
+### Inference for coefficients
+
+.question[
+
+Refer to the model for the NHANES data: 
+
+1. Interpret the 95% confidence interval for the coefficient of `Age` in terms of the odds that a person rates themselves as having "Poor" health versus baseline category.
+
+2. Interpret the 95% confidence interval for the coefficient of `PhysActiveYes` in terms of the odds that a person rates themselves as having "Very Good" health versus baseline category.
+]
+
+---
+
+class: middle, center
+
+### Predictions
+
+---
+
+## Calculating probabilities
+
+- For categories `\(k=2,\ldots,K\)`, the probability that the `\(i^{th}\)` observation is in the `\(j^{th}\)` category is
+
+`$$\hat{\pi}_{ij} = \frac{\exp\{\hat{\beta}_{0j} + \hat{\beta}_{1j}x_{i1} + \dots + \hat{\beta}_{pj}x_{ip}\}}{1 + \sum\limits_{k=2}^K \exp\{\hat{\beta}_{0k} + \hat{\beta}_{1k}x_{i1} + \dots \hat{\beta}_{pk}x_{ip}\}}$$`
+&lt;br&gt; 
+&lt;br&gt;
+
+- For the baseline category, `\(k=1\)`, we calculate the probability `\(\hat{\pi}_{i1}\)` as
+`$$\hat{\pi}_{i1} = 1- \sum\limits_{k=2}^K \hat{\pi}_{ik}$$`
+
+---
+
+### NHANES: Predicted probabilities 
+ 
+
+```r
+#calculate predicted probabilities
+pred_probs &lt;- as_tibble(predict(health_m, type = "probs")) %&gt;% 
+                        mutate(obs_num = 1:n()) 
+```
+
+
+```r
+pred_probs %&gt;%
+  slice(101:105)
+```
+
+```
+## # A tibble: 5 x 6
+##   Excellent Vgood  Good   Fair    Poor obs_num
+##       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;int&gt;
+## 1    0.0705 0.244 0.451 0.198  0.0366      101
+## 2    0.0702 0.244 0.441 0.202  0.0426      102
+## 3    0.0696 0.244 0.427 0.206  0.0527      103
+## 4    0.0696 0.244 0.427 0.206  0.0527      104
+## 5    0.155  0.393 0.359 0.0861 0.00662     105
+```
+
+---
+
+### Add predictions to original data
+
+
+```r
+health_m_aug &lt;- inner_join(nhanes_adult, pred_probs, 
+                           by = "obs_num") %&gt;%
+  select(obs_num, everything())
+```
+
+
+```r
+health_m_aug %&gt;% 
+  glimpse()
+```
+
+```
+## Observations: 6,710
+## Variables: 9
+## $ obs_num    &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+## $ HealthGen  &lt;fct&gt; Good, Good, Good, Good, Vgood, Vgood, Vgood, Vgood, Vgood,…
+## $ Age        &lt;int&gt; 34, 34, 34, 49, 45, 45, 45, 66, 58, 54, 50, 33, 60, 56, 56…
+## $ PhysActive &lt;fct&gt; No, No, No, No, Yes, Yes, Yes, Yes, Yes, Yes, Yes, No, No,…
+## $ Excellent  &lt;dbl&gt; 0.07069715, 0.07069715, 0.07069715, 0.07003173, 0.15547075…
+## $ Vgood      &lt;dbl&gt; 0.2433979, 0.2433979, 0.2433979, 0.2444214, 0.3922335, 0.3…
+## $ Good       &lt;dbl&gt; 0.4573727, 0.4573727, 0.4573727, 0.4372533, 0.3599639, 0.3…
+## $ Fair       &lt;dbl&gt; 0.19568909, 0.19568909, 0.19568909, 0.20291032, 0.08585489…
+## $ Poor       &lt;dbl&gt; 0.032843150, 0.032843150, 0.032843150, 0.045383332, 0.0064…
+```
+
+---
+
+### Actual vs. Predicted Health Rating
+
+- We can use our model to predict a person's perceived health rating given their age and whether they exercise
+
+- For each observation, the predicted perceived health rating is the category with the highest predicted probability
+
+
+```r
+health_m_aug &lt;- health_m_aug %&gt;% 
+  mutate(pred_health = predict(health_m, type = "class"))
+```
+
+---
+
+### Actual vs. Predicted Health Rating
+
+
+```r
+health_m_aug %&gt;% 
+  count(HealthGen, pred_health, .drop = FALSE) %&gt;%
+  pivot_wider(names_from = pred_health, values_from = n)
+```
+
+```
+## # A tibble: 5 x 6
+##   HealthGen Excellent Vgood  Good  Fair  Poor
+##   &lt;fct&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1 Excellent         0   550   223     0     0
+## 2 Vgood             0  1376   785     0     0
+## 3 Good              0  1255  1399     0     0
+## 4 Fair              0   300   642     0     0
+## 5 Poor              0    24   156     0     0
+```
+
+```r
+#rows = actual, columns = predicted
+```
+
+.question[
+Why do you think no observations were predicted to have a rating of "Excellent", "Fair", or "Poor"?
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

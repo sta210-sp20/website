@@ -1,0 +1,387 @@
+---
+title: "Multinomial Logistic Regression"
+subtitle: "The Basics"
+author: "Prof. Maria Tackett"
+date: "04.06.20"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 5.5,
+	fig.width = 10,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+class: middle, center
+
+### [Click for PDF of slides](16-multinom-logistic-pt1.pdf)
+
+```{r, echo = F}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(patchwork)
+```
+
+---
+
+### Generalized Linear Models (GLM)
+
+- In practice, there are many different types of response variables including:
+
+  + **Binary**: Win or Lose
+  + **Nominal**: Democrat, Republican or Third Party candidate
+  + **Ordered**: Movie rating (1 - 5 stars)
+  + and others...
+
+- These are all examples of **generalized linear models**, a broader class of models that generalize the multiple linear regression model 
+
+- See [*Generalized Linear Models: A Unifying Theory*](https://bookdown.org/roback/bookdown-bysh/ch-glms.html) for more details about GLMs
+
+
+---
+
+### Binary Response (Logistic)
+
+- Given $P(y_i=1|x_i)= \hat{\pi}_i\hspace{5mm} \text{ and } \hspace{5mm}P(y_i=0|x_i) = 1-\hat{\pi}_i$
+
+$$\log\Big(\frac{\hat{\pi}_i}{1-\hat{\pi}_i}\Big) = \hat{\beta}_0 + \hat{\beta}_1 x_{i}$$
+<br> 
+
+- We can calculate $\hat{\pi}_i$ by solving the logit equation: 
+
+$$\hat{\pi}_i = \frac{\exp\{\hat{\beta}_0 + \hat{\beta}_1 x_{i}\}}{1 + \exp\{\hat{\beta}_0 + \hat{\beta}_1 x_{i}\}}$$
+
+---
+
+### Binary Response (Logistic)
+
+- Suppose we consider $y=0$ the .vocab[baseline category] such that 
+
+$$P(y_i=1|x_i) = \pi_{i1} \hspace{2mm}  \text{ and } \hspace{2mm} P(y_i=0|x_i) = \pi_{i0}$$
+
+--
+
+- Then the logistic regression model is 
+
+$$\log\bigg(\frac{\hat{\pi}_{i1}}{1- \hat{\pi}_{i1}}\bigg) = \log\bigg(\frac{\hat{\pi}_{i1}}{\hat{\pi}_{i0}}\bigg) = \hat{\beta}_0 + \hat{\beta}_1 x_i$$
+
+--
+
+- <font class="vocab">Slope, $\hat{\beta}_1$</font>: When $x$ increases by one unit, the predicted odds of $y=1$ versus the baseline $y=0$ are multiply by a factor of $\exp\{\hat{\beta}_1\}$
+
+- <font class="vocab">Intercept, $\hat{\beta}_0$</font>: When $x=0$, the predicted odds of $y=1$ versus the baseline $y=0$ are $\exp\{\hat{\beta}_0\}$
+
+---
+
+### Multinomial response variable
+
+- Suppose the response variable $y$ is categorical and can take values $1, 2, \ldots, K$ such that $(K > 2)$
+
+- <font class="vocab">Multinomial Distribution: </font>
+
+$$P(y=1) = \pi_1, P(y=2) = \pi_2, \ldots, P(y=K) = \pi_K$$
+
+such that $\sum\limits_{k=1}^{K} \pi_k = 1$
+
+---
+
+### Multinomial Logistic Regression
+
+- If we have an explanatory variable $x$, then we want to fit a model such that $P(y = k) = \pi_k$ is a function of $x$
+
+--
+
+- Choose a baseline category. Let's choose $y=1$.  Then, 
+
+$$\log\bigg(\frac{\pi_{ik}}{\pi_{i1}}\bigg) = \beta_{0k} + \beta_{1k} x_i$$
+<br>
+
+--
+
+- In the multinomial logistic model, we have a separate equation for each category of the response relative to the baseline category
+    - If the response has $K$ possible categories, there will be $K-1$ equations as part of the multinomial logistic model
+
+---
+
+### Multinomial Logistic Regression 
+
+- Suppose we have a response variable $y$ that can take three possible outcomes that are coded as "A", "B", "C"
+
+- Let "A" be the baseline category. Then 
+
+$$\log\bigg(\frac{\pi_{iB}}{\pi_{iA}}\bigg) = \beta_{0B} + \beta_{1B}x_i \\[10pt]
+\log\bigg(\frac{\pi_{iC}}{\pi_{iA}}\bigg) = \beta_{0C} + \beta_{1C} x_i$$
+
+---
+
+### NHANES Data
+
+- [National Health and Nutrition Examination Survey](https://www.cdc.gov/nchs/nhanes/index.htm) is conducted by the National Center for Health Statistics (NCHS) 
+
+- The goal is to *"assess the health and nutritional status of adults and children in the United States"*
+
+- This survey includes an interview and a physical examination
+
+---
+
+### NHANES Data
+
+- We will use the data from the <font class="vocab">`NHANES`</font> R package
+
+- Contains 75 variables for the 2009 - 2010 and 2011 - 2012 sample years
+
+- The data in this package is modified for educational purposes and should **not** be used for research
+
+- Original data can be obtained from the [NCHS website](https://www.cdc.gov/nchs/data_access/index.htm) for research purposes
+
+- Type <font class="vocab">`?NHANES`</font> in console to see list of variables and definitions
+
+---
+
+### NHANES: Health Rating vs. Age & Physical Activity
+
+- **Question**: Can we use a person's age and whether they do regular physical activity to predict their self-reported health rating?
+
+- We will analyze the following variables: 
+
+  + <font class="vocab">`HealthGen`: </font>Self-reported rating of participant's health in general.  Excellent, Vgood, Good, Fair, or Poor.
+  
+    + <font class="vocab">`Age`: </font>Age at time of screening (in years). Participants 80 or older were recorded as 80.
+    
+  + <font class="vocab">`PhysActive`: </font>Participant does moderate to vigorous-intensity sports, fitness or recreational activities
+
+ 
+---
+
+### The data
+
+```{r}
+ library(NHANES)
+
+nhanes_adult <- NHANES %>%
+  filter(Age >= 18) %>%
+  select(HealthGen, Age, PhysActive) %>%
+  drop_na() %>%
+  mutate(obs_num = 1:n())
+```
+
+```{r}
+glimpse(nhanes_adult)
+```
+
+---
+
+### Exploratory data analysis
+
+```{r echo = F}
+
+p1 <- ggplot(data = nhanes_adult, aes(x = Age)) + 
+  geom_histogram() +
+  labs(title = "Distribution of Age")
+
+p2 <- ggplot(data = nhanes_adult, aes(x = PhysActive)) + 
+  geom_bar() +
+  labs(title = "Moderate or vigorous sport or exercise")
+
+p3 <- ggplot(data = nhanes_adult, aes(x = HealthGen)) + 
+  geom_bar() +
+  labs(title = "Self-reported rating of overall health")
+
+p3 + (p1 / p2)
+```
+
+---
+
+### Exploratory data analysis
+
+```{r echo = F}
+p1 <- ggplot(data = nhanes_adult, aes(x = HealthGen, y = Age)) +
+  geom_boxplot(fill = "steelblue") + 
+  labs(title = "Age vs. Health Rating")
+
+p2 <- ggplot(data = nhanes_adult, aes(x = HealthGen, fill = PhysActive)) +
+  geom_bar(position = "fill") +
+  labs(y = "Proportion", 
+       title = "Physical Activity vs. Health Rating") +
+  coord_flip()
+
+p1 + p2
+```
+
+---
+
+### Model in R
+
+- Use the <font class="vocab">`multinom()`</font> function in the `nnet` package 
+
+```{r, results = "hide"}
+library(nnet)
+health_m <- multinom(HealthGen ~ Age + PhysActive, 
+                     data = nhanes_adult)
+```
+
+- Put `results = "hide"` in the code chunk header to suppress convergence output 
+
+---
+
+### `HealthGen` vs. `Age` and `PhysActive`
+
+```{r}
+tidy(health_m, conf.int = TRUE, exponentiate = FALSE) %>%
+  kable(digits = 3, format = "markdown")
+```
+
+---
+
+### Interpreting coefficients
+
+.question[
+1. What is the baseline category for the model?
+
+2. Write the model for the odds that a person rates themselves as having "Fair" health versus the baseline category.
+
+3. Interpret the coefficient of `Age` in terms of the odds that a person rates themselves as having "Poor" health versus baseline category.
+
+4. Interpret the coefficient of `PhysActiveYes` in terms of the odds that a person rates themselves as having "Very Good" health versus baseline category.
+]
+
+---
+
+### Hypothesis test for $\beta_{jk}$
+
+Let $y=1$ be the baseline category for the model. 
+
+$$\log\bigg(\frac{\hat{\pi}_{ik}}{\hat{\pi}_{i1}}\bigg) = \hat{\beta}_{0k} +  \hat{\beta}_{1k} x_{i1} + \dots + \hat{\beta}_{pk} x_{ip}$$
+
+The test of significance for the coefficient $\beta_{jk}$ is 
+
+.alert[
+
+**Hypotheses**: $H_0: \beta_{jk} = 0 \hspace{2mm} \text{ vs } \hspace{2mm} H_a: \beta_{jk} \neq 0$
+
+**Test Statistic**: $$z = \frac{\hat{\beta}_{jk} - 0}{SE(\hat{\beta_{jk}})}$$
+
+**P-value**: $P(|Z| > |z|)$, 
+
+where $Z \sim N(0, 1)$, the Standard Normal distribution
+]
+
+---
+
+### Confidence interval for $\beta_{jk}$
+
+- We can calculate the .vocab[C\% confidence interval] for $\beta_{jk}$ using the following:
+
+$$\hat{\beta}_{jk} \pm z^* SE(\hat{\beta}_{jk})$$
+where $z^*$ is calculated from the $N(0,1)$ distribution
+
+.alert[
+We are $C\%$ confident that for every one unit change in $x_{j}$, the predicted odds of $y = k$ versus the baseline $y = 1$ multiply by a factor of $\exp\{\hat{\beta}_{jk} - z^* SE(\hat{\beta}_{jk})\}$ to $\exp\{\hat{\beta}_{jk} + z^* SE(\hat{\beta}_{jk})\}$, holding all else constant.
+  ]
+
+---
+
+### Inference for coefficients
+
+.question[
+
+Refer to the model for the NHANES data: 
+
+1. Interpret the 95% confidence interval for the coefficient of `Age` in terms of the odds that a person rates themselves as having "Poor" health versus baseline category.
+
+2. Interpret the 95% confidence interval for the coefficient of `PhysActiveYes` in terms of the odds that a person rates themselves as having "Very Good" health versus baseline category.
+]
+
+---
+
+class: middle, center
+
+### Predictions
+
+---
+
+## Calculating probabilities
+
+- For categories $k=2,\ldots,K$, the probability that the $i^{th}$ observation is in the $j^{th}$ category is
+
+$$\hat{\pi}_{ij} = \frac{\exp\{\hat{\beta}_{0j} + \hat{\beta}_{1j}x_{i1} + \dots + \hat{\beta}_{pj}x_{ip}\}}{1 + \sum\limits_{k=2}^K \exp\{\hat{\beta}_{0k} + \hat{\beta}_{1k}x_{i1} + \dots \hat{\beta}_{pk}x_{ip}\}}$$
+<br> 
+<br>
+
+- For the baseline category, $k=1$, we calculate the probability $\hat{\pi}_{i1}$ as
+$$\hat{\pi}_{i1} = 1- \sum\limits_{k=2}^K \hat{\pi}_{ik}$$
+
+---
+
+### NHANES: Predicted probabilities 
+ 
+```{r}
+#calculate predicted probabilities
+pred_probs <- as_tibble(predict(health_m, type = "probs")) %>% 
+                        mutate(obs_num = 1:n()) 
+```
+
+```{r}
+pred_probs %>%
+  slice(101:105)
+```
+
+---
+
+### Add predictions to original data
+
+```{r}
+health_m_aug <- inner_join(nhanes_adult, pred_probs, 
+                           by = "obs_num") %>%
+  select(obs_num, everything())
+```
+
+```{r}
+health_m_aug %>% 
+  glimpse()
+```
+
+---
+
+### Actual vs. Predicted Health Rating
+
+- We can use our model to predict a person's perceived health rating given their age and whether they exercise
+
+- For each observation, the predicted perceived health rating is the category with the highest predicted probability
+
+```{r}
+health_m_aug <- health_m_aug %>% 
+  mutate(pred_health = predict(health_m, type = "class"))
+```
+
+---
+
+### Actual vs. Predicted Health Rating
+
+```{r}
+health_m_aug %>% 
+  count(HealthGen, pred_health, .drop = FALSE) %>%
+  pivot_wider(names_from = pred_health, values_from = n)
+#rows = actual, columns = predicted
+```
+
+.question[
+Why do you think no observations were predicted to have a rating of "Excellent", "Fair", or "Poor"?
+]
+

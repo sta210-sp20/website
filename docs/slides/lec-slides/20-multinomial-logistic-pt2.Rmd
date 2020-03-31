@@ -254,6 +254,12 @@ tidy(health_m, exponentiate = FALSE, conf.int = TRUE) %>%
 
 ---
 
+### Inference for coefficients 
+
+
+
+---
+
 ### Model assessment
 
 For each category of the response, $j$:
