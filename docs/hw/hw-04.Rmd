@@ -92,15 +92,15 @@ kable(tidy(model1, conf.int = FALSE),format = "markdown", digits = 3)
 
 2. Use the model to interpret the following in terms of the **log odds** of a moth being removed: 
     - Coefficient of `distance` for a dark moth 
-    - Coefficient of `morphlight` 
+    - Coefficient of `morphlight` given the tree is in Liverpool (`distance = 0`)
 
 3. Use the model to interpret the following in terms of the **odds** of a moth being removed: 
     - Coefficient of `distance` for a dark moth 
-    - Coefficient of `morphlight` 
+    - Coefficient of `morphlight` given the tree is in Liverpool (`distance = 0`)
   
-4. Use the model to interpret the intercept in terms of the **odds** of a moth being removed.
+4. Use the model to interpret the 95% confidence interval in terms fo the interpret the 95% confidence intervals for the coefficients  of `distance` and `morphlight` in terms of the odds of a moth being removed.
 
-5. Using the model in Question 2, interpret the 95% confidence intervals for the coefficients  of `distance` and `morphlight` in terms of the odds of a moth being removed.
+5. Use the model to interpret the intercept in terms of the **odds** of a moth being removed.
 
 6. Use the model to calculate the predicted odds of being removed for a light moth that is glued to the trunk of a tree that is 6.2 km from Liverpool. 
 
