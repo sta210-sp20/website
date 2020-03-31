@@ -7,6 +7,8 @@ output:
     tufte_variant: "envisioned"
     highlight: pygments
     fig_height: 10
+    toc: true
+    toc_depth: 1
 link-citations: yes
 ---
 
@@ -61,6 +63,7 @@ You will need the following packages for today's lab:
 library(tidyverse)
 library(broom)
 library(pROC)
+library(plotROC)
 # Fill in other packages as needed
 ```
 
@@ -68,24 +71,22 @@ library(pROC)
 
 The data in this lab is from the [Spotify Song Attributes](https://www.kaggle.com/geomack/spotifyclassification) data set in Kaggle. This data set contains song characteristics of 2017 songs played by a single user and whether or not he liked the song. Since this dataset contains the song preferences of a single user, the scope of the analysis is limited to this particular user.
 
-You will use data `spotify.csv` to build the logistic regression model and test the performance of the model using the songs in `test_songs.csv`. 
-Click [**here**](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/data/spotify.csv) to download the dataset  `spotify.csv`, and click [**here**](https://www2.stat.duke.edu/courses/Fall19/sta210.001/labs/data/test_songs.csv) to download the dataset `test_songs.csv`. Upload both files to the to the `data` folder in your `lab-08` project.  
+You will use data `spotify.csv` in the `data` folder for this lab. 
 
 The  [Spotify documentation page](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/) contains a description of the variables included in this dataset.
 
 # Exercises
 
-We will pick up where we left last week, assess how well our model fits the data and use it to predict whether a user will like a song on Spotify. 
+## Part I: Data Prep & Modeling
 
-## Part I: The Model 
+1. Read through the Spotify documentation page to learn more about the variables in the dataset. The response variable for this analysis is `like`, where 1 indicates the user likes the song and 0 otherwise. Let's prepare the response and some predictor variables before modeling.
 
-1. Let's begin by preparing the data for modeling. 
-
-    - Refactor `key` so that it is categorical.
-    - Refactor the variable `time_signature` so that it is categorical with three levels: "3", "4", "other".
+    - If needed, change `like` so that it is factor variable type in R.
+    - Change `key`  so that it is a factor variable type in R.
+    - Plot the relationship between `like` and `key`. Briefly describe the relationship between the two variables.
     
 
-2. Fit a model with the following variables: `acousticness`, `danceability`, `duration_ms`, `instrumentalness`, `loudness`, `speechiness`, and `valence`. Display the model output.
+2. Fit a logistic regression model with `like` as the response variable and the following as predictors: `acousticness`, `danceability`, `duration_ms`, `instrumentalness`, `loudness`, `speechiness`, and `valence`. Display the model output.
 
 3. We consider adding `key` to the model. Conduct the appropriate test to determine if `key` should be included in the model. Display the output from the test and write your conclusion in the context of the data.
 
@@ -96,7 +97,7 @@ We will pick up where we left last week, assess how well our model fits the data
 4. Use the model chosen from Exercise 3. If appropriate, interpret the coefficient for `key2` in the context of the data. Otherwise, state why it's not appropriate to interpret this coefficient.
 
 
-## Part II: Model Assessment
+## Part II: Checking Assumptions
 
 In the next few questions, we will do an abbreviated analysis of the residuals. 
 
@@ -110,25 +111,44 @@ In the next few questions, we will do an abbreviated analysis of the residuals.
 
 *In practice, you should examine plots of residuals versus <u>every</u> predictor variable to make a complete assessment of the model fit. For the sake of time on the lab, you will use these three plots to help make the assessment about the model fit.*
 
-9. Based on the residuals plots from Exercises 6 - 8, is the model an appropriate fit for the data? Briefly explain your reasoning. 
+9. Based on the residuals plots from Exercises 6 - 8, is the linearity assumption satisfied? Briefly explain why or why not.
 
-10. Plot the ROC curve and find the area under the curve. Display at least 5 thresholds ("cut-off points") on the curve.
 
-11. Do you think this model effectively differentiates between the songs the user likes versus those he doesn't?
+## Part III: Model Assessment & Prediction
 
-## Part III: Prediction
+10. Plot the ROC curve and calculate the area under the curve (AUC). Display at least 5 thresholds (`n.cut = 5`) on the ROC.
+
+11. Based on the ROC curve and AUC in the previous exercise, do you think this model effectively differentiates between the songs the user likes versus those he doesn't?
 
 12. You are part of the data science team at Spotify, and your model will be used to make song recommendations to users. The goal is to recommend songs the user has a high probability of liking. 
 
 As a group, choose a threshold value to distinguish between songs the user will like and those the user won't like. What is your threshold value? Use the ROC curve to help justify your choice. 
 
-13. Now let's put your model and decision threshold to the test! Use your model to calculate the predicted probability that the user will like the following two songs:
- 
-    - "Sign of the Times" by Harry Styles
-    - "Hotline Bling" by Drake
-    
-The data for the songs can be found in *test_songs.csv*. Show the code and output for the predicted probabilities.
+13. Make the confusion matrix using the threshold chosen in the previous question. 
 
-14. Using your decision threshold from Question 12, would you recommend "Sign of the Times" to this user? Would your recommend "Hotline Bling" to this user? Briefly explain your decision.
+14. Use the confusion matrix from the previous question to answer the following: 
+   - What is the proportion of true positives (sensitivity)? 
+   - What is the proportion of false positives (1 - specificity)? 
+   - What is the misclassification rate? 
+  
 
-15. The user likes "Hotline Bling" but doesn't like "Sign of the Times". How well did your model identify the song the user would like? Briefly explain why your model performed well, or the limitations in the model or threshold that resulted in a poor performance.
+# Submitting the Assignment
+
+See ["Submitting the Assignment"](https://www2.stat.duke.edu/courses/Spring20/sta210.001/labs/lab-01-review-r.html#submitting-the-assignment) from Lab 01 for detailed instructions on how to upload the assignment on GitHub. 
+
+# Grading
+
+Labs will be graded for completion, using the following: 
+
+**Lab completion (50 pts):**
+
+- **Complete**: Reasonable attempt at every question, work submitted as PDF, document, neatly organized with appropriate headings (50 pts)
+- **Partially Complete**: Reasonable attempt at most questions, work submitted as PDF, document, neatly organized with appropriate headings (25 pts)
+- **Incomplete**: Most questions unanswered or partially answered (0 pts)
+
+**Formatting (possible point deductions)**
+
+- Work not submitted as PDF (-5 pts)
+- Document not neatly organized, unclear or missing exercise headers (-5 pts)
+
+
