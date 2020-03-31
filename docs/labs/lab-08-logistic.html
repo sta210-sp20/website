@@ -528,7 +528,7 @@ font-size: 10pt;
 <li><p>Read through the Spotify documentation page to learn more about the variables in the dataset. The response variable for this analysis is <code>like</code>, where 1 indicates the user likes the song and 0 otherwise. Let’s prepare the response and some predictor variables before modeling.</p>
 <ul>
 <li>If needed, change <code>like</code> so that it is factor variable type in R.</li>
-<li>Change <code>key</code> so that it is a factor variable type in R.</li>
+<li>Change <code>key</code> so that it is a factor variable type in R, which takes values “D” if <code>key==2</code>, “D#” if <code>key==3</code>, and “Other” for all other values.</li>
 <li>Plot the relationship between <code>like</code> and <code>key</code>. Briefly describe the relationship between the two variables.</li>
 </ul></li>
 <li><p>Fit a logistic regression model with <code>like</code> as the response variable and the following as predictors: <code>acousticness</code>, <code>danceability</code>, <code>duration_ms</code>, <code>instrumentalness</code>, <code>loudness</code>, <code>speechiness</code>, and <code>valence</code>. Display the model output.</p></li>
@@ -536,7 +536,7 @@ font-size: 10pt;
 </ol>
 <p><br> <strong>Use the model you selected in Exercise 3 for the remainder of the lab.</strong> <br></p>
 <ol start="4" style="list-style-type: decimal">
-<li>Use the model chosen from Exercise 3. If appropriate, interpret the coefficient for <code>key2</code> in the context of the data. Otherwise, state why it’s not appropriate to interpret this coefficient.</li>
+<li>Display the model you chose in Exercise 3. If appropriate, interpret the coefficient for <code>keyD#</code> in the context of the data. Otherwise, state why it’s not appropriate to interpret this coefficient.</li>
 </ol>
 </div>
 <div id="part-ii-checking-assumptions" class="section level2">
@@ -558,18 +558,16 @@ font-size: 10pt;
 <ol start="10" style="list-style-type: decimal">
 <li><p>Plot the ROC curve and calculate the area under the curve (AUC). Display at least 5 thresholds (<code>n.cut = 5</code>) on the ROC.</p></li>
 <li><p>Based on the ROC curve and AUC in the previous exercise, do you think this model effectively differentiates between the songs the user likes versus those he doesn’t?</p></li>
-<li><p>You are part of the data science team at Spotify, and your model will be used to make song recommendations to users. The goal is to recommend songs the user has a high probability of liking.</p></li>
-</ol>
-<p>As a group, choose a threshold value to distinguish between songs the user will like and those the user won’t like. What is your threshold value? Use the ROC curve to help justify your choice.</p>
-<ol start="13" style="list-style-type: decimal">
+<li><p>You are part of the data science team at Spotify, and your model will be used to make song recommendations to users. The goal is to recommend songs the user has a high probability of liking.</p>
+<p>As a group, choose a threshold value to distinguish between songs the user will like and those the user won’t like. What is your threshold value? Use the ROC curve to help justify your choice.</p></li>
 <li><p>Make the confusion matrix using the threshold chosen in the previous question.</p></li>
-<li><p>Use the confusion matrix from the previous question to answer the following:</p></li>
-</ol>
+<li><p>Use the confusion matrix from the previous question to answer the following:</p>
 <ul>
 <li>What is the proportion of true positives (sensitivity)?</li>
 <li>What is the proportion of false positives (1 - specificity)?</li>
 <li>What is the misclassification rate?</li>
-</ul>
+</ul></li>
+</ol>
 </div>
 </div>
 <div id="submitting-the-assignment" class="section level1">

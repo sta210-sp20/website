@@ -82,7 +82,7 @@ The  [Spotify documentation page](https://developer.spotify.com/documentation/we
 1. Read through the Spotify documentation page to learn more about the variables in the dataset. The response variable for this analysis is `like`, where 1 indicates the user likes the song and 0 otherwise. Let's prepare the response and some predictor variables before modeling.
 
     - If needed, change `like` so that it is factor variable type in R.
-    - Change `key`  so that it is a factor variable type in R.
+    - Change `key`  so that it is a factor variable type in R, which takes values "D" if `key==2`, "D#" if `key==3`, and "Other" for all other values.
     - Plot the relationship between `like` and `key`. Briefly describe the relationship between the two variables.
     
 
@@ -94,7 +94,7 @@ The  [Spotify documentation page](https://developer.spotify.com/documentation/we
 **Use the model you selected in Exercise 3 for the remainder of the lab.**
 <br>
 
-4. Use the model chosen from Exercise 3. If appropriate, interpret the coefficient for `key2` in the context of the data. Otherwise, state why it's not appropriate to interpret this coefficient.
+4. Display the model you chose in Exercise 3. If appropriate, interpret the coefficient for `keyD#` in the context of the data. Otherwise, state why it's not appropriate to interpret this coefficient.
 
 
 ## Part II: Checking Assumptions
@@ -122,14 +122,14 @@ In the next few questions, we will do an abbreviated analysis of the residuals.
 
 12. You are part of the data science team at Spotify, and your model will be used to make song recommendations to users. The goal is to recommend songs the user has a high probability of liking. 
 
-As a group, choose a threshold value to distinguish between songs the user will like and those the user won't like. What is your threshold value? Use the ROC curve to help justify your choice. 
+    As a group, choose a threshold value to distinguish between songs the user will like and those the user won't like. What is your threshold value? Use the ROC curve to help justify your choice. 
 
 13. Make the confusion matrix using the threshold chosen in the previous question. 
 
 14. Use the confusion matrix from the previous question to answer the following: 
-   - What is the proportion of true positives (sensitivity)? 
-   - What is the proportion of false positives (1 - specificity)? 
-   - What is the misclassification rate? 
+    - What is the proportion of true positives (sensitivity)? 
+    - What is the proportion of false positives (1 - specificity)? 
+    - What is the misclassification rate? 
   
 
 # Submitting the Assignment
