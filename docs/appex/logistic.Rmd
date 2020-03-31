@@ -53,7 +53,6 @@ heart_data <- read_csv("https://raw.githubusercontent.com/sta210-sp20/datasets/m
   ),
   TenYearCHD = as.factor(TenYearCHD), 
   currentSmoker = as.factor(currentSmoker),
-  TenYearCHD = as.factor(TenYearCHD), 
   ageCent = age - mean(age), 
   totCholCent = totChol - mean(totChol)
   )
@@ -76,6 +75,10 @@ tidy(risk_m, conf.int = TRUE, exponentiate = FALSE) %>%
 x0 <- data_frame(ageCent = (60 - 49.552), 
                  totCholCent = (263 - 236.848), 
 currentSmoker = as.factor(0))
+```
+
+```{r}
+x0
 ```
 
 #### Predicted log-odds
@@ -102,20 +105,34 @@ risk_m_aug <- augment(risk_m, type.predict = "response",
                       type.residuals = "response")
 ```
 
+
+```{r}
+risk_m_aug
+```
+
 ## Confusion Matrix
 
 ```{r}
-threshold <- 0.3
+threshold <- 0.1
 ```
 
 
 ```{r}
 risk_m_aug %>%
-  mutate(risk_predict = if_else(.fitted > threshold, "Yes", "No")) %>%
+  mutate(risk_predict = if_else(.fitted > threshold, "1: Yes", "0: No")) %>%
   group_by(TenYearCHD, risk_predict) %>%
   summarise(n = n()) %>%
   kable(format="markdown")
 ```
+
+
+```{r}
+risk_m_aug %>%
+  mutate(risk_predict = if_else(.fitted > threshold, "1: Yes", "0: No")) %>%
+  select(TenYearCHD, risk_predict)
+```
+
+
 
 <font color = "blue">
 What proportion of observations were misclassified?
