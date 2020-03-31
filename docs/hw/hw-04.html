@@ -1716,17 +1716,19 @@ library(plotROC)
 <li><p>In an article by Roskes et. al. 2011, the authors report on the success rate of penalty kicks that were on-target, so that either the keeper saved the shot or the shot scored, for FIFA World Cup shootouts between 1982 and 2010. They found that 18 out of 20 shots were scored when the goalkeeper’s team was behind, 71 out of 90 shots were scored when the game was tied, and 55 out of 75 shots were scored with the goalkeeper’s team ahead.</p>
 <ul>
 <li><p>Calculate the odds of a successful penalty kick for games in which the goalkeeper’s team was (i) behind, (ii) tied, or (iii) ahead.</p></li>
-<li><p>Calculate the odds ratios for successful penalty kicks for (i) behind versus tied, and (ii) tied versus ahead.</p></li>
+<li><p>Calculate the odds ratios for successful penalty kicks for (i) behind versus tied, and (ii) tied versus ahead. *Note: The odds ratio between events A and B can be calculated as <span class="math inline">\(\phi = \frac{\omega_A}{\omega_B}\)</span> where <span class="math inline">\(\omega_i\)</span> = odds of event <span class="math inline">\(i\)</span>.</p></li>
 </ul></li>
-<li><p>An article in the <em>Journal of Animal Ecology</em> by Bishop (1972) investigated whether moths provide evidence of “survival of the fittest” with their camouflage traits. Researchers glued equal numbers of light and dark morph moths in lifelike positions on tree trunks at 7 locations from 0 to 51.2 km from Liverpool. They then recorded the numbers of moths removed after 24 hours, presumably by predators. The hypothesis was that, since tree trunks near Liverpool were blackened by pollution, light morph moths would be more likely to be removed near Liverpool. The following variables are used in this analysis:</p>
+</ol>
+<hr>
+<p><strong><i>Use the following scenario and model for questions 2 - 7.</i></strong></p>
+<p>An article in the <em>Journal of Animal Ecology</em> by Bishop (1972) investigated whether moths provide evidence of “survival of the fittest” with their camouflage traits. Researchers glued equal numbers of light and dark morph moths in lifelike positions on tree trunks at 7 locations from 0 to 51.2 km from Liverpool. They then recorded the numbers of moths removed after 24 hours, presumably by predators. The hypothesis was that, since tree trunks near Liverpool were blackened by pollution, light morph moths would be more likely to be removed near Liverpool. The following variables are used in this analysis:</p>
 <ul>
 <li><code>morph</code> = light or dark</li>
 <li><code>distance</code> = kilometers from Liverpool</li>
 <li><code>placed</code> = number of moths of a specific morph glued to trees at that location</li>
 <li><code>removed</code> = number of moths of a specific morph removed after 24 hours</li>
 <li><code>log_odds_removed</code> = log odds of being removed</li>
-</ul></li>
-</ol>
+</ul>
 <p>The model with <code>log_odds_removed</code> as the response and <code>distance</code>, <code>morph</code>, the interaction <code>distance*morph</code> as the predictor variables is shown below.</p>
 <table>
 <thead>
@@ -1769,13 +1771,21 @@ library(plotROC)
 </tr>
 </tbody>
 </table>
-<p>Interpret the coefficients for <code>distance</code> and <code>morphlight</code> in terms of the <strong>log odds</strong> of a moth being removed.</p>
-<ol start="3" style="list-style-type: decimal">
-<li><p>Using the model in Question 2, Interpret the coefficients for <code>distance</code> and <code>morphlight</code> in terms of the <strong>odds</strong> of a moth being removed.</p></li>
-<li><p>Using the model in Question 2, interpret the intercept in terms of the <strong>odds</strong> of a moth being removed.</p></li>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Use the model to interpret the following in terms of the <strong>log odds</strong> of a moth being removed:</p>
+<ul>
+<li>Coefficient of <code>distance</code> for a dark moth</li>
+<li>Coefficient of <code>morphlight</code></li>
+</ul></li>
+<li><p>Use the model to interpret the following in terms of the <strong>odds</strong> of a moth being removed:</p>
+<ul>
+<li>Coefficient of <code>distance</code> for a dark moth</li>
+<li>Coefficient of <code>morphlight</code></li>
+</ul></li>
+<li><p>Use the model to interpret the intercept in terms of the <strong>odds</strong> of a moth being removed.</p></li>
 <li><p>Using the model in Question 2, interpret the 95% confidence intervals for the coefficients of <code>distance</code> and <code>morphlight</code> in terms of the odds of a moth being removed.</p></li>
-<li><p>Use the model in Question 2 to calculate the predicted odds of being removed for a light moth that is glued to the trunk of a tree that is 6.2 km from Liverpool.</p></li>
-<li><p>Calculate the predicted probability the moth described in the previous question is removed.</p></li>
+<li><p>Use the model to calculate the predicted odds of being removed for a light moth that is glued to the trunk of a tree that is 6.2 km from Liverpool.</p></li>
+<li><p>Calculate the predicted probability that the moth described in the previous question is removed.</p></li>
 </ol>
 </div>
 <div id="part-2-data-analysis" class="section level2">
@@ -1794,9 +1804,10 @@ library(plotROC)
 <ul>
 <li>Briefly describe the relationship between the response variable <code>spam</code> and each of the predictor variables.</li>
 </ul></li>
-<li>Fit a model with <code>to_mutiple</code> and <code>num_char</code> as the predictor variables and check the model assumptions.</li>
+<li>Fit a model with <code>to_mutiple</code> and <code>num_char</code> as the predictor variables and display the model output.</li>
 <li>Use a drop-in-deviance test to determine if <code>number</code> should be included in the model. Display the output from the test and write your conclusion in the context of the problem.</li>
-<li>Calculate the ROC curve and AUC for the model you chose based on the drop-in-deviance test.</li>
+<li>Check the assumptions for the model you chose based on the drop-in-deviance test.</li>
+<li>Calculate the ROC curve and AUC for the model.</li>
 <li>Let’s suppose you’re a data scientist developing a spam filter. Based on your model, what threshold will you use to determine it would be reasonable to put an email in the spam folder (which the user is unlikely to check)? What trade offs did you consider to make your decision?</li>
 </ul>
 </div>
@@ -1842,7 +1853,8 @@ library(plotROC)
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
-<p>Roskes, Marieke, Daniel Sligte, Shaul Shalvi, and Carsten K. W. De Dreu. 2011. “The Right Side? Under Time Pressure, Approach Motivation Leads to Right-Oriented Bias.” <em>Psychology Science</em>, 22 (11): 1403–7. <a href="doi:10.1177/0956797611418677" class="uri">doi:10.1177/0956797611418677</a>.</p>
+<p>Bishop, J. A. 1972. “An Experimental Study of the Cline of Industrial Melanism in Biston Betularia (L.) (Lepidoptera) Between Urban Liverpool and Rural North Wales.” Journal of Animal Ecology 41 (1): 209–43.</p>
+<p>Roskes, Marieke, Daniel Sligte, Shaul Shalvi, and Carsten K. W. De Dreu. 2011. “The Right Side? Under Time Pressure, Approach Motivation Leads to Right-Oriented Bias.” <em>Psychology Science</em>, 22 (11): 1403–7.</p>
 </div>
 
 

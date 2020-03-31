@@ -59,16 +59,19 @@ The *Conceptual* section of homework contains short answer questions about the c
 
     - Calculate the odds of a successful penalty kick for games in which the goalkeeper’s team was (i) behind, (ii) tied, or (iii) ahead.
 
-    - Calculate the odds ratios for successful penalty kicks for (i) behind versus tied, and (ii) tied versus ahead.
+    - Calculate the odds ratios for successful penalty kicks for (i) behind versus tied, and (ii) tied versus ahead. *Note: The odds ratio between events A and B can be calculated as $\phi = \frac{\omega_A}{\omega_B}$ where $\omega_i$ = odds of event $i$.
 
+<hr> 
 
-2. An article in the *Journal of Animal Ecology* by Bishop (1972) investigated whether moths provide evidence of "survival of the fittest" with their camouflage traits. Researchers glued equal numbers of light and dark morph moths in lifelike positions on tree trunks at 7 locations from 0 to 51.2 km from Liverpool. They then recorded the numbers of moths removed after 24 hours, presumably by predators. The hypothesis was that, since tree trunks near Liverpool were blackened by pollution, light morph moths would be more likely to be removed near Liverpool. The following variables are used in this analysis: 
+**<i>Use the following scenario and model for questions 2 - 7.</i>**
 
-    - `morph` = light or dark
-    - `distance` = kilometers from Liverpool
-    - `placed` = number of moths of a specific morph glued to trees at that location
-    - `removed` = number of moths of a specific morph removed after 24 hours
-    - `log_odds_removed` = log odds of being removed
+An article in the *Journal of Animal Ecology* by Bishop (1972) investigated whether moths provide evidence of "survival of the fittest" with their camouflage traits. Researchers glued equal numbers of light and dark morph moths in lifelike positions on tree trunks at 7 locations from 0 to 51.2 km from Liverpool. They then recorded the numbers of moths removed after 24 hours, presumably by predators. The hypothesis was that, since tree trunks near Liverpool were blackened by pollution, light morph moths would be more likely to be removed near Liverpool. The following variables are used in this analysis: 
+
+  - `morph` = light or dark
+  - `distance` = kilometers from Liverpool
+  - `placed` = number of moths of a specific morph glued to trees at that location
+  - `removed` = number of moths of a specific morph removed after 24 hours
+  - `log_odds_removed` = log odds of being removed
 
 The model with `log_odds_removed` as the response and `distance`, `morph`, the interaction `distance*morph` as the predictor variables is shown below. 
 
@@ -87,17 +90,21 @@ model1 <- lm(log_odds_removed ~ distance + morph + distance * morph, data = moth
 kable(tidy(model1, conf.int = FALSE),format = "markdown", digits = 3)
 ```
 
-Interpret the coefficients for `distance` and `morphlight` in terms of the  **log odds** of a moth being removed.
+2. Use the model to interpret the following in terms of the **log odds** of a moth being removed: 
+    - Coefficient of `distance` for a dark moth 
+    - Coefficient of `morphlight` 
 
-3. Using the model in Question 2, Interpret the coefficients for `distance` and `morphlight` in terms of the **odds** of a moth being removed.
-
-4. Using the model in Question 2, interpret the intercept in terms of the **odds** of a moth being removed.
+3. Use the model to interpret the following in terms of the **odds** of a moth being removed: 
+    - Coefficient of `distance` for a dark moth 
+    - Coefficient of `morphlight` 
+  
+4. Use the model to interpret the intercept in terms of the **odds** of a moth being removed.
 
 5. Using the model in Question 2, interpret the 95% confidence intervals for the coefficients  of `distance` and `morphlight` in terms of the odds of a moth being removed.
 
-6. Use the model in Question 2 to calculate the predicted odds of being removed for a light moth that is glued to the trunk of a tree that is 6.2 km from Liverpool. 
+6. Use the model to calculate the predicted odds of being removed for a light moth that is glued to the trunk of a tree that is 6.2 km from Liverpool. 
 
-7. Calculate the predicted probability the moth described in the previous question is removed. 
+7. Calculate the predicted probability that the moth described in the previous question is removed. 
 
 ## Part 2: Data Analysis
 
@@ -114,9 +121,10 @@ Include the following in your analysis:
 
 - Univariate and bivariate exploratory data analysis. 
   - Briefly describe the relationship between the response variable `spam` and each of the predictor variables.
-- Fit a model with `to_mutiple` and `num_char` as the predictor variables and check the model assumptions. 
+- Fit a model with `to_mutiple` and `num_char` as the predictor variables and display the model output. 
 - Use a drop-in-deviance test to determine if `number` should be included in the model. Display the output from the test and write your conclusion in the context of the problem. 
-- Calculate the ROC curve and AUC for the model you chose based on the drop-in-deviance test. 
+- Check the assumptions for the model you chose based on the drop-in-deviance test.
+- Calculate the ROC curve and AUC for the model.
 - Let's suppose you're a data scientist developing a spam filter. Based on your model, what threshold will you use to determine it would be reasonable to put an email in the spam folder (which the user is unlikely to check)? What trade offs did you consider to make your decision? 
 
 # Submitting Your Assignment
@@ -145,6 +153,8 @@ The questions and data in Part 2 are modified from exercises in Chapter 9 of [*O
 
 # References
 
-Roskes, Marieke, Daniel Sligte, Shaul Shalvi, and Carsten K. W. De Dreu. 2011. “The Right Side? Under Time Pressure, Approach Motivation Leads to Right-Oriented Bias.” *Psychology Science*, 22 (11): 1403–7. doi:10.1177/0956797611418677.
+Bishop, J. A. 1972. “An Experimental Study of the Cline of Industrial Melanism in Biston Betularia (L.) (Lepidoptera) Between Urban Liverpool and Rural North Wales.” Journal of Animal Ecology 41 (1): 209–43.
+
+Roskes, Marieke, Daniel Sligte, Shaul Shalvi, and Carsten K. W. De Dreu. 2011. “The Right Side? Under Time Pressure, Approach Motivation Leads to Right-Oriented Bias.” *Psychology Science*, 22 (11): 1403–7.
 
 
