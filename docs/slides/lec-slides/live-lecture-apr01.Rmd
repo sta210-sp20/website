@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - HW 04 - due **Wed, April 8 at 11:59p EDT**
 
-- Lab 08 on Logistic Regression tomorrow
+- Lab 08 on Logistic Regression tomorrow. Log in to Zoom through Sakai
 
 - **Office hours**: See "Zoom Class Meetings" on [Sakai](https://sakai.duke.edu) for link to office hours
 
