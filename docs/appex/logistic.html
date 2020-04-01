@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2020-03-30" />
+<meta name="date" content="2020-03-31" />
 
 <title>Logistic Regression</title>
 
@@ -375,7 +375,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Logistic Regression</h1>
-<h4 class="date">2020-03-30</h4>
+<h4 class="date">2020-03-31</h4>
 
 </div>
 
@@ -417,9 +417,13 @@ library(knitr)</code></pre>
   ),
   TenYearCHD = as.factor(TenYearCHD), 
   currentSmoker = as.factor(currentSmoker),
-  TenYearCHD = as.factor(TenYearCHD), 
   ageCent = age - mean(age), 
-  totCholCent = totChol - mean(totChol)
+  totCholCent = totChol - mean(totChol), 
+  BPMeds = as.factor(BPMeds), 
+  prevalentStroke = as.factor(prevalentStroke), 
+  prevalentHyp = as.factor(prevalentHyp), 
+  male = as.factor(male), 
+  diabetes = as.factor(diabetes)
   )</code></pre>
 </div>
 <div id="fit-logistic-model" class="section level2">
@@ -487,6 +491,11 @@ tidy(risk_m, conf.int = TRUE, exponentiate = FALSE) %&gt;%
 <pre class="r"><code>x0 &lt;- data_frame(ageCent = (60 - 49.552), 
                  totCholCent = (263 - 236.848), 
 currentSmoker = as.factor(0))</code></pre>
+<pre class="r"><code>x0</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##   ageCent totCholCent currentSmoker
+##     &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;        
+## 1    10.4        26.2 0</code></pre>
 <div id="predicted-log-odds" class="section level4">
 <h4>Predicted log-odds</h4>
 <pre class="r"><code>predict(risk_m, x0) </code></pre>
@@ -505,13 +514,29 @@ currentSmoker = as.factor(0))</code></pre>
 <h3>For all observations using <code>augment</code></h3>
 <pre class="r"><code>risk_m_aug &lt;- augment(risk_m, type.predict = &quot;response&quot;, 
                       type.residuals = &quot;response&quot;)</code></pre>
+<pre class="r"><code>risk_m_aug</code></pre>
+<pre><code>## # A tibble: 3,658 x 11
+##    TenYearCHD ageCent currentSmoker totCholCent .fitted .se.fit  .resid    .hat
+##    &lt;fct&gt;        &lt;dbl&gt; &lt;fct&gt;               &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 0           -10.6  0                  -41.8   0.0441 0.00532 -0.0441 6.72e-4
+##  2 0            -3.55 0                   13.2   0.0857 0.00698 -0.0857 6.21e-4
+##  3 0            -1.55 1                    8.15  0.146  0.00871 -0.146  6.09e-4
+##  4 1            11.4  1                  -11.8   0.319  0.0202   0.681  1.88e-3
+##  5 0            -3.55 1                   48.2   0.138  0.0108  -0.138  9.80e-4
+##  6 0            -6.55 0                   -8.85  0.0649 0.00614 -0.0649 6.21e-4
+##  7 1            13.4  0                  -31.8   0.251  0.0184   0.749  1.79e-3
+##  8 0            -4.55 1                   76.2   0.137  0.0134  -0.137  1.53e-3
+##  9 0             2.45 0                   23.2   0.136  0.00852 -0.136  6.19e-4
+## 10 0            -6.55 1                  -11.8   0.0973 0.00733 -0.0973 6.11e-4
+## # … with 3,648 more rows, and 3 more variables: .sigma &lt;dbl&gt;, .cooksd &lt;dbl&gt;,
+## #   .std.resid &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <div id="confusion-matrix" class="section level2">
 <h2>Confusion Matrix</h2>
-<pre class="r"><code>threshold &lt;- 0.3</code></pre>
+<pre class="r"><code>threshold &lt;- 0.1</code></pre>
 <pre class="r"><code>risk_m_aug %&gt;%
-  mutate(risk_predict = if_else(.fitted &gt; threshold, &quot;Yes&quot;, &quot;No&quot;)) %&gt;%
+  mutate(risk_predict = if_else(.fitted &gt; threshold, &quot;1: Yes&quot;, &quot;0: No&quot;)) %&gt;%
   group_by(TenYearCHD, risk_predict) %&gt;%
   summarise(n = n()) %&gt;%
   kable(format=&quot;markdown&quot;)</code></pre>
@@ -526,26 +551,43 @@ currentSmoker = as.factor(0))</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">0</td>
-<td align="left">No</td>
-<td align="right">2899</td>
+<td align="left">0: No</td>
+<td align="right">1265</td>
 </tr>
 <tr class="even">
 <td align="left">0</td>
-<td align="left">Yes</td>
-<td align="right">202</td>
+<td align="left">1: Yes</td>
+<td align="right">1836</td>
 </tr>
 <tr class="odd">
 <td align="left">1</td>
-<td align="left">No</td>
-<td align="right">457</td>
+<td align="left">0: No</td>
+<td align="right">85</td>
 </tr>
 <tr class="even">
 <td align="left">1</td>
-<td align="left">Yes</td>
-<td align="right">100</td>
+<td align="left">1: Yes</td>
+<td align="right">472</td>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>risk_m_aug %&gt;%
+  mutate(risk_predict = if_else(.fitted &gt; threshold, &quot;1: Yes&quot;, &quot;0: No&quot;)) %&gt;%
+  select(TenYearCHD, risk_predict)</code></pre>
+<pre><code>## # A tibble: 3,658 x 2
+##    TenYearCHD risk_predict
+##    &lt;fct&gt;      &lt;chr&gt;       
+##  1 0          0: No       
+##  2 0          0: No       
+##  3 0          1: Yes      
+##  4 1          1: Yes      
+##  5 0          1: Yes      
+##  6 0          0: No       
+##  7 1          1: Yes      
+##  8 0          1: Yes      
+##  9 0          1: Yes      
+## 10 0          0: No       
+## # … with 3,648 more rows</code></pre>
 <p><font color="blue"> What proportion of observations were misclassified?</p>
 <p>What is the disadvantage of relying on the confusion matrix to assess the accuracy of the model? </font></p>
 </div>
@@ -608,6 +650,375 @@ currentSmoker = as.factor(0))</code></pre>
 <li>Randomness?</li>
 <li>Independence?</li>
 </ul>
+</div>
+<div id="drop-in-deviance-test" class="section level3">
+<h3>Drop-in-Deviance Test</h3>
+<pre class="r"><code>model_red &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totChol, 
+              data = heart_data, family = binomial)
+model_full &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totChol + 
+               education, 
+              data = heart_data, family = binomial)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-2.733</td>
+<td align="right">0.307</td>
+<td align="right">-8.891</td>
+<td align="right">0.000</td>
+<td align="right">-3.338</td>
+<td align="right">-2.132</td>
+</tr>
+<tr class="even">
+<td align="left">ageCent</td>
+<td align="right">0.078</td>
+<td align="right">0.006</td>
+<td align="right">12.701</td>
+<td align="right">0.000</td>
+<td align="right">0.066</td>
+<td align="right">0.091</td>
+</tr>
+<tr class="odd">
+<td align="left">currentSmoker1</td>
+<td align="right">0.449</td>
+<td align="right">0.099</td>
+<td align="right">4.540</td>
+<td align="right">0.000</td>
+<td align="right">0.255</td>
+<td align="right">0.643</td>
+</tr>
+<tr class="even">
+<td align="left">totChol</td>
+<td align="right">0.003</td>
+<td align="right">0.001</td>
+<td align="right">2.503</td>
+<td align="right">0.012</td>
+<td align="right">0.001</td>
+<td align="right">0.005</td>
+</tr>
+<tr class="odd">
+<td align="left">educationHS or GED</td>
+<td align="right">-0.150</td>
+<td align="right">0.173</td>
+<td align="right">-0.869</td>
+<td align="right">0.385</td>
+<td align="right">-0.485</td>
+<td align="right">0.194</td>
+</tr>
+<tr class="even">
+<td align="left">educationSome College</td>
+<td align="right">-0.203</td>
+<td align="right">0.192</td>
+<td align="right">-1.060</td>
+<td align="right">0.289</td>
+<td align="right">-0.578</td>
+<td align="right">0.175</td>
+</tr>
+<tr class="odd">
+<td align="left">educationSome HS</td>
+<td align="right">0.116</td>
+<td align="right">0.160</td>
+<td align="right">0.725</td>
+<td align="right">0.468</td>
+<td align="right">-0.192</td>
+<td align="right">0.436</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>anova(model_red, model_full, test = &quot;Chisq&quot;)</code></pre>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: TenYearCHD ~ ageCent + currentSmoker + totChol
+## Model 2: TenYearCHD ~ ageCent + currentSmoker + totChol + education
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
+## 1      3654     2895.0                       
+## 2      3651     2887.2  3   7.7836   0.0507 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="aic" class="section level3">
+<h3>AIC</h3>
+<pre class="r"><code>glance(model_red)$AIC</code></pre>
+<pre><code>## [1] 2902.989</code></pre>
+<pre class="r"><code>glance(model_full)$AIC</code></pre>
+<pre><code>## [1] 2901.206</code></pre>
+</div>
+<div id="model-selection-using-step" class="section level3">
+<h3>Model Selection using <code>step</code></h3>
+<pre class="r"><code>full_model &lt;- glm(TenYearCHD ~ ., data = heart_data, family = &quot;binomial&quot;)</code></pre>
+<pre class="r"><code>select_model &lt;- step(full_model, direction = &quot;backward&quot;)</code></pre>
+<pre><code>## Start:  AIC=2788.17
+## TenYearCHD ~ male + age + education + currentSmoker + cigsPerDay + 
+##     BPMeds + prevalentStroke + prevalentHyp + diabetes + totChol + 
+##     sysBP + diaBP + BMI + heartRate + glucose + ageCent + totCholCent
+## 
+## 
+## Step:  AIC=2788.17
+## TenYearCHD ~ male + age + education + currentSmoker + cigsPerDay + 
+##     BPMeds + prevalentStroke + prevalentHyp + diabetes + totChol + 
+##     sysBP + diaBP + BMI + heartRate + glucose + ageCent
+## 
+## 
+## Step:  AIC=2788.17
+## TenYearCHD ~ male + age + education + currentSmoker + cigsPerDay + 
+##     BPMeds + prevalentStroke + prevalentHyp + diabetes + totChol + 
+##     sysBP + diaBP + BMI + heartRate + glucose
+## 
+##                   Df Deviance    AIC
+## - education        3   2755.4 2785.4
+## - diabetes         1   2752.2 2786.2
+## - BMI              1   2752.3 2786.3
+## - currentSmoker    1   2752.4 2786.4
+## - diaBP            1   2752.6 2786.6
+## - BPMeds           1   2752.7 2786.7
+## - heartRate        1   2752.7 2786.7
+## - prevalentStroke  1   2754.1 2788.1
+## &lt;none&gt;                 2752.2 2788.2
+## - prevalentHyp     1   2755.0 2789.0
+## - totChol          1   2756.6 2790.6
+## - cigsPerDay       1   2760.4 2794.4
+## - glucose          1   2763.0 2797.0
+## - sysBP            1   2768.6 2802.6
+## - male             1   2776.0 2810.0
+## - age              1   2839.6 2873.6
+## 
+## Step:  AIC=2785.42
+## TenYearCHD ~ male + age + currentSmoker + cigsPerDay + BPMeds + 
+##     prevalentStroke + prevalentHyp + diabetes + totChol + sysBP + 
+##     diaBP + BMI + heartRate + glucose
+## 
+##                   Df Deviance    AIC
+## - diabetes         1   2755.4 2783.4
+## - currentSmoker    1   2755.6 2783.6
+## - BMI              1   2755.8 2783.8
+## - BPMeds           1   2755.9 2783.9
+## - diaBP            1   2755.9 2783.9
+## - heartRate        1   2755.9 2783.9
+## - prevalentStroke  1   2757.4 2785.4
+## &lt;none&gt;                 2755.4 2785.4
+## - prevalentHyp     1   2758.2 2786.2
+## - totChol          1   2759.4 2787.4
+## - cigsPerDay       1   2763.6 2791.6
+## - glucose          1   2765.9 2793.9
+## - sysBP            1   2772.6 2800.6
+## - male             1   2781.4 2809.4
+## - age              1   2852.8 2880.8
+## 
+## Step:  AIC=2783.44
+## TenYearCHD ~ male + age + currentSmoker + cigsPerDay + BPMeds + 
+##     prevalentStroke + prevalentHyp + totChol + sysBP + diaBP + 
+##     BMI + heartRate + glucose
+## 
+##                   Df Deviance    AIC
+## - currentSmoker    1   2755.7 2781.7
+## - BMI              1   2755.9 2781.9
+## - BPMeds           1   2755.9 2781.9
+## - diaBP            1   2756.0 2782.0
+## - heartRate        1   2756.0 2782.0
+## - prevalentStroke  1   2757.4 2783.4
+## &lt;none&gt;                 2755.4 2783.4
+## - prevalentHyp     1   2758.3 2784.3
+## - totChol          1   2759.5 2785.5
+## - cigsPerDay       1   2763.7 2789.7
+## - sysBP            1   2772.6 2798.6
+## - glucose          1   2774.3 2800.3
+## - male             1   2781.5 2807.5
+## - age              1   2853.0 2879.0
+## 
+## Step:  AIC=2781.65
+## TenYearCHD ~ male + age + cigsPerDay + BPMeds + prevalentStroke + 
+##     prevalentHyp + totChol + sysBP + diaBP + BMI + heartRate + 
+##     glucose
+## 
+##                   Df Deviance    AIC
+## - BMI              1   2756.0 2780.0
+## - BPMeds           1   2756.1 2780.1
+## - heartRate        1   2756.2 2780.2
+## - diaBP            1   2756.2 2780.2
+## - prevalentStroke  1   2757.6 2781.6
+## &lt;none&gt;                 2755.7 2781.7
+## - prevalentHyp     1   2758.5 2782.5
+## - totChol          1   2759.7 2783.7
+## - sysBP            1   2772.9 2796.9
+## - glucose          1   2774.4 2798.4
+## - cigsPerDay       1   2777.8 2801.8
+## - male             1   2781.7 2805.7
+## - age              1   2853.0 2877.0
+## 
+## Step:  AIC=2780.01
+## TenYearCHD ~ male + age + cigsPerDay + BPMeds + prevalentStroke + 
+##     prevalentHyp + totChol + sysBP + diaBP + heartRate + glucose
+## 
+##                   Df Deviance    AIC
+## - diaBP            1   2756.4 2778.4
+## - BPMeds           1   2756.5 2778.5
+## - heartRate        1   2756.5 2778.5
+## &lt;none&gt;                 2756.0 2780.0
+## - prevalentStroke  1   2758.0 2780.0
+## - prevalentHyp     1   2759.0 2781.0
+## - totChol          1   2760.1 2782.1
+## - sysBP            1   2773.2 2795.2
+## - glucose          1   2775.2 2797.2
+## - cigsPerDay       1   2777.8 2799.8
+## - male             1   2782.3 2804.3
+## - age              1   2853.3 2875.3
+## 
+## Step:  AIC=2778.42
+## TenYearCHD ~ male + age + cigsPerDay + BPMeds + prevalentStroke + 
+##     prevalentHyp + totChol + sysBP + heartRate + glucose
+## 
+##                   Df Deviance    AIC
+## - BPMeds           1   2756.9 2776.9
+## - heartRate        1   2757.0 2777.0
+## - prevalentStroke  1   2758.4 2778.4
+## &lt;none&gt;                 2756.4 2778.4
+## - prevalentHyp     1   2759.1 2779.1
+## - totChol          1   2760.5 2780.5
+## - glucose          1   2776.0 2796.0
+## - cigsPerDay       1   2778.5 2798.5
+## - sysBP            1   2780.3 2800.3
+## - male             1   2782.3 2802.3
+## - age              1   2861.3 2881.3
+## 
+## Step:  AIC=2776.91
+## TenYearCHD ~ male + age + cigsPerDay + prevalentStroke + prevalentHyp + 
+##     totChol + sysBP + heartRate + glucose
+## 
+##                   Df Deviance    AIC
+## - heartRate        1   2757.5 2775.5
+## &lt;none&gt;                 2756.9 2776.9
+## - prevalentStroke  1   2759.1 2777.1
+## - prevalentHyp     1   2759.8 2777.8
+## - totChol          1   2761.1 2779.1
+## - glucose          1   2776.6 2794.6
+## - cigsPerDay       1   2779.0 2797.0
+## - sysBP            1   2782.2 2800.2
+## - male             1   2782.5 2800.5
+## - age              1   2862.0 2880.0
+## 
+## Step:  AIC=2775.5
+## TenYearCHD ~ male + age + cigsPerDay + prevalentStroke + prevalentHyp + 
+##     totChol + sysBP + glucose
+## 
+##                   Df Deviance    AIC
+## &lt;none&gt;                 2757.5 2775.5
+## - prevalentStroke  1   2759.8 2775.8
+## - prevalentHyp     1   2760.3 2776.3
+## - totChol          1   2761.5 2777.5
+## - glucose          1   2776.7 2792.7
+## - cigsPerDay       1   2779.0 2795.0
+## - sysBP            1   2782.3 2798.3
+## - male             1   2784.4 2800.4
+## - age              1   2864.5 2880.5</code></pre>
+<pre class="r"><code>tidy(select_model, conf.int = TRUE, exponentiate = FALSE) %&gt;%
+  kable(format = &quot;markdown&quot;, digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-8.746</td>
+<td align="right">0.522</td>
+<td align="right">-16.740</td>
+<td align="right">0.000</td>
+<td align="right">-9.782</td>
+<td align="right">-7.734</td>
+</tr>
+<tr class="even">
+<td align="left">male1</td>
+<td align="right">0.553</td>
+<td align="right">0.107</td>
+<td align="right">5.170</td>
+<td align="right">0.000</td>
+<td align="right">0.344</td>
+<td align="right">0.764</td>
+</tr>
+<tr class="odd">
+<td align="left">age</td>
+<td align="right">0.065</td>
+<td align="right">0.006</td>
+<td align="right">10.153</td>
+<td align="right">0.000</td>
+<td align="right">0.053</td>
+<td align="right">0.078</td>
+</tr>
+<tr class="even">
+<td align="left">cigsPerDay</td>
+<td align="right">0.020</td>
+<td align="right">0.004</td>
+<td align="right">4.683</td>
+<td align="right">0.000</td>
+<td align="right">0.011</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="odd">
+<td align="left">prevalentStroke1</td>
+<td align="right">0.752</td>
+<td align="right">0.484</td>
+<td align="right">1.554</td>
+<td align="right">0.120</td>
+<td align="right">-0.234</td>
+<td align="right">1.687</td>
+</tr>
+<tr class="even">
+<td align="left">prevalentHyp1</td>
+<td align="right">0.226</td>
+<td align="right">0.135</td>
+<td align="right">1.671</td>
+<td align="right">0.095</td>
+<td align="right">-0.040</td>
+<td align="right">0.490</td>
+</tr>
+<tr class="odd">
+<td align="left">totChol</td>
+<td align="right">0.002</td>
+<td align="right">0.001</td>
+<td align="right">2.011</td>
+<td align="right">0.044</td>
+<td align="right">0.000</td>
+<td align="right">0.004</td>
+</tr>
+<tr class="even">
+<td align="left">sysBP</td>
+<td align="right">0.014</td>
+<td align="right">0.003</td>
+<td align="right">4.976</td>
+<td align="right">0.000</td>
+<td align="right">0.009</td>
+<td align="right">0.020</td>
+</tr>
+<tr class="odd">
+<td align="left">glucose</td>
+<td align="right">0.007</td>
+<td align="right">0.002</td>
+<td align="right">4.374</td>
+<td align="right">0.000</td>
+<td align="right">0.004</td>
+<td align="right">0.011</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="references" class="section level2">

@@ -54,7 +54,12 @@ heart_data <- read_csv("https://raw.githubusercontent.com/sta210-sp20/datasets/m
   TenYearCHD = as.factor(TenYearCHD), 
   currentSmoker = as.factor(currentSmoker),
   ageCent = age - mean(age), 
-  totCholCent = totChol - mean(totChol)
+  totCholCent = totChol - mean(totChol), 
+  BPMeds = as.factor(BPMeds), 
+  prevalentStroke = as.factor(prevalentStroke), 
+  prevalentHyp = as.factor(prevalentHyp), 
+  male = as.factor(male), 
+  diabetes = as.factor(diabetes)
   )
 ```
 
@@ -211,6 +216,46 @@ risk_m_aug %>%
 - Randomness? 
 - Independence? 
 
+### Drop-in-Deviance Test
+
+```{r}
+model_red <- glm(TenYearCHD ~ ageCent + currentSmoker + totChol, 
+              data = heart_data, family = binomial)
+model_full <- glm(TenYearCHD ~ ageCent + currentSmoker + totChol + 
+               education, 
+              data = heart_data, family = binomial)
+```
+
+
+```{r echo = F}
+tidy(model_full, conf.int = T) %>% kable(format = "markdown", digits = 3)
+```
+
+```{r}
+anova(model_red, model_full, test = "Chisq")
+```
+
+### AIC
+
+```{r}
+glance(model_red)$AIC
+glance(model_full)$AIC
+```
+
+### Model Selection using `step`
+
+```{r}
+full_model <- glm(TenYearCHD ~ ., data = heart_data, family = "binomial")
+```
+
+```{r}
+select_model <- step(full_model, direction = "backward")
+```
+
+```{r}
+tidy(select_model, conf.int = TRUE, exponentiate = FALSE) %>%
+  kable(format = "markdown", digits = 3)
+```
 
 ## References
 
