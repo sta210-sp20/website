@@ -87,7 +87,7 @@ moth <- mutate(moth, notremoved = PLACED - REMOVED,
 
 ```{r echo=F}
 model1 <- lm(log_odds_removed ~ distance + morph + distance * morph, data = moth)
-kable(tidy(model1, conf.int = FALSE),format = "markdown", digits = 3)
+kable(tidy(model1, conf.int = TRUE),format = "markdown", digits = 3)
 ```
 
 2. Use the model to interpret the following in terms of the **log odds** of a moth being removed: 
@@ -98,8 +98,10 @@ kable(tidy(model1, conf.int = FALSE),format = "markdown", digits = 3)
     - Coefficient of `distance` for a dark moth 
     - Coefficient of `morphlight` given the tree is in Liverpool (`distance = 0`)
   
-4. Use the model to interpret the 95% confidence interval in terms fo the interpret the 95% confidence intervals for the coefficients  of `distance` and `morphlight` in terms of the odds of a moth being removed.
-
+4. Use the model to interpret the following in terms of the **odds** of a moth being removed: 
+    - 95% confidence interval for the coefficient of `distance` for a dark moth 
+    - 95% confidence interval for the coefficient of `morphlight` given the tree is in Liverpool (`distance = 0`)
+    
 5. Use the model to interpret the intercept in terms of the **odds** of a moth being removed.
 
 6. Use the model to calculate the predicted odds of being removed for a light moth that is glued to the trunk of a tree that is 6.2 km from Liverpool. 
@@ -110,21 +112,21 @@ kable(tidy(model1, conf.int = FALSE),format = "markdown", digits = 3)
 
 The *Data Analysis* section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as "mini-projects".
 
-For this portion of the homework, we will look at the `email50.csv` located in the `data` folder. Click [here](https://www.openintro.org/data/index.php?data=email50) to read more about the data set and the variable definitions. The goal of this analysis is to create a simple spam filter that uses characteristics of an email to determine if an email is considered spam. We will use the following variables in the analysis: 
+For this portion of the homework, we will look at the `email.csv` located in the `data` folder. Click [here](https://www.openintro.org/data/index.php?data=email) to read more about the data set and the variable definitions. The goal of this analysis is to create a simple spam filter that uses characteristics of an email to determine if an email is considered spam. We will use the following variables in the analysis: 
 
 - `spam`: Indicator for whether the email was spam.
 - `to_multiple`: Indicator for whether the email was addressed to more than one recipient.
 - `num_char`: The number of characters in the email, in thousands.
 - `number`: Factor variable saying whether there was no number, a small number (under 1 million), or a big number.
 
-Include the following in your analysis: 
+Be sure each variable is the correct type in R. If needed, recode the variables so they are the correct type. Then, include the following in your analysis: 
 
 - Univariate and bivariate exploratory data analysis. 
   - Briefly describe the relationship between the response variable `spam` and each of the predictor variables.
 - Fit a model with `to_mutiple` and `num_char` as the predictor variables and display the model output. 
 - Use a drop-in-deviance test to determine if `number` should be included in the model. Display the output from the test and write your conclusion in the context of the problem. 
 - Check the assumptions for the model you chose based on the drop-in-deviance test.
-- Calculate the ROC curve and AUC for the model.
+- Make the ROC curve and calculate the AUC for the model. Be sure to display at least 5 thresholds (`n.cut = 5`) on the curve.
 - Let's suppose you're a data scientist developing a spam filter. Based on your model, what threshold will you use to determine it would be reasonable to put an email in the spam folder (which the user is unlikely to check)? What trade offs did you consider to make your decision? 
 
 # Submitting Your Assignment

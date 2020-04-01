@@ -1738,6 +1738,8 @@ library(plotROC)
 <th align="right">std.error</th>
 <th align="right">statistic</th>
 <th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
 </tr>
 </thead>
 <tbody>
@@ -1747,12 +1749,16 @@ library(plotROC)
 <td align="right">0.240</td>
 <td align="right">-4.687</td>
 <td align="right">0.001</td>
+<td align="right">-1.657</td>
+<td align="right">-0.589</td>
 </tr>
 <tr class="even">
 <td align="left">distance</td>
 <td align="right">0.018</td>
 <td align="right">0.007</td>
 <td align="right">2.437</td>
+<td align="right">0.035</td>
+<td align="right">0.002</td>
 <td align="right">0.035</td>
 </tr>
 <tr class="odd">
@@ -1761,6 +1767,8 @@ library(plotROC)
 <td align="right">0.339</td>
 <td align="right">1.103</td>
 <td align="right">0.296</td>
+<td align="right">-0.381</td>
+<td align="right">1.129</td>
 </tr>
 <tr class="even">
 <td align="left">distance:morphlight</td>
@@ -1768,6 +1776,8 @@ library(plotROC)
 <td align="right">0.011</td>
 <td align="right">-2.612</td>
 <td align="right">0.026</td>
+<td align="right">-0.051</td>
+<td align="right">-0.004</td>
 </tr>
 </tbody>
 </table>
@@ -1782,8 +1792,12 @@ library(plotROC)
 <li>Coefficient of <code>distance</code> for a dark moth</li>
 <li>Coefficient of <code>morphlight</code> given the tree is in Liverpool (<code>distance = 0</code>)</li>
 </ul></li>
+<li><p>Use the model to interpret the following in terms of the <strong>odds</strong> of a moth being removed:</p>
+<ul>
+<li>95% confidence interval for the coefficient of <code>distance</code> for a dark moth</li>
+<li>95% confidence interval for the coefficient of <code>morphlight</code> given the tree is in Liverpool (<code>distance = 0</code>)</li>
+</ul></li>
 <li><p>Use the model to interpret the intercept in terms of the <strong>odds</strong> of a moth being removed.</p></li>
-<li><p>Using the model in Question 2, interpret the 95% confidence intervals for the coefficients of <code>distance</code> and <code>morphlight</code> in terms of the odds of a moth being removed.</p></li>
 <li><p>Use the model to calculate the predicted odds of being removed for a light moth that is glued to the trunk of a tree that is 6.2 km from Liverpool.</p></li>
 <li><p>Calculate the predicted probability that the moth described in the previous question is removed.</p></li>
 </ol>
@@ -1791,14 +1805,14 @@ library(plotROC)
 <div id="part-2-data-analysis" class="section level2">
 <h2>Part 2: Data Analysis</h2>
 <p>The <em>Data Analysis</em> section of homework contains open-ended data analysis questions. Your response should be neatly organized and read as a complete narrative. This means that in addition to addressing the question there should also be exploratory data analysis and an analysis of the model assumptions. In short, these questions should be treated as “mini-projects”.</p>
-<p>For this portion of the homework, we will look at the <code>email50.csv</code> located in the <code>data</code> folder. Click <a href="https://www.openintro.org/data/index.php?data=email50">here</a> to read more about the data set and the variable definitions. The goal of this analysis is to create a simple spam filter that uses characteristics of an email to determine if an email is considered spam. We will use the following variables in the analysis:</p>
+<p>For this portion of the homework, we will look at the <code>email.csv</code> located in the <code>data</code> folder. Click <a href="https://www.openintro.org/data/index.php?data=email">here</a> to read more about the data set and the variable definitions. The goal of this analysis is to create a simple spam filter that uses characteristics of an email to determine if an email is considered spam. We will use the following variables in the analysis:</p>
 <ul>
 <li><code>spam</code>: Indicator for whether the email was spam.</li>
 <li><code>to_multiple</code>: Indicator for whether the email was addressed to more than one recipient.</li>
 <li><code>num_char</code>: The number of characters in the email, in thousands.</li>
 <li><code>number</code>: Factor variable saying whether there was no number, a small number (under 1 million), or a big number.</li>
 </ul>
-<p>Include the following in your analysis:</p>
+<p>Be sure each variable is the correct type in R. If needed, recode the variables so they are the correct type. Then, include the following in your analysis:</p>
 <ul>
 <li>Univariate and bivariate exploratory data analysis.
 <ul>
@@ -1807,7 +1821,7 @@ library(plotROC)
 <li>Fit a model with <code>to_mutiple</code> and <code>num_char</code> as the predictor variables and display the model output.</li>
 <li>Use a drop-in-deviance test to determine if <code>number</code> should be included in the model. Display the output from the test and write your conclusion in the context of the problem.</li>
 <li>Check the assumptions for the model you chose based on the drop-in-deviance test.</li>
-<li>Calculate the ROC curve and AUC for the model.</li>
+<li>Make the ROC curve and calculate the AUC for the model. Be sure to display at least 5 thresholds (<code>n.cut = 5</code>) on the curve.</li>
 <li>Let’s suppose you’re a data scientist developing a spam filter. Based on your model, what threshold will you use to determine it would be reasonable to put an email in the spam folder (which the user is unlikely to check)? What trade offs did you consider to make your decision?</li>
 </ul>
 </div>
