@@ -212,9 +212,29 @@ risk_m_aug %>%
 
 ### Check assumptions: 
 
+<font color = "blue">
 - Linearity? 
 - Randomness? 
 - Independence? 
+</font>
+
+### Inference for coefficients 
+
+```{r}
+tidy(risk_m, conf.int = TRUE, exponentiate = FALSE) %>% 
+   kable(format = "markdown")
+```
+
+<font color = "blue">
+
+How is the test statistic for `currentSmoker1` calculated? 
+
+Is `totCholCent` a statistically significant predictor of the odds a person is high risk for coronary heart disease? 
+
+Justify your answer using the test statistic and p-value.
+
+Justify your answer using the confidence interval. 
+</font>
 
 ### Drop-in-Deviance Test
 
@@ -226,6 +246,17 @@ model_full <- glm(TenYearCHD ~ ageCent + currentSmoker + totChol +
               data = heart_data, family = binomial)
 ```
 
+```{r}
+tidy(model_red)
+```
+
+```{r}
+tidy(model_full)
+```
+
+
+
+
 
 ```{r echo = F}
 tidy(model_full, conf.int = T) %>% kable(format = "markdown", digits = 3)
@@ -235,6 +266,15 @@ tidy(model_full, conf.int = T) %>% kable(format = "markdown", digits = 3)
 anova(model_red, model_full, test = "Chisq")
 ```
 
+
+test statstic = Deviance = 2895.0  - 2887.2
+
+
+P(ChiSquare > 7.7836) Chi-square distribution with 3 degrees of freedom
+
+small p-value, reject H0, at least one new term is statistically significant
+
+
 ### AIC
 
 ```{r}
@@ -242,10 +282,19 @@ glance(model_red)$AIC
 glance(model_full)$AIC
 ```
 
+<font color = "blue">
+
+Based on the drop-in-deviance test, which model would you select?
+
+Based on AIC, which model would you select?
+</font>
+
 ### Model Selection using `step`
 
 ```{r}
 full_model <- glm(TenYearCHD ~ ., data = heart_data, family = "binomial")
+
+tidy(full_model)
 ```
 
 ```{r}
@@ -256,6 +305,11 @@ select_model <- step(full_model, direction = "backward")
 tidy(select_model, conf.int = TRUE, exponentiate = FALSE) %>%
   kable(format = "markdown", digits = 3)
 ```
+
+Age
+currentSmoker
+Age*CurrentSmoker
+
 
 ## References
 

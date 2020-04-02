@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2020-03-31" />
+<meta name="date" content="2020-04-01" />
 
 <title>Logistic Regression</title>
 
@@ -375,7 +375,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Logistic Regression</h1>
-<h4 class="date">2020-03-31</h4>
+<h4 class="date">2020-04-01</h4>
 
 </div>
 
@@ -645,11 +645,15 @@ currentSmoker = as.factor(0))</code></pre>
 </div>
 <div id="check-assumptions" class="section level3">
 <h3>Check assumptions:</h3>
-<ul>
-<li>Linearity?</li>
-<li>Randomness?</li>
-<li>Independence?</li>
-</ul>
+<p><font color="blue"> - Linearity? - Randomness? - Independence? </font></p>
+</div>
+<div id="inference-for-coefficients" class="section level3">
+<h3>Inference for coefficients</h3>
+<p><font color="blue"></p>
+<p>How is the test statistic for <code>currentSmoker1</code> calculated?</p>
+<p>Is <code>totCholCent</code> a statistically significant predictor of the odds a person is high risk for coronary heart disease?</p>
+<p>Justify your answer using the test statistic and p-value.</p>
+<p>Justify your answer using the confidence interval. </font></p>
 </div>
 <div id="drop-in-deviance-test" class="section level3">
 <h3>Drop-in-Deviance Test</h3>
@@ -753,6 +757,9 @@ model_full &lt;- glm(TenYearCHD ~ ageCent + currentSmoker + totChol +
 <pre><code>## [1] 2902.989</code></pre>
 <pre class="r"><code>glance(model_full)$AIC</code></pre>
 <pre><code>## [1] 2901.206</code></pre>
+<p><font color="blue"></p>
+<p>Based on the drop-in-deviance test, which model would you select?</p>
+<p>Based on AIC, which model would you select? </font></p>
 </div>
 <div id="model-selection-using-step" class="section level3">
 <h3>Model Selection using <code>step</code></h3>
