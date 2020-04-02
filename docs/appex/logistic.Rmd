@@ -181,6 +181,23 @@ ggplot(data = risk_m_aug, aes(x = .fitted, y = .resid)) +
 ### Binned residual plots
 
 ```{r}
+nbins <- sqrt(nrow(risk_m_aug))
+
+risk_m_aug %>%
+  arrange(.fitted) %>%
+  slice(1:60) %>%
+  summarise(mean_resid = mean(.resid), #y axis
+            mean_pred = mean(.fitted)) #x axis
+
+
+
+```
+
+  
+  
+  
+
+```{r}
 arm::binnedplot(x = risk_m_aug$.fitted, y = risk_m_aug$.resid,
                 xlab = "Predicted Probabilities", 
                 main = "Binned Residual vs. Predicted Values", 
