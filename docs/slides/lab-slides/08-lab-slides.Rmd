@@ -1,8 +1,8 @@
 ---
 title: "Lab 08"
-subtitle: "Logistic Regression, Part 2"
+subtitle: "Logistic Regression"
 author: ""
-date: "Halloween 2019 `r emo::ji('jack_o_lantern')`"
+date: "04.02.20"
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
@@ -45,62 +45,38 @@ library(rvest)
 ```
 
 
-### Agenda
+### Lab grading
 
+- **Completion**
+  - **Complete**: Reasonable attempt at every question, work submitted as PDF, document, neatly organized with appropriate headings (50 pts)
+   - **Partially Complete**: Reasonable attempt at most questions, work submitted as PDF, document, neatly organized with appropriate headings (25 pts)
+  - **Incomplete**: Most questions unanswered or partially answered (0 pts)
 
-1. Lab introduction
-
-2. Getting started
+- **Formatting**
+  - Work not submitted as PDF (-5 pts)
+  - Document not neatly organized, unclear or missing exercise headers (-5 pts)
 
 ---
 
-### Lab 07: Logistic Regression Part 2
+### Tip for remote collaboration: GitHub issues
+
+- Each GitHub repo has a tab called "Issues" that can be used to keep track of what needs to be done on a given project. 
+  - GitHub issues are especially useful when working with a team remotely, 
+
+- One way to use issues on lab assignments and the project: 
+  - Create a new issue in the repo that includes a list of tasks for the assignment/project,
+  - Assign each task to a team member by tagging their GitHub username (e.g. @Username)
+  
+- Learn more about creating a new issue [here](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue).
+
+---
+
+### Lab 08 Introduction
 
 <font class="vocab">Goal: </font> Fit a logistic regression model to predict the probability a Spotify user will like a song
-- This week's focus is on assessing the model fit and using it to predict whether a user likes a few selected songs. 
 
 <font class="vocab">Data: </font> Song characteristics from Spotify.com and like/dislike from a Spotify user
-- You will download the datasets `spotify.csv` and `test_songs.csv` from the lab instructions and upload them into the data folder of your project. 
 - Link to the data dictionary are on the [Spotify documentation page](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/)
 
-**Use the lecture notes on logistic regression for help with coding and interpretations.**
-
-
----
-
-### Getting started with the lab
-
-- Go to the course GitHub organization and find the **lab-08** repo that has your team name on it.
-
-- On GitHub, click on the green Clone or download button, select Use HTTPS (this might already be selected by default, and if it is, you’ll see the text Clone with HTTPS). Click on the clipboard icon to copy the repo URL.
-
-- Go to RStudio Cloud and into the course workspace. Create a New Project from Git Repo. You will need to click on the down arrow next to the New Project button to see this option.
-
-- Copy and paste the URL of your assignment repo into the dialog box and click OK. 
-
-- Run the following in the console to configure Git:
-
-```{r eval=FALSE}
-library(usethis)
-use_git_config(user.name="github username", 
-               user.email="your email")
-```
-
-- **Use the email address associated with your GitHub account**
-
----
-
-### Caching your password
-
-You need to cache your password on a per-project basis: 
-
-- Go to the **Terminal** within a project (the most recent lab?)
-- Type the following to cache your password for $60 * 60 * 24 * 7 = 604800$ seconds
-
-```{bash eval=FALSE}
-git config --global credential.helper 'cache --timeout 604800'
-```
-
-You will need to enter your GitHub username and password one more time after caching the password. After that you won't need to enter your credentials for 604800 seconds = 7 days.
-
+- Need a reminder on the code? See [logistic.html](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/logistic.html)
 
