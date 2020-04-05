@@ -1,0 +1,386 @@
+---
+title: "Multinomial Logistic Regression"
+subtitle: "Assumptions & Model Selection"
+author: "Prof. Maria Tackett"
+date: "04.08.20"
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+    css: "sta210-slides.css"
+    logo: img/sta210-sticker-icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 5.5,
+	fig.width = 10,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+class: middle, center
+
+### [Click for PDF of slides](17-multinom-logistic-pt2.pdf)
+
+```{r, echo = F}
+library(tidyverse)
+library(knitr)
+library(broom)
+```
+
+---
+
+class: middle, center
+
+### Checking assumptions
+
+---
+
+### Assumptions for multinomial logistic regression
+
+We want to check the following assumptions for the multinomial logistic regression model: 
+
+- .vocab[Linearity]: Is there a linear relationship between the log-odds and the predictor variables?
+
+<br>
+
+- .vocab[Randomness]: Was the sample randomly selected? Or can we reasonably treat it as random? 
+
+<br>
+
+- .vocab[Independence]: There is no obvious relationship between observations
+
+---
+
+### Checking linearity
+
+For each category of the response, $j$:
+
+- Analyze a plot of the binned residuals vs. predicted probabilities 
+
+- Analyze a plot of the binned residuals vs. each continuous predictor variable
+
+- Look for any patterns in the residuals plots
+
+- For each categorical predictor variables, examine the average residuals for each category of the predictor 
+
+---
+
+### Randomness
+
+Assess randomness based on a description of the data collection
+
+- Was the sample randomly selected?
+- If the sample was not randomly selected, is there reason to believe the observations in the sample differ systematically from the population of interest?
+
+---
+
+### Independence
+
+Assess independence based on a description of the data collection
+
+- Is there an obvious relationship between observations? 
+  - This assumption is most often violated when data was collected over time or there is a spatial relationship between observations
+
+---
+
+### NHANES Data
+
+- **Question**: Can we use a person's age and whether they do regular physical activity to predict their self-reported health rating?
+
+- Variables: 
+
+  + <font class="vocab">`HealthGen`: </font>Self-reported rating of participant's health in general.  Excellent, Vgood, Good, Fair, or Poor.
+  
+    + <font class="vocab">`Age`: </font>Age at time of screening (in years). Participants 80 or older were recorded as 80.
+    
+  + <font class="vocab">`PhysActive`: </font>Participant does moderate to vigorous-intensity sports, fitness or recreational activities
+  
+  + .vocab[`Education`]: Categorical variable for highest education level attained 
+  
+```{r echo = FALSE}
+ library(NHANES)
+
+nhanes_adult <- NHANES %>%
+  filter(Age >= 18) %>%
+  select(HealthGen, Age, PhysActive, Education) %>%
+  filter(!is.na(HealthGen), !is.na(Age), !is.na(PhysActive)) %>%
+  mutate(obs_num = 1:n())
+```
+  
+---
+
+### Model 
+
+```{r, results = "hide", echo = FALSE}
+library(nnet)
+health_m <- multinom(HealthGen ~ Age + PhysActive, 
+                     data = nhanes_adult)
+```
+
+```{r echo = FALSE}
+tidy(health_m, conf.int = TRUE, exponentiate = FALSE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+
+---
+
+### NHANES: Residuals
+
+```{r, results = "hide", echo = FALSE}
+library(nnet)
+health_m <- multinom(HealthGen ~ Age + PhysActive, 
+                     data = nhanes_adult)
+```
+
+```{r}
+#calculate residuals
+residuals <- as_tibble(residuals(health_m)) %>%  #calculate residuals
+  setNames(paste('resid.', names(.), sep = "")) %>% #update column names
+  mutate(obs_num = 1:n()) #add obs number
+```
+
+```{r}
+residuals %>%
+  slice(1:10)
+```
+
+---
+
+### Make "augmented" dataset
+
+```{r}
+#calculate predicted probabilities
+pred_probs <- as_tibble(predict(health_m, type = "probs")) %>% 
+  mutate(obs_num = 1:n()) 
+```
+
+```{r}
+health_m_aug <- inner_join(nhanes_adult, pred_probs) #add probs
+health_m_aug <- inner_join(health_m_aug, residuals) #add resid
+```
+
+```{r}
+health_m_aug %>% 
+  glimpse()
+```
+
+---
+
+### Binned residuals vs. pred. probabilities
+
+```{r echo = F, fig.height = 4.5}
+par(mfrow = c(2,2))
+arm::binnedplot(x = health_m_aug$Excellent, y = health_m_aug$resid.Excellent, 
+                xlab="Predicted P(Excellent)", 
+                ylab="Residuals", 
+                main="Excellent: Residuals vs. Pred. Probabilities", 
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Vgood, y = health_m_aug$resid.Vgood, 
+                xlab="Predicted P(Vgood)", 
+                ylab="Residuals", 
+                main="Very Good: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Good, y = health_m_aug$resid.Good, 
+                xlab="Predicted P(Good)", 
+                ylab="Residuals", 
+                main="Good: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+
+arm::binnedplot(x = health_m_aug$Fair, y = health_m_aug$resid.Fair, 
+                xlab="Predicted P(Fair)", 
+                ylab="Residuals", 
+                main="Fair: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Poor, y = health_m_aug$resid.Poor, 
+                xlab="Predicted P(Poor)", 
+                ylab="Residuals", 
+                main="Poor: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+```
+
+---
+
+### Binned residuals vs. `Age`  
+
+```{r echo = F, fig.height = 4.5}
+par(mfrow = c(2,2))
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Excellent, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Excellent: Residuals vs. Age", 
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Vgood, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Very Good: Residuals vs. Age",
+                col.int = FALSE)
+
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Good, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Good: Residuals vs. Age",
+                col.int = FALSE)
+
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Fair, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Fair: Residuals vs. Age",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Poor, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Poor: Residuals vs. Age",
+                col.int = FALSE)
+```
+
+---
+
+### Residuals vs. `PhysActive`
+
+```{r}
+health_m_aug %>%
+  group_by(PhysActive) %>%
+  summarise(mean.Excellent = mean(resid.Excellent), 
+            mean.Vgood = mean(resid.Vgood), 
+            mean.Good = mean(resid.Good),
+            mean.Fair = mean(resid.Fair), 
+            mean.Poor = mean(resid.Poor)) %>%
+  t()
+```
+
+---
+
+### Randomness & Independence
+
+- .vocab[Randomness]: 
+  - About the R dataset: *"NHANES can be treated, for educational purposes, as if it were a simple random sample from the American population."* 
+  - What about the actual NHANES data? Type `?NHANES` in the console to read more details about how participants are selected for the actual survey.
+  
+- .vocab[Independence]: The participants are randomly selected within subpopulations, so the independence assumption is satisfied.
+
+---
+
+class: middle, center
+
+### Model Selection
+
+---
+
+### Comparing Nested Models 
+
+- Suppose there are two models: 
+    - Reduced Model includes predictors $x_1, \ldots, x_q$
+    - Full Model includes predictors $x_1, \ldots, x_q, x_{q+1}, \ldots, x_p$
+
+- We want to test the hypotheses
+$$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+& H_a: \text{ at least 1 }\beta_j \text{ is not} 0\end{aligned}$$
+
+- To do so, we will use the .vocab[Drop-in-Deviance test] (very similar to logistic regression) 
+
+---
+
+### Add `Education` to the model? 
+
+- We consider adding the participants' `Education` level to the model.
+    - Education takes values `8thGrade`, `9-11thGrade`, `HighSchool`, `SomeCollege`, and `CollegeGrad`
+
+- Models we're testing: 
+    - Reduced Model: `Age`, `PhysActive`
+    - Full Model: `Age`, `PhysActive`, `Education`
+    
+.alert[
+$$\begin{align}&H_0: \beta_{9-11thGrade} = \beta_{HighSchool} = \beta_{SomeCollege} = \beta_{CollegeGrad} = 0\\
+&H_a: \text{ at least one }\beta_j \text{ is not equal to }0\end{align}$$
+]
+
+---
+
+### Add `Education` to the model? 
+
+.alert[
+$$\begin{align}&H_0: \beta_{9-11thGrade} = \beta_{HighSchool} = \beta_{SomeCollege} = \beta_{CollegeGrad} = 0\\
+&H_a: \text{ at least one }\beta_j \text{ is not equal to }0\end{align}$$
+]
+
+```{r echo = F}
+nhanes_adult <- nhanes_adult %>%
+  drop_na()
+```
+
+
+```{r results = "hide"}
+model_red <- multinom(HealthGen ~ Age + PhysActive, 
+               data = nhanes_adult)
+model_full <- multinom(HealthGen ~ Age + PhysActive + Education, 
+               data = nhanes_adult)
+```
+
+---
+
+### Add `Education` to the model? 
+
+```{r results = "hide"}
+model_red <- multinom(HealthGen ~ Age + PhysActive, 
+               data = nhanes_adult)
+model_full <- multinom(HealthGen ~ Age + PhysActive + Education, 
+               data = nhanes_adult)
+```
+
+
+```{r}
+anova(model_red, model_full, test = "Chisq") %>%
+  kable(format = "markdown")
+```
+
+--
+
+At least one coefficient associated with `Education` is non-zero. Therefore, `Education` is a statistically significant predictor for `HealthGen`. 
+
+---
+
+### Model with `Education`
+
+```{r echo = F}
+tidy(model_full, conf.int = T, exponentiate = F) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+---
+
+### Compare NHANES models using AIC
+
+```{r}
+glance(model_red)
+glance(model_full)
+```
+
+- Use the `step()` function to do model selection with AIC as the selection criteria
+
+
+---
+
+class: middle, center
+
+.question[
+What questions do you have about multinomial logistic regression?
+]

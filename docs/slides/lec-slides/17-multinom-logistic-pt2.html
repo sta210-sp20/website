@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Multinomial Logistic Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Maria Tackett" />
+    <link rel="stylesheet" href="sta210-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Multinomial Logistic Regression
+## Assumptions &amp; Model Selection
+### Prof. Maria Tackett
+### 04.08.20
+
+---
+
+
+
+
+class: middle, center
+
+### [Click for PDF of slides](17-multinom-logistic-pt2.pdf)
+
+
+
+---
+
+class: middle, center
+
+### Checking assumptions
+
+---
+
+### Assumptions for multinomial logistic regression
+
+We want to check the following assumptions for the multinomial logistic regression model: 
+
+- .vocab[Linearity]: Is there a linear relationship between the log-odds and the predictor variables?
+
+&lt;br&gt;
+
+- .vocab[Randomness]: Was the sample randomly selected? Or can we reasonably treat it as random? 
+
+&lt;br&gt;
+
+- .vocab[Independence]: There is no obvious relationship between observations
+
+---
+
+### Checking linearity
+
+For each category of the response, `\(j\)`:
+
+- Analyze a plot of the binned residuals vs. predicted probabilities 
+
+- Analyze a plot of the binned residuals vs. each continuous predictor variable
+
+- Look for any patterns in the residuals plots
+
+- For each categorical predictor variables, examine the average residuals for each category of the predictor 
+
+---
+
+### Randomness
+
+Assess randomness based on a description of the data collection
+
+- Was the sample randomly selected?
+- If the sample was not randomly selected, is there reason to believe the observations in the sample differ systematically from the population of interest? 
+
+---
+
+### Independence
+
+Assess independence based on a description of the data collection
+
+- Is there an obvious relationship between observations? 
+  - This assumption is most often violated when data was collected over time or there is a spatial relationship between observations? 
+
+---
+
+### NHANES Data
+
+- **Question**: Can we use a person's age and whether they do regular physical activity to predict their self-reported health rating?
+
+- Variables: 
+
+  + &lt;font class="vocab"&gt;`HealthGen`: &lt;/font&gt;Self-reported rating of participant's health in general.  Excellent, Vgood, Good, Fair, or Poor.
+  
+    + &lt;font class="vocab"&gt;`Age`: &lt;/font&gt;Age at time of screening (in years). Participants 80 or older were recorded as 80.
+    
+  + &lt;font class="vocab"&gt;`PhysActive`: &lt;/font&gt;Participant does moderate to vigorous-intensity sports, fitness or recreational activities
+  
+  + .vocab[`Education`]: Categorical variable for highest education level attained 
+  
+
+  
+---
+
+### Model 
+
+
+
+
+|y.level |term          | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:-------|:-------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|Vgood   |(Intercept)   |    1.205|     0.145|     8.325|   0.000|    0.922|     1.489|
+|Vgood   |Age           |    0.001|     0.002|     0.369|   0.712|   -0.004|     0.006|
+|Vgood   |PhysActiveYes |   -0.321|     0.093|    -3.454|   0.001|   -0.503|    -0.139|
+|Good    |(Intercept)   |    1.948|     0.141|    13.844|   0.000|    1.672|     2.223|
+|Good    |Age           |   -0.002|     0.002|    -0.977|   0.329|   -0.007|     0.002|
+|Good    |PhysActiveYes |   -1.001|     0.090|   -11.120|   0.000|   -1.178|    -0.825|
+|Fair    |(Intercept)   |    0.915|     0.164|     5.566|   0.000|    0.592|     1.237|
+|Fair    |Age           |    0.003|     0.003|     1.058|   0.290|   -0.003|     0.009|
+|Fair    |PhysActiveYes |   -1.645|     0.107|   -15.319|   0.000|   -1.856|    -1.435|
+|Poor    |(Intercept)   |   -1.521|     0.290|    -5.238|   0.000|   -2.090|    -0.952|
+|Poor    |Age           |    0.022|     0.005|     4.522|   0.000|    0.013|     0.032|
+|Poor    |PhysActiveYes |   -2.656|     0.236|   -11.275|   0.000|   -3.117|    -2.194|
+
+
+---
+
+### NHANES: Residuals
+
+
+
+
+```r
+#calculate residuals
+residuals &lt;- as_tibble(residuals(health_m)) %&gt;%  #calculate residuals
+  setNames(paste('resid.', names(.), sep = "")) %&gt;% #update column names
+  mutate(obs_num = 1:n()) #add obs number
+```
+
+
+```r
+residuals %&gt;%
+  slice(1:10)
+```
+
+```
+## # A tibble: 10 x 6
+##    resid.Excellent resid.Vgood resid.Good resid.Fair resid.Poor obs_num
+##              &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;   &lt;int&gt;
+##  1         -0.0707      -0.243      0.543    -0.196    -0.0328        1
+##  2         -0.0707      -0.243      0.543    -0.196    -0.0328        2
+##  3         -0.0707      -0.243      0.543    -0.196    -0.0328        3
+##  4         -0.0700      -0.244      0.563    -0.203    -0.0454        4
+##  5         -0.155        0.608     -0.360    -0.0859   -0.00648       5
+##  6         -0.155        0.608     -0.360    -0.0859   -0.00648       6
+##  7         -0.155        0.608     -0.360    -0.0859   -0.00648       7
+##  8         -0.156        0.600     -0.343    -0.0916   -0.0103        8
+##  9         -0.156        0.603     -0.349    -0.0894   -0.00865       9
+## 10         -0.156       -0.396     -0.353     0.912    -0.00791      10
+```
+
+---
+
+### Make "augmented" dataset
+
+
+```r
+#calculate predicted probabilities
+pred_probs &lt;- as_tibble(predict(health_m, type = "probs")) %&gt;% 
+  mutate(obs_num = 1:n()) 
+```
+
+
+```r
+health_m_aug &lt;- inner_join(nhanes_adult, pred_probs) #add probs
+health_m_aug &lt;- inner_join(health_m_aug, residuals) #add resid
+```
+
+
+```r
+health_m_aug %&gt;% 
+  glimpse()
+```
+
+```
+## Rows: 6,710
+## Columns: 15
+## $ HealthGen       &lt;fct&gt; Good, Good, Good, Good, Vgood, Vgood, Vgood, Vgood, V…
+## $ Age             &lt;int&gt; 34, 34, 34, 49, 45, 45, 45, 66, 58, 54, 50, 33, 60, 5…
+## $ PhysActive      &lt;fct&gt; No, No, No, No, Yes, Yes, Yes, Yes, Yes, Yes, Yes, No…
+## $ Education       &lt;fct&gt; High School, High School, High School, Some College, …
+## $ obs_num         &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
+## $ Excellent       &lt;dbl&gt; 0.07069715, 0.07069715, 0.07069715, 0.07003173, 0.155…
+## $ Vgood           &lt;dbl&gt; 0.2433979, 0.2433979, 0.2433979, 0.2444214, 0.3922335…
+## $ Good            &lt;dbl&gt; 0.4573727, 0.4573727, 0.4573727, 0.4372533, 0.3599639…
+## $ Fair            &lt;dbl&gt; 0.19568909, 0.19568909, 0.19568909, 0.20291032, 0.085…
+## $ Poor            &lt;dbl&gt; 0.032843150, 0.032843150, 0.032843150, 0.045383332, 0…
+## $ resid.Excellent &lt;dbl&gt; -0.07069715, -0.07069715, -0.07069715, -0.07003173, -…
+## $ resid.Vgood     &lt;dbl&gt; -0.2433979, -0.2433979, -0.2433979, -0.2444214, 0.607…
+## $ resid.Good      &lt;dbl&gt; 0.5426273, 0.5426273, 0.5426273, 0.5627467, -0.359963…
+## $ resid.Fair      &lt;dbl&gt; -0.19568909, -0.19568909, -0.19568909, -0.20291032, -…
+## $ resid.Poor      &lt;dbl&gt; -0.032843150, -0.032843150, -0.032843150, -0.04538333…
+```
+
+---
+
+### Binned residuals vs. pred. probabilities
+
+&lt;img src="17-multinom-logistic-pt2_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;&lt;img src="17-multinom-logistic-pt2_files/figure-html/unnamed-chunk-11-2.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Binned residuals vs. `Age`  
+
+&lt;img src="17-multinom-logistic-pt2_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;&lt;img src="17-multinom-logistic-pt2_files/figure-html/unnamed-chunk-12-2.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Residuals vs. `PhysActive`
+
+
+```r
+health_m_aug %&gt;%
+  group_by(PhysActive) %&gt;%
+  summarise(mean.Excellent = mean(resid.Excellent), 
+            mean.Vgood = mean(resid.Vgood), 
+            mean.Good = mean(resid.Good),
+            mean.Fair = mean(resid.Fair), 
+            mean.Poor = mean(resid.Poor)) %&gt;%
+  t()
+```
+
+```
+##                [,1]            [,2]           
+## PhysActive     "No"            "Yes"          
+## mean.Excellent "-1.194022e-07" " 2.106514e-06"
+## mean.Vgood     " 1.644794e-06" "-1.871461e-06"
+## mean.Good      "-3.227820e-06" " 1.140886e-07"
+## mean.Fair      " 1.333924e-06" "-3.860756e-07"
+## mean.Poor      "3.685045e-07"  "3.693412e-08"
+```
+
+---
+
+### Randomness &amp; Independence
+
+- .vocab[Randomness]: 
+  - About the R dataset: *"NHANES can be treated, for educational purposes, as if it were a simple random sample from the American population."* 
+  - What about the actual NHANES data? Type `?NHANES` in the console to read more details about how participants are selected for the actual survey.
+  
+- .vocab[Independence]: The participants are randomly selected within subpopulations, so the independence assumption is satisfied.
+
+---
+
+class: middle, center
+
+### Model Selection
+
+---
+
+### Comparing Nested Models 
+
+- Suppose there are two models: 
+    - Reduced Model includes predictors `\(x_1, \ldots, x_q\)`
+    - Full Model includes predictors `\(x_1, \ldots, x_q, x_{q+1}, \ldots, x_p\)`
+
+- We want to test the hypotheses
+`$$\begin{aligned}&amp;H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+&amp; H_a: \text{ at least 1 }\beta_j \text{ is not} 0\end{aligned}$$`
+
+- To do so, we will use the .vocab[Drop-in-Deviance test] (very similar to logistic regression) 
+
+---
+
+### Add `Education` to the model? 
+
+- We consider adding the participants' `Education` level to the model.
+    - Education takes values `8thGrade`, `9-11thGrade`, `HighSchool`, `SomeCollege`, and `CollegeGrad`
+
+- Models we're testing: 
+    - Reduced Model: `Age`, `PhysActive`
+    - Full Model: `Age`, `PhysActive`, `Education`
+    
+.alert[
+`$$\begin{align}&amp;H_0: \beta_{9-11thGrade} = \beta_{HighSchool} = \beta_{SomeCollege} = \beta_{CollegeGrad} = 0\\
+&amp;H_a: \text{ at least one }\beta_j \text{ is not equal to }0\end{align}$$`
+]
+
+---
+
+### Add `Education` to the model? 
+
+.alert[
+`$$\begin{align}&amp;H_0: \beta_{9-11thGrade} = \beta_{HighSchool} = \beta_{SomeCollege} = \beta_{CollegeGrad} = 0\\
+&amp;H_a: \text{ at least one }\beta_j \text{ is not equal to }0\end{align}$$`
+]
+
+
+
+
+
+```r
+model_red &lt;- multinom(HealthGen ~ Age + PhysActive, 
+               data = nhanes_adult)
+model_full &lt;- multinom(HealthGen ~ Age + PhysActive + Education, 
+               data = nhanes_adult)
+```
+
+---
+
+### Add `Education` to the model? 
+
+
+```r
+model_red &lt;- multinom(HealthGen ~ Age + PhysActive, 
+               data = nhanes_adult)
+model_full &lt;- multinom(HealthGen ~ Age + PhysActive + Education, 
+               data = nhanes_adult)
+```
+
+
+
+```r
+anova(model_red, model_full, test = "Chisq") %&gt;%
+  kable(format = "markdown")
+```
+
+
+
+|Model                        | Resid. df| Resid. Dev|Test   |    Df| LR stat.| Pr(Chi)|
+|:----------------------------|---------:|----------:|:------|-----:|--------:|-------:|
+|Age + PhysActive             |     25848|   16994.23|       |    NA|       NA|      NA|
+|Age + PhysActive + Education |     25832|   16505.10|1 vs 2 |    16| 489.1319|       0|
+
+--
+
+At least one coefficient associated with `Education` is non-zero. Therefore, `Education` is a statistically significant predictor for `HealthGen`. 
+
+---
+
+### Model with `Education`
+
+
+|y.level |term                    | estimate| std.error| statistic| p.value| conf.low| conf.high|
+|:-------|:-----------------------|--------:|---------:|---------:|-------:|--------:|---------:|
+|Vgood   |(Intercept)             |    0.582|     0.301|     1.930|   0.054|   -0.009|     1.173|
+|Vgood   |Age                     |    0.001|     0.003|     0.419|   0.675|   -0.004|     0.006|
+|Vgood   |PhysActiveYes           |   -0.264|     0.099|    -2.681|   0.007|   -0.457|    -0.071|
+|Vgood   |Education9 - 11th Grade |    0.768|     0.308|     2.493|   0.013|    0.164|     1.372|
+|Vgood   |EducationHigh School    |    0.701|     0.280|     2.509|   0.012|    0.153|     1.249|
+|Vgood   |EducationSome College   |    0.788|     0.271|     2.901|   0.004|    0.256|     1.320|
+|Vgood   |EducationCollege Grad   |    0.408|     0.268|     1.522|   0.128|   -0.117|     0.933|
+|Good    |(Intercept)             |    2.041|     0.272|     7.513|   0.000|    1.508|     2.573|
+|Good    |Age                     |   -0.002|     0.003|    -0.651|   0.515|   -0.007|     0.003|
+|Good    |PhysActiveYes           |   -0.758|     0.096|    -7.884|   0.000|   -0.946|    -0.569|
+|Good    |Education9 - 11th Grade |    0.360|     0.275|     1.310|   0.190|   -0.179|     0.899|
+|Good    |EducationHigh School    |    0.085|     0.247|     0.345|   0.730|   -0.399|     0.569|
+|Good    |EducationSome College   |   -0.011|     0.239|    -0.047|   0.962|   -0.480|     0.457|
+|Good    |EducationCollege Grad   |   -0.891|     0.236|    -3.767|   0.000|   -1.354|    -0.427|
+|Fair    |(Intercept)             |    2.116|     0.288|     7.355|   0.000|    1.552|     2.680|
+|Fair    |Age                     |    0.000|     0.003|     0.107|   0.914|   -0.006|     0.006|
+|Fair    |PhysActiveYes           |   -1.191|     0.115|   -10.367|   0.000|   -1.416|    -0.966|
+|Fair    |Education9 - 11th Grade |   -0.224|     0.279|    -0.802|   0.422|   -0.771|     0.323|
+|Fair    |EducationHigh School    |   -0.832|     0.252|    -3.307|   0.001|   -1.326|    -0.339|
+|Fair    |EducationSome College   |   -1.343|     0.246|    -5.462|   0.000|   -1.825|    -0.861|
+|Fair    |EducationCollege Grad   |   -2.509|     0.253|    -9.913|   0.000|   -3.005|    -2.013|
+|Poor    |(Intercept)             |   -0.200|     0.411|    -0.488|   0.626|   -1.005|     0.605|
+|Poor    |Age                     |    0.018|     0.005|     3.527|   0.000|    0.008|     0.028|
+|Poor    |PhysActiveYes           |   -2.267|     0.242|    -9.377|   0.000|   -2.741|    -1.793|
+|Poor    |Education9 - 11th Grade |   -0.360|     0.353|    -1.020|   0.308|   -1.053|     0.332|
+|Poor    |EducationHigh School    |   -1.150|     0.334|    -3.438|   0.001|   -1.805|    -0.494|
+|Poor    |EducationSome College   |   -1.073|     0.316|    -3.399|   0.001|   -1.692|    -0.454|
+|Poor    |EducationCollege Grad   |   -2.322|     0.366|    -6.342|   0.000|   -3.039|    -1.604|
+
+---
+
+### Compare NHANES models using AIC
+
+
+```r
+glance(model_red)
+```
+
+```
+## # A tibble: 1 x 3
+##     edf deviance    AIC
+##   &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1    12   16994. 17018.
+```
+
+```r
+glance(model_full)
+```
+
+```
+## # A tibble: 1 x 3
+##     edf deviance    AIC
+##   &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1    28   16505. 16561.
+```
+
+- Use the `step()` function to do model selection with AIC as the selection criteria
+
+
+---
+
+class: middle, center
+
+.question[
+What questions do you have about multinomial logistic regression?
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
