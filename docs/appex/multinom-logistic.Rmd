@@ -45,6 +45,9 @@ nhanes_adult <- NHANES %>%
 
 ```{r}
 glimpse(nhanes_adult)
+
+nhanes_adult <-  nhanes_adult %>%
+  mutate(HealthGen = fct_relevel(HealthGen, "Poor", "Fair", "Good", "Vgood", "Excellent"))
 ```
 
 ## Exploratory data analysis
