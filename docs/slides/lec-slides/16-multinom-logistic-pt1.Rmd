@@ -172,7 +172,7 @@ $$\log\bigg(\frac{\pi_{iB}}{\pi_{iA}}\bigg) = \beta_{0B} + \beta_{1B}x_i \\[10pt
 ### The data
 
 ```{r}
- library(NHANES)
+library(NHANES)
 
 nhanes_adult <- NHANES %>%
   filter(Age >= 18) %>%

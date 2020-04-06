@@ -1,0 +1,52 @@
+---
+title: "Live Lecture - April 6"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Announcements: 
+
+- HW 04 - due **Wed, April 8 at 11:59p EDT**
+
+- Lab 08 - due **Thu, April 9 at 11:59p EDT**
+
+- [Project Analysis](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) - due **Thu, April 16 at 11:59p EDT**
+
+- **Office hours**: See "Zoom Class Meetings" on [Sakai](https://sakai.duke.edu) for link to office hours
+
+- Want to form a 210 study group? Use [Study Connect](https://arc.duke.edu/study-connect) through the Academic Resource Center
+
+## Agenda
+
+### Questions? 
+
+### Multinomial Logistic Regression
+
+- Slides: [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/16-multinom-logistic-pt1.html) or [PDF](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/16-multinom-logistic-pt1.pdf)
+
+- Multinomial Logistic Regression Analysis: [Rmd](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/multinom-logistic.Rmd) or [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/multinom-logistic.html)
+
+
+### For Mon, April 6: Multinomial Logistic Regression
+
+- See  [Sakai](https://sakai.duke.edu)
+
+- See "Preparing for Class on April 6" under "April 6 - Class Prep and Lecture Videos" in the Recording & Discussions" tab for details on [Sakai](https://sakai.duke.edu). 
+
+
+<hr>
+
+
+### Where to find info
+- See [Remote Learning Updates](https://www2.stat.duke.edu/courses/Spring20/sta210.001/covid-19-updates.html) on the course website
+- Slides + assignments + course materials: [Schedule page](https://www2.stat.duke.edu/courses/Spring20/sta210.001/schedule.html) on the course website
+- Class prep + content videos: "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
+- Live class sessions (lectures, labs, office hours): "Zoom Class Meetings" tab on [Sakai](https://sakai.duke.edu)
+- Recording of live lecture sessions: "Zoom Class Meetings" -> "Cloud Recordings" on [Sakai](https://sakai.duke.edu)
+
+
