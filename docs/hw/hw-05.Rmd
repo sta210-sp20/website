@@ -69,6 +69,10 @@ The main objective of the analysis is to understand how different conditions of 
 - **`weapon`**:  Whether or not a weapon was present in the video of the mock crime.
 - **`feature`**: Whether or not the perpetrator had a distinctive marking on his face. In this experiment, the distinctive feature was a large "N" sticker on one cheek. (The letter "N" was chosen to represent the first author's alma mater - University of Nebraska.)
 
+<br> 
+
+The data may be found in `eyewitness.csv` in the `data` folder.
+
 # Questions 
 
 1. Let's begin by doing the exploratory data analysis. The univariate plots for each of the predictor variables and the response variable are shown below. 
