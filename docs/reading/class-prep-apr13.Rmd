@@ -1,0 +1,21 @@
+---
+title: "Class Prep for April 13"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- See "Preparing for Class on April 13" under "April 13 - Class Prep and Lecture Videos" in the Recording & Discussions" tab for details on [Sakai](https://sakai.duke.edu). 
+
+**In short:**
+
+- Watch the lecture content video on [Sakai](https://sakai.duke.edu)
+  
+- Slides for lecture content videos: [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/18-missing-data.html) or [PDF](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/18-missing-data.pdf)
+
+- *Optional Reading*: [Handling Missing Data: An Introduction](https://www2.stat.duke.edu/courses/Fall18/sta210.001/slides/lectures/MissingData_AkandeOlanrewaju.pdf)
+  

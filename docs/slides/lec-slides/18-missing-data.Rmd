@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 
 class: middle, center
 
-### [Click for PDF of slides](23-model-val-missing.pdf)
+### [Click for PDF of slides](18-missing-data.pdf)
 
 
 ```{r, echo = F}
