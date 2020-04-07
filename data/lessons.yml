@@ -229,7 +229,7 @@ lessons:
     title: "Mulitinomial logistic regression: Assumptions & Model Selection"
     hw: "hw-05.html"
     reading: "class-prep-apr08.html"
-  #  #slides: "lec-slides/21-exam-02-review.html"
+    slides: "lec-slides/live-lecture-apr08.html"
   - date: "Thu, Apr 9"
     title: "Lab: Multinomial logistic regression"
     #project: "project.html"

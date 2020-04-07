@@ -1,0 +1,200 @@
+---
+title: "Multinomial Logistic Regression"
+subtitle: "Assumptions & Model Selection"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: readable
+---
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,
+                   message=FALSE)
+```
+
+The goal of this exercise is to walk through a multinomial logistic regression analysis. It will give you a basic idea of the analysis steps and thought-process; however, due to class time constraints, this analysis is not exhaustive.
+
+```{r load-packages}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(patchwork)
+library(nnet)
+```
+
+This data is from the `NHANES` dataset found in the NHANES R package. Type `?NHANES` in the console to read more about the data and variables. We'll focus on the following variables for this analysis: 
+
+- `HealthGen`: Self-reported rating of participant's health in general.  Excellent, Vgood, Good, Fair, or Poor.
+  
+- `Age`: Age at time of screening (in years). Participants 80 or older were recorded as 80.
+    
+- `PhysActive`: Participant does moderate to vigorous-intensity sports, fitness or recreational activities
+
+- `Education`: Educational level of study participant. Reported for participants aged 20 years or older. 8thGrade, 9-11thGrade, HighSchool, SomeCollege, or CollegeGrad.
+
+
+## Load and prepare data
+
+```{r load-data}
+library(NHANES)
+
+nhanes_adult <- NHANES %>%
+  filter(Age >= 20) %>% #only using participants 20 or older for Education
+  select(HealthGen, Age, PhysActive, Education) %>%
+  drop_na() %>%
+  mutate(obs_num = 1:n())
+```
+
+## Fit multinomial logistic model
+
+```{r results = "hide"}
+health_m <- multinom(HealthGen ~ Age + PhysActive, 
+                     data = nhanes_adult)
+```
+
+## Checking Assumptions
+
+### Add predcited probabilities and residuals to data
+
+```{r}
+#calculate residuals
+residuals <- as_tibble(residuals(health_m)) %>%  #calculate residuals
+  setNames(paste('resid.', names(.), sep = "")) %>% #update column names
+  mutate(obs_num = 1:n()) #add obs number
+```
+
+
+```{r}
+#calculate predicted probabilities
+pred_probs <- as_tibble(predict(health_m, type = "probs")) %>% 
+  mutate(obs_num = 1:n()) 
+```
+
+```{r}
+health_m_aug <- inner_join(nhanes_adult, pred_probs) #add probs
+health_m_aug <- inner_join(health_m_aug, residuals) #add resid
+```
+
+### Binned residuals vs. pred. probabilities
+
+```{r echo}
+par(mfrow = c(3,2))
+arm::binnedplot(x = health_m_aug$Excellent, y = health_m_aug$resid.Excellent, 
+                xlab="Predicted P(Excellent)", 
+                ylab="Residuals", 
+                main="Excellent: Residuals vs. Pred. Probabilities", 
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Vgood, y = health_m_aug$resid.Vgood, 
+                xlab="Predicted P(Vgood)", 
+                ylab="Residuals", 
+                main="Very Good: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Good, y = health_m_aug$resid.Good, 
+                xlab="Predicted P(Good)", 
+                ylab="Residuals", 
+                main="Good: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Fair, y = health_m_aug$resid.Fair, 
+                xlab="Predicted P(Fair)", 
+                ylab="Residuals", 
+                main="Fair: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Poor, y = health_m_aug$resid.Poor, 
+                xlab="Predicted P(Poor)", 
+                ylab="Residuals", 
+                main="Poor: Residuals vs. Pred. Probabilities",
+                col.int = FALSE)
+```
+
+
+### Binned residuals vs. `Age`  
+
+```{r}
+par(mfrow = c(3,2))
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Excellent, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Excellent: Residuals vs. Age", 
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Vgood, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Very Good: Residuals vs. Age",
+                col.int = FALSE)
+
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Good, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Good: Residuals vs. Age",
+                col.int = FALSE)
+
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Fair, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Fair: Residuals vs. Age",
+                col.int = FALSE)
+
+arm::binnedplot(x = health_m_aug$Age, y = health_m_aug$resid.Poor, 
+                xlab="Age", 
+                ylab="Residuals", 
+                main="Poor: Residuals vs. Age",
+                col.int = FALSE)
+```
+
+### Residuals vs. `PhysActive`
+
+```{r}
+health_m_aug %>%
+  group_by(PhysActive) %>%
+  summarise(mean.Excellent = mean(resid.Excellent), 
+            mean.Vgood = mean(resid.Vgood), 
+            mean.Good = mean(resid.Good),
+            mean.Fair = mean(resid.Fair), 
+            mean.Poor = mean(resid.Poor)) %>%
+  t()
+```
+
+<font color = "blue">
+
+Is the linearity assumption met? 
+
+Is the randomness assumption met? 
+
+Is the independence assumption met?
+</font> 
+
+
+## Add `Education` to the model? 
+
+```{r results = "hide"}
+model_red <- multinom(HealthGen ~ Age + PhysActive, 
+               data = nhanes_adult)
+model_full <- multinom(HealthGen ~ Age + PhysActive + Education, 
+               data = nhanes_adult)
+```
+
+```{r}
+anova(model_red, model_full, test = "Chisq") %>%
+  kable(format = "markdown")
+```
+
+### Model with `Education`
+
+```{r echo = F}
+tidy(model_full, conf.int = T, exponentiate = F) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+### Compare NHANES models using AIC
+
+```{r}
+glance(model_red)
+glance(model_full)
+```
