@@ -24,6 +24,12 @@ body, p, li {
 
 - HW 05 - due **Wed, April 15 at 11:59p EDT**
 
+- Participate in the DataFest: COVID-19 Virtual Data Challenge: https://www2.stat.duke.edu/datafest-covid19/
+  - Start your analysis today!
+  - Sign up by April 12
+  - Submissions due April 22
+  
+
 - [Project Analysis](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) - due **Thu, April 16 at 11:59p EDT**
 
 - **Office hours**: See "Zoom Class Meetings" on [Sakai](https://sakai.duke.edu) for link to office hours
