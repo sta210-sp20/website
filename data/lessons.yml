@@ -233,7 +233,7 @@ lessons:
   - date: "Thu, Apr 9"
     title: "Lab: Multinomial logistic regression"
     #project: "project.html"
-  # # #lab: "lab-10-web-scrape.html"
+    lab: "lab-09-multinom-logistic.html"
   #  ##slides: "lab-slides/21-exam-02-review.html"
   - title: "Week 15"
   - date: "Mon, Apr 13"
