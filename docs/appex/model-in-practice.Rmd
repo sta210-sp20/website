@@ -1,0 +1,208 @@
+---
+title: "Modeling in practice"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: readable
+---
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,
+                   message=FALSE)
+```
+
+```{r, echo = F}
+library(tidyverse)
+library(knitr)
+library(broom)
+library(modelr)
+library(tidyimpute)
+library(mice)
+```
+
+## The data
+
+The dataset contains the advertising and sales information for 200 markets. The variables are 
+
+- `tv`: Total spent on TV ads (in $thousands)
+- `radio`: Total spent on radio ads (in $thousands)
+- `newspaper`: Total spent on newspaper ads (in $thousands)
+
+```{r}
+advertising <- read_csv("https://raw.githubusercontent.com/sta210-sp20/datasets/master/advertising.csv")
+```
+
+## k-fold cross validation
+
+### "manual" k-fold cross validation
+
+#### create folds 
+
+```{r}
+set.seed(11182019)
+ad_cv <- advertising %>%
+  mutate(obs_num = 1:n()) %>% # observation number
+  sample_n(nrow(advertising)) %>% #randomly mix observations
+  mutate( fold = (((1:n()) - 1) %% 5) + 1 ) #assign folds
+```
+
+```{r}
+ad_cv %>%
+  count(fold)
+```
+
+#### cv 1
+```{r}
+test_fold <- 1
+test <- ad_cv %>% filter(fold == test_fold)
+train <- ad_cv %>% anti_join(test, by = "obs_num")
+model <- lm(sales ~ radio + newspaper, data = train)
+(mse_train1 <- mse(model, train))
+(mse_test1 <- mse(model, test))
+```
+
+#### cv 2
+```{r}
+test_fold <- 2
+test <- ad_cv %>% filter(fold == test_fold)
+train <- ad_cv %>% anti_join(test, by = "obs_num")
+model <- lm(sales ~ radio + newspaper, data = train)
+(mse_train2 <- mse(model, train))
+(mse_test2 <- mse(model, test))
+```
+
+#### cv 3
+
+```{r}
+test_fold <- 3
+test <- ad_cv %>% filter(fold == test_fold)
+train <- ad_cv %>% anti_join(test, by = "obs_num")
+model <- lm(sales ~ radio + newspaper, data = train)
+(mse_train3 <- mse(model, train))
+(mse_test3 <- mse(model, test))
+```
+
+#### cv 4
+
+```{r}
+test_fold <- 4
+test <- ad_cv %>% filter(fold == test_fold)
+train <- ad_cv %>% anti_join(test, by = "obs_num")
+model <- lm(sales ~ radio + newspaper, data = train)
+(mse_train4 <- mse(model, train))
+(mse_test4 <- mse(model, test))
+```
+
+#### cv 5
+
+```{r}
+test_fold <- 5
+test <- ad_cv %>% filter(fold == test_fold)
+train <- ad_cv %>% anti_join(test, by = "obs_num")
+model <- lm(sales ~ radio + newspaper, data = train)
+(mse_train5 <- mse(model, train))
+(mse_test5 <- mse(model, test))
+```
+
+#### cobmine results
+```{r}
+mse_ad <- tibble(
+  test_fold  = 1:5,
+  mse_train = c(mse_train1, mse_train2, mse_train3, mse_train4, mse_train5),
+  mse_test  = c(mse_test1, mse_test2, mse_test3, mse_test4, mse_test5)
+)
+```
+
+#### calculate average error for this model 
+
+```{r}
+mse_ad %>%
+  summarise(mean_train_mse = mean(mse_train), 
+           mean_test_mse = mean(mse_test))
+```
+
+
+### k-fold cross validation using R functions
+
+#### create folds
+
+```{r}
+set.seed(11182019) #set seed to get same results each knit
+ad_cv <- crossv_kfold(advertising, 5) #in modelr package
+ad_cv
+```
+
+#### fit models on training data
+
+```{r}
+models <- map(ad_cv$train, 
+              ~ lm(sales ~ radio + newspaper, data = .))
+models
+```
+
+#### calculate training and test error
+
+```{r}
+train_mse <- map2_dbl(models, ad_cv$train, mse)
+test_mse <- map2_dbl(models, ad_cv$test, mse)
+```
+
+#### combine results
+```{r}
+mse_ad <- tibble(
+  test_fold  = 1:5,
+  train_mse, 
+  test_mse
+)
+```
+
+#### calculate average error for this model 
+
+```{r}
+mse_ad %>%
+  summarise(mean_train_mse = mean(train_mse), 
+           mean_test_mse = mean(test_mse))
+```
+
+### k-fold cross validation for model that includes `tv`, `newspaper`, and `radio`
+
+```{r}
+models <- map(ad_cv$train, 
+              ~ lm(sales ~ radio + newspaper + tv, data = .))
+```
+
+```{r}
+train_mse_model2 <- map2_dbl(models, ad_cv$train, mse)
+test_mse_model2<- map2_dbl(models, ad_cv$test, mse)
+```
+
+#### combine results
+```{r}
+mse_ad_model2 <- tibble(
+  test_fold  = 1:5,
+  train_mse_model2, 
+  test_mse_model2
+)
+```
+
+#### calculate average error for this model 
+
+```{r}
+mse_ad_model2 %>%
+  summarise(mean_train_mse = mean(train_mse), 
+           mean_test_mse = mean(test_mse))
+```
+
+
+## Dealing with Missing Data
+
+```{r}
+mice::nhanes2
+```
+
+### Mean imputation
+
+```{r}
+
+```
+

@@ -1,0 +1,15 @@
+---
+title: "Class Prep for April 15"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- See "Preparing for Class on April 15" under "April 15 - Class Prep & Live Lecture Video" tab for details on [Sakai](https://sakai.duke.edu). 
+
+- Submit questions for Wednesday's Exam 02 review: https://forms.gle/5JgRqEwQGRBtmWae6
+  - Submit by **Tue, April 14 at 9p EDT**

@@ -1,0 +1,63 @@
+---
+title: "Live Lecture - April 13"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<style> 
+body, p, li {
+  font-size: 16px
+}
+</style>
+
+
+## Announcements: 
+
+- Submit questions for Wednesday's Exam 02 review: https://forms.gle/5JgRqEwQGRBtmWae6
+  - Submit by **Tue, April 14 at 9p EDT**
+
+- HW 05 - due **Wed, April 15 at 11:59p EDT**
+
+- Lab 09 - due **Thu, April 16 at 11:59p EDT**
+
+- [Project Analysis](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) - due **Thu, April 16 at 11:59p EDT**
+
+- **Office hours**: See "Zoom Class Meetings" on [Sakai](https://sakai.duke.edu) for link to office hours
+
+- Want to form a 210 study group? Use [Study Connect](https://arc.duke.edu/study-connect) through the Academic Resource Center
+
+## Agenda
+
+### Exam 02 review materials
+
+### Questions? 
+
+### Modeling in Practice
+
+- Slides: [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/18-missing-data.html) or [PDF](https://www2.stat.duke.edu/courses/Spring20/sta210.001/slides/lec-slides/18-missing-data.pdf)
+
+- Modeling in Practice Analysis [Rmd](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/model-in-practice.Rmd) or [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/model-in-practice.html)
+
+
+### For Wed, Apr 15 
+
+- See  [Sakai](https://sakai.duke.edu)
+
+- Submit questions for Exam 02 review: https://forms.gle/5JgRqEwQGRBtmWae6
+
+<hr>
+
+
+### Where to find info
+- See [Remote Learning Updates](https://www2.stat.duke.edu/courses/Spring20/sta210.001/covid-19-updates.html) on the course website
+- Slides + assignments + course materials: [Schedule page](https://www2.stat.duke.edu/courses/Spring20/sta210.001/schedule.html) on the course website
+- Class prep + content videos: "Recordings & Discussion" tab on [Sakai](https://sakai.duke.edu)
+- Live class sessions (lectures, labs, office hours): "Zoom Class Meetings" tab on [Sakai](https://sakai.duke.edu)
+- Recording of live lecture sessions: "Zoom Class Meetings" -> "Cloud Recordings" on [Sakai](https://sakai.duke.edu)
+
+
