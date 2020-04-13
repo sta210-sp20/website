@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2020-04-12" />
+<meta name="date" content="2020-04-13" />
 
 <title>Modeling in practice</title>
 
@@ -375,7 +375,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Modeling in practice</h1>
-<h4 class="date">2020-04-12</h4>
+<h4 class="date">2020-04-13</h4>
 
 </div>
 
@@ -597,12 +597,12 @@ test_mse_model2&lt;- map2_dbl(models, ad_cv$test, mse)</code></pre>
 <div id="calculate-average-error-for-this-model-2" class="section level4">
 <h4>calculate average error for this model</h4>
 <pre class="r"><code>mse_ad_model2 %&gt;%
-  summarise(mean_train_mse = mean(train_mse), 
-           mean_test_mse = mean(test_mse))</code></pre>
+  summarise(mean_train_mse = mean(train_mse_model2), 
+           mean_test_mse = mean(test_mse_model2))</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##   mean_train_mse mean_test_mse
 ##            &lt;dbl&gt;         &lt;dbl&gt;
-## 1           18.0          18.8</code></pre>
+## 1           2.77          2.89</code></pre>
 </div>
 </div>
 </div>
@@ -637,6 +637,74 @@ test_mse_model2&lt;- map2_dbl(models, ad_cv$test, mse)</code></pre>
 ## 25 40-59 27.4   no 186</code></pre>
 <div id="mean-imputation" class="section level3">
 <h3>Mean imputation</h3>
+</div>
+<div id="impute-missing-values-of-bmi-mnaully" class="section level3">
+<h3>impute missing values of “bmi” mnaully</h3>
+<pre class="r"><code>mean_bmi &lt;- nhanes2 %&gt;%
+  summarise(mean = mean(bmi, na.rm = T)) %&gt;%
+  pull()</code></pre>
+<pre class="r"><code>nhanes2 &lt;- nhanes2 %&gt;%
+  mutate(bmi2 = if_else(is.na(bmi), mean_bmi, bmi))</code></pre>
+<pre class="r"><code>nhanes2 %&gt;%
+  select(bmi, bmi2)</code></pre>
+<pre><code>##     bmi    bmi2
+## 1    NA 26.5625
+## 2  22.7 22.7000
+## 3    NA 26.5625
+## 4    NA 26.5625
+## 5  20.4 20.4000
+## 6    NA 26.5625
+## 7  22.5 22.5000
+## 8  30.1 30.1000
+## 9  22.0 22.0000
+## 10   NA 26.5625
+## 11   NA 26.5625
+## 12   NA 26.5625
+## 13 21.7 21.7000
+## 14 28.7 28.7000
+## 15 29.6 29.6000
+## 16   NA 26.5625
+## 17 27.2 27.2000
+## 18 26.3 26.3000
+## 19 35.3 35.3000
+## 20 25.5 25.5000
+## 21   NA 26.5625
+## 22 33.2 33.2000
+## 23 27.5 27.5000
+## 24 24.9 24.9000
+## 25 27.4 27.4000</code></pre>
+</div>
+<div id="impute-missing-values-of-bmi-using-tidyimpute" class="section level3">
+<h3>impute missing values of “bmi” using tidyimpute</h3>
+<pre class="r"><code>nhanes2 &lt;- nhanes2 %&gt;%
+  impute_mean(bmi) #overwrites the original bmi data</code></pre>
+<pre class="r"><code>nhanes2</code></pre>
+<pre><code>##      age     bmi  hyp chl    bmi2
+## 1  20-39 26.5625 &lt;NA&gt;  NA 26.5625
+## 2  40-59 22.7000   no 187 22.7000
+## 3  20-39 26.5625   no 187 26.5625
+## 4  60-99 26.5625 &lt;NA&gt;  NA 26.5625
+## 5  20-39 20.4000   no 113 20.4000
+## 6  60-99 26.5625 &lt;NA&gt; 184 26.5625
+## 7  20-39 22.5000   no 118 22.5000
+## 8  20-39 30.1000   no 187 30.1000
+## 9  40-59 22.0000   no 238 22.0000
+## 10 40-59 26.5625 &lt;NA&gt;  NA 26.5625
+## 11 20-39 26.5625 &lt;NA&gt;  NA 26.5625
+## 12 40-59 26.5625 &lt;NA&gt;  NA 26.5625
+## 13 60-99 21.7000   no 206 21.7000
+## 14 40-59 28.7000  yes 204 28.7000
+## 15 20-39 29.6000   no  NA 29.6000
+## 16 20-39 26.5625 &lt;NA&gt;  NA 26.5625
+## 17 60-99 27.2000  yes 284 27.2000
+## 18 40-59 26.3000  yes 199 26.3000
+## 19 20-39 35.3000   no 218 35.3000
+## 20 60-99 25.5000  yes  NA 25.5000
+## 21 20-39 26.5625 &lt;NA&gt;  NA 26.5625
+## 22 20-39 33.2000   no 229 33.2000
+## 23 20-39 27.5000   no 131 27.5000
+## 24 60-99 24.9000   no  NA 24.9000
+## 25 40-59 27.4000   no 186 27.4000</code></pre>
 </div>
 </div>
 

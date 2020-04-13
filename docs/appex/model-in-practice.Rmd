@@ -189,8 +189,8 @@ mse_ad_model2 <- tibble(
 
 ```{r}
 mse_ad_model2 %>%
-  summarise(mean_train_mse = mean(train_mse), 
-           mean_test_mse = mean(test_mse))
+  summarise(mean_train_mse = mean(train_mse_model2), 
+           mean_test_mse = mean(test_mse_model2))
 ```
 
 
@@ -202,7 +202,32 @@ mice::nhanes2
 
 ### Mean imputation
 
-```{r}
+### impute missing values of "bmi" mnaully
 
+```{r}
+mean_bmi <- nhanes2 %>%
+  summarise(mean = mean(bmi, na.rm = T)) %>%
+  pull()
+```
+
+```{r}
+nhanes2 <- nhanes2 %>%
+  mutate(bmi2 = if_else(is.na(bmi), mean_bmi, bmi))
+```
+
+```{r}
+nhanes2 %>%
+  select(bmi, bmi2)
+```
+
+### impute missing values of "bmi" using tidyimpute
+
+```{r}
+nhanes2 <- nhanes2 %>%
+  impute_mean(bmi) #overwrites the original bmi data
+```
+
+```{r}
+nhanes2
 ```
 
