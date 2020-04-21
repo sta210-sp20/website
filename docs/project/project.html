@@ -1701,7 +1701,7 @@ color: #00897B;
 <li><strong>Watch presentations</strong>: Tue, April 28 - Wed, April 29</li>
 <li><strong>Respond to questions</strong>: Thu, April 30 - Fri, May 1</li>
 </ul></li>
-<li><strong>Final write up</strong>: due Tue, Apr 28 at 11:59p</li>
+<li><strong>Final write up</strong>: due Wed, Apr 29 at 11:59p</li>
 </ul>
 <div id="data" class="section level1">
 <h1>Data</h1>
@@ -1845,8 +1845,8 @@ Description of the approach you will use to model the data. This includes
 <li>Once you’ve uploaded the video to Warpwire, click to share the video and make a copy of the video’s URL. You will need this when you post the video in the discussion forum.</li>
 </ul>
 </div>
-<div id="write-up" class="section level4">
-<h4>Write up</h4>
+<div id="presentation-write-up" class="section level4">
+<h4>Presentation write up</h4>
 <p>If it is not feasible for your group to make a video, you can write a two-page write up (single-spaced) to accompany your slide deck. You can think of the write up as a transcript of what you would say if you were presenting your results in class. <strong>Save your write up as a PDF.</strong> You will upload this write up with your slide deck to the discussion forum in Sakai.</p>
 </div>
 </div>
@@ -1893,31 +1893,37 @@ Description of the approach you will use to model the data. This includes
 <p>As a group, you will respond to the questions posed to your group. Similar to the questions, the responses should be (i) substantive, (ii) demonstrate your understanding of the content from the course, and (iii) relevant to the specific question that was asked.</p>
 <p>All responses must be submitted by <strong>Fri, May 1 at 11:59p EDT</strong>. This portion of the project will be assesed as a group.</p>
 </div>
-<div id="final-write-up-30-pt-due-tue-apr-28-at-1159p" class="section level2">
-<h2>Final Write Up (30 pt): due Tue, Apr 28 at 11:59p</h2>
-<p>The goal of the write up is to demonstrate your ability to ask meaningful questions and answer them with the results from regression analysis, that you are proficient in using R, and that you are proficient at interpreting and presenting the results. Focus on methods that help you begin to answer your research questions. You do not have to apply every statistical procedure we learned. Also pay attention to your presentation. Neatness, coherency, and clarity will count.</p>
-<p><strong>You should incorporate the feedback you’ve received throughout the process in your write up.</strong></p>
-<p>You can add sections as you see fit to the template in your project repo. At a minimum, your write up should have the following sections:</p>
+<div id="final-write-up-30-pt-due-wed-apr-29-at-1159p" class="section level2">
+<h2>Final Write Up (30 pt): due Wed, Apr 29 at 11:59p</h2>
+<p>The goal of the write up is to demonstrate your ability to ask meaningful questions and answer them using your regression analysis, that you are proficient in using R, and that you are proficient at interpreting and presenting the results.</p>
+<p><strong>The final write up should be no more than 15 pages.</strong> This does <strong><u>not</u></strong> include the Additional Work section.</p>
+<p>The final write up should be written as if it will be read by a collaborator in business or research who has an interest in understanding the main results from your analysis. This means your write up should focus on the main conclusions and interesting findings that you derive from your analysis. It should not be a list of every model you tried or the interpretation of every model coefficient.</p>
+<p><strong>Any feedback you’ve received about your analysis should be incorporated in the final write up.</strong></p>
+<p>To help you organize your write up, you can use the following sections:</p>
 <ul>
 <li><strong>Section 1: Introduction</strong>
 <ul>
-<li>This section includes an introduction to the project motivation, data, and research question. It should also include the exploratory data analysis.</li>
+<li>This section includes an introduction to the project motivation, data, and research question. It can also include some exploratory data analysis. All of the EDA won’t fit in the paper, so focus on the EDA for the response variable and a few other interesting parts and relevant of the EDA.</li>
 </ul></li>
 <li><strong>Section 2: Regression Analysis</strong>
 <ul>
-<li>This section includes the results of your final regression model. In addition to displaying the model output, you should include a brief description of why you chose that type of model and any interpretations/ interesting findings from the coefficients. You should also include a discussion of the model assumptions and model fit analysis.</li>
+<li>This section includes a brief description of your modeling process. You can briefly describe how you approached the modeling, how you conducted variable selection, interactions you considered, and any transformations you made to satisify model assumptions. This is also where you will output the final model and a brief discussion of the model assumptions, diagnostics, and any model fit statistics.</li>
 </ul></li>
-<li><strong>Section 3: Discussion &amp; Limitations</strong>
+<li><strong>Section 3: Discussion</strong>
 <ul>
-<li>This section includes any relevant predictions and/or conclusions drawn from the model. Also critique your own methods and provide suggestions for improving your analysis. Issues pertaining to the reliability and validity of your data and appropriateness of the regression analysis should also be discussed here. A paragraph on what you would do differently if you were able to start over with the project or what you would do next if you were going to continue work on the project should also be included.</li>
+<li>This section includes any relevant prediction and/or conclusions from your mdodel. This should not just be a list of interpretations but rather use the interpretations from the model to support your conclusion. Remember, you are sharing a narrative with a business or research colleague who could potentially use your model to make decisions, so they need to know the key findings not just coefficient interpretations.</li>
 </ul></li>
-<li><strong>Section 4: Conclusion</strong>
+<li><strong>Section 4: Limitations</strong>
 <ul>
-<li>This section includes a summary of your key results and highlight any final points you wish the reader to learn from the project.</li>
+<li>This section includes discussion abou issues pertaining to the reliability and validity of your data and/or appropriateness of the regression analysis. This can be 1 - 2 paragraphs on what you would do differently if you were able to start over with the project or if you had more time to continue working on the projec.</li>
 </ul></li>
-<li><strong>Section 5: Additional Work</strong>
+<li><strong>Section 5: Conclusion</strong>
 <ul>
-<li>This section includes any other models you tried, a check of the assumptions, and a brief explanation of why you didn’t select the model.</li>
+<li>This section includes a summary of your key results and highlight any final points you wish the reader to learn from the project. It can also include ideas on what to do as a next step in the analysis or other questions you wish to explore after doing this analysis.</li>
+</ul></li>
+<li><strong>Section 6: Additional Work</strong>
+<ul>
+<li>This section includes anything that is not included in the main body of the paper. This could be additional EDA, other models you’ve tried, additional analysis, etc. There is no page limit on the additional work, but it should still be neatly organized and easy for the reader to navigate, if they choose to read it. This means using clearly labeled headers and other best practices (e.g. don’t print large tables).</li>
 </ul></li>
 </ul>
 <div id="grading-1" class="section level4">
