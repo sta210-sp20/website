@@ -1,0 +1,102 @@
+---
+title: "Exam 02 review"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: readable
+---
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,
+                   message=FALSE)
+```
+
+```{r, echo = F}
+library(tidyverse)
+library(knitr)
+library(broom)
+```
+
+
+```{r load-data}
+heart_data <- read_csv("https://raw.githubusercontent.com/sta210-sp20/datasets/master/framingham.csv") %>%
+  drop_na() %>% #remove observations with missing values
+  mutate(education = case_when(
+    education == 1 ~ "Some HS", 
+    education == 2 ~ "HS or GED", 
+    education == 3 ~ "Some College", 
+    education == 4 ~ "College"
+  ),
+  TenYearCHD = as.factor(TenYearCHD), 
+  currentSmoker = as.factor(currentSmoker),
+  ageCent = age - mean(age), 
+  totCholCent = totChol - mean(totChol), 
+  BPMeds = as.factor(BPMeds), 
+  prevalentStroke = as.factor(prevalentStroke), 
+  prevalentHyp = as.factor(prevalentHyp), 
+  male = as.factor(male), 
+  diabetes = as.factor(diabetes)
+  )
+```
+
+### Interpreting interaction terms
+
+```{r}
+risk_m <- glm(TenYearCHD ~ ageCent + currentSmoker + totCholCent + 
+                education + ageCent*currentSmoker + currentSmoker*education, 
+              data = heart_data, family = binomial)
+tidy(risk_m, exponentiate = FALSE) %>%
+  select(term, estimate) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+### Odds to predicted probabilities
+
+```{r}
+x0 <- tibble(ageCent = (60 - 49.552), 
+                 totCholCent = (263 - 236.848), 
+currentSmoker = as.factor(0), 
+education = "College")
+```
+
+```{r}
+x0
+```
+
+#### Predicted log-odds
+
+```{r}
+(pred_log_odds <- predict(risk_m, x0)) 
+```
+
+### predicted odds 
+
+```{r}
+(pred_odds <- exp(pred_log_odds))
+```
+
+### predicted probability 
+
+```{r}
+(pred_prob <- pred_odds / (1 + pred_odds))
+```
+
+## Using confidence interval to determine if significant
+
+### Model in terms of log-odds
+
+```{r}
+tidy(risk_m, conf.int = TRUE, exponentiate = FALSE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+### Model in terms of odds (exponentiated coefficients)
+
+```{r}
+tidy(risk_m, conf.int = TRUE, exponentiate = TRUE) %>%
+  kable(format = "markdown", digits = 3)
+```
+
+
+## Practice exam #3 and #4
+

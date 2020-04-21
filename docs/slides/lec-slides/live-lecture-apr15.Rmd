@@ -1,0 +1,70 @@
+---
+title: "Live Lecture - April 15"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<style> 
+body, p, li {
+  font-size: 16px
+}
+</style>
+
+
+## Announcements: 
+
+- HW 05 - due **TODAY at 11:59p EDT**
+
+- Lab 09 - due **Thu, April 16 at 11:59p EDT**
+
+- [Project Analysis](https://www2.stat.duke.edu/courses/Spring20/sta210.001/project/project.html) - due **Thu, April 16 at 11:59p EDT**
+
+- Tomorrow's lab: Project work day
+
+## Agenda
+
+### Next week
+
+- Live lecture & Prof. Tackett's office hours: Project consulting hours
+  - [Click here](https://docs.google.com/spreadsheets/d/1-yosv4DUXP2AqSt4H0RsvM-KQ1OBsjwGj5vqZndplO8/edit?usp=sharing) to sign up for a 15-minute slot
+
+- TAs will hold their regular office hours
+
+
+### Exam 02 format 
+
+- Exam will be available on Sakai April 17 at 12a EDT to April 19 at 11:59p EDT
+
+- You have 2 hours to take and submit the exam. The timer starts when you click "Begin Assessment" 
+
+- Give yourself **<i>at least 10 minutes</i>** to save your responses as a PDF and upload to Sakai.
+
+### Exam 02 topixs
+
+- **Topics on exam** 
+  - Model selection & diagnostics
+  - Logistic regression 
+  - Modeling in practice (basic concepts): k-fold cross validation + dealing with missing data
+  - Review - Exam 01 topics
+
+- **Topics <u>not</u> on exam**
+    - Multinomial logistic regression 
+    - One- or two-sample inference on the mean
+
+
+### Review questions
+
+Exam 02 Review: [Rmd](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/exam-02-review.Rmd) and [HTML](https://www2.stat.duke.edu/courses/Spring20/sta210.001/appex/exam-02-review.html)
+
+- Interpreting interaction terms
+- Odds to predicted probabilities
+- Using the confidence interval to determine if predictor is significant
+- Practice exam #3 and #4
+
+
+### Other questions?
