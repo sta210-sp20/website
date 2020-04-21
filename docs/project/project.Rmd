@@ -14,6 +14,19 @@ output:
 knitr::include_graphics("img/reg-plot.png")
 ```
 
+<style>
+body, p, li{
+  font-size: 18px; 
+  font-weight: 400
+}
+
+h4 {
+font-weight: bold; 
+font-size: 22px;
+color: #00897B;
+}
+</style>
+
 
 The goal of the final project is to apply what you've learned in this course to conduct a statistical analysis. It should be an in-depth regression analysis of a question that interests your group. This question may come from one of your other courses, your research interests, your future career interests, etc. 
 
@@ -24,7 +37,7 @@ The project will consist of
 - **Presentation**: due Mon, April 27 at 11:59p EDT
   - **Watch presentations**: Tue, April 28 - Wed, April 29
   - **Respond to questions**: Thu, April 30 - Fri, May 1
-- **Final write up**: due Tue, Apr 28 at 11:59p
+- **Final write up**: due Wed, Apr 29 at 11:59p
 
 # Data
 
@@ -110,33 +123,89 @@ The regression analysis should be written as a report. Write your analysis in a 
 
 ## Presentation (15 pt): due Mon, April 27 at 11:59p EDT
 
-**Your presentation should be no longer than 10 minutes, and each team member should say something substantial.**
+In lieu of in-class presentations, you will post your presentation on Sakai. A few of your classmates, your TAs, and Professor Tackett will watch your presentation and post questions. 
 
-You will record a presentation (no longer than 10 minutes) and upload the recording and presentation slides to the discussion forum in Sakai. Both must be uploaded by **Mon, April 27 at 11:59p EDT**. 
+**The presentation will consist of two components: (1) Slide deck and (2) Video presentation <u>OR</u> write up.**
 
-The format of You can use any software you like to make the presentation, including R Markdown to create your slides. There isn't a limit to how many slides you can use, just a  time limit (10 minutes total). Each team member should get a chance to speak during 
-the presentation. Your presentation should not just be an account of everything you  tried ("then we did this, then we did this, etc."), instead it should convey what  choices you made, and why, and what you found.
+### Slide deck 
 
-More tips about how to record the presentation will be provided at a later date. 
+Create a slide deck presenting the main findings of your analysis. The slide deck should have **no more than 6 content slides + 1 title slide**. Here is a *suggested* outline as you think through the slides; you do not have to use this exact format for the 6 slides.
+
+- Title Slide
+- Slide 1: Introduce the topic and motivation
+- Slide 2: Introduce the dataset
+- Slide 3: EDA highlights
+- Slide 4: Final Model 
+- Slide 5: Interesting findings from the model 
+- Slide 6: Conclusions + Future work
+
+You can use the software of your choice to create your slide deck. You can save your slide deck as PDF or provide a link to your slides if they are posted online. **Be sure you grant the correct access permissions, so Professor Tackett and your classmates have access to your slides.**
+
+### Video or Write up
+
+You will create a video presentation <u>OR</u> two-page write up to accompany your slide deck. One objective of the project is to give you experience presenting a statistical anlaysis through writing and an oral presentation. Therefore, if possible, I would strongly encourage your group to create a video presenting your slides. 
+
+#### Video 
+
+The video should be **<u>no more than 10 minutes </u>** (most presentations are about 8 - 10 minutes). For the presentation, you can speak over your slide deck, similar to the lecture content videos. I recommend using Zoom to record your presenation onto a team member's computer; however, you can use what works best for your group. Below are a few resources to help you record video presentations: 
+
+- You can record presentation in Zoom. This is especially helpful for team presentations where all team members are available to join the Zoom meeting at the same time. 
+    - Instructions for recording presentations in Zoom: https://kb.siue.edu/61721
+- Apple Quicktime for screen recording:  https://support.apple.com/en-gb/guide/quicktime-player/qtp97b08e666/mac
+- Windows 10 built-in screen recording functionality: https://www.youtube.com/watch?v=OfPbr1mRDuo
+- Kap for screen recording: https://getkap.co/
+
+You will post the presentation video in Warpwire, accessible from the left-hand tool bar on the course [Sakai](http://sakai.duke.edu) site. To post your video on Warpwire 
+
+- Click *Warpwire* in the course Sakai site. 
+- Click the "+" and select "Upload files". 
+- Locate the video on your computer and click to upload. 
+- Once you've uploaded the video to Warpwire, click to share the video and make a copy of the video's URL. You will need this when you post the video in the discussion forum. 
+
+#### Write up
+
+If it is not feasible for your group to make a video, you can write a two-page write up (single-spaced) to accompany your slide deck. You can think of the write up as a transcript of what you would say if you were presenting your results in class. **Save your write up as a PDF.** You will upload this write up with your slide deck to the discussion forum in Sakai. 
+
+## Posting your presentation 
+
+Each team will post their slide deck +  video or write up in the discussion forum in Sakai. To post your presentation: 
+
+- Click on the *Recordings & Discussion* tab in the course Sakai site. 
+- Click on the topic for your lab section. 
+- Click on the conversation with your team name. Then, click to edit the conversation.
+- If you have a *video presentation*:
+    - Click the Warpwire icon (between the flag and shopping cart). 
+    - Select the your video, then click "Insert 1 item." This will embed your video in the conversation. 
+    - Under the video, paste the URL to your video. 
+    - You're done! You do not need to post your slide deck.
+- If you have a *write up*:
+    - Click "Add Attachments". 
+    - Add your slide deck *<u>and</u>* your write up. 
+    - You're done! 
+
+**The presentation must be posted on Sakai by Monday, April 27 at 11:59p EDT.**
+
+## Presentation Grading
+
+The presentation will be graded based on the following: 
+
+- **Slide deck (5 pt)**: The slides are neatly organized, professional, and highlight the main aspects of the project. The slides are easy to read and do not contain excessive text. There are no more than 6 content slides. 
+- **Video or write up (4 pt)**: The video or write up is professional, organized, and tells a clear narrative about the analysis. The video is no longer than 10 minutes or the write up is no longer than 2 pages single-spaced.
+- **Content (6 pt)**: The analysis content covered in the slides + video or write up is clear and accurate. 
 
 ## Watch + comment on presentations (10 pt): Tue, April 28 - Wed, April 29
 
-You will be assigned 3 presentations to watch. For each presentation, you will post a question to the discussion thread for the group to answer. You may not post a question that's already been asked on the discussion thread.
+Each student will be assigned 3 presentations to watch. For each presentation, click "Reply" to post a question for the group. You may not post a question that's already been asked on the discussion thread. Additionally, the question should be (i) substantive (i.e. it can't be "Why did you use a histogram instead of boxplot"?), (ii) demonstrate your understanding of the content from the course, (iii) relevant to that group's specific presentation, i.e demonstrating that you've watched the presentation. 
 
-All questions must be posted by **Wed, April 29 at 11:59p EDT**. 
+All questions must be posted by **Wed, April 29 at 11:59p EDT**. This portion of the project will be assessed individually.  
 
 ## Respond to questions (10 pt): Thu, April 30 - Fri, May 1
 
-As a group, you will respond to the questions about your presentation. 
+As a group, you will respond to the questions posed to your group. Similar to the questions, the responses should be (i) substantive, (ii) demonstrate your understanding of the content from the course, and (iii) relevant to the specific question that was asked.
 
-All responses must be submitted by **Fri, May 1 at 11:59p EDT**. 
+All responses must be submitted by **Fri, May 1 at 11:59p EDT**. This portion of the project will be assesed as a group. 
 
-#### Grading 
-
-A rubric will be provided for the final presentation. 
-
-
-## Final Write Up (30 pt): due Tue, Apr 28 at 11:59p
+## Final Write Up (30 pt): due Wed, Apr 29 at 11:59p 
 
 The goal of the write up is to demonstrate your ability to ask meaningful questions and answer them with the results from regression analysis, that you are proficient in using R, and that you are proficient at interpreting and  presenting the results. Focus on methods that help you begin to answer your research questions. You do not have to apply every statistical procedure we learned.
 Also pay attention to your presentation. Neatness, coherency, and clarity will count. 
