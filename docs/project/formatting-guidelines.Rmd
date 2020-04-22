@@ -84,7 +84,7 @@ Be sure all plot titles and axis labels are visible and easy to read.
 
 - If you are running a multinomial logistic regression model, use the code chunk header `{r model, results = HIDE}` to suppress the iteration output.
 
-### Resources 
+## Resources 
 
 - [R for Data Science](https://r4ds.had.co.nz/)
 - [ggplot2 Reference](https://ggplot2.tidyverse.org/reference/index.html)
